@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+option go_package = "github.com/ScienceObjectsDB/go-api/services";
+
+import "api/models/Dataset.proto";
+import "api/models/CommonModels.proto";
+import "protoc/gateway/options/annotations.proto";
+
+// These messages are used inside the DatasetAPI
+
+
+
+// Dataset related Models
+message CreateDatasetRequest {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        example: { value: '{ "DatasetName": "test", "Datatype": "json", "ProjectID": "testProject" }' }
+        json_schema: {
+            title: "InitLoadDataset";
+            description: "Data required to start loading a dataset into the BioDataDB"
+        };
+    };
+    string DatasetName = 1; // Name of the dataset
+    string Datatype = 2; //Datatype of the dataset, e.g. json, gbff, fasta
+    string ProjectID = 3; //ProjectID of the project the dataset is associated with
+}
+
+
+message DatasetList {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "DatasetList";
+            description: "A list of datasets"
+        };
+    };
+    repeated DatasetVersionEntry Datasets = 1;
+}
+
+message DatasetVersionList {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "DatasetList";
+            description: "A list of datasetversions"
+        };
+    };
+    repeated DatasetVersionEntry DatasetVersions = 2;
+}
+
+message ReleaseDatasetVersionRequest {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "ReleaseDatasetVersionRequest";
+            description: "A list of datasetversions"
+        };
+    };
+
+    string Name = 1;
+    string DatasetID = 2;
+    Version Version = 3;
+    map<string, google.protobuf.Struct> AdditionalMetadata = 4; // Additional metadata for the dataset version
+    map<string, string> AdditionalMetadataMessageRef = 5; // Message reference for the metadata
+    map<string, string> AdditionalObjectMetadataMessageRef = 6; // Message reference for the metadata of the objects associated with this DatasetVersion
+    repeated string ObjectGroupIDs = 7;
+}

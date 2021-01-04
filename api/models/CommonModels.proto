@@ -4,6 +4,15 @@ option go_package = "github.com/ScienceObjectsDB/go-api/models";
 
 import "protoc/gateway/options/annotations.proto";
 
+enum Status {
+    Initiating = 0;
+    Available = 1;
+    Updating = 2;
+    Archived = 3;
+    Deleting = 4;
+}
+
+
 // A location in S3
 message Location {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
@@ -63,10 +72,19 @@ message Label {
     string Value = 2;
 }
 
-enum Status {
-    Initiating = 0;
-    Available = 1;
-    Updating = 2;
-    Archived = 3;
-    Deleting = 4;
+message ID {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "ID";
+            description: "An arbitrary ID"
+        };
+    };
+    string ID = 1; // An arbitrary ID
 }
+
+message UpdateFieldsRequest {
+    string ID = 1;
+    map<string, string> UpdateStringFields = 2;
+}
+
+message Empty{}

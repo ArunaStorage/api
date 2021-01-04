@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+option go_package = "github.com/ScienceObjectsDB/go-api/services";
+
+import "api/services/DatasetServiceModels.proto";
+import "api/models/Dataset.proto";
+import "api/models/CommonModels.proto";
+import "google/api/annotations.proto";
+
+// Dataset management service
+// Manages all dataset related services
+// All data objects are associated with one data dataset
+// Dataset versions group these data objects, which makes them reusable
+service DatasetService {
+    // CreateNewDataset Creates a new dataset and associates it with a dataset
+    rpc CreateNewDataset(CreateDatasetRequest) returns (DatasetEntry) {
+        option (google.api.http) = {
+            post: "/api/v1/dataset/create"
+            body: "*"
+        };
+    }
+
+    rpc Dataset(ID) returns (DatasetEntry) {
+        option (google.api.http) = {
+            get: "/api/v1/dataset/{ID}"
+        };
+    }
+
+    // Lists Versions of a dataset
+    rpc DatasetVersions(ID) returns (DatasetVersionList) {
+        option (google.api.http) = {
+            get: "/api/v1/dataset/{ID}/versions"
+        };
+    }
+
+    // Updates a field of a dataset
+    rpc UpdateDatasetField(UpdateFieldsRequest) returns (DatasetEntry) {
+        option (google.api.http) = {
+            post: "/api/v1/dataset/update"
+            body: "*"
+        };
+    }
+
+    // DeleteDataset Delete a dataset
+    rpc DeleteDataset(ID) returns (Empty) {
+        option (google.api.http) = {
+            delete: "/api/v1/dataset/{ID}"
+        };
+    }
+
+    //---------------------------------------------------------------------------------------
+    // Dataset version calls
+
+    rpc ReleaseDatasetVersion(ReleaseDatasetVersionRequest) returns (DatasetVersionEntry) {
+        option (google.api.http) = {
+            post: "/api/v1/datasetversion/create"
+            body: "*"
+        };
+    }
+}

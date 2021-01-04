@@ -31,14 +31,12 @@ message DatasetVersionEntry {
     };
     string ID = 1;
     string DatasetID = 2;
-    string Datasetname = 3;
+    string Name = 3;
     Version Version = 4;
     google.protobuf.Timestamp Created = 5; // When the datasets version was created
-    map<string, google.protobuf.Struct> AdditionalMetadata = 56; // Additional metadata for the dataset version
+    map<string, google.protobuf.Struct> AdditionalMetadata = 6; // Additional metadata for the dataset version
     map<string, string> AdditionalMetadataMessageRef = 7; // Message reference for the metadata
     map<string, string> AdditionalObjectMetadataMessageRef = 8; // Message reference for the metadata of the objects associated with this DatasetVersion
     int64 ObjectCount = 9; // Number of objects registered with this dataset version
-    int64 ObjectLinkCount = 10; // Number of requested links to upload objects
-    int64 ExpectedObjectCount = 11; // Number of objects that is expected to be registered in this dataset
-    Status Status = 12; // Indicates the status of a dataset
+    Status Status = 10; // Indicates the status of a dataset
 }
