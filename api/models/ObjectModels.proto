@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+option go_package = "github.com/ScienceObjectsDB/go-api/objectmodels";
+
+
+import "api/models/CommonModels.proto";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "protoc/gateway/options/annotations.proto";
+
+message ObjectHeritage {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "ObjectHeritage";
+            description: "Tracks the change history of an object group."
+        };
+    };
+    string ID = 1;
+    string CurrentStableVersionID = 2;
+    string CurrentHead = 4;
+    string Name = 5; // Name: Name of the dataset object heritage entity e.g.: mydata
+    repeated string Fileformat = 6;
+    repeated string Filetype = 7;
+    map<string, string> Labels = 8;
+}
+
+message DatasetObjectGroup {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "DatasetObjectGroup";
+            description: "A set of dataset objects that are bundled together for easier management. An example use case would be a set of binary data objects along with an index file."
+        };
+    };
+
+    string ID = 1;
+    string ObjectHeritageID = 2;
+    string Name = 3;
+    Version Version = 4;
+    string DatasetID = 5; // DatasetID: ID of the parent dataset
+    repeated string DatasetVersionID = 6; // DatasetVersionID: ID of the parent dataset version
+    repeated DatasetObjectEntry Objects = 7;
+    map<string, google.protobuf.Struct> AdditionalMetadata = 8; // Additional metadata of the object
+    map<string, string> Labels = 9;
+}
+
+message DatasetObjectEntry {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "DatasetObjectEntry";
+            description: "Representation of a dataset entity"
+        };
+    };
+    string ID = 1; //ID of the entity
+    string Filename = 2; // Filename: Name of the original file e.g.: mydata.json
+    string Filetype = 3; // Filetype: Type of the stored file, e.g.: json, gbff,...
+    Origin Origin = 4; // Origin: Source of the dataset
+    int64 ContentLen = 5; // ContentLen: Lenght of the stored dataset
+    Location Location = 6; // Location: Location of the data
+    google.protobuf.Timestamp Created = 7; // When the data object was created
+    map<string, google.protobuf.Struct> AdditionalMetadata = 8; // Additional metadata of the object
+    string UploadID = 9;
+    Status Status = 10;
+}

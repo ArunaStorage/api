@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+option go_package = "github.com/ScienceObjectsDB/go-api/commonmodels";
+
+import "protoc/gateway/options/annotations.proto";
+
+// A location in S3
+message Location {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "Location";
+            description: "A location in an object storage"
+        };
+    };
+    string Bucket = 1;
+    string Key = 2;
+    string URL = 3; // Object storage endpoint
+}
+
+message Origin {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        example: { value: '{ "Link": "example.com/myawsomedata.test.gbff", "OriginTypeEnum": "OriginLink" }' }
+        json_schema: {
+            title: "Origin";
+            description: "The source of a dataset. Entries are set depending of the origin type.  OriginLink means that a link is given, objectstorage that bucket, key and link are present. Link is the s3 endpoint"
+        };
+    };
+    string Link = 1;
+    Location ObjectStorageLocatio = 2;
+    OriginTypeEnum OriginType = 4;
+
+    enum OriginTypeEnum {
+        ObjectStorage = 0;
+        OriginLink = 1;
+    }
+}
+
+message Version {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        example: { value: '{ "Major": 0, "Minor": 1, "Patch": 0, "Revision": 1, "Stage": "Alpha" }' }
+        json_schema: {
+            title: "Version";
+            description: "A version representation based on semantic versioning"
+        };
+    };
+
+    int32 Major = 1;
+    int32 Minor = 2;
+    int32 Patch = 3;
+    int32 Revision = 4;
+    VersionStage Stage = 5;
+
+    enum VersionStage {
+        Stable = 0;
+        ReleaseCandidate = 1;
+        Beta = 2;
+        Alpha = 3;
+    }
+}
+
+message Label {
+    string Key = 1;
+    string Value = 2;
+}
+
+enum Status {
+    Initiating = 0;
+    Available = 1;
+    Updating = 2;
+    Archived = 3;
+    Deleting = 4;
+}
