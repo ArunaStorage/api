@@ -5,6 +5,7 @@ option go_package = "github.com/ScienceObjectsDB/go-api/services";
 import "api/models/Dataset.proto";
 import "api/models/CommonModels.proto";
 import "protoc/gateway/options/annotations.proto";
+import "google/protobuf/struct.proto";
 
 // These messages are used inside the DatasetAPI
 
