@@ -18,9 +18,8 @@ message ObjectHeritage {
     };
     string ID = 1;
     string Name = 2; // Name: Name of the dataset object heritage entity e.g.: mydata
-    repeated string Fileformat = 3;
-    repeated string Filetype = 4;
-    map<string, string> Labels = 5;
+    string DatasetID = 3;
+    map<string, string> Labels = 4;
 }
 
 message DatasetObjectGroup {
@@ -35,10 +34,11 @@ message DatasetObjectGroup {
     string ObjectHeritageID = 2;
     string Name = 3;
     Version Version = 4;
-    string DatasetID = 5; // DatasetID: ID of the parent dataset
-    repeated DatasetObjectEntry Objects = 6;
-    map<string, google.protobuf.Struct> AdditionalMetadata = 7; // Additional metadata of the object
-    map<string, string> Labels = 8;
+    int64 InitializedObjects = 5;
+    int64 UploadedObjects = 6;
+    repeated DatasetObjectEntry Objects = 7;
+    map<string, google.protobuf.Struct> AdditionalMetadata = 8; // Additional metadata of the object
+    map<string, string> Labels = 9;
 }
 
 message DatasetObjectEntry {

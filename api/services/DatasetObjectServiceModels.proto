@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option go_package = "github.com/ScienceObjectsDB/go-api/services";
+
+import "api/models/CommonModels.proto";
+import "protoc/gateway/options/annotations.proto";
+import "google/protobuf/struct.proto";
+
+
+message CreateObjectHeritageRequest {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "ObjectHeritage";
+            description: "Tracks the change history of an object group."
+        };
+    };
+
+    string Name = 1;
+    string DatasetID = 2;
+    map<string, string> Labels = 3;
+}
+
+message CreateObjectGroupRequest {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "ObjectGroup";
+            description: "Tracks the change history of an object group."
+        };
+    };
+
+    string Name = 1;
+    string ObjectHeritageID = 2;
+    repeated CreateObjectRequest Objects = 3;
+    map<string, google.protobuf.Struct> AdditionalMetadata = 4;
+    map<string, string> Labels = 5;
+}
+
+message CreateObjectRequest {
+    string Filename = 1;
+    string Filetype = 2;
+    Origin Origin = 4; // Origin: Source of the dataset
+    int64 ContentLen = 5; // ContentLen: Lenght of the stored dataset
+    map<string, string> Labels = 6;
+    map<string, google.protobuf.Struct> AdditionalMetadata = 7; // Additional metadata of the object
+}
