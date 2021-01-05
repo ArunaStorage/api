@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+option go_package = "github.com/ScienceObjectsDB/go-api/services";
+
+import "api/models/CommonModels.proto";
+
+import "protoc/gateway/options/annotations.proto";
+import "api/models/Dataset.proto";
+import "api/models/Projects.proto";
+
+
+message CreateProjectRequest {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "CreateProjectRequest";
+            description: "Request to create a new project"
+        };
+    };
+    string Name = 1;
+    string Description = 2;
+}
+
+message AddUserToProjectRequest {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "AddUserToProjectRequest";
+            description: "Adds a new user to a project"
+        };
+    };
+
+    string UserID = 1;
+    repeated Right Scope = 2;
+    string ProjectID = 3;
+}
+
+message ProjectEntryList {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "ProjectEntryList";
+            description: "Lists all projects of a user"
+        };
+    };
+
+    repeated ProjectEntry Projects = 1;
+}
+message DatasetList {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "DatasetList";
+            description: "A list of datasets"
+        };
+    };
+    repeated DatasetEntry Datasets = 1;
+}

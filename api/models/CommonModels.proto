@@ -12,6 +12,18 @@ enum Status {
     Deleting = 4;
 }
 
+enum Right {
+    Read = 0;
+    Write = 1;
+}
+
+enum Resource {
+    Project = 0;
+    Dataset = 1;
+    DatasetVersion = 2;
+    DatasetObject = 3;
+    DatasetObjectGroupResource = 4;
+}
 
 // A location in S3
 message Location {
@@ -86,5 +98,12 @@ message UpdateFieldsRequest {
     string ID = 1;
     map<string, string> UpdateStringFields = 2;
 }
+
+message User {
+    string UserID = 1;
+    repeated Right Rights = 2;
+    Resource Resource = 3;
+}
+
 
 message Empty{}

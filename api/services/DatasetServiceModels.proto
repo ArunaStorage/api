@@ -25,25 +25,14 @@ message CreateDatasetRequest {
     string ProjectID = 3; //ProjectID of the project the dataset is associated with
 }
 
-
-message DatasetList {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "DatasetList";
-            description: "A list of datasets"
-        };
-    };
-    repeated DatasetVersionEntry Datasets = 1;
-}
-
 message DatasetVersionList {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
         json_schema: {
-            title: "DatasetList";
+            title: "DatasetVersionList";
             description: "A list of datasetversions"
         };
     };
-    repeated DatasetVersionEntry DatasetVersions = 2;
+    repeated DatasetVersionEntry DatasetVersions = 1;
 }
 
 message ReleaseDatasetVersionRequest {

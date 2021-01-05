@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option go_package = "github.com/ScienceObjectsDB/go-api/services";
+
+import "api/models/CommonModels.proto";
+import "api/services/ProjectServiceModels.proto";
+import "api/models/Projects.proto";
+import "google/api/annotations.proto";
+
+
+service ProjectAPI {
+    rpc CreateProject (CreateProjectRequest) returns (ProjectEntry) {
+        option (google.api.http) = {
+            post: "/api/v1/project/createproject"
+            body: "*"
+        };
+    }
+
+    rpc AddUserToProject (AddUserToProjectRequest) returns (ProjectEntry) {
+        option (google.api.http) = {
+            post: "/api/v1/project/addusertoproject"
+            body: "*"
+        };
+    }
+
+    rpc GetProjectDatasets(ID) returns (DatasetList) {
+        option (google.api.http) = {
+            post: "/api/v1/project/projectdatasets"
+            body: "*"
+        };
+    }
+
+    rpc GetUserProjects(Empty) returns (ProjectEntryList) {
+        option (google.api.http) = {
+            get: "/api/v1/projects"
+        };
+    }
+
+    rpc DeleteProject(ID) returns (Empty) {
+        option (google.api.http) = {
+            post: "/api/v1/project/delete"
+            body: "*"
+        };
+    }
+}

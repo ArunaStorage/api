@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option go_package = "github.com/ScienceObjectsDB/go-api/models";
+
+import "api/models/CommonModels.proto";
+
+message ProjectEntry {
+    string ID = 1;
+    string Description = 2;
+    repeated User Users = 3;
+    string ProjectName = 4;
+}
