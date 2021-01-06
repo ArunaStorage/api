@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/ag-computational-bio/BioDataDBModels/go/datasetentrymodels";
+option go_package = "github.com/ScienceObjectsDB/go-api/models";
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";
