@@ -9,6 +9,7 @@ import "api/services/DatasetObjectServiceModels.proto";
 import "google/api/annotations.proto";
 
 service DatasetObjectsService {
+    //CreateObjectHeritage Creates a new object heritage
     rpc CreateObjectHeritage(CreateObjectHeritageRequest) returns (ObjectHeritage) {
         option (google.api.http) = {
             post: "/api/v1/objectsheritage/create"
@@ -16,6 +17,7 @@ service DatasetObjectsService {
         };
     }
 
+    //CreateObjectGroup Creates a new object group
     rpc CreateObjectGroup(CreateObjectGroupRequest) returns (DatasetObjectEntry) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/create"
@@ -23,6 +25,7 @@ service DatasetObjectsService {
         };
     }
 
+    //FinishObjectUpload Finishes the upload process for a data
     rpc FinishObjectUpload(ID) returns (Empty) {
         option (google.api.http) = {
             post: "/api/v1/object/finish"

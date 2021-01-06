@@ -31,14 +31,14 @@ message DatasetObjectGroup {
     };
 
     string ID = 1;
-    string ObjectHeritageID = 2;
-    string Name = 3;
-    Version Version = 4;
-    int64 InitializedObjects = 5;
-    int64 UploadedObjects = 6;
-    repeated DatasetObjectEntry Objects = 7;
-    map<string, google.protobuf.Struct> AdditionalMetadata = 8; // Additional metadata of the object
-    map<string, string> Labels = 9;
+    string Name = 2;
+    Version Version = 3;
+    int64 InitializedObjects = 4;
+    int64 UploadedObjects = 5;
+    repeated DatasetObjectEntry Objects = 6;
+    map<string, google.protobuf.Struct> AdditionalMetadata = 7; // Additional metadata of the object
+    map<string, string> Labels = 8;
+    string ObjectHeritageID = 9;
 }
 
 message DatasetObjectEntry {

@@ -9,6 +9,7 @@ import "google/api/annotations.proto";
 
 
 service ProjectAPI {
+    //CreateProject creates a new projects
     rpc CreateProject (CreateProjectRequest) returns (ProjectEntry) {
         option (google.api.http) = {
             post: "/api/v1/project/createproject"
@@ -16,6 +17,7 @@ service ProjectAPI {
         };
     }
 
+    //AddUserToProject Adds a new user to a given project
     rpc AddUserToProject (AddUserToProjectRequest) returns (ProjectEntry) {
         option (google.api.http) = {
             post: "/api/v1/project/addusertoproject"
@@ -23,6 +25,7 @@ service ProjectAPI {
         };
     }
 
+    //GetProjectDatasets Returns all datasets that belong to a certain project
     rpc GetProjectDatasets(ID) returns (DatasetList) {
         option (google.api.http) = {
             post: "/api/v1/project/projectdatasets"
@@ -30,12 +33,15 @@ service ProjectAPI {
         };
     }
 
+    //GetUserProjects Returns all projects that a specified user has access to
     rpc GetUserProjects(Empty) returns (ProjectEntryList) {
         option (google.api.http) = {
             get: "/api/v1/projects"
         };
     }
 
+    //DeleteProject Deletes a specific project
+    //Will also delete all associated resources (Datasets/Objects/etc...) both from objects storage and the database
     rpc DeleteProject(ID) returns (Empty) {
         option (google.api.http) = {
             post: "/api/v1/project/delete"
