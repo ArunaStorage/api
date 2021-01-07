@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/ag-computational-bio/BioDataDBModels/go/authmodels";
+option go_package = "github.com/ag-computational-bio/BioDataDBModels/go/models";
 
 import "api/models/CommonModels.proto";
 
