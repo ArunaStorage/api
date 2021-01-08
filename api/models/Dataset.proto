@@ -20,6 +20,7 @@ message DatasetEntry {
     bool IsPublic = 4; //Indicates if the dataset if publicly available
     google.protobuf.Timestamp Created = 5; // When the datasets was created
     Status Status = 6;
+    string ProjectID = 7;
 }
 
 message DatasetVersionEntry {
