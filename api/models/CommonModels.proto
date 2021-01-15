@@ -25,6 +25,11 @@ enum Resource {
     DatasetObjectGroupResource = 4;
 }
 
+enum LocationType {
+    Object = 0;
+    Index = 1;
+}
+
 // A location in S3
 message Location {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
@@ -36,6 +41,13 @@ message Location {
     string Bucket = 1;
     string Key = 2;
     string URL = 3; // Object storage endpoint
+    LocationType LocationType = 4;
+    IndexLocation IndexLocation = 5;
+}
+
+message IndexLocation {
+    int64 StartByte = 1;
+    int64 EndByte = 2;
 }
 
 message Origin {

@@ -33,6 +33,7 @@ message CreateObjectGroupRequest {
     repeated CreateObjectRequest Objects = 3;
     map<string, google.protobuf.Struct> AdditionalMetadata = 4;
     map<string, string> Labels = 5;
+    string DatasetID = 6;
 }
 
 message CreateObjectRequest {

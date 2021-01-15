@@ -39,6 +39,7 @@ message DatasetObjectGroup {
     map<string, google.protobuf.Struct> AdditionalMetadata = 7; // Additional metadata of the object
     map<string, string> Labels = 8;
     string ObjectHeritageID = 9;
+    string DatasetID = 10;
 }
 
 message DatasetObjectEntry {
