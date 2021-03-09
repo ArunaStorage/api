@@ -35,11 +35,12 @@ message DatasetObjectGroup {
     Version Version = 3;
     int64 InitializedObjects = 4;
     int64 UploadedObjects = 5;
-    repeated DatasetObjectEntry Objects = 6;
+    map<string, DatasetObjectEntry> Objects = 6;
     map<string, google.protobuf.Struct> AdditionalMetadata = 7; // Additional metadata of the object
     map<string, string> Labels = 8;
     string ObjectHeritageID = 9;
     string DatasetID = 10;
+    Status Status = 11;
 }
 
 message DatasetObjectEntry {
@@ -58,5 +59,4 @@ message DatasetObjectEntry {
     google.protobuf.Timestamp Created = 7; // When the data object was created
     map<string, google.protobuf.Struct> AdditionalMetadata = 8; // Additional metadata of the object
     string UploadID = 9;
-    Status Status = 10;
 }
