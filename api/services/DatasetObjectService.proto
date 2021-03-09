@@ -25,7 +25,7 @@ service DatasetObjectsService {
         };
     }
 
-    //FinishObjectUpload Finishes the upload process for a data
+    //FinishObjectUpload Finishes the upload process for an object
     rpc FinishObjectUpload(ID) returns (Empty) {
         option (google.api.http) = {
             post: "/api/v1/object/finish"

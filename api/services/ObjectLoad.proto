@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package = "github.com/ScienceObjectsDB/go-api/services";
+
+import "api/models/CommonModels.proto";
+import "api/services/ObjectLoadModels.proto";
+import "google/api/annotations.proto";
+
+
+service ObjectUpload {
+    rpc CreateUploadLink(ID) returns (CreateUploadLinkResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectload/upload"
+            body: "*"
+        };
+    }
+
+    rpc CreateDownloadLink(ID) returns (CreateUploadLinkResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectload/upload"
+            body: "*"
+        };
+    }
+}

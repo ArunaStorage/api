@@ -21,6 +21,7 @@ message DatasetEntry {
     google.protobuf.Timestamp Created = 5; // When the datasets was created
     Status Status = 6;
     string ProjectID = 7;
+    string Description = 8;
 }
 
 message DatasetVersionEntry {
@@ -32,7 +33,7 @@ message DatasetVersionEntry {
     };
     string ID = 1;
     string DatasetID = 2;
-    string Name = 3;
+    string Description = 3;
     Version Version = 4;
     google.protobuf.Timestamp Created = 5; // When the datasets version was created
     map<string, google.protobuf.Struct> AdditionalMetadata = 6; // Additional metadata for the dataset version

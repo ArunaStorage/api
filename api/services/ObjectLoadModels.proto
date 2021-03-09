@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "github.com/ScienceObjectsDB/go-api/services";
+
+import "api/models/ObjectModels.proto";
+import "protoc/gateway/options/annotations.proto";
+
+message CreateUploadLinkResponse {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "CreateUploadLinkResponse";
+            description: "The uploadlink and its corresponding object"
+        };
+    };
+    string UploadLink = 1;
+    DatasetObjectEntry Object = 2;
+}
