@@ -7,7 +7,7 @@ import "api/services/ObjectLoadModels.proto";
 import "google/api/annotations.proto";
 
 
-service ObjectUpload {
+service ObjectLoad {
     rpc CreateUploadLink(ID) returns (CreateUploadLinkResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/upload"
