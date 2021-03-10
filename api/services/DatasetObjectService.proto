@@ -25,6 +25,13 @@ service DatasetObjectsService {
         };
     }
 
+    rpc GetObjectGroup(ID) returns (DatasetObjectEntry) {
+        option (google.api.http) = {
+            post: "/api/v1/objectgroup/get"
+            body: "*"
+        };
+    }
+
     //FinishObjectUpload Finishes the upload process for an object
     rpc FinishObjectUpload(ID) returns (Empty) {
         option (google.api.http) = {
