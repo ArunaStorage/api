@@ -22,6 +22,7 @@ message DatasetEntry {
     Status Status = 6;
     string ProjectID = 7;
     string Description = 8;
+    repeated Label Labels = 9;
 }
 
 message DatasetVersionEntry {
@@ -42,4 +43,5 @@ message DatasetVersionEntry {
     int64 ObjectCount = 9; // Number of objects registered with this dataset version
     Status Status = 10; // Indicates the status of a dataset
     repeated string ObjectIDs = 11;
+    repeated Label Labels = 12;
 }

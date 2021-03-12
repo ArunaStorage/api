@@ -23,6 +23,7 @@ message CreateDatasetRequest {
     string DatasetName = 1; // Name of the dataset
     string Datatype = 2; //Datatype of the dataset, e.g. json, gbff, fasta
     string ProjectID = 3; //ProjectID of the project the dataset is associated with
+    repeated Label Labels = 4;
 }
 
 message DatasetVersionList {
@@ -50,4 +51,5 @@ message ReleaseDatasetVersionRequest {
     map<string, string> AdditionalMetadataMessageRef = 5; // Message reference for the metadata
     map<string, string> AdditionalObjectMetadataMessageRef = 6; // Message reference for the metadata of the objects associated with this DatasetVersion
     repeated string ObjectGroupIDs = 7;
+    repeated Label Labels = 8;
 }

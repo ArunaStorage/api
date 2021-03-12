@@ -51,4 +51,5 @@ message DatasetList {
         };
     };
     repeated DatasetEntry Datasets = 1;
+    repeated Label Labels = 2;
 }
