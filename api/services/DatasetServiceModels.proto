@@ -4,6 +4,7 @@ option go_package = "github.com/ScienceObjectsDB/go-api/services";
 
 import "api/models/Dataset.proto";
 import "api/models/CommonModels.proto";
+import "api/models/ObjectModels.proto";
 import "protoc/gateway/options/annotations.proto";
 import "google/protobuf/struct.proto";
 
@@ -52,4 +53,15 @@ message ReleaseDatasetVersionRequest {
     map<string, string> AdditionalObjectMetadataMessageRef = 6; // Message reference for the metadata of the objects associated with this DatasetVersion
     repeated string ObjectGroupIDs = 7;
     repeated Label Labels = 8;
+}
+
+message ObjectGroupList {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        json_schema: {
+            title: "ObjectGroupList";
+            description: "A list of object groups"
+        };
+    };
+
+    repeated DatasetObjectGroup ObjectGroups = 1;
 }

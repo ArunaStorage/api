@@ -60,4 +60,11 @@ service DatasetService {
             body: "*"
         };
     }
+
+    rpc DatasetVersionObjectGroups(ID) returns (ObjectGroupList) {
+        option (google.api.http) = {
+            post: "/api/v1/datasetversion/create"
+            body: "*"
+        };
+    }
 }
