@@ -34,6 +34,13 @@ service DatasetService {
         };
     }
 
+    rpc DatasetObjectGroups(ID) returns (ObjectGroupList) {
+        option (google.api.http) = {
+            post: "/api/v1/dataset/update"
+            body: "*"
+        };
+    }
+
     // Updates a field of a dataset
     rpc UpdateDatasetField(UpdateFieldsRequest) returns (DatasetEntry) {
         option (google.api.http) = {
