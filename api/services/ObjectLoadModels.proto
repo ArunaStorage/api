@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+package services;
 option go_package = "github.com/ScienceObjectsDB/go-api/services";
 
 import "api/models/ObjectModels.proto";
@@ -13,5 +14,5 @@ message CreateUploadLinkResponse {
         };
     };
     string UploadLink = 1;
-    DatasetObjectEntry Object = 2;
+    models.DatasetObjectEntry Object = 2;
 }

@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+package services;
 option go_package = "github.com/ScienceObjectsDB/go-api/services";
 
 import "api/models/CommonModels.proto";
@@ -29,7 +30,7 @@ message AddUserToProjectRequest {
     };
 
     string UserID = 1;
-    repeated Right Scope = 2;
+    repeated models.Right Scope = 2;
     string ProjectID = 3;
 }
 
@@ -41,7 +42,7 @@ message ProjectEntryList {
         };
     };
 
-    repeated ProjectEntry Projects = 1;
+    repeated models.ProjectEntry Projects = 1;
 }
 message DatasetList {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
@@ -50,6 +51,6 @@ message DatasetList {
             description: "A list of datasets"
         };
     };
-    repeated DatasetEntry Datasets = 1;
-    repeated Label Labels = 2;
+    repeated models.DatasetEntry Datasets = 1;
+    repeated models.Label Labels = 2;
 }

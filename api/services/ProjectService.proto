@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+package services;
 option go_package = "github.com/ScienceObjectsDB/go-api/services";
 
 import "api/models/CommonModels.proto";

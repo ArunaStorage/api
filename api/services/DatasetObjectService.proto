@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+package services;
 option go_package = "github.com/ScienceObjectsDB/go-api/services";
 
 import "api/models/CommonModels.proto";
@@ -10,7 +11,7 @@ import "google/api/annotations.proto";
 
 service DatasetObjectsService {
     //CreateObjectHeritage Creates a new object heritage
-    rpc CreateObjectHeritage(CreateObjectHeritageRequest) returns (ObjectHeritage) {
+    rpc CreateObjectHeritage(CreateObjectHeritageRequest) returns (models.ObjectHeritage) {
         option (google.api.http) = {
             post: "/api/v1/objectsheritage/create"
             body: "*"
@@ -18,14 +19,14 @@ service DatasetObjectsService {
     }
 
     //CreateObjectGroup Creates a new object group
-    rpc CreateObjectGroup(CreateObjectGroupRequest) returns (DatasetObjectGroup) {
+    rpc CreateObjectGroup(CreateObjectGroupRequest) returns (models.DatasetObjectGroup) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/create"
             body: "*"
         };
     }
 
-    rpc GetObjectGroup(ID) returns (DatasetObjectGroup) {
+    rpc GetObjectGroup(models.ID) returns (models.DatasetObjectGroup) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/get"
             body: "*"
@@ -33,7 +34,7 @@ service DatasetObjectsService {
     }
 
     //FinishObjectUpload Finishes the upload process for an object
-    rpc FinishObjectUpload(ID) returns (Empty) {
+    rpc FinishObjectUpload(models.ID) returns (models.Empty) {
         option (google.api.http) = {
             post: "/api/v1/object/finish"
             body: "*"

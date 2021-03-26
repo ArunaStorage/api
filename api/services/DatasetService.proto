@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+package services;
 option go_package = "github.com/ScienceObjectsDB/go-api/services";
 
 import "api/services/DatasetServiceModels.proto";
@@ -13,7 +14,7 @@ import "google/api/annotations.proto";
 // Dataset versions group these data objects, which makes them reusable
 service DatasetService {
     // CreateNewDataset Creates a new dataset and associates it with a dataset
-    rpc CreateNewDataset(CreateDatasetRequest) returns (DatasetEntry) {
+    rpc CreateNewDataset(CreateDatasetRequest) returns (models.DatasetEntry) {
         option (google.api.http) = {
             post: "/api/v1/dataset/create"
             body: "*"
@@ -21,20 +22,20 @@ service DatasetService {
     }
 
     // Dataset Returns a specific dataset
-    rpc Dataset(ID) returns (DatasetEntry) {
+    rpc Dataset(models.ID) returns (models.DatasetEntry) {
         option (google.api.http) = {
             get: "/api/v1/dataset/{ID}"
         };
     }
 
     // Lists Versions of a dataset
-    rpc DatasetVersions(ID) returns (DatasetVersionList) {
+    rpc DatasetVersions(models.ID) returns (DatasetVersionList) {
         option (google.api.http) = {
             get: "/api/v1/dataset/{ID}/versions"
         };
     }
 
-    rpc DatasetObjectGroups(ID) returns (ObjectGroupList) {
+    rpc DatasetObjectGroups(models.ID) returns (ObjectGroupList) {
         option (google.api.http) = {
             post: "/api/v1/dataset/update"
             body: "*"
@@ -42,7 +43,7 @@ service DatasetService {
     }
 
     // Updates a field of a dataset
-    rpc UpdateDatasetField(UpdateFieldsRequest) returns (DatasetEntry) {
+    rpc UpdateDatasetField(models.UpdateFieldsRequest) returns (models.DatasetEntry) {
         option (google.api.http) = {
             post: "/api/v1/dataset/update"
             body: "*"
@@ -50,7 +51,7 @@ service DatasetService {
     }
 
     // DeleteDataset Delete a dataset
-    rpc DeleteDataset(ID) returns (Empty) {
+    rpc DeleteDataset(models.ID) returns (models.Empty) {
         option (google.api.http) = {
             delete: "/api/v1/dataset/{ID}"
         };
@@ -61,14 +62,14 @@ service DatasetService {
 
 
     //ReleaseDatasetVersion Release a new dataset version
-    rpc ReleaseDatasetVersion(ReleaseDatasetVersionRequest) returns (DatasetVersionEntry) {
+    rpc ReleaseDatasetVersion(ReleaseDatasetVersionRequest) returns (models.DatasetVersionEntry) {
         option (google.api.http) = {
             post: "/api/v1/datasetversion/create"
             body: "*"
         };
     }
 
-    rpc DatasetVersionObjectGroups(ID) returns (ObjectGroupList) {
+    rpc DatasetVersionObjectGroups(models.ID) returns (ObjectGroupList) {
         option (google.api.http) = {
             post: "/api/v1/datasetversion/create"
             body: "*"
