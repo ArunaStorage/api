@@ -120,7 +120,7 @@ message User {
 
 message Metadata {
     string Key = 1;
-    repeated string Labels = 2;
+    repeated Label Labels = 2;
     string Metadata = 3;
     oneof Schema {
         string SimpleSchema = 4;
