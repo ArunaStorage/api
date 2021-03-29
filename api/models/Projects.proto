@@ -11,4 +11,5 @@ message ProjectEntry {
     repeated User Users = 3;
     string ProjectName = 4;
     repeated Label Labels = 5;
+    repeated Metadata Metadata = 6;
 }

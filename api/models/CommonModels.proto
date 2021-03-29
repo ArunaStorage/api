@@ -118,5 +118,13 @@ message User {
     Resource Resource = 3;
 }
 
+message Metadata {
+    string Key = 1;
+    repeated string Labels = 2;
+    string Metadata = 3;
+    oneof Schema {
+        string SimpleSchema = 4;
+    }
+}
 
 message Empty{}

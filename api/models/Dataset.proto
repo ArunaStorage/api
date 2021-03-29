@@ -24,6 +24,7 @@ message DatasetEntry {
     string ProjectID = 7;
     string Description = 8;
     repeated Label Labels = 9;
+    repeated Metadata Metadata = 10;
 }
 
 message DatasetVersionEntry {
@@ -45,4 +46,5 @@ message DatasetVersionEntry {
     Status Status = 10; // Indicates the status of a dataset
     repeated string ObjectIDs = 11;
     repeated Label Labels = 12;
+    repeated Metadata Metadata = 13;
 }

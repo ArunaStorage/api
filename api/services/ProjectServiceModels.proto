@@ -19,6 +19,7 @@ message CreateProjectRequest {
     };
     string Name = 1;
     string Description = 2;
+    repeated models.Metadata Metadata = 3;
 }
 
 message AddUserToProjectRequest {

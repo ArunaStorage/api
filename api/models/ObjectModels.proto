@@ -21,6 +21,7 @@ message ObjectHeritage {
     string Name = 2; // Name: Name of the dataset object heritage entity e.g.: mydata
     string DatasetID = 3;
     repeated Label Labels = 9;
+    repeated Metadata Metadata = 11;
 }
 
 message DatasetObjectGroup {
@@ -42,6 +43,7 @@ message DatasetObjectGroup {
     string ObjectHeritageID = 9;
     string DatasetID = 10;
     Status Status = 11;
+    repeated Metadata Metadata = 12;
 }
 
 message DatasetObjectEntry {
@@ -60,4 +62,5 @@ message DatasetObjectEntry {
     google.protobuf.Timestamp Created = 7; // When the data object was created
     map<string, google.protobuf.Struct> AdditionalMetadata = 8; // Additional metadata of the object
     string UploadID = 9;
+    repeated Metadata Metadata = 11;
 }
