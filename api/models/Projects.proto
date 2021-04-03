@@ -5,11 +5,11 @@ option go_package = "github.com/ScienceObjectsDB/go-api/models";
 
 import "api/models/CommonModels.proto";
 
-message ProjectEntry {
-    string ID = 1;
-    string Description = 2;
-    repeated User Users = 3;
-    string ProjectName = 4;
-    repeated Label Labels = 5;
-    repeated Metadata Metadata = 6;
+message Project {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    repeated Label labels = 4;
+    repeated Metadata metadata = 5;
+    repeated User users = 6;
 }

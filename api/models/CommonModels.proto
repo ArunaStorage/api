@@ -19,36 +19,37 @@ enum Right {
 }
 
 enum Resource {
-    Project = 0;
-    Dataset = 1;
-    DatasetVersion = 2;
-    DatasetObject = 3;
-    DatasetObjectGroupResource = 4;
+    ProjectResource = 0;
+    DatasetResource = 1;
+    DatasetVersionResource = 2;
+    ObjectResource = 3;
+    ObjectGroupResource = 4;
 }
 
-enum LocationType {
-    Object = 0;
-    Index = 1;
+
+message Location {
+    oneof location {
+        ObjectLocation object_location = 1;
+    }
 }
 
 // A location in S3
-message Location {
+message ObjectLocation {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
         json_schema: {
             title: "Location";
             description: "A location in an object storage"
         };
     };
-    string Bucket = 1;
-    string Key = 2;
-    string URL = 3; // Object storage endpoint
-    LocationType LocationType = 4;
-    IndexLocation IndexLocation = 5;
+    string bucket = 1;
+    string key = 2;
+    string url = 3; // Object storage endpoint
+    optional Index index = 4;
 }
 
-message IndexLocation {
-    int64 StartByte = 1;
-    int64 EndByte = 2;
+message Index {
+    int64 start_byte = 1;
+    int64 end_byte = 2;
 }
 
 message Origin {
@@ -59,9 +60,11 @@ message Origin {
             description: "The source of a dataset. Entries are set depending of the origin type.  OriginLink means that a link is given, objectstorage that bucket, key and link are present. Link is the s3 endpoint"
         };
     };
-    string Link = 1;
-    Location ObjectStorageLocatio = 2;
-    OriginTypeEnum OriginType = 4;
+    string link = 1;
+    oneof location {
+        ObjectLocation object_location = 2;
+    };
+    OriginTypeEnum origin_type = 3;
 
     enum OriginTypeEnum {
         ObjectStorage = 0;
@@ -78,11 +81,11 @@ message Version {
         };
     };
 
-    int32 Major = 1;
-    int32 Minor = 2;
-    int32 Patch = 3;
-    int32 Revision = 4;
-    VersionStage Stage = 5;
+    int32 major = 1;
+    int32 minor = 2;
+    int32 patch = 3;
+    int32 revision = 4;
+    VersionStage stage = 5;
 
     enum VersionStage {
         Stable = 0;
@@ -93,8 +96,8 @@ message Version {
 }
 
 message Label {
-    string Key = 1;
-    string Value = 2;
+    string key = 1;
+    string value = 2;
 }
 
 message ID {
@@ -104,26 +107,26 @@ message ID {
             description: "An arbitrary ID"
         };
     };
-    string ID = 1; // An arbitrary ID
+    string id = 1; // An arbitrary ID
 }
 
 message UpdateFieldsRequest {
-    string ID = 1;
-    map<string, string> UpdateStringFields = 2;
+    string id = 1;
+    map<string, string> updated_string_fields = 2;
 }
 
 message User {
-    string UserID = 1;
-    repeated Right Rights = 2;
-    Resource Resource = 3;
+    string user_id = 1;
+    repeated Right rights = 2;
+    Resource resource = 3;
 }
 
 message Metadata {
-    string Key = 1;
-    repeated Label Labels = 2;
-    string Metadata = 3;
-    oneof Schema {
-        string SimpleSchema = 4;
+    string key = 1;
+    repeated Label labels = 2;
+    bytes metadata = 3;
+    oneof schema {
+        string simple_schema = 4;
     }
 }
 

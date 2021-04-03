@@ -11,7 +11,7 @@ import "google/api/annotations.proto";
 
 service ProjectAPI {
     //CreateProject creates a new projects
-    rpc CreateProject (CreateProjectRequest) returns (models.ProjectEntry) {
+    rpc CreateProject (CreateProjectRequest) returns (models.Project) {
         option (google.api.http) = {
             post: "/api/v1/project/createproject"
             body: "*"
@@ -19,7 +19,7 @@ service ProjectAPI {
     }
 
     //AddUserToProject Adds a new user to a given project
-    rpc AddUserToProject (AddUserToProjectRequest) returns (models.ProjectEntry) {
+    rpc AddUserToProject (AddUserToProjectRequest) returns (models.Project) {
         option (google.api.http) = {
             post: "/api/v1/project/addusertoproject"
             body: "*"
@@ -35,7 +35,7 @@ service ProjectAPI {
     }
 
     //GetUserProjects Returns all projects that a specified user has access to
-    rpc GetUserProjects(models.Empty) returns (ProjectEntryList) {
+    rpc GetUserProjects(models.Empty) returns (ProjectList) {
         option (google.api.http) = {
             get: "/api/v1/projects"
         };

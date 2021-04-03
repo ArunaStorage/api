@@ -4,47 +4,43 @@ package models;
 option go_package = "github.com/ScienceObjectsDB/go-api/models";
 
 import "google/protobuf/timestamp.proto";
-import "google/protobuf/struct.proto";
 import "api/models/CommonModels.proto";
 import "protoc/gateway/options/annotations.proto";
 
-message DatasetEntry {
+message Dataset {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
         json_schema: {
             title: "DatasetEntry";
             description: "Database entry for a dataset"
         };
     };
-    string ID = 1;
-    string Datasetname = 2; // Name of the dataset
-    string Datasettype = 3; // Type of the stored data in the dataset
-    bool IsPublic = 4; //Indicates if the dataset if publicly available
-    google.protobuf.Timestamp Created = 5; // When the datasets was created
-    Status Status = 6;
-    string ProjectID = 7;
-    string Description = 8;
-    repeated Label Labels = 9;
-    repeated Metadata Metadata = 10;
+    string id = 1;
+    string name = 2; // Name of the dataset
+    string type = 3; // Type of the stored data in the dataset
+    string description = 8;
+    google.protobuf.Timestamp created = 5; // When the datasets was created
+    repeated Label labels = 9;
+    repeated Metadata metadata = 10;
+    string project_id = 7;
+    bool is_public = 4; //Indicates if the dataset if publicly available
+    Status status = 6;
 }
 
-message DatasetVersionEntry {
+message DatasetVersion {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
         json_schema: {
             title: "DatasetVersionEntry";
             description: "Dataset version representation"
         };
     };
-    string ID = 1;
-    string DatasetID = 2;
-    string Description = 3;
-    Version Version = 4;
-    google.protobuf.Timestamp Created = 5; // When the datasets version was created
-    map<string, google.protobuf.Struct> AdditionalMetadata = 6; // Additional metadata for the dataset version
-    map<string, string> AdditionalMetadataMessageRef = 7; // Message reference for the metadata
-    map<string, string> AdditionalObjectMetadataMessageRef = 8; // Message reference for the metadata of the objects associated with this DatasetVersion
-    int64 ObjectCount = 9; // Number of objects registered with this dataset version
-    Status Status = 10; // Indicates the status of a dataset
-    repeated string ObjectIDs = 11;
-    repeated Label Labels = 12;
-    repeated Metadata Metadata = 13;
+    string id = 1;
+    string dataset_id = 2;
+    string description = 3;
+    repeated Label labels = 4;
+    repeated Metadata metadata = 5;
+    google.protobuf.Timestamp created = 6; // When the datasets version was created
+    Version version = 7;
+    repeated string object_group_ids = 8;
+    int64 object_count = 9; // Number of objects registered with this dataset version
+    Status status = 10; // Indicates the status of a dataset
 }

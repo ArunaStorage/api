@@ -5,7 +5,6 @@ option go_package = "github.com/ScienceObjectsDB/go-api/services";
 
 import "api/models/CommonModels.proto";
 import "protoc/gateway/options/annotations.proto";
-import "google/protobuf/struct.proto";
 
 
 message CreateObjectHeritageRequest {
@@ -16,10 +15,10 @@ message CreateObjectHeritageRequest {
         };
     };
 
-    string Name = 1;
-    string DatasetID = 2;
-    repeated models.Label Labels = 3;
-    repeated models.Metadata Metadata = 4;
+    string name = 1;
+    string dataset_id = 2;
+    repeated models.Label labels = 3;
+    repeated models.Metadata metadata = 4;
 }
 
 message CreateObjectGroupRequest {
@@ -30,21 +29,19 @@ message CreateObjectGroupRequest {
         };
     };
 
-    string Name = 1;
-    string ObjectHeritageID = 2;
-    repeated CreateObjectRequest Objects = 3;
-    map<string, google.protobuf.Struct> AdditionalMetadata = 4;
-    repeated models.Label Labels = 5;
-    string DatasetID = 6;
-    repeated models.Metadata Metadata = 7;
+    string name = 1;
+    string DatasetID = 2;
+    string object_heritage_id = 3;
+    repeated CreateObjectRequest objects = 4;
+    repeated models.Label labels = 5;
+    repeated models.Metadata metadata = 6;
 }
 
 message CreateObjectRequest {
-    string Filename = 1;
-    string Filetype = 2;
-    models.Origin Origin = 4; // Origin: Source of the dataset
-    int64 ContentLen = 5; // ContentLen: Lenght of the stored dataset
-    repeated models.Label Labels = 6;
-    map<string, google.protobuf.Struct> AdditionalMetadata = 7; // Additional metadata of the object#
-    repeated models.Metadata Metadata = 8;
+    string filename = 1;
+    string filetype = 2;
+    repeated models.Label Labels = 3;
+    repeated models.Metadata Metadata = 4;
+    int64 content_len = 5; // ContentLen: Lenght of the stored dataset
+    models.Origin origin = 6; // Origin: Source of the dataset
 }

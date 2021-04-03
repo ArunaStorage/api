@@ -6,7 +6,6 @@ option go_package = "github.com/ScienceObjectsDB/go-api/models";
 
 import "api/models/CommonModels.proto";
 
-import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "protoc/gateway/options/annotations.proto";
 
@@ -17,14 +16,15 @@ message ObjectHeritage {
             description: "Tracks the change history of an object group."
         };
     };
-    string ID = 1;
-    string Name = 2; // Name: Name of the dataset object heritage entity e.g.: mydata
-    string DatasetID = 3;
-    repeated Label Labels = 9;
-    repeated Metadata Metadata = 11;
+    string id = 1;
+    string name = 2; // Name: Name of the dataset object heritage entity e.g.: mydata
+    string dataset_id = 3;
+    string description = 4;
+    repeated Label labels = 5;
+    repeated Metadata metadata = 6;
 }
 
-message DatasetObjectGroup {
+message ObjectGroup {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
         json_schema: {
             title: "DatasetObjectGroup";
@@ -32,35 +32,35 @@ message DatasetObjectGroup {
         };
     };
 
-    string ID = 1;
-    string Name = 2;
-    Version Version = 3;
-    int64 InitializedObjects = 4;
-    int64 UploadedObjects = 5;
-    repeated DatasetObjectEntry Objects = 6;
-    map<string, google.protobuf.Struct> AdditionalMetadata = 7; // Additional metadata of the object
-    repeated Label Labels = 8;
-    string ObjectHeritageID = 9;
-    string DatasetID = 10;
-    Status Status = 11;
-    repeated Metadata Metadata = 12;
+    string id = 1;
+    string name = 2;
+    string dataset_id = 4;
+    Version version = 5;
+    Status status = 6;
+    google.protobuf.Timestamp created = 8; // When the data object was created
+    repeated Label labels = 9;
+    repeated Metadata metadata = 10;
+    repeated Object objects = 11;
+    int64 initialized_objects = 12;
+    int64 uploaded_objects = 13;
+    string object_heritage_id = 14;
 }
 
-message DatasetObjectEntry {
+message Object {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
         json_schema: {
             title: "DatasetObjectEntry";
             description: "Representation of a dataset entity"
         };
     };
-    string ID = 1; //ID of the entity
-    string Filename = 2; // Filename: Name of the original file e.g.: mydata.json
-    string Filetype = 3; // Filetype: Type of the stored file, e.g.: json, gbff,...
-    Origin Origin = 4; // Origin: Source of the dataset
-    int64 ContentLen = 5; // ContentLen: Lenght of the stored dataset
-    Location Location = 6; // Location: Location of the data
-    google.protobuf.Timestamp Created = 7; // When the data object was created
-    map<string, google.protobuf.Struct> AdditionalMetadata = 8; // Additional metadata of the object
-    string UploadID = 9;
-    repeated Metadata Metadata = 11;
+    string id = 1; //ID of the entity
+    string filename = 2; // Filename: Name of the original file e.g.: mydata.json
+    string filetype = 3; // Filetype: Type of the stored file, e.g.: json, gbff,...
+    repeated Label labels = 4;
+    repeated Metadata metadata = 5;
+    google.protobuf.Timestamp created = 6; // When the data object was created
+    Location location = 7; // Location: Location of the data
+    Origin origin = 8; // Origin: Source of the dataset
+    int64 content_len = 9; // ContentLen: Lenght of the stored dataset
+    string upload_id = 10;
 }

@@ -7,10 +7,6 @@ import "api/models/Dataset.proto";
 import "api/models/CommonModels.proto";
 import "api/models/ObjectModels.proto";
 import "protoc/gateway/options/annotations.proto";
-import "google/protobuf/struct.proto";
-
-// These messages are used inside the DatasetAPI
-
 
 
 // Dataset related Models
@@ -22,11 +18,11 @@ message CreateDatasetRequest {
             description: "Data required to start loading a dataset into the BioDataDB"
         };
     };
-    string DatasetName = 1; // Name of the dataset
-    string Datatype = 2; //Datatype of the dataset, e.g. json, gbff, fasta
-    string ProjectID = 3; //ProjectID of the project the dataset is associated with
-    repeated models.Label Labels = 4;
-    repeated models.Metadata Metadata = 5;
+    string name = 1; // Name of the dataset
+    string type = 2; //Datatype of the dataset, e.g. json, gbff, fasta
+    string project_id = 3; //ProjectID of the project the dataset is associated with
+    repeated models.Label labels = 4;
+    repeated models.Metadata metadata = 5;
 }
 
 message DatasetVersionList {
@@ -36,7 +32,7 @@ message DatasetVersionList {
             description: "A list of datasetversions"
         };
     };
-    repeated models.DatasetVersionEntry DatasetVersions = 1;
+    repeated models.DatasetVersion dataset_version = 1;
 }
 
 message ReleaseDatasetVersionRequest {
@@ -47,14 +43,12 @@ message ReleaseDatasetVersionRequest {
         };
     };
 
-    string Name = 1;
-    string DatasetID = 2;
-    models.Version Version = 3;
-    map<string, google.protobuf.Struct> AdditionalMetadata = 4; // Additional metadata for the dataset version
-    map<string, string> AdditionalMetadataMessageRef = 5; // Message reference for the metadata
-    map<string, string> AdditionalObjectMetadataMessageRef = 6; // Message reference for the metadata of the objects associated with this DatasetVersion
-    repeated string ObjectGroupIDs = 7;
-    repeated models.Label Labels = 8;
+    string name = 1;
+    string dataset_id = 2;
+    models.Version version = 3;
+    repeated string object_group_ids = 4;
+    repeated models.Label labels = 5;
+    repeated models.Metadata metadata = 6;
 }
 
 message ObjectGroupList {
@@ -65,5 +59,5 @@ message ObjectGroupList {
         };
     };
 
-    repeated models.DatasetObjectGroup ObjectGroups = 1;
+    repeated models.ObjectGroup object_groups = 1;
 }

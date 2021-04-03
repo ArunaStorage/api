@@ -19,14 +19,14 @@ service DatasetObjectsService {
     }
 
     //CreateObjectGroup Creates a new object group
-    rpc CreateObjectGroup(CreateObjectGroupRequest) returns (models.DatasetObjectGroup) {
+    rpc CreateObjectGroup(CreateObjectGroupRequest) returns (models.ObjectGroup) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/create"
             body: "*"
         };
     }
 
-    rpc GetObjectGroup(models.ID) returns (models.DatasetObjectGroup) {
+    rpc GetObjectGroup(models.ID) returns (models.ObjectGroup) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/get"
             body: "*"

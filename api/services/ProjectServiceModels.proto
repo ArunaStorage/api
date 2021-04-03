@@ -17,9 +17,9 @@ message CreateProjectRequest {
             description: "Request to create a new project"
         };
     };
-    string Name = 1;
-    string Description = 2;
-    repeated models.Metadata Metadata = 3;
+    string name = 1;
+    string description = 2;
+    repeated models.Metadata metadata = 3;
 }
 
 message AddUserToProjectRequest {
@@ -30,12 +30,12 @@ message AddUserToProjectRequest {
         };
     };
 
-    string UserID = 1;
-    repeated models.Right Scope = 2;
-    string ProjectID = 3;
+    string user_id = 1;
+    repeated models.Right scope = 2;
+    string project_id = 3;
 }
 
-message ProjectEntryList {
+message ProjectList {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
         json_schema: {
             title: "ProjectEntryList";
@@ -43,7 +43,7 @@ message ProjectEntryList {
         };
     };
 
-    repeated models.ProjectEntry Projects = 1;
+    repeated models.Project projects = 1;
 }
 message DatasetList {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
@@ -52,6 +52,6 @@ message DatasetList {
             description: "A list of datasets"
         };
     };
-    repeated models.DatasetEntry Datasets = 1;
-    repeated models.Label Labels = 2;
+    repeated models.Dataset dataset = 1;
+    repeated models.Label labels = 2;
 }

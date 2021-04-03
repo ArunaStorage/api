@@ -9,16 +9,16 @@ import "google/api/annotations.proto";
 
 
 service ObjectLoad {
-    rpc CreateUploadLink(models.ID) returns (CreateUploadLinkResponse) {
+    rpc CreateUploadLink(models.ID) returns (CreateLinkResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/upload"
             body: "*"
         };
     }
 
-    rpc CreateDownloadLink(models.ID) returns (CreateUploadLinkResponse) {
+    rpc CreateDownloadLink(models.ID) returns (CreateLinkResponse) {
         option (google.api.http) = {
-            post: "/api/v1/objectload/upload"
+            post: "/api/v1/objectload/download"
             body: "*"
         };
     }

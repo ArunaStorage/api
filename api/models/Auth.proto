@@ -15,7 +15,7 @@ message TokenList {
             description: "Lists all available api tokens for a user"
         };
     };
-    string ProjectID = 1;
+    string project_id = 1;
     repeated TokenEntry token = 2;
 }
 
@@ -26,12 +26,12 @@ message TokenEntry {
             description: "A description of an api token"
         };
     };
-    string ID = 1;
-    User UserID = 2;
-    string Token = 3;
-    Resource Resource = 4;
-    google.protobuf.Timestamp Created = 5; // When the token was created
-    google.protobuf.Timestamp Expires = 6; // When the token expires
+    string id = 1;
+    User user_id = 2;
+    string token = 3;
+    Resource resource = 4;
+    google.protobuf.Timestamp created = 5; // When the token was created
+    google.protobuf.Timestamp expires = 6; // When the token expires
 }
 
 message CreateTokenRequest {
@@ -41,8 +41,8 @@ message CreateTokenRequest {
             description: "Request data to create a new token for a given dataset"
         };
     };
-    string ResourceID = 1;
-    repeated Right Rights = 2;
-    Resource Resource = 3;
-    google.protobuf.Timestamp Expires = 4; // When the token expires
+    string resource_id = 1;
+    repeated Right rights = 2;
+    Resource resource = 3;
+    google.protobuf.Timestamp expires = 4; // When the token expires
 }

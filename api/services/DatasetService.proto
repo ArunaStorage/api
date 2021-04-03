@@ -14,7 +14,7 @@ import "google/api/annotations.proto";
 // Dataset versions group these data objects, which makes them reusable
 service DatasetService {
     // CreateNewDataset Creates a new dataset and associates it with a dataset
-    rpc CreateNewDataset(CreateDatasetRequest) returns (models.DatasetEntry) {
+    rpc CreateNewDataset(CreateDatasetRequest) returns (models.Dataset) {
         option (google.api.http) = {
             post: "/api/v1/dataset/create"
             body: "*"
@@ -22,7 +22,7 @@ service DatasetService {
     }
 
     // Dataset Returns a specific dataset
-    rpc Dataset(models.ID) returns (models.DatasetEntry) {
+    rpc Dataset(models.ID) returns (models.Dataset) {
         option (google.api.http) = {
             get: "/api/v1/dataset/{ID}"
         };
@@ -43,7 +43,7 @@ service DatasetService {
     }
 
     // Updates a field of a dataset
-    rpc UpdateDatasetField(models.UpdateFieldsRequest) returns (models.DatasetEntry) {
+    rpc UpdateDatasetField(models.UpdateFieldsRequest) returns (models.Dataset) {
         option (google.api.http) = {
             post: "/api/v1/dataset/update"
             body: "*"
@@ -62,7 +62,7 @@ service DatasetService {
 
 
     //ReleaseDatasetVersion Release a new dataset version
-    rpc ReleaseDatasetVersion(ReleaseDatasetVersionRequest) returns (models.DatasetVersionEntry) {
+    rpc ReleaseDatasetVersion(ReleaseDatasetVersionRequest) returns (models.DatasetVersion) {
         option (google.api.http) = {
             post: "/api/v1/datasetversion/create"
             body: "*"
