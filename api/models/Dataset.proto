@@ -16,14 +16,13 @@ message Dataset {
     };
     string id = 1;
     string name = 2; // Name of the dataset
-    string type = 3; // Type of the stored data in the dataset
-    string description = 8;
-    google.protobuf.Timestamp created = 5; // When the datasets was created
-    repeated Label labels = 9;
-    repeated Metadata metadata = 10;
+    string description = 3;
+    google.protobuf.Timestamp created = 4; // When the datasets was created
+    repeated Label labels = 5;
+    repeated Metadata metadata = 6;
     string project_id = 7;
-    bool is_public = 4; //Indicates if the dataset if publicly available
-    Status status = 6;
+    bool is_public = 8; //Indicates if the dataset if publicly available
+    Status status = 9;
 }
 
 message DatasetVersion {

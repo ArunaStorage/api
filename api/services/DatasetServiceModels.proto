@@ -19,7 +19,6 @@ message CreateDatasetRequest {
         };
     };
     string name = 1; // Name of the dataset
-    string type = 2; //Datatype of the dataset, e.g. json, gbff, fasta
     string project_id = 3; //ProjectID of the project the dataset is associated with
     repeated models.Label labels = 4;
     repeated models.Metadata metadata = 5;
