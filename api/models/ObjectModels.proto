@@ -41,9 +41,7 @@ message ObjectGroup {
     repeated Label labels = 9;
     repeated Metadata metadata = 10;
     repeated Object objects = 11;
-    int64 initialized_objects = 12;
-    int64 uploaded_objects = 13;
-    string object_heritage_id = 14;
+    string object_heritage_id = 12;
 }
 
 message Object {
