@@ -16,3 +16,19 @@ message CreateLinkResponse {
     string upload_link = 1;
     models.Object object = 2;
 }
+
+message GetMultipartUploadRequest {
+    string object_id = 1;
+    int64 upload_part = 2;
+}
+
+message CompleteMultipartRequest {
+    string object_id = 1;
+    repeated CompletedParts parts = 2;
+    
+}
+
+message CompletedParts {
+    string etag = 1;
+    int64 part = 2;
+}

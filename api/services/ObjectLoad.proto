@@ -22,4 +22,25 @@ service ObjectLoad {
             body: "*"
         };
     }
+
+    rpc StartMultipartUpload(models.ID) returns (CreateLinkResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectload/init_multipart"
+            body: "*"
+        };
+    }
+
+    rpc GetMultipartUploadLink(GetMultipartUploadRequest) returns (CreateLinkResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectload/upload_multipart_part"
+            body: "*"
+        };
+    }
+
+    rpc CompleteMultipartUpload(CompleteMultipartRequest) returns (models.Empty) {
+        option (google.api.http) = {
+            post: "/api/v1/objectload/complete_multipart"
+            body: "*"
+        };
+    }
 }
