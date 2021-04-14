@@ -4,6 +4,7 @@ package services;
 option go_package = "github.com/ScienceObjectsDB/go-api/services";
 
 import "api/models/CommonModels.proto";
+import "api/models/ObjectModels.proto";
 import "api/services/ObjectLoadModels.proto";
 import "google/api/annotations.proto";
 
@@ -23,7 +24,7 @@ service ObjectLoad {
         };
     }
 
-    rpc StartMultipartUpload(models.ID) returns (CreateLinkResponse) {
+    rpc StartMultipartUpload(models.ID) returns (models.Object) {
         option (google.api.http) = {
             post: "/api/v1/objectload/init_multipart"
             body: "*"
