@@ -144,4 +144,9 @@ message Metadata {
     }
 }
 
+message VersionTag {
+    string name = 1;
+    string version_id = 2;
+}
+
 message Empty{}

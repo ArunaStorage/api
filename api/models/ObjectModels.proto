@@ -22,6 +22,7 @@ message ObjectHeritage {
     string description = 4;
     repeated Label labels = 5;
     repeated Metadata metadata = 6;
+    repeated VersionTag version_tags = 7;
 }
 
 message ObjectGroup {
