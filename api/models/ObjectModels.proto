@@ -9,21 +9,22 @@ import "api/models/CommonModels.proto";
 import "google/protobuf/timestamp.proto";
 import "protoc/gateway/options/annotations.proto";
 
-message ObjectHeritage {
+message ObjectGroupVersions {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
         json_schema: {
-            title: "ObjectHeritage";
-            description: "Tracks the change history of an object group."
+            title: "ObjectGroupVersions";
+            description: "Anchor object to keep track of updates in an object group"
         };
     };
     string id = 1;
-    string name = 2; // Name: Name of the dataset object heritage entity e.g.: mydata
+    string name = 2;
     string dataset_id = 3;
-    string description = 4;
-    repeated Label labels = 5;
-    repeated Metadata metadata = 6;
-    repeated VersionTag version_tags = 7;
+    repeated Label labels = 4;
+    repeated Metadata metadata = 5;
+    Status status = 6;
+    string head_id = 7;
 }
+
 
 message ObjectGroup {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
@@ -34,15 +35,13 @@ message ObjectGroup {
     };
 
     string id = 1;
-    string name = 2;
     string dataset_id = 4;
     Version version = 5;
-    Status status = 6;
-    google.protobuf.Timestamp created = 8; // When the data object was created
-    repeated Label labels = 9;
-    repeated Metadata metadata = 10;
-    repeated Object objects = 11;
-    string object_heritage_id = 12;
+    google.protobuf.Timestamp created = 6; // When the data object was created
+    repeated Label labels = 7;
+    repeated Metadata metadata = 8;
+    repeated Object objects = 9;
+    string version_ref_id = 10;
 }
 
 message Object {

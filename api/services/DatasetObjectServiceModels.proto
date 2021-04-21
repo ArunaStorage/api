@@ -7,20 +7,6 @@ import "api/models/CommonModels.proto";
 import "protoc/gateway/options/annotations.proto";
 
 
-message CreateObjectHeritageRequest {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "ObjectHeritage";
-            description: "Tracks the change history of an object group."
-        };
-    };
-
-    string name = 1;
-    string dataset_id = 2;
-    repeated models.Label labels = 3;
-    repeated models.Metadata metadata = 4;
-}
-
 message CreateObjectGroupRequest {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
         json_schema: {
@@ -31,7 +17,6 @@ message CreateObjectGroupRequest {
 
     string name = 1;
     string DatasetID = 2;
-    string object_heritage_id = 3;
     repeated CreateObjectRequest objects = 4;
     repeated models.Label labels = 5;
     repeated models.Metadata metadata = 6;
