@@ -10,14 +10,6 @@ import "api/services/DatasetObjectServiceModels.proto";
 import "google/api/annotations.proto";
 
 service DatasetObjectsService {
-    //CreateObjectHeritage Creates a new object heritage
-    rpc CreateObjectHeritage(CreateObjectHeritageRequest) returns (models.ObjectHeritage) {
-        option (google.api.http) = {
-            post: "/api/v1/objectsheritage/create"
-            body: "*"
-        };
-    }
-
     //CreateObjectGroup Creates a new object group
     rpc CreateObjectGroup(CreateObjectGroupRequest) returns (models.ObjectGroup) {
         option (google.api.http) = {
