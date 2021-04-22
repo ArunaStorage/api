@@ -9,7 +9,7 @@ import "api/models/CommonModels.proto";
 import "google/protobuf/timestamp.proto";
 import "protoc/gateway/options/annotations.proto";
 
-message ObjectGroupVersions {
+message ObjectGroupHistory {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
         json_schema: {
             title: "ObjectGroupVersions";

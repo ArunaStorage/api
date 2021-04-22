@@ -34,10 +34,9 @@ service DatasetObjectsService {
         };
     }
 
-    //GetCurrentObjectGroupFromVersion Returns the most current version 
-    rpc GetCurrentObjectGroupFromVersion(models.ID) returns (models.ObjectGroup) {
+    rpc GetObjectGroupHistory(models.ID) returns (models.ObjectGroupHistory) {
         option (google.api.http) = {
-            post: "/api/v1/currentobjectgroup/get"
+            post: "/api/v1/objectgrouphistory/get"
             body: "*"
         };
     }
