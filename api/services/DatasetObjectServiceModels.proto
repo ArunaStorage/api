@@ -30,3 +30,14 @@ message CreateObjectRequest {
     int64 content_len = 5; // ContentLen: Lenght of the stored dataset
     models.Origin origin = 6; // Origin: Source of the dataset
 }
+
+enum ObjectGroupVersionReferenceType {
+    Version = 0;
+    ID = 1;
+}
+
+message GetObjectGroupVersionRequest {
+    ObjectGroupVersionReferenceType reference_type = 1;
+    string ID = 2;
+    models.Version version = 3;
+}

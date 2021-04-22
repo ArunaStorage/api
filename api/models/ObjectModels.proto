@@ -9,10 +9,10 @@ import "api/models/CommonModels.proto";
 import "google/protobuf/timestamp.proto";
 import "protoc/gateway/options/annotations.proto";
 
-message ObjectGroupHistory {
+message ObjectGroup {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
         json_schema: {
-            title: "ObjectGroupVersions";
+            title: "ObjectGroup";
             description: "Anchor object to keep track of updates in an object group"
         };
     };
@@ -26,10 +26,10 @@ message ObjectGroupHistory {
 }
 
 
-message ObjectGroup {
+message ObjectGroupVersion {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
         json_schema: {
-            title: "DatasetObjectGroup";
+            title: "ObjectGroupVersion";
             description: "A set of dataset objects that are bundled together for easier management. An example use case would be a set of binary data objects along with an index file."
         };
     };

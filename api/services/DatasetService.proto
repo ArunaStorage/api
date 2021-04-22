@@ -42,6 +42,13 @@ service DatasetService {
         };
     }
 
+    rpc DatasetObjectGroupHistories(models.ID) returns (ObjectGroupList) {
+        option (google.api.http) = {
+            post: "/api/v1/dataset/update"
+            body: "*"
+        };
+    }
+
     // Updates a field of a dataset
     rpc UpdateDatasetField(models.UpdateFieldsRequest) returns (models.Dataset) {
         option (google.api.http) = {

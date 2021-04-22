@@ -27,19 +27,20 @@ service DatasetObjectsService {
     }
 
     //GetObjectGroupCurrentVersion Returns the head version in the history of a given object group
-    rpc GetCurrentObjectGroup(models.ID) returns (models.ObjectGroup) {
+    rpc GetCurrentObjectGroup(models.ID) returns (models.ObjectGroupVersion) {
         option (google.api.http) = {
             post: "/api/v1/currentobjectgroup/get"
             body: "*"
         };
     }
 
-    rpc GetObjectGroupHistory(models.ID) returns (models.ObjectGroupHistory) {
+    rpc GetObjectGroupVersion(GetObjectGroupVersionRequest) returns (models.ObjectGroupVersion) {
         option (google.api.http) = {
-            post: "/api/v1/objectgrouphistory/get"
+            post: "/api/v1/objectgroupversion/get"
             body: "*"
         };
     }
+
 
     //FinishObjectUpload Finishes the upload process for an object
     rpc FinishObjectUpload(models.ID) returns (models.Empty) {
