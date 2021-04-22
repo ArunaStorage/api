@@ -4,6 +4,7 @@ package services;
 option go_package = "github.com/ScienceObjectsDB/go-api/services";
 
 import "api/models/CommonModels.proto";
+import "api/models/ObjectModels.proto";
 import "protoc/gateway/options/annotations.proto";
 
 
@@ -40,4 +41,9 @@ message GetObjectGroupVersionRequest {
     ObjectGroupVersionReferenceType reference_type = 1;
     string ID = 2;
     models.Version version = 3;
+}
+
+message ObjectGroupVersionRequestResponse {
+    models.ObjectGroup object_group = 1;
+    models.ObjectGroupVersion object_group_version = 2;
 }
