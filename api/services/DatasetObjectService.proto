@@ -18,9 +18,26 @@ service DatasetObjectsService {
         };
     }
 
+    //GetObjectGroup Returns the object group with the given ID
     rpc GetObjectGroup(models.ID) returns (models.ObjectGroup) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/get"
+            body: "*"
+        };
+    }
+
+    //GetObjectGroupCurrentVersion Returns the head version in the history of a given object group
+    rpc GetCurrentObjectGroup(models.ID) returns (models.ObjectGroup) {
+        option (google.api.http) = {
+            post: "/api/v1/currentobjectgroup/get"
+            body: "*"
+        };
+    }
+
+    //GetCurrentObjectGroupFromVersion Returns the most current version 
+    rpc GetCurrentObjectGroupFromVersion(models.ID) returns (models.ObjectGroup) {
+        option (google.api.http) = {
+            post: "/api/v1/currentobjectgroup/get"
             body: "*"
         };
     }
