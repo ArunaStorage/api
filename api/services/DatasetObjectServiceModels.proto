@@ -16,11 +16,15 @@ message CreateObjectGroupWithVersionRequest {
         };
     };
 
+    CreateObjectGroupRequest object_group = 1;
+    CreateObjectGroupVersionRequest object_group_version = 2;
+}
+
+message CreateObjectGroupRequest {
     string name = 1;
     string DatasetID = 2;
     repeated models.Label labels = 3;
     repeated models.Metadata metadata = 4;
-    CreateObjectGroupVersionRequest object_group_version = 5;
 }
 
 message AddVersionToObjectGroupRequest {
