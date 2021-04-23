@@ -20,7 +20,7 @@ message CreateObjectGroupRequest {
     string DatasetID = 2;
     repeated models.Label labels = 3;
     repeated models.Metadata metadata = 4;
-    CreateObjectGroupVersion object_group_version = 5;
+    CreateObjectGroupVersionRequest object_group_version = 5;
 }
 
 message CreateObjectRequest {
@@ -48,7 +48,7 @@ message ObjectGroupVersionRequestResponse {
     models.ObjectGroupVersion object_group_version = 2;
 }
 
-message CreateObjectGroupVersion {
+message CreateObjectGroupVersionRequest {
     string ObjectGroupVersionID = 2;
     repeated CreateObjectRequest objects = 4;
     repeated models.Label labels = 5;

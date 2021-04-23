@@ -41,7 +41,7 @@ service DatasetObjectsService {
         };
     }
 
-    rpc CreateobjectGroupVersion(CreateObjectGroupVersion) returns (ObjectGroupVersionRequestResponse) {
+    rpc CreateObjectGroupVersion(CreateObjectGroupVersionRequest) returns (ObjectGroupVersionRequestResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgroupversion/create"
             body: "*"
