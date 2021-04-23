@@ -8,7 +8,7 @@ import "api/models/ObjectModels.proto";
 import "protoc/gateway/options/annotations.proto";
 
 
-message CreateObjectGroupRequest {
+message CreateObjectGroupWithVersionRequest {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
         json_schema: {
             title: "ObjectGroup";
@@ -23,8 +23,12 @@ message CreateObjectGroupRequest {
     CreateObjectGroupVersionRequest object_group_version = 5;
 }
 
+message AddVersionToObjectGroupRequest {
+    string object_group_id = 1;
+    CreateObjectGroupVersionRequest group_version = 2;
+}
+
 message CreateObjectGroupVersionRequest {
-    string ObjectGroupVersionID = 2;
     repeated CreateObjectRequest objects = 4;
     repeated models.Label labels = 5;
     repeated models.Metadata metadata = 6;

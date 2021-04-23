@@ -11,7 +11,7 @@ import "google/api/annotations.proto";
 
 service DatasetObjectsService {
     //CreateObjectGroup Creates a new object group
-    rpc CreateObjectGroup(CreateObjectGroupRequest) returns (GetObjectGroupVersionResponse) {
+    rpc CreateObjectGroupWithVersion(CreateObjectGroupWithVersionRequest) returns (GetObjectGroupVersionResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/create"
             body: "*"
@@ -19,7 +19,7 @@ service DatasetObjectsService {
     }
 
     //CreateObjectGroupVersion Creates a new object group version
-    rpc CreateObjectGroupVersion(CreateObjectGroupVersionRequest) returns (GetObjectGroupVersionResponse) {
+    rpc AddVersionToObjectGroup(AddVersionToObjectGroupRequest) returns (GetObjectGroupVersionResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgroupversion/create"
             body: "*"
