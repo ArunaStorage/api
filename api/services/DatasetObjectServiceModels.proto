@@ -23,6 +23,13 @@ message CreateObjectGroupRequest {
     CreateObjectGroupVersionRequest object_group_version = 5;
 }
 
+message CreateObjectGroupVersionRequest {
+    string ObjectGroupVersionID = 2;
+    repeated CreateObjectRequest objects = 4;
+    repeated models.Label labels = 5;
+    repeated models.Metadata metadata = 6;
+}
+
 message CreateObjectRequest {
     string filename = 1;
     string filetype = 2;
@@ -43,14 +50,7 @@ message GetObjectGroupVersionRequest {
     models.Version version = 3;
 }
 
-message ObjectGroupVersionRequestResponse {
+message GetObjectGroupVersionResponse {
     models.ObjectGroup object_group = 1;
     models.ObjectGroupVersion object_group_version = 2;
-}
-
-message CreateObjectGroupVersionRequest {
-    string ObjectGroupVersionID = 2;
-    repeated CreateObjectRequest objects = 4;
-    repeated models.Label labels = 5;
-    repeated models.Metadata metadata = 6;
 }

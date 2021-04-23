@@ -11,15 +11,23 @@ import "google/api/annotations.proto";
 
 service DatasetObjectsService {
     //CreateObjectGroup Creates a new object group
-    rpc CreateObjectGroup(CreateObjectGroupRequest) returns (ObjectGroupVersionRequestResponse) {
+    rpc CreateObjectGroup(CreateObjectGroupRequest) returns (GetObjectGroupVersionResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/create"
             body: "*"
         };
     }
 
+    //CreateObjectGroupVersion Creates a new object group version
+    rpc CreateObjectGroupVersion(CreateObjectGroupVersionRequest) returns (GetObjectGroupVersionResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectgroupversion/create"
+            body: "*"
+        };
+    }
+
     //GetObjectGroup Returns the object group with the given ID
-    rpc GetObjectGroup(models.ID) returns (ObjectGroupVersionRequestResponse) {
+    rpc GetObjectGroup(models.ID) returns (GetObjectGroupVersionResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/get"
             body: "*"
@@ -27,7 +35,7 @@ service DatasetObjectsService {
     }
 
     //GetObjectGroupCurrentVersion Returns the head version in the history of a given object group
-    rpc GetCurrentObjectGroup(models.ID) returns (ObjectGroupVersionRequestResponse) {
+    rpc GetCurrentObjectGroup(models.ID) returns (GetObjectGroupVersionResponse) {
         option (google.api.http) = {
             post: "/api/v1/currentobjectgroup/get"
             body: "*"
@@ -37,13 +45,6 @@ service DatasetObjectsService {
     rpc GetObjectGroupVersion(GetObjectGroupVersionRequest) returns (models.ObjectGroupVersion) {
         option (google.api.http) = {
             post: "/api/v1/objectgroupversion/get"
-            body: "*"
-        };
-    }
-
-    rpc CreateObjectGroupVersion(CreateObjectGroupVersionRequest) returns (ObjectGroupVersionRequestResponse) {
-        option (google.api.http) = {
-            post: "/api/v1/objectgroupversion/create"
             body: "*"
         };
     }
