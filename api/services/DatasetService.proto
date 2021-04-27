@@ -37,14 +37,7 @@ service DatasetService {
 
     rpc DatasetObjectGroups(models.ID) returns (ObjectGroupList) {
         option (google.api.http) = {
-            post: "/api/v1/dataset/update"
-            body: "*"
-        };
-    }
-
-    rpc DatasetObjectGroupHistories(models.ID) returns (ObjectGroupList) {
-        option (google.api.http) = {
-            post: "/api/v1/dataset/update"
+            post: "/api/v1/dataset/list"
             body: "*"
         };
     }
@@ -78,7 +71,7 @@ service DatasetService {
 
     rpc DatasetVersionObjectGroups(models.ID) returns (ObjectGroupList) {
         option (google.api.http) = {
-            post: "/api/v1/datasetversion/create"
+            post: "/api/v1/datasetversion/list"
             body: "*"
         };
     }
