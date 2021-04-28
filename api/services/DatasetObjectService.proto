@@ -49,6 +49,13 @@ service DatasetObjectsService {
         };
     }
 
+    rpc GetObjectGroupVersions(models.ID) returns (GetObjectGroupVersionsResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectgroupversions/get"
+            body: "*"
+        };
+    }
+
     //FinishObjectUpload Finishes the upload process for an object
     rpc FinishObjectUpload(models.ID) returns (models.Empty) {
         option (google.api.http) = {
