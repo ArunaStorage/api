@@ -7,15 +7,8 @@ option go_package = "github.com/ScienceObjectsDB/go-api/models";
 import "api/models/CommonModels.proto";
 
 import "google/protobuf/timestamp.proto";
-import "protoc/gateway/options/annotations.proto";
 
 message ObjectGroup {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "ObjectGroup";
-            description: "Anchor object to keep track of updates in an object group"
-        };
-    };
     string id = 1;
     string name = 2;
     string dataset_id = 3;
@@ -27,13 +20,6 @@ message ObjectGroup {
 
 
 message ObjectGroupVersion {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "ObjectGroupVersion";
-            description: "A set of dataset objects that are bundled together for easier management. An example use case would be a set of binary data objects along with an index file."
-        };
-    };
-
     string id = 1;
     string dataset_id = 4;
     Version version = 5;
@@ -45,12 +31,6 @@ message ObjectGroupVersion {
 }
 
 message Object {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "DatasetObjectEntry";
-            description: "Representation of a dataset entity"
-        };
-    };
     string id = 1; //ID of the entity
     string filename = 2; // Filename: Name of the original file e.g.: mydata.json
     string filetype = 3; // Filetype: Type of the stored file, e.g.: json, gbff,...

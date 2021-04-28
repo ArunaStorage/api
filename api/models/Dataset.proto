@@ -5,15 +5,8 @@ option go_package = "github.com/ScienceObjectsDB/go-api/models";
 
 import "google/protobuf/timestamp.proto";
 import "api/models/CommonModels.proto";
-import "protoc/gateway/options/annotations.proto";
 
 message Dataset {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "DatasetEntry";
-            description: "Database entry for a dataset"
-        };
-    };
     string id = 1;
     string name = 2; // Name of the dataset
     string description = 3;
@@ -27,12 +20,6 @@ message Dataset {
 }
 
 message DatasetVersion {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "DatasetVersionEntry";
-            description: "Dataset version representation"
-        };
-    };
     string id = 1;
     string dataset_id = 2;
     string description = 3;

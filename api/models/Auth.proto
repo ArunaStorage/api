@@ -6,26 +6,13 @@ option go_package = "github.com/ScienceObjectsDB/go-api/models";
 import "api/models/CommonModels.proto";
 
 import "google/protobuf/timestamp.proto";
-import "protoc/gateway/options/annotations.proto";
 
 message TokenList {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "TokenList";
-            description: "Lists all available api tokens for a user"
-        };
-    };
     string project_id = 1;
     repeated TokenEntry token = 2;
 }
 
 message TokenEntry {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "TokenEntry";
-            description: "A description of an api token"
-        };
-    };
     string id = 1;
     User user_id = 2;
     string token = 3;
@@ -35,12 +22,6 @@ message TokenEntry {
 }
 
 message CreateTokenRequest {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "CreateTokenRequest";
-            description: "Request data to create a new token for a given dataset"
-        };
-    };
     string resource_id = 1;
     repeated Right rights = 2;
     Resource resource = 3;

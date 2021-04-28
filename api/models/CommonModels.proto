@@ -3,8 +3,6 @@ syntax = "proto3";
 package models;
 option go_package = "github.com/ScienceObjectsDB/go-api/models";
 
-import "protoc/gateway/options/annotations.proto";
-
 enum Status {
     Initiating = 0;
     Available = 1;
@@ -37,12 +35,6 @@ message Location {
 
 // A location in S3
 message ObjectLocation {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "Location";
-            description: "A location in an object storage"
-        };
-    };
     string bucket = 1;
     string key = 2;
     string url = 3; // Object storage endpoint
@@ -50,12 +42,6 @@ message ObjectLocation {
 
 // A location in S3
 message IndexedObjectLocation {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "Location";
-            description: "A location in an object storage"
-        };
-    };
     string bucket = 1;
     string key = 2;
     string url = 3; // Object storage endpoint
@@ -68,12 +54,6 @@ message Index {
 }
 
 message Origin {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "Origin";
-            description: "The source of a dataset. Entries are set depending of the origin type.  OriginLink means that a link is given, objectstorage that bucket, key and link are present. Link is the s3 endpoint"
-        };
-    };
     string link = 1;
     oneof location {
         ObjectLocation object_location = 2;
@@ -87,13 +67,6 @@ message Origin {
 }
 
 message Version {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "Version";
-            description: "A version representation based on semantic versioning"
-        };
-    };
-
     int32 major = 1;
     int32 minor = 2;
     int32 patch = 3;
@@ -114,12 +87,6 @@ message Label {
 }
 
 message ID {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "ID";
-            description: "An arbitrary ID"
-        };
-    };
     string id = 1; // An arbitrary ID
 }
 
