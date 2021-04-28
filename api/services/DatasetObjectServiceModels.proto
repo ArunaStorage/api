@@ -22,7 +22,7 @@ message CreateObjectGroupWithVersionRequest {
 
 message CreateObjectGroupRequest {
     string name = 1;
-    string DatasetID = 2;
+    string dataset_id = 2;
     repeated models.Label labels = 3;
     repeated models.Metadata metadata = 4;
 }
@@ -41,8 +41,8 @@ message CreateObjectGroupVersionRequest {
 message CreateObjectRequest {
     string filename = 1;
     string filetype = 2;
-    repeated models.Label Labels = 3;
-    repeated models.Metadata Metadata = 4;
+    repeated models.Label labels = 3;
+    repeated models.Metadata metadata = 4;
     int64 content_len = 5; // ContentLen: Lenght of the stored dataset
     models.Origin origin = 6; // Origin: Source of the dataset
 }
@@ -54,7 +54,7 @@ enum ObjectGroupVersionReferenceType {
 
 message GetObjectGroupVersionRequest {
     ObjectGroupVersionReferenceType reference_type = 1;
-    string ID = 2;
+    string id = 2;
     models.Version version = 3;
 }
 
