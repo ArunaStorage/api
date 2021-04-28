@@ -24,14 +24,16 @@ service DatasetService {
     // Dataset Returns a specific dataset
     rpc Dataset(models.ID) returns (models.Dataset) {
         option (google.api.http) = {
-            get: "/api/v1/dataset/{id}"
+            post: "/api/v1/dataset/get"
+            body: "*"
         };
     }
 
     // Lists Versions of a dataset
     rpc DatasetVersions(models.ID) returns (DatasetVersionList) {
         option (google.api.http) = {
-            get: "/api/v1/dataset/{id}/versions"
+            post: "/api/v1/datasetversions/list"
+            body: "*"
         };
     }
 
@@ -53,7 +55,8 @@ service DatasetService {
     // DeleteDataset Delete a dataset
     rpc DeleteDataset(models.ID) returns (models.Empty) {
         option (google.api.http) = {
-            delete: "/api/v1/dataset/{id}"
+            post: "/api/v1/dataset/delete"
+            body: "*"
         };
     }
 

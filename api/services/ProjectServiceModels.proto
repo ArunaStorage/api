@@ -47,12 +47,6 @@ message ProjectList {
     repeated models.Project projects = 1;
 }
 message DatasetList {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "DatasetList";
-            description: "A list of datasets"
-        };
-    };
     repeated models.Dataset dataset = 1;
     repeated models.Label labels = 2;
 }
