@@ -41,7 +41,7 @@ message ObjectGroupVersion {
     repeated Label labels = 7;
     repeated Metadata metadata = 8;
     repeated Object objects = 9;
-    string version_ref_id = 10;
+    string object_group_id = 10;
 }
 
 message Object {
