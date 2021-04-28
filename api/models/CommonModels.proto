@@ -69,7 +69,6 @@ message Index {
 
 message Origin {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        example: { value: '{ "Link": "example.com/myawsomedata.test.gbff", "OriginTypeEnum": "OriginLink" }' }
         json_schema: {
             title: "Origin";
             description: "The source of a dataset. Entries are set depending of the origin type.  OriginLink means that a link is given, objectstorage that bucket, key and link are present. Link is the s3 endpoint"
@@ -89,7 +88,6 @@ message Origin {
 
 message Version {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        example: { value: '{ "Major": 0, "Minor": 1, "Patch": 0, "Revision": 1, "Stage": "Alpha" }' }
         json_schema: {
             title: "Version";
             description: "A version representation based on semantic versioning"
