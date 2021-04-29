@@ -4,6 +4,7 @@ package services;
 option go_package = "github.com/ScienceObjectsDB/go-api/services";
 
 import "api/services/DatasetServiceModels.proto";
+import "api/services/DatasetObjectServiceModels.proto";
 import "api/models/Dataset.proto";
 import "api/models/CommonModels.proto";
 import "google/api/annotations.proto";
@@ -41,6 +42,12 @@ service DatasetService {
         option (google.api.http) = {
             post: "/api/v1/dataset/list"
             body: "*"
+        };
+    }
+
+    rpc CurrentObjectGroupVersions(models.ID) returns (GetObjectGroupVersionsResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/dataset/{id}/currentgroupversions"
         };
     }
 
