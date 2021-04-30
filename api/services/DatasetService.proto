@@ -45,7 +45,7 @@ service DatasetService {
         };
     }
 
-    rpc CurrentObjectGroupVersions(models.ID) returns (GetObjectGroupVersionsResponse) {
+    rpc CurrentObjectGroupVersions(models.ID) returns (ObjectGroupVersions) {
         option (google.api.http) = {
             get: "/api/v1/dataset/{id}/currentgroupversions"
         };
@@ -79,7 +79,7 @@ service DatasetService {
         };
     }
 
-    rpc DatasetVersionObjectGroups(models.ID) returns (ObjectGroupList) {
+    rpc DatasetVersionObjectGroupVersions(models.ID) returns (ObjectGroupVersions) {
         option (google.api.http) = {
             post: "/api/v1/datasetversion/list"
             body: "*"

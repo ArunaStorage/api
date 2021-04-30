@@ -63,7 +63,6 @@ message GetObjectGroupVersionResponse {
     models.ObjectGroupVersion object_group_version = 2;
 }
 
-message GetObjectGroupVersionsResponse {
-    models.ObjectGroup object_group = 1;
+message ObjectGroupVersions {
     repeated models.ObjectGroupVersion object_group_version = 2;
 }
