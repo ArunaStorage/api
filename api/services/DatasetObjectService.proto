@@ -49,7 +49,7 @@ service DatasetObjectsService {
         };
     }
 
-    rpc GetObjectGroupVersions(models.ID) returns (GetObjectGroupVersionsResponse) {
+    rpc GetObjectGroupVersions(models.ID) returns (ObjectGroupVersions) {
         option (google.api.http) = {
             post: "/api/v1/objectgroupversions/get"
             body: "*"
