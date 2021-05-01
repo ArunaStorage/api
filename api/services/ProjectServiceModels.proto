@@ -4,10 +4,15 @@ package services;
 option go_package = "github.com/ScienceObjectsDB/go-api/services";
 
 import "api/models/CommonModels.proto";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java-api.services";
+option java_outer_classname = "ProjectAPIServiceModels";
+
 
 import "protoc/gateway/options/annotations.proto";
 import "api/models/Dataset.proto";
 import "api/models/Projects.proto";
+
 
 
 message CreateProjectRequest {

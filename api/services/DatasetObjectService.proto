@@ -2,6 +2,9 @@ syntax = "proto3";
 
 package services;
 option go_package = "github.com/ScienceObjectsDB/go-api/services";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java-api.services";
+option java_outer_classname = "DatasetObjectsService";
 
 import "api/models/CommonModels.proto";
 import "api/models/ObjectModels.proto";
