@@ -44,6 +44,12 @@ service ProjectAPI {
         };
     }
 
+    rpc GetProject(models.ID) returns (models.Project) {
+        option (google.api.http) = {
+            post: "/api/v1/project"
+        };
+    }
+
     //DeleteProject Deletes a specific project
     //Will also delete all associated resources (Datasets/Objects/etc...) both from objects storage and the database
     rpc DeleteProject(models.ID) returns (models.Empty) {

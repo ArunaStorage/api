@@ -19,7 +19,7 @@ import "google/api/annotations.proto";
 // Dataset versions group these data objects, which makes them reusable
 service DatasetService {
     // CreateNewDataset Creates a new dataset and associates it with a dataset
-    rpc CreateNewDataset(CreateDatasetRequest) returns (models.Dataset) {
+    rpc CreateDataset(CreateDatasetRequest) returns (models.Dataset) {
         option (google.api.http) = {
             post: "/api/v1/dataset/create"
             body: "*"
@@ -27,7 +27,7 @@ service DatasetService {
     }
 
     // Dataset Returns a specific dataset
-    rpc Dataset(models.ID) returns (models.Dataset) {
+    rpc GetDataset(models.ID) returns (models.Dataset) {
         option (google.api.http) = {
             post: "/api/v1/dataset/get"
             body: "*"
@@ -35,21 +35,21 @@ service DatasetService {
     }
 
     // Lists Versions of a dataset
-    rpc DatasetVersions(models.ID) returns (DatasetVersionList) {
+    rpc GetDatasetVersions(models.ID) returns (DatasetVersionList) {
         option (google.api.http) = {
             post: "/api/v1/datasetversions/list"
             body: "*"
         };
     }
 
-    rpc DatasetObjectGroups(models.ID) returns (ObjectGroupList) {
+    rpc GetDatasetObjectGroups(models.ID) returns (ObjectGroupList) {
         option (google.api.http) = {
             post: "/api/v1/dataset/list"
             body: "*"
         };
     }
 
-    rpc CurrentObjectGroupVersions(models.ID) returns (ObjectGroupVersions) {
+    rpc GetCurrentObjectGroupRevisions(models.ID) returns (ObjectGroupRevisions) {
         option (google.api.http) = {
             get: "/api/v1/dataset/{id}/currentgroupversions"
         };
@@ -83,7 +83,7 @@ service DatasetService {
         };
     }
 
-    rpc DatasetVersionObjectGroupVersions(models.ID) returns (ObjectGroupVersions) {
+    rpc GetDatsetVersionRevisions(models.ID) returns (ObjectGroupRevisions) {
         option (google.api.http) = {
             post: "/api/v1/datasetversion/list"
             body: "*"

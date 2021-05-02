@@ -50,22 +50,22 @@ message CreateObjectRequest {
     models.Origin origin = 6; // Origin: Source of the dataset
 }
 
-enum ObjectGroupVersionReferenceType {
+enum ObjectGroupRevisionReferenceType {
     Version = 0;
     Revision = 1;
 }
 
 message GetObjectGroupRevisionRequest {
-    ObjectGroupVersionReferenceType reference_type = 1;
+    ObjectGroupRevisionReferenceType reference_type = 1;
     string revision = 2;
     models.Version version = 3;
 }
 
 message GetObjectGroupRevisionResponse {
     models.ObjectGroup object_group = 1;
-    models.ObjectGroupRevision object_group_version = 2;
+    models.ObjectGroupRevision object_group_revision = 2;
 }
 
 message ObjectGroupRevisions {
-    repeated models.ObjectGroupRevision object_group_version = 2;
+    repeated models.ObjectGroupRevision object_group_revision = 2;
 }
