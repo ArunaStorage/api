@@ -22,7 +22,7 @@ message ObjectGroup {
 }
 
 
-message ObjectGroupVersion {
+message ObjectGroupRevision {
     string id = 1;
     string dataset_id = 4;
     Version version = 5;
@@ -31,6 +31,7 @@ message ObjectGroupVersion {
     repeated Metadata metadata = 8;
     repeated Object objects = 9;
     string object_group_id = 10;
+    int64 revision = 11;
 }
 
 message Object {

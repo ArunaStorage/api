@@ -14,7 +14,7 @@ import "google/api/annotations.proto";
 
 service DatasetObjectsService {
     //CreateObjectGroup Creates a new object group
-    rpc CreateObjectGroupWithVersion(CreateObjectGroupWithVersionRequest) returns (GetObjectGroupVersionResponse) {
+    rpc CreateObjectGroupWithRevision(CreateObjectGroupWithRevisionRequest) returns (GetObjectGroupRevisionResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/create"
             body: "*"
@@ -22,7 +22,7 @@ service DatasetObjectsService {
     }
 
     //CreateObjectGroupVersion Creates a new object group version
-    rpc AddVersionToObjectGroup(AddVersionToObjectGroupRequest) returns (GetObjectGroupVersionResponse) {
+    rpc AddVersionToObjectGroup(AddRevisionToObjectGroupRequest) returns (GetObjectGroupRevisionResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgroupversion/create"
             body: "*"
@@ -30,7 +30,7 @@ service DatasetObjectsService {
     }
 
     //GetObjectGroup Returns the object group with the given ID
-    rpc GetObjectGroup(models.ID) returns (GetObjectGroupVersionResponse) {
+    rpc GetObjectGroup(models.ID) returns (GetObjectGroupRevisionResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/get"
             body: "*"
@@ -38,21 +38,21 @@ service DatasetObjectsService {
     }
 
     //GetObjectGroupCurrentVersion Returns the head version in the history of a given object group
-    rpc GetCurrentObjectGroup(models.ID) returns (GetObjectGroupVersionResponse) {
+    rpc GetCurrentObjectGroupRevision(models.ID) returns (GetObjectGroupRevisionResponse) {
         option (google.api.http) = {
             post: "/api/v1/currentobjectgroup/get"
             body: "*"
         };
     }
 
-    rpc GetObjectGroupVersion(GetObjectGroupVersionRequest) returns (models.ObjectGroupVersion) {
+    rpc GetObjectGroupRevision(GetObjectGroupRevisionRequest) returns (models.ObjectGroupRevision) {
         option (google.api.http) = {
             post: "/api/v1/objectgroupversion/get"
             body: "*"
         };
     }
 
-    rpc GetObjectGroupVersions(models.ID) returns (ObjectGroupVersions) {
+    rpc GetObjectGroupRevisions(models.ID) returns (ObjectGroupRevisions) {
         option (google.api.http) = {
             post: "/api/v1/objectgroupversions/get"
             body: "*"
