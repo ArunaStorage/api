@@ -29,6 +29,7 @@ message ReleaseDatasetVersionRequest {
     repeated string object_group_ids = 4;
     repeated models.Label labels = 5;
     repeated models.Metadata metadata = 6;
+    repeated string revision_id = 7;
 }
 
 message ObjectGroupList {
