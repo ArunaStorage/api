@@ -74,11 +74,17 @@ service DatasetService {
     //---------------------------------------------------------------------------------------
     // Dataset version calls
 
-
     //ReleaseDatasetVersion Release a new dataset version
     rpc ReleaseDatasetVersion(ReleaseDatasetVersionRequest) returns (models.DatasetVersion) {
         option (google.api.http) = {
             post: "/api/v1/datasetversion/create"
+            body: "*"
+        };
+    }
+
+    rpc GetDatasetVersion(models.ID) returns (models.DatasetVersion) {
+        option (google.api.http) = {
+            post: "/api/v1/datasetversion/get"
             body: "*"
         };
     }
