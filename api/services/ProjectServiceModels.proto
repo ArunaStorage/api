@@ -55,3 +55,7 @@ message DatasetList {
     repeated models.Dataset dataset = 1;
     repeated models.Label labels = 2;
 }
+
+message APITokenList {
+    repeated models.APIToken token = 1;
+}

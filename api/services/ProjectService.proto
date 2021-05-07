@@ -29,11 +29,16 @@ service ProjectAPI {
         };
     }
 
+    rpc CreateAPIToken(models.Empty) returns (models.APIToken) {
+        option (google.api.http) = {
+            get: "/api/v1/createapitoken"
+        };
+    }
+
     //GetProjectDatasets Returns all datasets that belong to a certain project
     rpc GetProjectDatasets(models.ID) returns (DatasetList) {
         option (google.api.http) = {
-            post: "/api/v1/project/projectdatasets"
-            body: "*"
+            get: "/api/v1/project/{id}/projectdatasets"
         };
     }
 
@@ -46,7 +51,13 @@ service ProjectAPI {
 
     rpc GetProject(models.ID) returns (models.Project) {
         option (google.api.http) = {
-            post: "/api/v1/project"
+            get: "/api/v1/project/{id}"
+        };
+    }
+
+    rpc GetAPIToken(models.Empty) returns (APITokenList) {
+        option (google.api.http) = {
+            get: "/api/v1/apitoken"
         };
     }
 
@@ -54,7 +65,13 @@ service ProjectAPI {
     //Will also delete all associated resources (Datasets/Objects/etc...) both from objects storage and the database
     rpc DeleteProject(models.ID) returns (models.Empty) {
         option (google.api.http) = {
-            post: "/api/v1/project/delete"
+            get: "/api/v1/project/{id}/delete"
+        };
+    }
+
+    rpc DeleteAPIToken(models.ID) returns (models.Empty) {
+        option (google.api.http) = {
+            delete: "/api/v1/apitoken/{id}/delete"
             body: "*"
         };
     }

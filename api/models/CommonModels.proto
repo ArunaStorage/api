@@ -118,4 +118,10 @@ message VersionTag {
     string version_id = 2;
 }
 
+message APIToken {
+    string id = 1;
+    string token = 2;
+    repeated Right rights = 3;
+}
+
 message Empty{}
