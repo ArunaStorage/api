@@ -29,7 +29,7 @@ service ProjectAPI {
         };
     }
 
-    rpc CreateAPIToken(models.Empty) returns (models.APIToken) {
+    rpc CreateAPIToken(models.ID) returns (models.APIToken) {
         option (google.api.http) = {
             get: "/api/v1/createapitoken"
         };
