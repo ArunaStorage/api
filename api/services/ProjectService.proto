@@ -72,7 +72,6 @@ service ProjectAPI {
     rpc DeleteAPIToken(models.ID) returns (models.Empty) {
         option (google.api.http) = {
             delete: "/api/v1/apitoken/{id}/delete"
-            body: "*"
         };
     }
 }

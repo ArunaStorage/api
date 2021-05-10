@@ -66,8 +66,7 @@ service DatasetService {
     // DeleteDataset Delete a dataset
     rpc DeleteDataset(models.ID) returns (models.Empty) {
         option (google.api.http) = {
-            post: "/api/v1/dataset/delete"
-            body: "*"
+            delete: "/api/v1/dataset/{id}"
         };
     }
 
@@ -93,6 +92,12 @@ service DatasetService {
         option (google.api.http) = {
             post: "/api/v1/datasetversion/list"
             body: "*"
+        };
+    }
+
+    rpc DeleteDatasetVersion(models.ID) returns (models.Empty) {
+        option (google.api.http) = {
+            delete: "/api/v1/datasetversion/{id}"
         };
     }
 }

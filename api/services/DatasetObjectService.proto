@@ -24,7 +24,7 @@ service DatasetObjectsService {
     //CreateObjectGroupVersion Creates a new object group version
     rpc AddRevisionToObjectGroup(AddRevisionToObjectGroupRequest) returns (GetObjectGroupRevisionResponse) {
         option (google.api.http) = {
-            post: "/api/v1/objectgroupversion/create"
+            post: "/api/v1/objectgrouprevisions/create"
             body: "*"
         };
     }
@@ -47,15 +47,14 @@ service DatasetObjectsService {
 
     rpc GetObjectGroupRevision(GetObjectGroupRevisionRequest) returns (models.ObjectGroupRevision) {
         option (google.api.http) = {
-            post: "/api/v1/objectgroupversion/get"
+            post: "/api/v1/objectgrouprevisions/get"
             body: "*"
         };
     }
 
     rpc GetObjectGroupRevisions(models.ID) returns (ObjectGroupRevisions) {
         option (google.api.http) = {
-            post: "/api/v1/objectgroupversions/get"
-            body: "*"
+            get: "/api/v1/objectgrouprevisions/get"
         };
     }
 
@@ -64,6 +63,18 @@ service DatasetObjectsService {
         option (google.api.http) = {
             post: "/api/v1/object/finish"
             body: "*"
+        };
+    }
+
+    rpc DeleteObjectGroup(models.ID) returns (models.Empty) {
+        option (google.api.http) = {
+            delete: "/api/v1/objectgroup/{id}"
+        };
+    }
+
+    rpc DeleteObjectGroupRevision(models.ID) returns (models.Empty) {
+        option (google.api.http) = {
+            delete: "/api/v1/objectgrouprevision/{id}"
         };
     }
 }
