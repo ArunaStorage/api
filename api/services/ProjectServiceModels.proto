@@ -9,19 +9,12 @@ option java_package = "com.github.ScienceObjectsDB.java_api.services";
 option java_outer_classname = "ProjectAPIServiceModels";
 
 
-import "protoc/gateway/options/annotations.proto";
 import "api/models/Dataset.proto";
 import "api/models/Projects.proto";
 
 
 
 message CreateProjectRequest {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "CreateProjectRequest";
-            description: "Request to create a new project"
-        };
-    };
     string name = 1;
     string description = 2;
     repeated models.Metadata metadata = 3;
@@ -29,26 +22,12 @@ message CreateProjectRequest {
 }
 
 message AddUserToProjectRequest {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "AddUserToProjectRequest";
-            description: "Adds a new user to a project"
-        };
-    };
-
     string user_id = 1;
     repeated models.Right scope = 2;
     string project_id = 3;
 }
 
 message ProjectList {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        json_schema: {
-            title: "ProjectEntryList";
-            description: "Lists all projects of a user"
-        };
-    };
-
     repeated models.Project projects = 1;
 }
 message DatasetList {
