@@ -8,11 +8,11 @@ option java_outer_classname = "DatasetObjectsServiceModels";
 
 import "api/models/CommonModels.proto";
 import "api/models/ObjectModels.proto";
-import "protoc/gateway/options/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 
 
 message CreateObjectGroupWithRevisionRequest {
-    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
         json_schema: {
             title: "ObjectGroup";
             description: "Tracks the change history of an object group."

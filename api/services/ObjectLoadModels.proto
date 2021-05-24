@@ -7,7 +7,7 @@ option java_package = "com.github.ScienceObjectsDB.java_api.services";
 option java_outer_classname = "ObjectLoadServiceModels";
 
 import "api/models/ObjectModels.proto";
-import "protoc/gateway/options/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 
 message CreateLinkResponse {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
