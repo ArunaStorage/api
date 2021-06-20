@@ -50,7 +50,7 @@ enum ObjectGroupRevisionReferenceType {
 
 message GetObjectGroupRevisionRequest {
     ObjectGroupRevisionReferenceType reference_type = 1;
-    string revision = 2;
+    int64 revision = 2;
     models.Version version = 3;
     string id = 4;
 }
