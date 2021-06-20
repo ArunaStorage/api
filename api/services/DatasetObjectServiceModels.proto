@@ -45,12 +45,14 @@ message CreateObjectRequest {
 enum ObjectGroupRevisionReferenceType {
     Version = 0;
     Revision = 1;
+    ID = 2;
 }
 
 message GetObjectGroupRevisionRequest {
     ObjectGroupRevisionReferenceType reference_type = 1;
     string revision = 2;
     models.Version version = 3;
+    string id = 4;
 }
 
 message GetObjectGroupRevisionResponse {
