@@ -35,8 +35,8 @@ message CreateObjectGroupRevisionRequest {
 
 
 message AddRevisionToObjectGroupResponse {
-    models.v1.ObjectGroup object_group = 1;
-    models.v1.ObjectGroupRevision object_group_revision = 2;
+    string revision_id = 1;
+    uint64 revision_number = 2;
 }
 
 

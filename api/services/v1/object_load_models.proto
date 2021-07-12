@@ -18,7 +18,6 @@ message CreateUploadLinkRequest {
 
 message CreateUploadLinkResponse {
     string upload_link = 1;
-    models.v1.Object object = 2;
 }
 
 message CreateDownloadLinkRequest {

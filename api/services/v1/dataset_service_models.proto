@@ -27,7 +27,7 @@ message GetDatasetRequest {
 }
 
 message GetDatasetResponse {
-    repeated models.v1.Dataset dataset = 1;
+    models.v1.Dataset dataset = 1;
 }
 
 
@@ -85,7 +85,7 @@ message ReleaseDatasetVersionRequest {
 
 
 message ReleaseDatasetVersionResponse {
-    
+    string id = 1;
 }
 
 message GetDatasetVersionRequest {
