@@ -19,12 +19,8 @@ message CreateObjectGroupRequest {
 }
 
 message CreateObjectGroupResponse {
-    string id = 1;
-}
-
-message AddRevisionToObjectGroupRequest {
     string object_group_id = 1;
-    CreateObjectGroupRevisionRequest group_version = 2;
+    string revision_id = 2;
 }
 
 message CreateObjectGroupRevisionRequest {
@@ -33,6 +29,10 @@ message CreateObjectGroupRevisionRequest {
     repeated models.v1.Metadata metadata = 6;
 }
 
+message AddRevisionToObjectGroupRequest {
+    string object_group_id = 1;
+    CreateObjectGroupRevisionRequest group_version = 2;
+}
 
 message AddRevisionToObjectGroupResponse {
     string revision_id = 1;
