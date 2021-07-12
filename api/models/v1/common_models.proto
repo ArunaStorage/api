@@ -1,31 +1,31 @@
 syntax = "proto3";
 
-package models;
+package api.models.v1;
 option go_package = "github.com/ScienceObjectsDB/go-api/models";
 option java_multiple_files = true;
 option java_package = "com.github.ScienceObjectsDB.java_api.models";
 option java_outer_classname = "CommonModels";
 
 enum Status {
-    Initiating = 0;
-    Available = 1;
-    Updating = 2;
-    Archived = 3;
-    Deleting = 4;
+    INITIATING = 0;
+    AVAILABLE = 1;
+    UPDATING = 2;
+    ARCHIVED = 3;
+    DELETING = 4;
 }
 
 enum Right {
-    Read = 0;
-    Write = 1;
+    READ = 0;
+    WRITE = 1;
 }
 
 enum Resource {
-    ProjectResource = 0;
-    DatasetResource = 1;
-    DatasetVersionResource = 2;
-    ObjectResource = 3;
-    ObjectGroupResource = 4;
-    ObjectGroupVersionResource = 5;
+    PROJECT_RESOURCE = 0;
+    DATASET_RESOURCE = 1;
+    DATASET_VERSION_RESOURCE = 2;
+    OBJECT_RESOURCE = 3;
+    OBJEFT_GROUP_RESOURCE = 4;
+    OBJECT_GROUP_VERSION_RESOURCE = 5;
 }
 
 
@@ -64,8 +64,8 @@ message Origin {
     OriginTypeEnum origin_type = 3;
 
     enum OriginTypeEnum {
-        ObjectStorage = 0;
-        OriginLink = 1;
+        OBJECT_STORAGE = 0;
+        ORIGIN_LINK = 1;
     }
 }
 
@@ -77,10 +77,10 @@ message Version {
     VersionStage stage = 5;
 
     enum VersionStage {
-        Stable = 0;
-        ReleaseCandidate = 1;
-        Beta = 2;
-        Alpha = 3;
+        STABLE = 0;
+        RC = 1;
+        BETA = 2;
+        ALPHA = 3;
     }
 }
 

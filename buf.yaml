@@ -9,11 +9,13 @@ lint:
     ENUM_VALUE_PREFIX:
       - grpc/gateway/protoc_gen_openapiv2/options/openapiv2.proto
       - grpc/gateway/protoc_gen_openapiv2/options/annotations.proto
-      - bakta/web/api/proto/v1/jobs.proto
-      - bakta/web/api/proto/v1/status_update.proto
+      - api/services/v1/dataset_object_service_models.proto
+      - api/models/v1/common_models.proto
     ENUM_ZERO_VALUE_SUFFIX:
       - grpc/gateway/protoc_gen_openapiv2/options/openapiv2.proto
       - grpc/gateway/protoc_gen_openapiv2/options/annotations.proto
+      - api/services/v1/dataset_object_service_models.proto
+      - api/models/v1/common_models.proto
     PACKAGE_VERSION_SUFFIX:
       - grpc/gateway/protoc_gen_openapiv2/options/openapiv2.proto
       - grpc/gateway/protoc_gen_openapiv2/options/annotations.proto

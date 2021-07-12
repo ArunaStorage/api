@@ -1,0 +1,117 @@
+syntax = "proto3";
+
+package api.services.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/services";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java_api.services";
+option java_outer_classname = "DatasetObjectsServiceModels";
+
+import "api/models/v1/common_models.proto";
+import "api/models/v1/object_models.proto";
+
+
+message CreateObjectGroupRequest {
+    string name = 1;
+    string dataset_id = 2;
+    repeated models.v1.Label labels = 3;
+    repeated models.v1.Metadata metadata = 4;
+    CreateObjectGroupRevisionRequest object_group_version = 5;
+}
+
+message CreateObjectGroupResponse {
+    string id = 1;
+}
+
+message AddRevisionToObjectGroupRequest {
+    string object_group_id = 1;
+    CreateObjectGroupRevisionRequest group_version = 2;
+}
+
+message CreateObjectGroupRevisionRequest {
+    repeated CreateObjectRequest objects = 4;
+    repeated models.v1.Label labels = 5;
+    repeated models.v1.Metadata metadata = 6;
+}
+
+
+message AddRevisionToObjectGroupResponse {
+    models.v1.ObjectGroup object_group = 1;
+    models.v1.ObjectGroupRevision object_group_revision = 2;
+}
+
+
+message CreateObjectRequest {
+    string filename = 1;
+    string filetype = 2;
+    repeated models.v1.Label labels = 3;
+    repeated models.v1.Metadata metadata = 4;
+    int64 content_len = 5; // ContentLen: Lenght of the stored dataset
+    models.v1.Origin origin = 6; // Origin: Source of the dataset
+}
+
+message GetObjectGroupRequest {
+    string id = 1;
+}
+
+message GetObjectGroupResponse {
+    models.v1.ObjectGroup object_group = 1;
+}
+
+message GetObjectGroupRevisionRequest {
+    ObjectGroupRevisionReferenceType reference_type = 1;
+    int64 revision = 2;
+    models.v1.Version version = 3;
+    string id = 4;
+}
+
+message GetObjectGroupRevisionResponse {
+    models.v1.ObjectGroup object_group = 1;
+    models.v1.ObjectGroupRevision object_group_revision = 2;
+}
+
+message GetCurrentObjectGroupRevisionRequest {
+    string id = 1;
+}
+
+message GetCurrentObjectGroupRevisionResponse {
+    models.v1.ObjectGroup object_group = 1;
+    models.v1.ObjectGroupRevision object_group_revision = 2;
+}
+
+message GetObjectGroupRevisionsRequest {
+    string id = 1;
+}
+
+message GetObjectGroupRevisionsResponse {
+    repeated models.v1.ObjectGroupRevision object_group_revision = 1;
+}
+
+message FinishObjectUploadRequest {
+    string id = 1;
+}
+
+message FinishObjectUploadResponse {
+
+}
+
+message DeleteObjectGroupRequest {
+    string id = 1;
+}
+
+message DeleteObjectGroupResponse {
+    
+}
+
+message DeleteObjectGroupRevisionRequest {
+    string id = 1;
+}
+
+message DeleteObjectGroupRevisionResponse {
+    
+}
+
+enum ObjectGroupRevisionReferenceType {
+    VERSION = 0;
+    REVISION = 1;
+    ID = 2;
+}

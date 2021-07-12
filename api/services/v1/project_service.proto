@@ -1,14 +1,12 @@
 syntax = "proto3";
 
-package services;
+package api.services.v1;
 option go_package = "github.com/ScienceObjectsDB/go-api/services";
 option java_multiple_files = true;
 option java_package = "com.github.ScienceObjectsDB.java_api.services";
 option java_outer_classname = "ProjectAPIServices";
 
-import "api/models/CommonModels.proto";
-import "api/services/ProjectServiceModels.proto";
-import "api/models/Projects.proto";
+import "api/services/v1/project_service_models.proto";
 import "google/api/annotations.proto";
 import "grpc/gateway/protoc_gen_openapiv2/options/annotations.proto";
 
@@ -102,9 +100,9 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 	}
 };
 
-service ProjectAPI {
+service ProjectService {
     //CreateProject creates a new projects
-    rpc CreateProject (CreateProjectRequest) returns (models.Project) {
+    rpc CreateProject (CreateProjectRequest) returns (CreateProjectResponse) {
         option (google.api.http) = {
             post: "/api/v1/project/createproject"
             body: "*"
@@ -112,40 +110,40 @@ service ProjectAPI {
     }
 
     //AddUserToProject Adds a new user to a given project
-    rpc AddUserToProject (AddUserToProjectRequest) returns (models.Project) {
+    rpc AddUserToProject (AddUserToProjectRequest) returns (AddUserToProjectResponse) {
         option (google.api.http) = {
             post: "/api/v1/project/addusertoproject"
             body: "*"
         };
     }
 
-    rpc CreateAPIToken(models.ID) returns (models.APIToken) {
+    rpc CreateAPIToken(CreateAPITokenRequest) returns (CreateAPITokenResponse) {
         option (google.api.http) = {
             get: "/api/v1/createapitoken"
         };
     }
 
     //GetProjectDatasets Returns all datasets that belong to a certain project
-    rpc GetProjectDatasets(models.ID) returns (DatasetList) {
+    rpc GetProjectDatasets(GetProjectDatasetsRequest) returns (GetProjectDatasetsResponse) {
         option (google.api.http) = {
             get: "/api/v1/project/{id}/projectdatasets"
         };
     }
 
     //GetUserProjects Returns all projects that a specified user has access to
-    rpc GetUserProjects(models.Empty) returns (ProjectList) {
+    rpc GetUserProjects(GetUserProjectsRequest) returns (GetUserProjectsResponse) {
         option (google.api.http) = {
             get: "/api/v1/projects"
         };
     }
 
-    rpc GetProject(models.ID) returns (models.Project) {
+    rpc GetProject(GetProjectRequest) returns (GetProjectResponse) {
         option (google.api.http) = {
             get: "/api/v1/project/{id}"
         };
     }
 
-    rpc GetAPIToken(models.Empty) returns (APITokenList) {
+    rpc GetAPIToken(GetAPITokenRequest) returns (GetAPITokenResponse) {
         option (google.api.http) = {
             get: "/api/v1/apitoken"
         };
@@ -153,13 +151,13 @@ service ProjectAPI {
 
     //DeleteProject Deletes a specific project
     //Will also delete all associated resources (Datasets/Objects/etc...) both from objects storage and the database
-    rpc DeleteProject(models.ID) returns (models.Empty) {
+    rpc DeleteProject(DeleteProjectRequest) returns (DeleteProjectResponse) {
         option (google.api.http) = {
             get: "/api/v1/project/{id}/delete"
         };
     }
 
-    rpc DeleteAPIToken(models.ID) returns (models.Empty) {
+    rpc DeleteAPIToken(DeleteAPITokenRequest) returns (DeleteAPITokenResponse) {
         option (google.api.http) = {
             delete: "/api/v1/apitoken/{id}/delete"
         };

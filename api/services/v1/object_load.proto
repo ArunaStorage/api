@@ -1,47 +1,45 @@
 syntax = "proto3";
 
-package services;
+package api.services.v1;
 option go_package = "github.com/ScienceObjectsDB/go-api/services";
 option java_multiple_files = true;
 option java_package = "com.github.ScienceObjectsDB.java_api.services";
 option java_outer_classname = "ObjectLoadServices";
 
-import "api/models/CommonModels.proto";
-import "api/models/ObjectModels.proto";
-import "api/services/ObjectLoadModels.proto";
+import "api/services/v1/object_load_models.proto";
 import "google/api/annotations.proto";
 
 
-service ObjectLoad {
-    rpc CreateUploadLink(models.ID) returns (CreateLinkResponse) {
+service ObjectLoadService {
+    rpc CreateUploadLink(CreateUploadLinkRequest) returns (CreateUploadLinkResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/upload"
             body: "*"
         };
     }
 
-    rpc CreateDownloadLink(models.ID) returns (CreateLinkResponse) {
+    rpc CreateDownloadLink(CreateDownloadLinkRequest) returns (CreateDownloadLinkResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/download"
             body: "*"
         };
     }
 
-    rpc StartMultipartUpload(models.ID) returns (models.Object) {
+    rpc StartMultipartUpload(StartMultipartUploadRequest) returns (StartMultipartUploadResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/init_multipart"
             body: "*"
         };
     }
 
-    rpc GetMultipartUploadLink(GetMultipartUploadRequest) returns (CreateLinkResponse) {
+    rpc GetMultipartUploadLink(GetMultipartUploadLinkRequest) returns (GetMultipartUploadLinkResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/upload_multipart_part"
             body: "*"
         };
     }
 
-    rpc CompleteMultipartUpload(CompleteMultipartRequest) returns (models.Empty) {
+    rpc CompleteMultipartUpload(CompleteMultipartUploadRequest) returns (CompleteMultipartUploadResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/complete_multipart"
             body: "*"

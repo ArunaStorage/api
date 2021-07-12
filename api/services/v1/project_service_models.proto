@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package api.services.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/services";
+
+import "api/models/v1/common_models.proto";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java_api.services";
+option java_outer_classname = "ProjectAPIServiceModels";
+
+
+import "api/models/v1/dataset.proto";
+import "api/models/v1/projects.proto";
+
+
+
+message CreateProjectRequest {
+    string name = 1;
+    string description = 2;
+    repeated models.v1.Metadata metadata = 3;
+    repeated models.v1.Label labels = 4;
+}
+
+message CreateProjectResponse {
+    models.v1.Project project = 1;
+}
+
+message AddUserToProjectRequest {
+    string user_id = 1;
+    repeated models.v1.Right scope = 2;
+    string project_id = 3;
+}
+
+message AddUserToProjectResponse {
+
+}
+
+message CreateAPITokenRequest {
+    string id = 1;
+}
+
+message CreateAPITokenResponse {
+    models.v1.APIToken token = 1;
+}
+
+message GetProjectDatasetsRequest {
+    string id = 1;
+}
+
+message GetProjectDatasetsResponse {
+    repeated models.v1.Dataset dataset = 1;
+    repeated models.v1.Label labels = 2;
+}
+
+message GetUserProjectsRequest {
+
+}
+
+message GetUserProjectsResponse {
+    repeated models.v1.Project projects = 1;
+}
+
+message GetProjectRequest {
+    string id = 1;
+}
+
+message GetProjectResponse {
+    models.v1.Project project = 1;
+}
+
+message GetAPITokenResponse {
+    repeated models.v1.APIToken token = 1;
+}
+
+message GetAPITokenRequest {
+
+}
+
+message DeleteAPITokenRequest {
+    string id = 1;
+}
+
+message DeleteAPITokenResponse {
+
+}
+
+message DeleteProjectRequest {
+    string id = 1;
+}
+
+message DeleteProjectResponse {
+
+}

@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package api.services.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/services";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java_api.services";
+option java_outer_classname = "DatasetServiceModels";
+
+import "api/models/v1/dataset.proto";
+import "api/models/v1/common_models.proto";
+import "api/models/v1/object_models.proto";
+
+// Dataset related Models
+message CreateDatasetRequest {
+    string name = 1; // Name of the dataset
+    string project_id = 3; //ProjectID of the project the dataset is associated with
+    repeated models.v1.Label labels = 4;
+    repeated models.v1.Metadata metadata = 5;
+}
+
+message CreateDatasetResponse {
+    string id = 1;
+}
+
+message GetDatasetRequest {
+    string id = 1;
+}
+
+message GetDatasetResponse {
+    repeated models.v1.Dataset dataset = 1;
+}
+
+
+message GetDatasetVersionsRequest {
+    string id = 1;
+}
+
+message GetDatasetVersionsResponse {
+    repeated models.v1.DatasetVersion dataset_versions = 1;
+}
+
+message GetDatasetObjectGroupsRequest {
+    string id = 1;
+}
+
+message GetDatasetObjectGroupsResponse {
+    repeated models.v1.ObjectGroup object_groups = 1;
+}
+
+message GetCurrentObjectGroupRevisionsRequest {
+    string id = 1;
+}
+
+message GetCurrentObjectGroupRevisionsResponse {
+    repeated models.v1.ObjectGroupRevision object_group_revisions = 1;
+}
+
+message UpdateDatasetFieldRequest {
+    models.v1.UpdateFieldsRequest update_request = 1;
+}
+
+message UpdateDatasetFieldResponse {
+    
+}
+
+message DeleteDatasetRequest {
+    string id = 1;
+}
+
+message DeleteDatasetResponse {
+
+}
+
+// DatasetVersion related models
+
+message ReleaseDatasetVersionRequest {
+    string name = 1;
+    string dataset_id = 2;
+    models.v1.Version version = 3;
+    repeated string object_group_ids = 4;
+    repeated models.v1.Label labels = 5;
+    repeated models.v1.Metadata metadata = 6;
+    repeated string revision_ids = 7;
+}
+
+
+message ReleaseDatasetVersionResponse {
+    
+}
+
+message GetDatasetVersionRequest {
+    string id = 1;
+}
+
+message GetDatasetVersionResponse {
+    models.v1.DatasetVersion dataset_version = 1;
+}
+
+message GetDatsetVersionRevisionsRequest {
+    string id = 1;
+}
+
+message GetDatsetVersionRevisionsResponse {
+    repeated models.v1.ObjectGroupRevision object_group_revision = 1;
+}
+
+message DeleteDatasetVersionRequest {
+    string id = 1;
+}
+
+message DeleteDatasetVersionResponse {
+
+}

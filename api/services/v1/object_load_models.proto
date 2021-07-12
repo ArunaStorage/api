@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package api.services.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/services";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java_api.services";
+option java_outer_classname = "ObjectLoadServiceModels";
+
+import "api/models/v1/object_models.proto";
+
+message CreateUploadLink {
+    string id = 1;
+}
+
+message CreateUploadLinkRequest {
+    string id = 1;
+}
+
+message CreateUploadLinkResponse {
+    string upload_link = 1;
+    models.v1.Object object = 2;
+}
+
+message CreateDownloadLinkRequest {
+    string id = 1;
+}
+
+message CreateDownloadLinkResponse {
+    string upload_link = 1;
+    models.v1.Object object = 2;
+}
+
+message StartMultipartUploadRequest {
+    string id = 1;
+}
+
+message StartMultipartUploadResponse {
+    models.v1.Object object = 1;
+}
+
+message GetMultipartUploadLinkResponse {
+    string upload_link = 1;
+    models.v1.Object object = 2;
+}
+
+message GetMultipartUploadLinkRequest {
+    string object_id = 1;
+    int64 upload_part = 2;
+}
+
+message CompleteMultipartUploadRequest {
+    string object_id = 1;
+    repeated CompletedParts parts = 2;
+}
+
+message CompleteMultipartUploadResponse {
+
+}
+
+message CompletedParts {
+    string etag = 1;
+    int64 part = 2;
+}

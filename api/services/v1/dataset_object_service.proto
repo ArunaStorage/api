@@ -1,20 +1,18 @@
 syntax = "proto3";
 
-package services;
+package api.services.v1;
 option go_package = "github.com/ScienceObjectsDB/go-api/services";
 option java_multiple_files = true;
 option java_package = "com.github.ScienceObjectsDB.java_api.services";
 option java_outer_classname = "DatasetObjectsServices";
 
-import "api/models/CommonModels.proto";
-import "api/models/ObjectModels.proto";
-import "api/services/DatasetObjectServiceModels.proto";
+import "api/services/v1/dataset_object_service_models.proto";
 
 import "google/api/annotations.proto";
 
 service DatasetObjectsService {
     //CreateObjectGroup Creates a new object group
-    rpc CreateObjectGroup(CreateObjectGroupWithRevisionRequest) returns (GetObjectGroupRevisionResponse) {
+    rpc CreateObjectGroup(CreateObjectGroupRequest) returns (CreateObjectGroupResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/create"
             body: "*"
@@ -22,7 +20,7 @@ service DatasetObjectsService {
     }
 
     //CreateObjectGroupVersion Creates a new object group version
-    rpc AddRevisionToObjectGroup(AddRevisionToObjectGroupRequest) returns (GetObjectGroupRevisionResponse) {
+    rpc AddRevisionToObjectGroup(AddRevisionToObjectGroupRequest) returns (AddRevisionToObjectGroupResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgrouprevisions/create"
             body: "*"
@@ -30,7 +28,7 @@ service DatasetObjectsService {
     }
 
     //GetObjectGroup Returns the object group with the given ID
-    rpc GetObjectGroup(models.ID) returns (GetObjectGroupRevisionResponse) {
+    rpc GetObjectGroup(GetObjectGroupRequest) returns (GetObjectGroupResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/get"
             body: "*"
@@ -38,41 +36,41 @@ service DatasetObjectsService {
     }
 
     //GetObjectGroupCurrentVersion Returns the head version in the history of a given object group
-    rpc GetCurrentObjectGroupRevision(models.ID) returns (GetObjectGroupRevisionResponse) {
+    rpc GetCurrentObjectGroupRevision(GetCurrentObjectGroupRevisionRequest) returns (GetCurrentObjectGroupRevisionResponse) {
         option (google.api.http) = {
             post: "/api/v1/currentobjectgroup/get"
             body: "*"
         };
     }
 
-    rpc GetObjectGroupRevision(GetObjectGroupRevisionRequest) returns (models.ObjectGroupRevision) {
+    rpc GetObjectGroupRevision(GetObjectGroupRevisionRequest) returns (GetObjectGroupRevisionResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgrouprevisions/get"
             body: "*"
         };
     }
 
-    rpc GetObjectGroupRevisions(models.ID) returns (ObjectGroupRevisions) {
+    rpc GetObjectGroupRevisions(GetObjectGroupRevisionsRequest) returns (GetObjectGroupRevisionsResponse) {
         option (google.api.http) = {
             get: "/api/v1/objectgrouprevisions/get"
         };
     }
 
     //FinishObjectUpload Finishes the upload process for an object
-    rpc FinishObjectUpload(models.ID) returns (models.Empty) {
+    rpc FinishObjectUpload(FinishObjectUploadRequest) returns (FinishObjectUploadResponse) {
         option (google.api.http) = {
             post: "/api/v1/object/finish"
             body: "*"
         };
     }
 
-    rpc DeleteObjectGroup(models.ID) returns (models.Empty) {
+    rpc DeleteObjectGroup(DeleteObjectGroupRequest) returns (DeleteObjectGroupResponse) {
         option (google.api.http) = {
             delete: "/api/v1/objectgroup/{id}"
         };
     }
 
-    rpc DeleteObjectGroupRevision(models.ID) returns (models.Empty) {
+    rpc DeleteObjectGroupRevision(DeleteObjectGroupRevisionRequest) returns (DeleteObjectGroupRevisionResponse) {
         option (google.api.http) = {
             delete: "/api/v1/objectgrouprevision/{id}"
         };
