@@ -3,7 +3,7 @@ syntax = "proto3";
 package api.models.v1;
 option go_package = "github.com/ScienceObjectsDB/go-api/models/v1";
 option java_multiple_files = true;
-option java_package = "com.github.ScienceObjectsDB.java_api.models.v1";
+option java_package = "com.github.ScienceObjectsDB.java_api.api.models.v1";
 option java_outer_classname = "DatasetModels";
 
 import "google/protobuf/timestamp.proto";
