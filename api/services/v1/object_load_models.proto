@@ -1,9 +1,9 @@
 syntax = "proto3";
 
 package api.services.v1;
-option go_package = "github.com/ScienceObjectsDB/go-api/services";
+option go_package = "github.com/ScienceObjectsDB/go-api/services/v1";
 option java_multiple_files = true;
-option java_package = "com.github.ScienceObjectsDB.java_api.services";
+option java_package = "com.github.ScienceObjectsDB.java_api.services.v1";
 option java_outer_classname = "ObjectLoadServiceModels";
 
 import "api/models/v1/object_models.proto";
