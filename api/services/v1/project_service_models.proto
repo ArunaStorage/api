@@ -61,7 +61,7 @@ message GetUserProjectsResponse {
 }
 
 message GetProjectRequest {
-    models.v1.Project project = 1;
+    string id = 1;
 }
 
 message GetProjectResponse {
