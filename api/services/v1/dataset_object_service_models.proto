@@ -15,7 +15,7 @@ message CreateObjectGroupRequest {
     string dataset_id = 2;
     repeated models.v1.Label labels = 3;
     repeated models.v1.Metadata metadata = 4;
-    CreateObjectGroupRevisionRequest object_group_version = 5;
+    CreateObjectGroupRevisionRequest object_group_revision = 5;
 }
 
 message CreateObjectGroupResponse {
@@ -31,7 +31,7 @@ message CreateObjectGroupRevisionRequest {
 
 message AddRevisionToObjectGroupRequest {
     string object_group_id = 1;
-    CreateObjectGroupRevisionRequest group_version = 2;
+    CreateObjectGroupRevisionRequest group_revison = 2;
 }
 
 message AddRevisionToObjectGroupResponse {
