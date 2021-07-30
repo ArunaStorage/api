@@ -12,15 +12,15 @@ import "api/models/v1/object_models.proto";
 
 message CreateObjectGroupRequest {
     string name = 1;
-    string dataset_id = 2;
+    uint64 dataset_id = 2;
     repeated models.v1.Label labels = 3;
     repeated models.v1.Metadata metadata = 4;
     CreateObjectGroupRevisionRequest object_group_revision = 5;
 }
 
 message CreateObjectGroupResponse {
-    string object_group_id = 1;
-    string revision_id = 2;
+    uint64 object_group_id = 1;
+    uint64 revision_id = 2;
 }
 
 message CreateObjectGroupRevisionRequest {
@@ -30,12 +30,12 @@ message CreateObjectGroupRevisionRequest {
 }
 
 message AddRevisionToObjectGroupRequest {
-    string object_group_id = 1;
+    uint64 object_group_id = 1;
     CreateObjectGroupRevisionRequest group_revison = 2;
 }
 
 message AddRevisionToObjectGroupResponse {
-    string revision_id = 1;
+    uint64 revision_id = 1;
     uint64 revision_number = 2;
 }
 
