@@ -11,7 +11,7 @@ import "api/models/v1/common_models.proto";
 import "google/protobuf/timestamp.proto";
 
 message ObjectGroup {
-    string id = 1;
+    uint64 id = 1;
     string name = 2;
     string dataset_id = 3;
     repeated Label labels = 4;
@@ -23,7 +23,7 @@ message ObjectGroup {
 
 
 message ObjectGroupRevision {
-    string id = 1;
+    uint64 id = 1;
     string dataset_id = 4;
     Version version = 5;
     google.protobuf.Timestamp created = 6; // When the data object was created
@@ -35,7 +35,7 @@ message ObjectGroupRevision {
 }
 
 message Object {
-    string id = 1; //ID of the entity
+    uint64 id = 1; //ID of the entity
     string filename = 2; // Filename: Name of the original file e.g.: mydata.json
     string filetype = 3; // Filetype: Type of the stored file, e.g.: json, gbff,...
     repeated Label labels = 4;

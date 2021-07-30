@@ -10,7 +10,7 @@ import "google/protobuf/timestamp.proto";
 import "api/models/v1/common_models.proto";
 
 message Dataset {
-    string id = 1;
+    uint64 id = 1;
     string name = 2; // Name of the dataset
     string description = 3;
     google.protobuf.Timestamp created = 4; // When the datasets was created
@@ -23,7 +23,7 @@ message Dataset {
 }
 
 message DatasetVersion {
-    string id = 1;
+    uint64 id = 1;
     string dataset_id = 2;
     string description = 3;
     repeated Label labels = 4;

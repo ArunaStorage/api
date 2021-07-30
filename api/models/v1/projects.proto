@@ -9,7 +9,7 @@ option java_outer_classname = "ProjectModels";
 import "api/models/v1/common_models.proto";
 
 message Project {
-    string id = 1;
+    uint64 id = 1;
     string name = 2;
     string description = 3;
     repeated Label labels = 4;

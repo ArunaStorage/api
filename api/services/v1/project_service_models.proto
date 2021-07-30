@@ -36,7 +36,7 @@ message AddUserToProjectResponse {
 }
 
 message CreateAPITokenRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message CreateAPITokenResponse {
@@ -44,7 +44,7 @@ message CreateAPITokenResponse {
 }
 
 message GetProjectDatasetsRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message GetProjectDatasetsResponse {
@@ -61,7 +61,7 @@ message GetUserProjectsResponse {
 }
 
 message GetProjectRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message GetProjectResponse {
@@ -77,7 +77,7 @@ message GetAPITokenRequest {
 }
 
 message DeleteAPITokenRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message DeleteAPITokenResponse {
@@ -85,7 +85,7 @@ message DeleteAPITokenResponse {
 }
 
 message DeleteProjectRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message DeleteProjectResponse {

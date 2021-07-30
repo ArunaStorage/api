@@ -119,7 +119,7 @@ message VersionTag {
 }
 
 message APIToken {
-    string id = 1;
+    uint64 id = 1;
     string token = 2;
     repeated Right rights = 3;
     string project_id = 4;

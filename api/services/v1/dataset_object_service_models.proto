@@ -50,7 +50,7 @@ message CreateObjectRequest {
 }
 
 message GetObjectGroupRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message GetObjectGroupResponse {
@@ -61,7 +61,7 @@ message GetObjectGroupRevisionRequest {
     ObjectGroupRevisionReferenceType reference_type = 1;
     int64 revision = 2;
     models.v1.Version version = 3;
-    string id = 4;
+    uint64 id = 4;
 }
 
 message GetObjectGroupRevisionResponse {
@@ -70,7 +70,7 @@ message GetObjectGroupRevisionResponse {
 }
 
 message GetCurrentObjectGroupRevisionRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message GetCurrentObjectGroupRevisionResponse {
@@ -79,7 +79,7 @@ message GetCurrentObjectGroupRevisionResponse {
 }
 
 message GetObjectGroupRevisionsRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message GetObjectGroupRevisionsResponse {
@@ -87,7 +87,7 @@ message GetObjectGroupRevisionsResponse {
 }
 
 message FinishObjectUploadRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message FinishObjectUploadResponse {
@@ -95,7 +95,7 @@ message FinishObjectUploadResponse {
 }
 
 message DeleteObjectGroupRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message DeleteObjectGroupResponse {
@@ -103,7 +103,7 @@ message DeleteObjectGroupResponse {
 }
 
 message DeleteObjectGroupRevisionRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message DeleteObjectGroupRevisionResponse {

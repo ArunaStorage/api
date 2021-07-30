@@ -19,11 +19,11 @@ message CreateDatasetRequest {
 }
 
 message CreateDatasetResponse {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message GetDatasetRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message GetDatasetResponse {
@@ -32,7 +32,7 @@ message GetDatasetResponse {
 
 
 message GetDatasetVersionsRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message GetDatasetVersionsResponse {
@@ -40,7 +40,7 @@ message GetDatasetVersionsResponse {
 }
 
 message GetDatasetObjectGroupsRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message GetDatasetObjectGroupsResponse {
@@ -48,7 +48,7 @@ message GetDatasetObjectGroupsResponse {
 }
 
 message GetCurrentObjectGroupRevisionsRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message GetCurrentObjectGroupRevisionsResponse {
@@ -64,7 +64,7 @@ message UpdateDatasetFieldResponse {
 }
 
 message DeleteDatasetRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message DeleteDatasetResponse {
@@ -85,11 +85,11 @@ message ReleaseDatasetVersionRequest {
 
 
 message ReleaseDatasetVersionResponse {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message GetDatasetVersionRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message GetDatasetVersionResponse {
@@ -97,7 +97,7 @@ message GetDatasetVersionResponse {
 }
 
 message GetDatsetVersionRevisionsRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message GetDatsetVersionRevisionsResponse {
@@ -105,7 +105,7 @@ message GetDatsetVersionRevisionsResponse {
 }
 
 message DeleteDatasetVersionRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message DeleteDatasetVersionResponse {
