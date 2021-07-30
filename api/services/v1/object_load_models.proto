@@ -9,11 +9,11 @@ option java_outer_classname = "ObjectLoadServiceModels";
 import "api/models/v1/object_models.proto";
 
 message CreateUploadLink {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message CreateUploadLinkRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message CreateUploadLinkResponse {
@@ -21,7 +21,7 @@ message CreateUploadLinkResponse {
 }
 
 message CreateDownloadLinkRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message CreateDownloadLinkResponse {
@@ -30,7 +30,7 @@ message CreateDownloadLinkResponse {
 }
 
 message StartMultipartUploadRequest {
-    string id = 1;
+    uint64 id = 1;
 }
 
 message StartMultipartUploadResponse {
