@@ -16,7 +16,7 @@ message Dataset {
     google.protobuf.Timestamp created = 4; // When the datasets was created
     repeated Label labels = 5;
     repeated Metadata metadata = 6;
-    string project_id = 7;
+    uint64 project_id = 7;
     bool is_public = 8; //Indicates if the dataset if publicly available
     Status status = 9;
     repeated VersionTag version_tags = 10;
@@ -24,13 +24,13 @@ message Dataset {
 
 message DatasetVersion {
     uint64 id = 1;
-    string dataset_id = 2;
+    uint64 dataset_id = 2;
     string description = 3;
     repeated Label labels = 4;
     repeated Metadata metadata = 5;
     google.protobuf.Timestamp created = 6; // When the datasets version was created
     Version version = 7;
-    repeated string object_group_ids = 8;
+    repeated uint64 object_group_ids = 8;
     int64 object_count = 9; // Number of objects registered with this dataset version
     Status status = 10; // Indicates the status of a dataset
 }

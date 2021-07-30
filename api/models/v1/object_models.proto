@@ -13,24 +13,24 @@ import "google/protobuf/timestamp.proto";
 message ObjectGroup {
     uint64 id = 1;
     string name = 2;
-    string dataset_id = 3;
+    uint64 dataset_id = 3;
     repeated Label labels = 4;
     repeated Metadata metadata = 5;
     Status status = 6;
-    string head_id = 7;
+    uint64 head_id = 7;
     int64 current_revision = 8;
 }
 
 
 message ObjectGroupRevision {
     uint64 id = 1;
-    string dataset_id = 4;
+    uint64 dataset_id = 4;
     Version version = 5;
     google.protobuf.Timestamp created = 6; // When the data object was created
     repeated Label labels = 7;
     repeated Metadata metadata = 8;
     repeated Object objects = 9;
-    string object_group_id = 10;
+    uint64 object_group_id = 10;
     int64 revision = 11;
 }
 

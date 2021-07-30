@@ -115,14 +115,14 @@ message Metadata {
 
 message VersionTag {
     string name = 1;
-    string version_id = 2;
+    uint64 version_id = 2;
 }
 
 message APIToken {
     uint64 id = 1;
     string token = 2;
     repeated Right rights = 3;
-    string project_id = 4;
+    uint64 project_id = 4;
 }
 
 message Empty{}
