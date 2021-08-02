@@ -22,7 +22,7 @@ message CreateProjectRequest {
 }
 
 message CreateProjectResponse {
-    string project = 1;
+    uint64 id = 1;
 }
 
 message AddUserToProjectRequest {
