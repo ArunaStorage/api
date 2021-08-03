@@ -77,10 +77,10 @@ message ReleaseDatasetVersionRequest {
     string name = 1;
     string dataset_id = 2;
     models.v1.Version version = 3;
-    repeated string object_group_ids = 4;
     repeated models.v1.Label labels = 5;
     repeated models.v1.Metadata metadata = 6;
-    repeated string revision_ids = 7;
+    repeated uint64 revision_ids = 7;
+    string description = 8;
 }
 
 
