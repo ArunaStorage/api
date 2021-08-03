@@ -75,7 +75,7 @@ message DeleteDatasetResponse {
 
 message ReleaseDatasetVersionRequest {
     string name = 1;
-    string dataset_id = 2;
+    uint64 dataset_id = 2;
     models.v1.Version version = 3;
     repeated models.v1.Label labels = 5;
     repeated models.v1.Metadata metadata = 6;
