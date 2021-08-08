@@ -96,11 +96,11 @@ message GetDatasetVersionResponse {
     models.v1.DatasetVersion dataset_version = 1;
 }
 
-message GetDatsetVersionRevisionsRequest {
+message GetDatasetVersionRevisionsRequest {
     uint64 id = 1;
 }
 
-message GetDatsetVersionRevisionsResponse {
+message GetDatasetVersionRevisionsResponse {
     repeated models.v1.ObjectGroupRevision object_group_revision = 1;
 }
 

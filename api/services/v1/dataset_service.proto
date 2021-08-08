@@ -85,7 +85,7 @@ service DatasetService {
         };
     }
 
-    rpc GetDatsetVersionRevisions(GetDatsetVersionRevisionsRequest) returns (GetDatsetVersionRevisionsResponse) {
+    rpc GetDatsetVersionRevisions(GetDatasetVersionRevisionsRequest) returns (GetDatasetVersionRevisionsResponse) {
         option (google.api.http) = {
             post: "/api/v1/datasetversion/list"
             body: "*"
