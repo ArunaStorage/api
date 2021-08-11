@@ -25,8 +25,7 @@ message CreateDownloadLinkRequest {
 }
 
 message CreateDownloadLinkResponse {
-    string upload_link = 1;
-    models.v1.Object object = 2;
+    string download_link = 1;
 }
 
 message StartMultipartUploadRequest {

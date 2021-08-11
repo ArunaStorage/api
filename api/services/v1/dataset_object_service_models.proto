@@ -65,8 +65,7 @@ message GetObjectGroupRevisionRequest {
 }
 
 message GetObjectGroupRevisionResponse {
-    models.v1.ObjectGroup object_group = 1;
-    models.v1.ObjectGroupRevision object_group_revision = 2;
+    models.v1.ObjectGroupRevision object_group_revision = 1;
 }
 
 message GetCurrentObjectGroupRevisionRequest {
@@ -74,8 +73,7 @@ message GetCurrentObjectGroupRevisionRequest {
 }
 
 message GetCurrentObjectGroupRevisionResponse {
-    models.v1.ObjectGroup object_group = 1;
-    models.v1.ObjectGroupRevision object_group_revision = 2;
+    models.v1.ObjectGroupRevision object_group_revision = 1;
 }
 
 message GetObjectGroupRevisionsRequest {
