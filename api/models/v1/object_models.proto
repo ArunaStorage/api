@@ -13,12 +13,13 @@ import "google/protobuf/timestamp.proto";
 message ObjectGroup {
     uint64 id = 1;
     string name = 2;
-    uint64 dataset_id = 3;
-    repeated Label labels = 4;
-    repeated Metadata metadata = 5;
-    Status status = 6;
-    uint64 head_id = 7;
-    int64 current_revision = 8;
+    string description = 3;
+    uint64 dataset_id = 4;
+    repeated Label labels = 5;
+    repeated Metadata metadata = 6;
+    Status status = 7;
+    uint64 head_id = 8;
+    int64 current_revision = 9;
 }
 
 

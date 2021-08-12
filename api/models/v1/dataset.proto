@@ -24,13 +24,14 @@ message Dataset {
 
 message DatasetVersion {
     uint64 id = 1;
-    uint64 dataset_id = 2;
+    string name =  2;
     string description = 3;
-    repeated Label labels = 4;
-    repeated Metadata metadata = 5;
-    google.protobuf.Timestamp created = 6; // When the datasets version was created
-    Version version = 7;
-    repeated uint64 object_group_ids = 8;
-    int64 object_count = 9; // Number of objects registered with this dataset version
-    Status status = 10; // Indicates the status of a dataset
+    uint64 dataset_id = 4;
+    repeated Label labels = 5;
+    repeated Metadata metadata = 6;
+    google.protobuf.Timestamp created = 7; // When the datasets version was created
+    Version version = 8;
+    repeated uint64 object_group_ids = 9;
+    int64 object_count = 10; // Number of objects registered with this dataset version
+    Status status = 11; // Indicates the status of a dataset
 }

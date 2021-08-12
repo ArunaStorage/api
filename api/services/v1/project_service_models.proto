@@ -49,7 +49,6 @@ message GetProjectDatasetsRequest {
 
 message GetProjectDatasetsResponse {
     repeated models.v1.Dataset dataset = 1;
-    repeated models.v1.Label labels = 2;
 }
 
 message GetUserProjectsRequest {

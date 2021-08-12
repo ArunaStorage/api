@@ -12,10 +12,11 @@ import "api/models/v1/object_models.proto";
 
 message CreateObjectGroupRequest {
     string name = 1;
-    uint64 dataset_id = 2;
-    repeated models.v1.Label labels = 3;
-    repeated models.v1.Metadata metadata = 4;
-    CreateObjectGroupRevisionRequest object_group_revision = 5;
+    string description = 2;
+    uint64 dataset_id = 3;
+    repeated models.v1.Label labels = 4;
+    repeated models.v1.Metadata metadata = 5;
+    CreateObjectGroupRevisionRequest object_group_revision = 6;
 }
 
 message CreateObjectGroupResponse {
