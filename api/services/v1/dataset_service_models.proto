@@ -49,13 +49,13 @@ message GetDatasetObjectGroupsResponse {
     repeated models.v1.ObjectGroup object_groups = 1;
 }
 
-message GetObjectsInGenerateRangeRequest {
+message GetObjectGroupsInDateRangeRequest {
     uint64 id = 1;
     google.protobuf.Timestamp start = 2;
     google.protobuf.Timestamp end = 3;
 }
 
-message GetObjectsInGenerateRangeResponse {
+message GetObjectGroupsInDateRangeResponse {
     repeated models.v1.ObjectGroup object_groups = 1;
 }
 

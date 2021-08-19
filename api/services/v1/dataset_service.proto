@@ -62,7 +62,7 @@ service DatasetService {
         };
     }
 
-    rpc GetObjectsInGenerateRange(GetObjectsInGenerateRangeRequest) returns (GetObjectsInGenerateRangeResponse) {
+    rpc GetObjectGroupsInDateRange(GetObjectGroupsInDateRangeRequest) returns (GetObjectGroupsInDateRangeResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgroupsindaterange/query"
             body: "*"
