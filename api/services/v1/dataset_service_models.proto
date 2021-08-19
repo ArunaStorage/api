@@ -80,7 +80,7 @@ message ReleaseDatasetVersionRequest {
     models.v1.Version version = 3;
     repeated models.v1.Label labels = 5;
     repeated models.v1.Metadata metadata = 6;
-    repeated uint64 revision_ids = 7;
+    repeated uint64 object_group_ids = 7;
     string description = 8;
 }
 

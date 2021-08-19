@@ -18,8 +18,9 @@ message ObjectGroup {
     repeated Label labels = 5;
     repeated Metadata metadata = 6;
     Status status = 7;
-    uint64 head_id = 8;
-    int64 current_revision = 9;
+    repeated Object objects = 8;
+    google.protobuf.Timestamp generated = 9;
+    google.protobuf.Timestamp created = 10;
 }
 
 
@@ -30,9 +31,8 @@ message ObjectGroupRevision {
     google.protobuf.Timestamp created = 6; // When the data object was created
     repeated Label labels = 7;
     repeated Metadata metadata = 8;
-    repeated Object objects = 9;
-    uint64 object_group_id = 10;
     int64 revision = 11;
+    repeated ObjectGroup object_groups = 12;
 }
 
 message Object {
@@ -46,4 +46,5 @@ message Object {
     Origin origin = 8; // Origin: Source of the dataset
     int64 content_len = 9; // ContentLen: Lenght of the stored dataset
     string upload_id = 10;
+    google.protobuf.Timestamp generated = 11;
 }

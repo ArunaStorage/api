@@ -19,14 +19,6 @@ service DatasetObjectsService {
         };
     }
 
-    //CreateObjectGroupVersion Creates a new object group version
-    rpc AddRevisionToObjectGroup(AddRevisionToObjectGroupRequest) returns (AddRevisionToObjectGroupResponse) {
-        option (google.api.http) = {
-            post: "/api/v1/objectgrouprevisions/create"
-            body: "*"
-        };
-    }
-
     //GetObjectGroup Returns the object group with the given ID
     rpc GetObjectGroup(GetObjectGroupRequest) returns (GetObjectGroupResponse) {
         option (google.api.http) = {

@@ -6,6 +6,7 @@ option java_multiple_files = true;
 option java_package = "com.github.ScienceObjectsDB.java_api.api.services.v1";
 option java_outer_classname = "DatasetObjectsServiceModels";
 
+import "google/protobuf/timestamp.proto";
 import "api/models/v1/common_models.proto";
 import "api/models/v1/object_models.proto";
 
@@ -16,23 +17,23 @@ message CreateObjectGroupRequest {
     uint64 dataset_id = 3;
     repeated models.v1.Label labels = 4;
     repeated models.v1.Metadata metadata = 5;
-    CreateObjectGroupRevisionRequest object_group_revision = 6;
+    repeated models.v1.Object objects = 6;
+    google.protobuf.Timestamp generated = 7;
+
 }
 
 message CreateObjectGroupResponse {
     uint64 object_group_id = 1;
-    uint64 revision_id = 2;
 }
 
 message CreateObjectGroupRevisionRequest {
-    repeated CreateObjectRequest objects = 4;
     repeated models.v1.Label labels = 5;
     repeated models.v1.Metadata metadata = 6;
 }
 
 message AddRevisionToObjectGroupRequest {
     uint64 object_group_id = 1;
-    CreateObjectGroupRevisionRequest group_revison = 2;
+    uint64 revision_id = 2;
 }
 
 message AddRevisionToObjectGroupResponse {
@@ -48,6 +49,7 @@ message CreateObjectRequest {
     repeated models.v1.Metadata metadata = 4;
     int64 content_len = 5; // ContentLen: Lenght of the stored dataset
     models.v1.Origin origin = 6; // Origin: Source of the dataset
+    google.protobuf.Timestamp generated = 7;
 }
 
 message GetObjectGroupRequest {
