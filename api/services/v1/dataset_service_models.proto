@@ -48,13 +48,6 @@ message GetDatasetObjectGroupsResponse {
     repeated models.v1.ObjectGroup object_groups = 1;
 }
 
-message GetCurrentObjectGroupRevisionsRequest {
-    uint64 id = 1;
-}
-
-message GetCurrentObjectGroupRevisionsResponse {
-    repeated models.v1.ObjectGroupRevision object_group_revisions = 1;
-}
 
 message UpdateDatasetFieldRequest {
     models.v1.UpdateFieldsRequest update_request = 1;

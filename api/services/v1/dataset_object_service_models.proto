@@ -26,21 +26,6 @@ message CreateObjectGroupResponse {
     uint64 object_group_id = 1;
 }
 
-message CreateObjectGroupRevisionRequest {
-    repeated models.v1.Label labels = 5;
-    repeated models.v1.Metadata metadata = 6;
-}
-
-message AddRevisionToObjectGroupRequest {
-    uint64 object_group_id = 1;
-    uint64 revision_id = 2;
-}
-
-message AddRevisionToObjectGroupResponse {
-    uint64 revision_id = 1;
-    uint64 revision_number = 2;
-}
-
 
 message CreateObjectRequest {
     string filename = 1;
@@ -60,32 +45,6 @@ message GetObjectGroupResponse {
     models.v1.ObjectGroup object_group = 1;
 }
 
-message GetObjectGroupRevisionRequest {
-    ObjectGroupRevisionReferenceType reference_type = 1;
-    int64 revision = 2;
-    models.v1.Version version = 3;
-    uint64 id = 4;
-}
-
-message GetObjectGroupRevisionResponse {
-    models.v1.ObjectGroupRevision object_group_revision = 1;
-}
-
-message GetCurrentObjectGroupRevisionRequest {
-    uint64 id = 1;
-}
-
-message GetCurrentObjectGroupRevisionResponse {
-    models.v1.ObjectGroupRevision object_group_revision = 1;
-}
-
-message GetObjectGroupRevisionsRequest {
-    uint64 id = 1;
-}
-
-message GetObjectGroupRevisionsResponse {
-    repeated models.v1.ObjectGroupRevision object_group_revision = 1;
-}
 
 message FinishObjectUploadRequest {
     uint64 id = 1;
@@ -101,18 +60,4 @@ message DeleteObjectGroupRequest {
 
 message DeleteObjectGroupResponse {
     
-}
-
-message DeleteObjectGroupRevisionRequest {
-    uint64 id = 1;
-}
-
-message DeleteObjectGroupRevisionResponse {
-    
-}
-
-enum ObjectGroupRevisionReferenceType {
-    VERSION = 0;
-    REVISION = 1;
-    ID = 2;
 }

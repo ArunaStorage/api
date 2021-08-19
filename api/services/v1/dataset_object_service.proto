@@ -27,27 +27,6 @@ service DatasetObjectsService {
         };
     }
 
-    //GetObjectGroupCurrentVersion Returns the head version in the history of a given object group
-    rpc GetCurrentObjectGroupRevision(GetCurrentObjectGroupRevisionRequest) returns (GetCurrentObjectGroupRevisionResponse) {
-        option (google.api.http) = {
-            post: "/api/v1/currentobjectgroup/get"
-            body: "*"
-        };
-    }
-
-    rpc GetObjectGroupRevision(GetObjectGroupRevisionRequest) returns (GetObjectGroupRevisionResponse) {
-        option (google.api.http) = {
-            post: "/api/v1/objectgrouprevisions/get"
-            body: "*"
-        };
-    }
-
-    rpc GetObjectGroupRevisions(GetObjectGroupRevisionsRequest) returns (GetObjectGroupRevisionsResponse) {
-        option (google.api.http) = {
-            get: "/api/v1/objectgrouprevisions/get"
-        };
-    }
-
     //FinishObjectUpload Finishes the upload process for an object
     rpc FinishObjectUpload(FinishObjectUploadRequest) returns (FinishObjectUploadResponse) {
         option (google.api.http) = {
