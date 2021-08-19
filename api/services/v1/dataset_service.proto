@@ -46,11 +46,6 @@ service DatasetService {
         };
     }
 
-    rpc GetCurrentObjectGroupRevisions(GetCurrentObjectGroupRevisionsRequest) returns (GetCurrentObjectGroupRevisionsResponse) {
-        option (google.api.http) = {
-            get: "/api/v1/dataset/{id}/currentgroupversions"
-        };
-    }
 
     // Updates a field of a dataset
     rpc UpdateDatasetField(UpdateDatasetFieldRequest) returns (UpdateDatasetFieldResponse) {
