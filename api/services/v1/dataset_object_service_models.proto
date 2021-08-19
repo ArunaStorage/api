@@ -17,7 +17,7 @@ message CreateObjectGroupRequest {
     uint64 dataset_id = 3;
     repeated models.v1.Label labels = 4;
     repeated models.v1.Metadata metadata = 5;
-    repeated models.v1.Object objects = 6;
+    repeated CreateObjectRequest objects = 6;
     google.protobuf.Timestamp generated = 7;
 
 }
