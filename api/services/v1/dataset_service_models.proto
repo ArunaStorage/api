@@ -102,7 +102,7 @@ message GetDatasetVersionObjectGroupsRequest {
 }
 
 message GetDatasetVersionObjectGroupsResponse {
-    repeated models.v1.ObjectGroupRevision object_group_revision = 1;
+    repeated models.v1.ObjectGroup object_group = 1;
 }
 
 message DeleteDatasetVersionRequest {
