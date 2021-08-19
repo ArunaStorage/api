@@ -40,10 +40,4 @@ service DatasetObjectsService {
             delete: "/api/v1/objectgroup/{id}"
         };
     }
-
-    rpc DeleteObjectGroupRevision(DeleteObjectGroupRevisionRequest) returns (DeleteObjectGroupRevisionResponse) {
-        option (google.api.http) = {
-            delete: "/api/v1/objectgrouprevision/{id}"
-        };
-    }
 }
