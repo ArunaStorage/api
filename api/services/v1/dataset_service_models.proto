@@ -6,6 +6,7 @@ option java_multiple_files = true;
 option java_package = "com.github.ScienceObjectsDB.java_api.api.services.v1";
 option java_outer_classname = "DatasetServiceModels";
 
+import "google/protobuf/timestamp.proto";
 import "api/models/v1/dataset.proto";
 import "api/models/v1/common_models.proto";
 import "api/models/v1/object_models.proto";
@@ -48,6 +49,15 @@ message GetDatasetObjectGroupsResponse {
     repeated models.v1.ObjectGroup object_groups = 1;
 }
 
+message GetObjectsInGenerateRangeRequest {
+    uint64 id = 1;
+    google.protobuf.Timestamp start = 2;
+    google.protobuf.Timestamp end = 3;
+}
+
+message GetObjectsInGenerateRangeResponse {
+    repeated models.v1.ObjectGroup object_groups = 1;
+}
 
 message UpdateDatasetFieldRequest {
     models.v1.UpdateFieldsRequest update_request = 1;
@@ -56,6 +66,7 @@ message UpdateDatasetFieldRequest {
 message UpdateDatasetFieldResponse {
     
 }
+
 
 message DeleteDatasetRequest {
     uint64 id = 1;
