@@ -48,7 +48,7 @@ service DatasetService {
 
     rpc GetObjectGroupsStream(GetObjectGroupsStreamRequest) returns (GetObjectGroupsStreamResponse) {
         option (google.api.http) = {
-            post: "/api/v1/objectgroupsstream/"
+            post: "/api/v1/objectgroupsstream"
             body: "*"
         };
     }
