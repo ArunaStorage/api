@@ -46,6 +46,12 @@ service DatasetService {
         };
     }
 
+    rpc GetObjectGroupsStream(GetObjectGroupsStreamRequest) returns (GetObjectGroupsStreamResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectgroupsstream/"
+            body: "*"
+        };
+    }
 
     // Updates a field of a dataset
     rpc UpdateDatasetField(UpdateDatasetFieldRequest) returns (UpdateDatasetFieldResponse) {
