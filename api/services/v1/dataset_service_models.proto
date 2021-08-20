@@ -61,7 +61,38 @@ message GetObjectGroupsInDateRangeResponse {
 
 message GetObjectGroupsStreamRequest {
     uint64 dataset_id = 1;
-    repeated uint64 object_group_id = 2;
+    QueryType query_type = 2;
+
+    oneof Query {
+        GroupIDsQuery group_ids = 3;
+        DateRangeQuery date_range = 4;
+        DatasetQuery dataset = 5;
+        DatasetVersionQuery dataset_version = 6;
+    }
+
+    enum QueryType {
+        GROUPIDS = 0;
+        DATASETALL = 1;
+        DATASETVERSIONALL = 2;
+        DATERANGE = 3;
+    }
+
+    message DateRangeQuery {
+        google.protobuf.Timestamp start = 1;
+        google.protobuf.Timestamp end = 2;
+    }
+
+    message GroupIDsQuery {
+        repeated uint64 object_groups = 1;
+    }
+
+    message DatasetQuery {
+
+    }
+
+    message DatasetVersionQuery {
+        uint64 dataset_version = 1;
+    }
 }
 
 message GetObjectGroupsStreamResponse {
