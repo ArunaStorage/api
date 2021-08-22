@@ -62,12 +62,13 @@ message GetObjectGroupsInDateRangeResponse {
 message GetObjectGroupsStreamRequest {
     uint64 dataset_id = 1;
     QueryType query_type = 2;
+    StreamType stream_type = 3;
 
     oneof Query {
-        GroupIDsQuery group_ids = 3;
-        DateRangeQuery date_range = 4;
-        DatasetQuery dataset = 5;
-        DatasetVersionQuery dataset_version = 6;
+        GroupIDsQuery group_ids = 4;
+        DateRangeQuery date_range = 5;
+        DatasetQuery dataset = 6;
+        DatasetVersionQuery dataset_version = 7;
     }
 
     enum QueryType {
@@ -75,6 +76,12 @@ message GetObjectGroupsStreamRequest {
         DATASETALL = 1;
         DATASETVERSIONALL = 2;
         DATERANGE = 3;
+    }
+
+    enum StreamType {
+        BASE64NEWLINE = 0;
+        ZIP = 1;
+        TARGZ = 2;
     }
 
     message DateRangeQuery {
