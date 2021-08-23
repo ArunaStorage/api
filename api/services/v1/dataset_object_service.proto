@@ -19,6 +19,13 @@ service DatasetObjectsService {
         };
     }
 
+    rpc CreateObjectGroupBatch(CreateObjectGroupBatchRequest) returns (CreateObjectGroupBatchResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectgroupbatch/create"
+            body: "*"
+        };
+    }
+
     //GetObjectGroup Returns the object group with the given ID
     rpc GetObjectGroup(GetObjectGroupRequest) returns (GetObjectGroupResponse) {
         option (google.api.http) = {

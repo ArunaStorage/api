@@ -23,6 +23,15 @@ message CreateObjectGroupRequest {
 
 }
 
+message CreateObjectGroupBatchRequest {
+    repeated CreateObjectGroupRequest requests = 1;
+    bool include_object_link = 2;
+}
+
+message CreateObjectGroupBatchResponse {
+    repeated CreateObjectGroupResponse responses = 1;
+}
+
 message CreateObjectGroupResponse {
     uint64 object_group_id = 1;
     repeated ObjectLinks object_links = 2;
