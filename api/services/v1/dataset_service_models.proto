@@ -60,7 +60,7 @@ message GetObjectGroupsInDateRangeResponse {
 }
 
 message GetObjectGroupsStreamRequest {
-    uint64 dataset_id = 1;
+    uint64 id = 1;
     QueryType query_type = 2;
     StreamType stream_type = 3;
 
