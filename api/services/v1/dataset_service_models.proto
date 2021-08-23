@@ -59,7 +59,7 @@ message GetObjectGroupsInDateRangeResponse {
     repeated models.v1.ObjectGroup object_groups = 1;
 }
 
-message GetObjectGroupsStreamRequest {
+message GetObjectGroupsStreamLinkRequest {
     QueryType query_type = 2;
     StreamType stream_type = 3;
 
@@ -103,7 +103,7 @@ message GetObjectGroupsStreamRequest {
     }
 }
 
-message GetObjectGroupsStreamResponse {
+message GetObjectGroupsStreamLinkResponse {
     string url = 1;
 }
 
