@@ -13,28 +13,26 @@ import "google/api/annotations.proto";
 service ObjectLoadService {
     rpc CreateUploadLink(CreateUploadLinkRequest) returns (CreateUploadLinkResponse) {
         option (google.api.http) = {
-            post: "/api/v1/objectload/upload"
-            body: "*"
+            get: "/api/v1/objectload/upload/{id}"
         };
     }
 
     rpc CreateDownloadLink(CreateDownloadLinkRequest) returns (CreateDownloadLinkResponse) {
         option (google.api.http) = {
-            post: "/api/v1/objectload/download"
-            body: "*"
+            get: "/api/v1/objectload/download/{id}"
         };
     }
 
     rpc StartMultipartUpload(StartMultipartUploadRequest) returns (StartMultipartUploadResponse) {
         option (google.api.http) = {
-            post: "/api/v1/objectload/init_multipart"
+            post: "/api/v1/objectload/init_multipart/{id}"
             body: "*"
         };
     }
 
     rpc GetMultipartUploadLink(GetMultipartUploadLinkRequest) returns (GetMultipartUploadLinkResponse) {
         option (google.api.http) = {
-            post: "/api/v1/objectload/upload_multipart_part"
+            post: "/api/v1/objectload/upload_multipart_part/{id}"
             body: "*"
         };
     }

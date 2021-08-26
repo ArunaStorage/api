@@ -143,6 +143,7 @@ service ProjectService {
         };
     }
 
+	// Returns all API token for a specific user, based on the provided oauth2 token
     rpc GetAPIToken(GetAPITokenRequest) returns (GetAPITokenResponse) {
         option (google.api.http) = {
             get: "/api/v1/apitoken"
