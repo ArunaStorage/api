@@ -10,7 +10,6 @@ import "google/protobuf/timestamp.proto";
 import "api/models/v1/common_models.proto";
 import "api/models/v1/object_models.proto";
 
-
 message CreateObjectGroupRequest {
     string name = 1;
     string description = 2;
@@ -18,8 +17,8 @@ message CreateObjectGroupRequest {
     repeated models.v1.Label labels = 4;
     repeated models.v1.Metadata metadata = 5;
     repeated CreateObjectRequest objects = 6;
-    google.protobuf.Timestamp generated = 7;
     bool include_object_link = 8;
+    models.v1.QueryableMetadata queryable_metadata = 9;
 
 }
 
