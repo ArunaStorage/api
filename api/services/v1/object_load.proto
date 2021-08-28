@@ -32,7 +32,7 @@ service ObjectLoadService {
 
     rpc GetMultipartUploadLink(GetMultipartUploadLinkRequest) returns (GetMultipartUploadLinkResponse) {
         option (google.api.http) = {
-            post: "/api/v1/objectload/upload_multipart_part/{id}"
+            post: "/api/v1/objectload/upload_multipart_part/{object_id}/{upload_part}"
             body: "*"
         };
     }
