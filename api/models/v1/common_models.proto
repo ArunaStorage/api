@@ -131,10 +131,10 @@ message Empty{}
 
 
 message QueryableMetadata {
-    repeated StringMetadata string_labels = 1;
-    repeated DoubleMetadata double_labels = 2;
-    repeated IntMetadata int_labels = 3;
-    repeated TimestampMetadata timestamp_labels = 4;
+    repeated StringMetadata string_metadata = 1;
+    repeated DoubleMetadata double_metadata = 2;
+    repeated IntMetadata int_metadata = 3;
+    repeated TimestampMetadata timestamp_metadata = 4;
 
     message StringMetadata {
         string key = 1;
@@ -153,6 +153,6 @@ message QueryableMetadata {
 
     message TimestampMetadata {
         string key = 1;
-        google.protobuf.Timestamp created = 2;
+        google.protobuf.Timestamp value = 2;
     }
 }
