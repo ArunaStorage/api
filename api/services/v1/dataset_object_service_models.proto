@@ -19,6 +19,7 @@ message CreateObjectGroupRequest {
     repeated CreateObjectRequest objects = 6;
     bool include_object_link = 8;
     models.v1.QueryableMetadata queryable_metadata = 9;
+    google.protobuf.Timestamp generated = 10;
 
 }
 
@@ -49,7 +50,6 @@ message CreateObjectRequest {
     repeated models.v1.Metadata metadata = 4;
     int64 content_len = 5; // ContentLen: Lenght of the stored dataset
     models.v1.Origin origin = 6; // Origin: Source of the dataset
-    google.protobuf.Timestamp generated = 7;
 }
 
 message GetObjectGroupRequest {
