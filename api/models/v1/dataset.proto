@@ -19,7 +19,6 @@ message Dataset {
     uint64 project_id = 7;
     bool is_public = 8; //Indicates if the dataset if publicly available
     Status status = 9;
-    repeated VersionTag version_tags = 10;
 }
 
 message DatasetVersion {
@@ -34,4 +33,5 @@ message DatasetVersion {
     repeated uint64 object_group_ids = 9;
     int64 object_count = 10; // Number of objects registered with this dataset version
     Status status = 11; // Indicates the status of a dataset
+    uint64 project_id = 12;
 }
