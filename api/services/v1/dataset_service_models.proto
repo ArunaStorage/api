@@ -59,11 +59,11 @@ message GetObjectGroupsInDateRangeResponse {
     repeated models.v1.ObjectGroup object_groups = 1;
 }
 
-message GetObjectGroupsStreamLinkRequest {
+message GetObjectGroupsStreamRequest {
     QueryType query_type = 2;
     StreamType stream_type = 3;
 
-    oneof Query {
+    oneof query {
         GroupIDsQuery group_ids = 4;
         DateRangeQuery date_range = 5;
         DatasetQuery dataset = 6;
@@ -71,16 +71,16 @@ message GetObjectGroupsStreamLinkRequest {
     }
 
     enum QueryType {
-        GROUPIDS = 0;
-        DATASETALL = 1;
-        DATASETVERSIONALL = 2;
-        DATERANGE = 3;
+        QUERY_TYPE_GROUPIDS = 0;
+        QUERY_TYPE_DATASETALL = 1;
+        QUERY_TYPE_DATASETVERSIONALL = 2;
+        QUERY_TYPE_DATERANGE = 3;
     }
 
     enum StreamType {
-        BASE64NEWLINE = 0;
-        ZIP = 1;
-        TARGZ = 2;
+        STREAM_TYPE_BASE64NEWLINE = 0;
+        STREAM_TYPE_ZIP = 1;
+        STREAM_TYPE_TARGZ = 2;
     }
 
     message DateRangeQuery {
@@ -103,7 +103,7 @@ message GetObjectGroupsStreamLinkRequest {
     }
 }
 
-message GetObjectGroupsStreamLinkResponse {
+message GetObjectGroupsStreamResponse {
     string url = 1;
 }
 

@@ -23,6 +23,13 @@ service ObjectLoadService {
         };
     }
 
+    rpc CreateDownloadLinksStream(stream CreateDownloadLinksStreamRequest) returns (stream CreateDownloadLinksStreamResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectload/download_stream"
+            body: "*"
+        };
+    }
+
     rpc StartMultipartUpload(StartMultipartUploadRequest) returns (StartMultipartUploadResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/init_multipart/{id}"

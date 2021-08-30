@@ -19,6 +19,7 @@ message CreateObjectGroupRequest {
     repeated CreateObjectRequest objects = 6;
     bool include_object_link = 8;
     google.protobuf.Timestamp generated = 10;
+    string uuid = 11; // A user defined uuid that is used to identify requests in chunked/streamed workloads
 
 }
 
@@ -31,6 +32,14 @@ message CreateObjectGroupBatchResponse {
     repeated CreateObjectGroupResponse responses = 1;
 }
 
+message CreateObjectGroupStreamRequest {
+    repeated CreateObjectGroupRequest request = 1;
+}
+
+message CreateObjectGroupStreamResponse {
+    repeated CreateObjectGroupResponse request = 1;
+}
+
 message CreateObjectGroupResponse {
     uint64 object_group_id = 1;
     repeated ObjectLinks object_links = 2;
@@ -39,6 +48,7 @@ message CreateObjectGroupResponse {
         string filename = 1;
         string link = 2;
     }
+    string uuid = 4; // A user defined uuid that is used to identify requests in chunked/streamed workloads
 }
 
 

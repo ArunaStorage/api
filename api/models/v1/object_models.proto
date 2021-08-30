@@ -47,4 +47,7 @@ message Object {
     int64 content_len = 9; // ContentLen: Lenght of the stored dataset
     string upload_id = 10;
     google.protobuf.Timestamp generated = 11;
+    uint64 object_group_id = 12;
+    uint64 dataset_id = 13;
+    uint64 project_id = 14;
 }
