@@ -18,7 +18,6 @@ message CreateObjectGroupRequest {
     repeated models.v1.Metadata metadata = 5;
     repeated CreateObjectRequest objects = 6;
     bool include_object_link = 8;
-    models.v1.QueryableMetadata queryable_metadata = 9;
     google.protobuf.Timestamp generated = 10;
 
 }

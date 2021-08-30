@@ -6,8 +6,6 @@ option java_multiple_files = true;
 option java_package = "com.github.ScienceObjectsDB.java_api.api.models.v1";
 option java_outer_classname = "CommonModels";
 
-import "google/protobuf/timestamp.proto";
-
 enum Status {
     INITIATING = 0;
     AVAILABLE = 1;
@@ -128,31 +126,3 @@ message APIToken {
 }
 
 message Empty{}
-
-
-message QueryableMetadata {
-    repeated StringMetadata string_metadata = 1;
-    repeated DoubleMetadata double_metadata = 2;
-    repeated IntMetadata int_metadata = 3;
-    repeated TimestampMetadata timestamp_metadata = 4;
-
-    message StringMetadata {
-        string key = 1;
-        string value = 2;
-    }
-
-    message DoubleMetadata {
-        string key = 1;
-        double value = 2;
-    }
-
-    message IntMetadata {
-        string key = 1;
-        int64 value = 2;
-    }
-
-    message TimestampMetadata {
-        string key = 1;
-        google.protobuf.Timestamp value = 2;
-    }
-}
