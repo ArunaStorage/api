@@ -26,13 +26,6 @@ service DatasetObjectsService {
         };
     }
 
-    rpc CreateObjectGroupStream(stream CreateObjectGroupStreamRequest) returns (stream CreateObjectGroupStreamResponse) {
-        option (google.api.http) = {
-            post: "/api/v1/objectgroupbatch_stream/create"
-            body: "*"
-        };
-    }
-
     //GetObjectGroup Returns the object group with the given ID
     rpc GetObjectGroup(GetObjectGroupRequest) returns (GetObjectGroupResponse) {
         option (google.api.http) = {

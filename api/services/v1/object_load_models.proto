@@ -60,11 +60,3 @@ message CompletedParts {
     string etag = 1;
     int64 part = 2;
 }
-
-message CreateDownloadLinksStreamRequest {
-    repeated CreateDownloadLinkRequest requests = 1;
-}
-
-message CreateDownloadLinksStreamResponse {
-    repeated CreateDownloadLinkResponse requests = 1;
-}
