@@ -23,17 +23,22 @@ service ObjectLoadService {
         };
     }
 
+    rpc CreateDownloadLinkBatch(CreateDownloadLinkBatchRequest) returns (CreateDownloadLinkBatchResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectload/download_batch"
+            body: "*"
+        };
+    }
+
     rpc StartMultipartUpload(StartMultipartUploadRequest) returns (StartMultipartUploadResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/init_multipart/{id}"
-            body: "*"
         };
     }
 
     rpc GetMultipartUploadLink(GetMultipartUploadLinkRequest) returns (GetMultipartUploadLinkResponse) {
         option (google.api.http) = {
-            post: "/api/v1/objectload/upload_multipart_part/{object_id}/{upload_part}"
-            body: "*"
+            get: "/api/v1/objectload/upload_multipart_part/{object_id}/{upload_part}"
         };
     }
 

@@ -29,6 +29,15 @@ message CreateDownloadLinkResponse {
     models.v1.Object object = 2;
 }
 
+message CreateDownloadLinkBatchRequest {
+    repeated CreateDownloadLinkRequest requests = 1;
+}
+
+message CreateDownloadLinkBatchResponse {
+    repeated CreateDownloadLinkResponse links = 1;
+}
+
+
 message StartMultipartUploadRequest {
     uint64 id = 1;
 }
