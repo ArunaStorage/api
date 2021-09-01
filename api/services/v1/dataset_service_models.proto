@@ -99,7 +99,8 @@ message GetObjectGroupsStreamLinkRequest {
     }
 
     message DatasetVersionQuery {
-        uint64 dataset_version = 1;
+        uint64 dataset_id = 1;
+        uint64 dataset_version_id = 2;
     }
 }
 

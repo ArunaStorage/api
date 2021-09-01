@@ -6,6 +6,7 @@ option java_multiple_files = true;
 option java_package = "com.github.ScienceObjectsDB.java_api.api.services.v1";
 option java_outer_classname = "ObjectLoadServiceModels";
 
+import "google/protobuf/timestamp.proto";
 import "api/models/v1/object_models.proto";
 
 message CreateUploadLink {
@@ -68,4 +69,48 @@ message CompleteMultipartUploadResponse {
 message CompletedParts {
     string etag = 1;
     int64 part = 2;
+}
+
+message CreateDownloadLinkStreamRequest {
+    oneof query {
+        DatasetQuery dataset = 1;
+        GroupIDsQuery group_ids = 2;
+        DatasetVersionQuery dataset_version = 3;
+        DateRangeQuery date_range = 4;
+    }
+
+    message DateRangeQuery {
+        uint64 dataset_id = 3;
+        google.protobuf.Timestamp start = 1;
+        google.protobuf.Timestamp end = 2;
+    }
+
+    message GroupIDsQuery {
+        uint64 dataset_id = 2;
+        repeated uint64 object_groups = 1;
+    }
+
+    message DatasetQuery {
+        uint64 dataset_id = 1;
+    }
+
+    message DatasetVersionQuery {
+        uint64 dataset_id = 1;
+        uint64 dataset_version_id = 2;
+    }
+}
+
+message CreateDownloadLinkStreamResponse {
+    LinksResponse links = 1;
+}
+
+
+message LinksResponse {
+    repeated models.v1.ObjectGroup object_groups = 1;
+    repeated InnerLinksResponse object_group_links = 2;
+
+}
+
+message InnerLinksResponse {
+    repeated string object_links = 1; 
 }
