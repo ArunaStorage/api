@@ -59,8 +59,11 @@ message GetObjectGroupsInDateRangeResponse {
     repeated models.v1.ObjectGroup object_groups = 1;
 }
 
-message GetObjectGroupsStreamRequest {
-    QueryType query_type = 2;
+// GetObjectGroupsStreamLinkRequest a request for a get link to stream a set of object groups
+// The query defines what object groups should be part of the stream
+// The steam type defines how the individual objects are packed
+// ZIP and TARGZ will bundle objectgroups into subfolders
+message GetObjectGroupsStreamLinkRequest {
     StreamType stream_type = 3;
 
     oneof query {
@@ -70,12 +73,9 @@ message GetObjectGroupsStreamRequest {
         DatasetVersionQuery dataset_version = 7;
     }
 
-    enum QueryType {
-        QUERY_TYPE_GROUPIDS = 0;
-        QUERY_TYPE_DATASETALL = 1;
-        QUERY_TYPE_DATASETVERSIONALL = 2;
-        QUERY_TYPE_DATERANGE = 3;
-    }
+    // Expiry time of the link
+    // This is the maximum expiry time, implementations can set maximum durations that can be shorter than this
+    google.protobuf.Timestamp expiry = 8;
 
     enum StreamType {
         STREAM_TYPE_BASE64NEWLINE = 0;
@@ -103,7 +103,7 @@ message GetObjectGroupsStreamRequest {
     }
 }
 
-message GetObjectGroupsStreamResponse {
+message GetObjectGroupsStreamLinkResponse {
     string url = 1;
 }
 
