@@ -23,18 +23,6 @@ message ObjectGroup {
     google.protobuf.Timestamp created = 10;
 }
 
-
-message ObjectGroupRevision {
-    uint64 id = 1;
-    uint64 dataset_id = 4;
-    Version version = 5;
-    google.protobuf.Timestamp created = 6; // When the data object was created
-    repeated Label labels = 7;
-    repeated Metadata metadata = 8;
-    int64 revision = 11;
-    repeated ObjectGroup object_groups = 12;
-}
-
 message Object {
     uint64 id = 1; //ID of the entity
     string filename = 2; // Filename: Name of the original file e.g.: mydata.json
