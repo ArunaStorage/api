@@ -30,7 +30,7 @@ service ObjectLoadService {
         };
     }
 
-    rpc CreateDownloadLinkStream(CreateDownloadLinksRequest) returns (stream CreateDownloadLinksResponse) {
+    rpc CreateDownloadLinkStream(CreateDownloadLinkStreamRequest) returns (stream CreateDownloadLinkStreamResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/download_batch_stream"
             body: "*"
