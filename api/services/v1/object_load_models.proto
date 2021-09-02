@@ -74,7 +74,6 @@ message CompletedParts {
 message CreateDownloadLinkStreamRequest {
     oneof query {
         DatasetQuery dataset = 1;
-        GroupIDsQuery group_ids = 2;
         DatasetVersionQuery dataset_version = 3;
         DateRangeQuery date_range = 4;
     }
@@ -83,11 +82,6 @@ message CreateDownloadLinkStreamRequest {
         uint64 dataset_id = 3;
         google.protobuf.Timestamp start = 1;
         google.protobuf.Timestamp end = 2;
-    }
-
-    message GroupIDsQuery {
-        uint64 dataset_id = 2;
-        repeated uint64 object_groups = 1;
     }
 
     message DatasetQuery {
