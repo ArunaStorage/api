@@ -16,7 +16,7 @@ message Dataset {
     google.protobuf.Timestamp created = 4; // When the datasets was created
     repeated Label labels = 5;
     repeated Metadata metadata = 6;
-    uint64 project_id = 7;
+    string project_id = 7;
     bool is_public = 8; //Indicates if the dataset if publicly available
     Status status = 9;
 }
