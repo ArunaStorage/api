@@ -10,7 +10,7 @@ import "google/protobuf/timestamp.proto";
 import "api/models/v1/common_models.proto";
 
 message Dataset {
-    uint64 id = 1;
+    string id = 1;
     string name = 2; // Name of the dataset
     string description = 3;
     google.protobuf.Timestamp created = 4; // When the datasets was created
@@ -22,16 +22,16 @@ message Dataset {
 }
 
 message DatasetVersion {
-    uint64 id = 1;
+    string id = 1;
     string name =  2;
     string description = 3;
-    uint64 dataset_id = 4;
+    string dataset_id = 4;
     repeated Label labels = 5;
     repeated Metadata metadata = 6;
     google.protobuf.Timestamp created = 7; // When the datasets version was created
     Version version = 8;
-    repeated uint64 object_group_ids = 9;
+    repeated string object_group_ids = 9;
     int64 object_count = 10; // Number of objects registered with this dataset version
     Status status = 11; // Indicates the status of a dataset
-    uint64 project_id = 12;
+    string project_id = 12;
 }

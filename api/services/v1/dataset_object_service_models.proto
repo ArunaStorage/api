@@ -13,7 +13,7 @@ import "api/models/v1/object_models.proto";
 message CreateObjectGroupRequest {
     string name = 1;
     string description = 2;
-    uint64 dataset_id = 3;
+    string dataset_id = 3;
     repeated models.v1.Label labels = 4;
     repeated models.v1.Metadata metadata = 5;
     repeated CreateObjectRequest objects = 6;
@@ -33,7 +33,7 @@ message CreateObjectGroupBatchResponse {
 }
 
 message CreateObjectGroupResponse {
-    uint64 object_group_id = 1;
+    string object_group_id = 1;
     repeated ObjectLinks object_links = 2;
     string object_group_name = 3;
     message ObjectLinks  {
@@ -54,7 +54,7 @@ message CreateObjectRequest {
 }
 
 message GetObjectGroupRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message GetObjectGroupResponse {
@@ -63,7 +63,7 @@ message GetObjectGroupResponse {
 
 
 message FinishObjectUploadRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message FinishObjectUploadResponse {
@@ -71,7 +71,7 @@ message FinishObjectUploadResponse {
 }
 
 message DeleteObjectGroupRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message DeleteObjectGroupResponse {

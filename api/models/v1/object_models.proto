@@ -11,10 +11,10 @@ import "api/models/v1/common_models.proto";
 import "google/protobuf/timestamp.proto";
 
 message ObjectGroup {
-    uint64 id = 1;
+    string id = 1;
     string name = 2;
     string description = 3;
-    uint64 dataset_id = 4;
+    string dataset_id = 4;
     repeated Label labels = 5;
     repeated Metadata metadata = 6;
     Status status = 7;
@@ -24,7 +24,7 @@ message ObjectGroup {
 }
 
 message Object {
-    uint64 id = 1; //ID of the entity
+    string id = 1; //ID of the entity
     string filename = 2; // Filename: Name of the original file e.g.: mydata.json
     string filetype = 3; // Filetype: Type of the stored file, e.g.: json, gbff,...
     repeated Label labels = 4;
@@ -35,7 +35,7 @@ message Object {
     int64 content_len = 9; // ContentLen: Lenght of the stored dataset
     string upload_id = 10;
     google.protobuf.Timestamp generated = 11;
-    uint64 object_group_id = 12;
-    uint64 dataset_id = 13;
-    uint64 project_id = 14;
+    string object_group_id = 12;
+    string dataset_id = 13;
+    string project_id = 14;
 }

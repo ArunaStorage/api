@@ -23,13 +23,13 @@ message CreateProjectRequest {
 }
 
 message CreateProjectResponse {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message AddUserToProjectRequest {
     string user_id = 1;
     repeated models.v1.Right scope = 2;
-    uint64 project_id = 3;
+    string project_id = 3;
 }
 
 message AddUserToProjectResponse {
@@ -37,7 +37,7 @@ message AddUserToProjectResponse {
 }
 
 message CreateAPITokenRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message CreateAPITokenResponse {
@@ -45,7 +45,7 @@ message CreateAPITokenResponse {
 }
 
 message GetProjectDatasetsRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message GetProjectDatasetsResponse {
@@ -61,7 +61,7 @@ message GetUserProjectsResponse {
 }
 
 message GetProjectRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message GetProjectResponse {
@@ -77,7 +77,7 @@ message GetAPITokenRequest {
 }
 
 message DeleteAPITokenRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message DeleteAPITokenResponse {
@@ -85,7 +85,7 @@ message DeleteAPITokenResponse {
 }
 
 message DeleteProjectRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message DeleteProjectResponse {

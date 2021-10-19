@@ -15,17 +15,17 @@ import "api/models/v1/object_models.proto";
 message CreateDatasetRequest {
     string name = 1; // Name of the dataset
     string description = 2;
-    uint64 project_id = 3; //ProjectID of the project the dataset is associated with
+    string project_id = 3; //ProjectID of the project the dataset is associated with
     repeated models.v1.Label labels = 4;
     repeated models.v1.Metadata metadata = 5;
 }
 
 message CreateDatasetResponse {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message GetDatasetRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message GetDatasetResponse {
@@ -34,7 +34,7 @@ message GetDatasetResponse {
 
 
 message GetDatasetVersionsRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message GetDatasetVersionsResponse {
@@ -42,7 +42,7 @@ message GetDatasetVersionsResponse {
 }
 
 message GetDatasetObjectGroupsRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message GetDatasetObjectGroupsResponse {
@@ -50,7 +50,7 @@ message GetDatasetObjectGroupsResponse {
 }
 
 message GetObjectGroupsInDateRangeRequest {
-    uint64 id = 1;
+    string id = 1;
     google.protobuf.Timestamp start = 2;
     google.protobuf.Timestamp end = 3;
 }
@@ -84,23 +84,23 @@ message GetObjectGroupsStreamLinkRequest {
     }
 
     message DateRangeQuery {
-        uint64 dataset_id = 3;
+        string dataset_id = 3;
         google.protobuf.Timestamp start = 1;
         google.protobuf.Timestamp end = 2;
     }
 
     message GroupIDsQuery {
-        uint64 dataset_id = 2;
-        repeated uint64 object_groups = 1;
+        string dataset_id = 2;
+        repeated string object_groups = 1;
     }
 
     message DatasetQuery {
-        uint64 dataset_id = 1;
+        string dataset_id = 1;
     }
 
     message DatasetVersionQuery {
-        uint64 dataset_id = 1;
-        uint64 dataset_version_id = 2;
+        string dataset_id = 1;
+        string dataset_version_id = 2;
     }
 }
 
@@ -118,7 +118,7 @@ message UpdateDatasetFieldResponse {
 
 
 message DeleteDatasetRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message DeleteDatasetResponse {
@@ -129,21 +129,21 @@ message DeleteDatasetResponse {
 
 message ReleaseDatasetVersionRequest {
     string name = 1;
-    uint64 dataset_id = 2;
+    string dataset_id = 2;
     models.v1.Version version = 3;
     repeated models.v1.Label labels = 5;
     repeated models.v1.Metadata metadata = 6;
-    repeated uint64 object_group_ids = 7;
+    repeated string object_group_ids = 7;
     string description = 8;
 }
 
 
 message ReleaseDatasetVersionResponse {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message GetDatasetVersionRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message GetDatasetVersionResponse {
@@ -151,7 +151,7 @@ message GetDatasetVersionResponse {
 }
 
 message GetDatasetVersionObjectGroupsRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message GetDatasetVersionObjectGroupsResponse {
@@ -159,7 +159,7 @@ message GetDatasetVersionObjectGroupsResponse {
 }
 
 message DeleteDatasetVersionRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message DeleteDatasetVersionResponse {

@@ -10,11 +10,11 @@ import "google/protobuf/timestamp.proto";
 import "api/models/v1/object_models.proto";
 
 message CreateUploadLink {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message CreateUploadLinkRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message CreateUploadLinkResponse {
@@ -22,7 +22,7 @@ message CreateUploadLinkResponse {
 }
 
 message CreateDownloadLinkRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message CreateDownloadLinkResponse {
@@ -40,7 +40,7 @@ message CreateDownloadLinkBatchResponse {
 
 
 message StartMultipartUploadRequest {
-    uint64 id = 1;
+    string id = 1;
 }
 
 message StartMultipartUploadResponse {
@@ -53,12 +53,12 @@ message GetMultipartUploadLinkResponse {
 }
 
 message GetMultipartUploadLinkRequest {
-    uint64 object_id = 1;
+    string object_id = 1;
     int64 upload_part = 2;
 }
 
 message CompleteMultipartUploadRequest {
-    uint64 object_id = 1;
+    string object_id = 1;
     repeated CompletedParts parts = 2;
 }
 
@@ -79,18 +79,18 @@ message CreateDownloadLinkStreamRequest {
     }
 
     message DateRangeQuery {
-        uint64 dataset_id = 3;
+        string dataset_id = 3;
         google.protobuf.Timestamp start = 1;
         google.protobuf.Timestamp end = 2;
     }
 
     message DatasetQuery {
-        uint64 dataset_id = 1;
+        string dataset_id = 1;
     }
 
     message DatasetVersionQuery {
-        uint64 dataset_id = 1;
-        uint64 dataset_version_id = 2;
+        string dataset_id = 1;
+        string dataset_version_id = 2;
     }
 }
 
