@@ -24,17 +24,21 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 			key: "OAuth2";
 			value: {
 				type: TYPE_OAUTH2;
-				flow: FLOW_IMPLICIT;
-				authorization_url: "https://keycloak.infra.ingress.rancher.computational.bio/auth/realms/BioDataDB/protocol/openid-connect/auth";
-				token_url: "https://keycloak.infra.ingress.rancher.computational.bio/auth/realms/BioDataDB/protocol/openid-connect/token";
+				flow: FLOW_ACCESS_CODE;
+				authorization_url: "https://keycloak.m1.k8s.computational.bio/auth/realms/NFDI4Biodiversity/protocol/openid-connect/auth";
+				token_url: "https://keycloak.m1.k8s.computational.bio/auth/realms/NFDI4Biodiversity/protocol/openid-connect/token";
 				scopes: {
 					scope: {
 						key: "email";
-						value: "Grants read access";
+						value: "Grants access to email";
 					}
 					scope: {
 						key: "profile";
-						value: "Grants write access";
+						value: "";
+					}
+					scope: {
+						key: "groups";
+						value: "Grants access to list the users group";
 					}
 				}
 			}
