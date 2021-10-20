@@ -38,3 +38,4 @@ lint:
       - api/models/*
 deps:
   - buf.build/beta/googleapis
+  - buf.build/googleapis/googleapis
