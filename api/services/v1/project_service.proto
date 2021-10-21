@@ -27,11 +27,21 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 				in: IN_HEADER;
 				name: "Grpc-Metadata-API_TOKEN"
 			}
+			key: "AccessKeyAuth";
+			value: {
+				type: TYPE_API_KEY;
+				in: IN_HEADER;
+				name: "Grpc-Metadata-accesskey"
+			}
 		}
 	}
 	security: {
 		security_requirement: {
 			key: "ApiKeyAuth";
+			value: {}
+		}
+		security_requirement: {
+			key: "AccessKeyAuth";
 			value: {}
 		}
 	}

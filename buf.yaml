@@ -37,5 +37,4 @@ lint:
     RPC_RESPONSE_STANDARD_NAME:
       - api/models/*
 deps:
-  - buf.build/beta/googleapis
   - buf.build/googleapis/googleapis
