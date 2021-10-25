@@ -10,6 +10,8 @@ import "api/services/v1/object_load_models.proto";
 import "google/api/annotations.proto";
 
 
+
+// Handles object up and downloads
 service ObjectLoadService {
     // Creates an upload link for an object to upload the actual data object
     // Returns a presigned https PUT request
