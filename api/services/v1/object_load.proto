@@ -11,18 +11,25 @@ import "google/api/annotations.proto";
 
 
 service ObjectLoadService {
+    // Creates an upload link for an object to upload the actual data object
+    // Returns a presigned https PUT request
+    // Can only be used to upload objects < 4GB
     rpc CreateUploadLink(CreateUploadLinkRequest) returns (CreateUploadLinkResponse) {
         option (google.api.http) = {
             get: "/api/v1/objectload/upload/{id}"
         };
     }
 
+    // Creates a download link for an object
+    // Returns a presigned https GET request
     rpc CreateDownloadLink(CreateDownloadLinkRequest) returns (CreateDownloadLinkResponse) {
         option (google.api.http) = {
             get: "/api/v1/objectload/download/{id}"
         };
     }
 
+    // Creates links for multiple objects at once
+    // The order of the requested objects is preserved in the response
     rpc CreateDownloadLinkBatch(CreateDownloadLinkBatchRequest) returns (CreateDownloadLinkBatchResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/download_batch"
@@ -30,6 +37,8 @@ service ObjectLoadService {
         };
     }
 
+    // Creates a stream of objects and presigned links based on the provided query
+    // This can be used retrieve a large number of ObjectGroups as a stream that would otherwise cause issues with the connection
     rpc CreateDownloadLinkStream(CreateDownloadLinkStreamRequest) returns (stream CreateDownloadLinkStreamResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/download_batch_stream"
@@ -37,6 +46,10 @@ service ObjectLoadService {
         };
     }
 
+    // Initiates a multipart upload for an object
+    // This is intended to be used for larger objects
+    // For further information please read the Amazon S3 documentation on multipart uploads
+    // Has to be used together with GetMultipartUploadLink and CompleteMultipartUpload
     rpc StartMultipartUpload(StartMultipartUploadRequest) returns (StartMultipartUploadResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/init_multipart/{id}"

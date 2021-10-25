@@ -22,7 +22,13 @@ message CreateUploadLinkResponse {
 }
 
 message CreateDownloadLinkRequest {
-    string id = 1;
+    string id = 1; //Object id the download is requested for
+    Range range = 2; //Optional; Byte range of the data object
+
+    message Range {
+        int64 start_byte = 1;
+        int64 end_byte = 2;
+    }
 }
 
 message CreateDownloadLinkResponse {
