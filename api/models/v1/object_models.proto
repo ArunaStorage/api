@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package api.models.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/api/models/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java_api.api.models.v1";
+option java_outer_classname = "ObjectModels";
+
+
+import "api/models/v1/common_models.proto";
+import "google/protobuf/timestamp.proto";
+
+message ObjectGroup {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    string dataset_id = 4;
+    repeated Label labels = 5;
+    repeated Metadata metadata = 6;
+    Status status = 7;
+    repeated Object objects = 8;
+    google.protobuf.Timestamp generated = 9;
+    google.protobuf.Timestamp created = 10;
+}
+
+message Object {
+    string id = 1; //ID of the entity
+    string filename = 2; // Filename: Name of the original file e.g.: mydata.json
+    string filetype = 3; // Filetype: Type of the stored file, e.g.: json, gbff,...
+    repeated Label labels = 4;
+    repeated Metadata metadata = 5;
+    google.protobuf.Timestamp created = 6; // When the data object was created
+    Location location = 7; // Location: Location of the data
+    Origin origin = 8; // Origin: Source of the dataset
+    int64 content_len = 9; // ContentLen: Lenght of the stored dataset
+    string upload_id = 10;
+    google.protobuf.Timestamp generated = 11;
+    string object_group_id = 12;
+    string dataset_id = 13;
+    string project_id = 14;
+}

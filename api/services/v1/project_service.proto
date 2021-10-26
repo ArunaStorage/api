@@ -1,0 +1,155 @@
+syntax = "proto3";
+
+package api.services.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/api/services/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java_api.api.services.v1";
+option java_outer_classname = "ProjectAPIServices";
+
+import "api/services/v1/project_service_models.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+	info: {
+		title: "ScienceObjectsDB REST API";
+		version: "0.1";
+	};
+	// Overwriting host entry breaks tests, so this is not done here.
+	schemes: HTTPS;
+	schemes: HTTP;
+	consumes: "application/json";
+	produces: "application/json";
+	security_definitions: {
+		security: {
+			key: "ApiKeyAuth";
+			value: {
+				type: TYPE_API_KEY;
+				in: IN_HEADER;
+				name: "Grpc-Metadata-API_TOKEN"
+			}
+		}
+		security: {
+			key: "AccessKeyAuth";
+			value: {
+				type: TYPE_API_KEY;
+				in: IN_HEADER;
+				name: "Grpc-Metadata-accesstoken"
+			}
+		}
+	}
+	security: {
+		security_requirement: {
+			key: "ApiKeyAuth";
+			value: {}
+		}
+		security_requirement: {
+			key: "AccessKeyAuth";
+			value: {}
+		}
+	}
+	responses: {
+		key: "403";
+		value: {
+			description: "Returned when the user does not have permission to access the resource.";
+		}
+	}
+	responses: {
+		key: "404";
+		value: {
+			description: "Returned when the resource does not exist.";
+			schema: {
+				json_schema: {
+					type: STRING;
+				}
+			}
+		}
+	}
+	responses: {
+		key: "418";
+		value: {
+			description: "I'm a teapot.";
+		}
+	}
+	responses: {
+		key: "500";
+		value: {
+			description: "Server error";
+			headers: {
+				key: "X-Correlation-Id"
+				value: {
+					description: "Unique event identifier for server requests"
+					type: "string"
+					format: "uuid"
+					default: "\"2438ac3c-37eb-4902-adef-ed16b4431030\""
+					pattern: "^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"
+				}
+			};
+		}
+	}
+};
+
+service ProjectService {
+    //CreateProject creates a new projects
+    rpc CreateProject (CreateProjectRequest) returns (CreateProjectResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/project/createproject"
+            body: "*"
+        };
+    }
+
+    //AddUserToProject Adds a new user to a given project
+    rpc AddUserToProject (AddUserToProjectRequest) returns (AddUserToProjectResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/project/addusertoproject"
+            body: "*"
+        };
+    }
+
+    rpc CreateAPIToken(CreateAPITokenRequest) returns (CreateAPITokenResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/createapitoken"
+        };
+    }
+
+    //GetProjectDatasets Returns all datasets that belong to a certain project
+    rpc GetProjectDatasets(GetProjectDatasetsRequest) returns (GetProjectDatasetsResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/project/{id}/projectdatasets"
+        };
+    }
+
+    //GetUserProjects Returns all projects that a specified user has access to
+    rpc GetUserProjects(GetUserProjectsRequest) returns (GetUserProjectsResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/projects"
+        };
+    }
+
+    rpc GetProject(GetProjectRequest) returns (GetProjectResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/project/{id}"
+        };
+    }
+
+	// Returns all API token for a specific user, based on the provided oauth2 token
+    rpc GetAPIToken(GetAPITokenRequest) returns (GetAPITokenResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/apitoken"
+        };
+    }
+
+    //DeleteProject Deletes a specific project
+    //Will also delete all associated resources (Datasets/Objects/etc...) both from objects storage and the database
+    rpc DeleteProject(DeleteProjectRequest) returns (DeleteProjectResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/project/{id}/delete"
+        };
+    }
+
+    rpc DeleteAPIToken(DeleteAPITokenRequest) returns (DeleteAPITokenResponse) {
+        option (google.api.http) = {
+            delete: "/api/v1/apitoken/{id}/delete"
+        };
+    }
+}

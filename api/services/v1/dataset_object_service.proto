@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package api.services.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/api/services/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java_api.api.services.v1";
+option java_outer_classname = "DatasetObjectsServices";
+
+import "api/services/v1/dataset_object_service_models.proto";
+
+import "google/api/annotations.proto";
+
+service DatasetObjectsService {
+    // Creates a new object group
+    rpc CreateObjectGroup(CreateObjectGroupRequest) returns (CreateObjectGroupResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectgroup/create"
+            body: "*"
+        };
+    }
+
+
+    // Batch request of CreateObjectGroup
+    // The call will preserve the ordering of the request in the response
+    rpc CreateObjectGroupBatch(CreateObjectGroupBatchRequest) returns (CreateObjectGroupBatchResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectgroupbatch/create"
+            body: "*"
+        };
+    }
+
+    //Returns the object group with the given ID
+    rpc GetObjectGroup(GetObjectGroupRequest) returns (GetObjectGroupResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectgroup/get"
+            body: "*"
+        };
+    }
+
+    // Finishes the upload process for an object
+    // This will change the status of the objects to "available"
+    // Experimental, might change this to FinishObjectGroupUpload
+    rpc FinishObjectUpload(FinishObjectUploadRequest) returns (FinishObjectUploadResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/object/finish"
+            body: "*"
+        };
+    }
+
+    // Deletes the given object group
+    // This will also delete all associated objects both as metadata objects and the actual objects in the object storage
+    rpc DeleteObjectGroup(DeleteObjectGroupRequest) returns (DeleteObjectGroupResponse) {
+        option (google.api.http) = {
+            delete: "/api/v1/objectgroup/{id}"
+        };
+    }
+}

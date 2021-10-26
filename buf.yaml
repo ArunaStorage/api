@@ -1,0 +1,40 @@
+version: v1beta1
+build:
+  roots:
+    - .
+lint:
+  use:
+    - DEFAULT
+  ignore_only:
+    ENUM_VALUE_PREFIX:
+      - grpc/gateway/protoc_gen_openapiv2/options/openapiv2.proto
+      - grpc/gateway/protoc_gen_openapiv2/options/annotations.proto
+      - api/services/v1/dataset_object_service_models.proto
+      - api/models/v1/common_models.proto
+    ENUM_ZERO_VALUE_SUFFIX:
+      - grpc/gateway/protoc_gen_openapiv2/options/openapiv2.proto
+      - grpc/gateway/protoc_gen_openapiv2/options/annotations.proto
+      - api/services/v1/dataset_object_service_models.proto
+      - api/models/v1/common_models.proto
+    PACKAGE_VERSION_SUFFIX:
+      - grpc/gateway/protoc_gen_openapiv2/options/openapiv2.proto
+      - grpc/gateway/protoc_gen_openapiv2/options/annotations.proto
+      - google/api/annotations.proto
+      - google/api/http.proto
+      - google/api/httpbody.proto
+    PACKAGE_SAME_GO_PACKAGE:
+      - google/api/annotations.proto
+      - google/api/http.proto
+      - google/api/httpbody.proto
+    FIELD_LOWER_SNAKE_CASE:
+      - api/models/*
+    SERVICE_SUFFIX:
+      - api/models/*
+    RPC_REQUEST_RESPONSE_UNIQUE:
+      - api/models/*
+    RPC_REQUEST_STANDARD_NAME:
+      - api/models/*
+    RPC_RESPONSE_STANDARD_NAME:
+      - api/models/*
+deps:
+  - buf.build/googleapis/googleapis
