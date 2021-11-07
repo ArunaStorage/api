@@ -126,3 +126,13 @@ message APIToken {
 }
 
 message Empty{}
+
+
+// Request for paginated result retrival
+// If the page size is zero, the backends default page size will be used
+// If the page size exceeds the backends maximum, an error will be returned
+// Consistency of results will only be guaranteed for DatasetVersions
+message PageRequest {
+    uint64 page = 1;
+    uint64 page_size = 2;
+}
