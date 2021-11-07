@@ -132,7 +132,8 @@ message Empty{}
 // If the page size is zero, the backends default page size will be used
 // If the page size exceeds the backends maximum, an error will be returned
 // Consistency of results will only be guaranteed for DatasetVersions
+// For the initial request leave last_uuid empty
 message PageRequest {
-    uint64 page = 1;
+    string last_uuid = 1;
     uint64 page_size = 2;
 }
