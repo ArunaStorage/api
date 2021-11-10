@@ -19,6 +19,7 @@ message Dataset {
     string project_id = 7;
     bool is_public = 8; //Indicates if the dataset if publicly available
     Status status = 9;
+    string bucket = 10;
 }
 
 message DatasetVersion {
