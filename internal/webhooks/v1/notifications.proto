@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package internal.webhooks.v1;
+option go_package = "github.com/ScienceObjectsDB/go-internal/internal/webhooks/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java_internal.internal.webhooks.v1";
+option java_outer_classname = "Notifications";
+
+enum Resource {
+    UNKNOWN = 0;
+    PROJECT = 1;
+    DATASET = 2;
+    DATASET_VERSION = 3;
+    OBJECT_GROUP = 4;
+}
+
+message UpdateNotification {
+    string trigger_uuid = 1;
+    Resource trigger_resource = 2;
+    string updated_uuid = 3;
+    Resource updated_resource = 4;
+}
+
+message WebhookNotificationJob {
+    string target_url = 1;
+    UpdateNotification notification = 2;
+}
