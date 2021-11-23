@@ -15,13 +15,17 @@ enum Resource {
 }
 
 message UpdateNotification {
-    string trigger_uuid = 1;
-    Resource trigger_resource = 2;
-    string updated_uuid = 3;
-    Resource updated_resource = 4;
+    string id = 1;
+    uint64 batch_sequence = 2;
+    uint64 batch_size = 3;
+    string trigger_uuid = 4;
+    Resource trigger_resource = 5;
+    string updated_uuid = 6;
+    Resource updated_resource = 7;
+    repeated Webhook webhhoks = 8;
 }
 
-message WebhookNotificationJob {
-    string target_url = 1;
-    UpdateNotification notification = 2;
+message Webhook {
+    string id = 1;
+    string target_url = 2;
 }
