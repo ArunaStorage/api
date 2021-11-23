@@ -29,3 +29,11 @@ message Webhook {
     string id = 1;
     string target_url = 2;
 }
+
+message HookMessage {
+    string webhook_id = 1;
+    string trigger_uuid = 2;
+    Resource trigger_resource = 3;
+    string updated_uuid = 4;
+    Resource updated_resource = 5;
+}
