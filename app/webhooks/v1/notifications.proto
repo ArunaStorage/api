@@ -18,20 +18,22 @@ message UpdateNotification {
     string id = 1;
     uint64 batch_sequence = 2;
     uint64 batch_size = 3;
-    string trigger_uuid = 4;
-    Resource trigger_resource = 5;
-    string updated_uuid = 6;
-    Resource updated_resource = 7;
-    repeated Webhook webhhoks = 8;
+    repeated Webhook webhhoks = 4;
+    TriggerDescription trigger_description = 5;
 }
 
 message Webhook {
     string id = 1;
     string target_url = 2;
+    HookMessage message = 3;
 }
 
 message HookMessage {
     string webhook_id = 1;
+    TriggerDescription trigger_description = 2;
+}
+
+message TriggerDescription {
     string trigger_uuid = 2;
     Resource trigger_resource = 3;
     string updated_uuid = 4;
