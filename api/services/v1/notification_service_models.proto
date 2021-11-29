@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package api.services.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/api/services/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java_api.api.services.v1";
+option java_outer_classname = "NotificationServiceModels";
+
+
+import "api/models/v1/common_models.proto";
+
+message NotificationStreamRequest {
+    string stream_group = 1;
+    EventResources resource = 2;
+    string resource_id = 3;
+
+    enum EventResources {
+        EVENT_RESOURCES_UNSPECIFIED = 0;
+        EVENT_RESOURCES_PROJECT_RESOURCE = 1;
+        EVENT_RESOURCES_DATASET_RESOURCE = 2;
+        EVENT_RESOURCES_DATASET_VERSION_RESOURCE = 3;
+        EVENT_RESOURCES_OBJECT_GROUP_RESOURCE = 4;
+    }
+}
+
+message NotificationStreamResponse {
+    models.v1.Resource resource = 1;
+    string resource_id = 2;
+    UpdateType updated_type = 3;
+
+    enum UpdateType {
+        UPDATE_TYPE_UNSPECIFIED = 0;
+        UPDATE_TYPE_CREATED = 1;
+        UPDATE_TYPE_AVAILABLE = 2;
+        UPDATE_TYPE_UPDATED = 3;
+        UPDATE_TYPE_METADATA_UPDATED = 4;
+        UPDATE_TYPE_DELETED = 5;
+    }
+}
