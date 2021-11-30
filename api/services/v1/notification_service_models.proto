@@ -13,10 +13,11 @@ import "google/protobuf/timestamp.proto";
 message NotificationStreamRequest {
     EventResources resource = 1;
     string resource_id = 2;
+    bool include_subresource = 3;
     oneof StreamType {
-        StreamAll stream_all = 3;
-        StreamFromDate stream_from_date = 4;
-        StreamFromSequence stream_from_sequence = 5;
+        StreamAll stream_all = 4;
+        StreamFromDate stream_from_date = 5;
+        StreamFromSequence stream_from_sequence = 6;
     };
 
     enum EventResources {
