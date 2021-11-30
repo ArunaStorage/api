@@ -6,13 +6,15 @@ option java_multiple_files = true;
 option java_package = "com.github.ScienceObjectsDB.java_api.api.services.v1";
 option java_outer_classname = "NotificationServiceModels";
 
-
 import "api/models/v1/common_models.proto";
+import "google/protobuf/timestamp.proto";
+
 
 message NotificationStreamRequest {
     string stream_group = 1;
     EventResources resource = 2;
     string resource_id = 3;
+
 
     enum EventResources {
         EVENT_RESOURCES_UNSPECIFIED = 0;
@@ -27,6 +29,9 @@ message NotificationStreamResponse {
     models.v1.Resource resource = 1;
     string resource_id = 2;
     UpdateType updated_type = 3;
+    string reply = 4;
+    string hmac_salt = 5;
+    google.protobuf.Timestamp timestamp = 6;
 
     enum UpdateType {
         UPDATE_TYPE_UNSPECIFIED = 0;
@@ -36,4 +41,14 @@ message NotificationStreamResponse {
         UPDATE_TYPE_METADATA_UPDATED = 4;
         UPDATE_TYPE_DELETED = 5;
     }
+}
+
+message NotificationAckRequest {
+    string reply = 1;
+    string hmac_salt = 2;
+    google.protobuf.Timestamp timestamp = 3;
+}
+
+message NotificationAckResponse {
+    
 }
