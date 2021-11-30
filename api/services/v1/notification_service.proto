@@ -17,11 +17,4 @@ service UpdateNotificationService {
             body: "*"
         };
     }
-
-    rpc NotificationAck(NotificationAckRequest) returns (NotificationAckResponse) {
-        option (google.api.http) = {
-            post: "/api/v1/eventstream/ack"
-            body: "*"
-        };
-    }
 }

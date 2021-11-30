@@ -11,10 +11,13 @@ import "google/protobuf/timestamp.proto";
 
 
 message NotificationStreamRequest {
-    string stream_group = 1;
-    EventResources resource = 2;
-    string resource_id = 3;
-
+    EventResources resource = 1;
+    string resource_id = 2;
+    oneof StreamType {
+        StreamAll stream_all = 3;
+        StreamFromDate stream_from_date = 4;
+        StreamFromSequence stream_from_sequence = 5;
+    };
 
     enum EventResources {
         EVENT_RESOURCES_UNSPECIFIED = 0;
@@ -25,13 +28,26 @@ message NotificationStreamRequest {
     }
 }
 
+message StreamFromSequence {
+    uint64 sequence = 1;
+}
+
+message StreamFromDate {
+    google.protobuf.Timestamp timestamp = 1;
+}
+
+message StreamAll {}
+
 message NotificationStreamResponse {
+    NotificationStream message = 1;
+    uint64 sequence = 2;
+    google.protobuf.Timestamp timestamp = 3;
+}
+
+message NotificationStream {
     models.v1.Resource resource = 1;
     string resource_id = 2;
     UpdateType updated_type = 3;
-    string reply = 4;
-    string hmac_salt = 5;
-    google.protobuf.Timestamp timestamp = 6;
 
     enum UpdateType {
         UPDATE_TYPE_UNSPECIFIED = 0;
@@ -41,15 +57,4 @@ message NotificationStreamResponse {
         UPDATE_TYPE_METADATA_UPDATED = 4;
         UPDATE_TYPE_DELETED = 5;
     }
-}
-
-message NotificationAckRequest {
-    string reply = 1;
-    string hmac = 2;
-    string hmac_salt = 3;
-    google.protobuf.Timestamp timestamp = 4;
-}
-
-message NotificationAckResponse {
-    
 }
