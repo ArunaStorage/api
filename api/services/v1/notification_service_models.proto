@@ -40,12 +40,12 @@ message StreamFromDate {
 message StreamAll {}
 
 message NotificationStreamResponse {
-    NotificationStream message = 1;
+    EventNotificationMessage message = 1;
     uint64 sequence = 2;
     google.protobuf.Timestamp timestamp = 3;
 }
 
-message NotificationStream {
+message EventNotificationMessage {
     models.v1.Resource resource = 1;
     string resource_id = 2;
     UpdateType updated_type = 3;
