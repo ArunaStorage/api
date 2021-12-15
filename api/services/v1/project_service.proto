@@ -106,6 +106,7 @@ service ProjectService {
         };
     }
 
+	//CreateAPIToken Creates a new API token for a given project
     rpc CreateAPIToken(CreateAPITokenRequest) returns (CreateAPITokenResponse) {
         option (google.api.http) = {
             get: "/api/v1/createapitoken"
@@ -126,6 +127,7 @@ service ProjectService {
         };
     }
 
+	//GetProject Returns the details of that specified project
     rpc GetProject(GetProjectRequest) returns (GetProjectResponse) {
         option (google.api.http) = {
             get: "/api/v1/project/{id}"
@@ -147,6 +149,7 @@ service ProjectService {
         };
     }
 
+	// Deletes a specific API token
     rpc DeleteAPIToken(DeleteAPITokenRequest) returns (DeleteAPITokenResponse) {
         option (google.api.http) = {
             delete: "/api/v1/apitoken/{id}/delete"

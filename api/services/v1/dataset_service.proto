@@ -93,6 +93,7 @@ service DatasetService {
         };
     }
 
+    //Returns the details of a specific version
     rpc GetDatasetVersion(GetDatasetVersionRequest) returns (GetDatasetVersionResponse) {
         option (google.api.http) = {
             post: "/api/v1/datasetversion/get"
@@ -100,6 +101,7 @@ service DatasetService {
         };
     }
 
+    //Returns the object groups of a specific version
     rpc GetDatasetVersionObjectGroups(GetDatasetVersionObjectGroupsRequest) returns (GetDatasetVersionObjectGroupsResponse) {
         option (google.api.http) = {
             post: "/api/v1/datasetversion/list"
@@ -107,6 +109,7 @@ service DatasetService {
         };
     }
 
+    //Deletes a specific version
     rpc DeleteDatasetVersion(DeleteDatasetVersionRequest) returns (DeleteDatasetVersionResponse) {
         option (google.api.http) = {
             delete: "/api/v1/datasetversion/{id}"

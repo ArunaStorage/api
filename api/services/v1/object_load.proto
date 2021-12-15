@@ -58,12 +58,14 @@ service ObjectLoadService {
         };
     }
 
+    // Returns the upload link for one part and information about the object
     rpc GetMultipartUploadLink(GetMultipartUploadLinkRequest) returns (GetMultipartUploadLinkResponse) {
         option (google.api.http) = {
             get: "/api/v1/objectload/upload_multipart_part/{object_id}/{upload_part}"
         };
     }
 
+    //Completes a multipart upload
     rpc CompleteMultipartUpload(CompleteMultipartUploadRequest) returns (CompleteMultipartUploadResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/complete_multipart"
