@@ -4,6 +4,7 @@ package api.services.v1;
 option go_package = "github.com/ScienceObjectsDB/go-api/api/services/v1";
 
 import "api/models/v1/common_models.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 option java_multiple_files = true;
 option java_package = "com.github.ScienceObjectsDB.java_api.api.services.v1";
 option java_outer_classname = "ProjectAPIServiceModels";
@@ -14,38 +15,41 @@ import "api/models/v1/projects.proto";
 
 
 
-// Request to create a project
+//CreateProjectRequest Request to create a project
 message CreateProjectRequest {
-    string name = 1;
-    string description = 2;
-    repeated models.v1.Metadata metadata = 3;
-    repeated models.v1.Label labels = 4;
+    string name = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The project name."}];
+    string description = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The project description."}];
+    repeated models.v1.Metadata metadata = 3 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The field for metadata."}];
+    repeated models.v1.Label labels = 4 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The field for labels."}];
 }
 
 message CreateProjectResponse {
     string id = 1;
 }
 
+//AddUserToProjectRequest Request to add a new user to a given project
 message AddUserToProjectRequest {
-    string user_id = 1;
+    string user_id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the user you want to add."}];
     repeated models.v1.Right scope = 2;
-    string project_id = 3;
+    string project_id = 3 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the project you want to add users to."}];
 }
 
 message AddUserToProjectResponse {
 
 }
 
+//CreateAPITokenRequest Request to create a new api token for a given project
 message CreateAPITokenRequest {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the project for that you want to create a new API token."}];
 }
 
 message CreateAPITokenResponse {
     models.v1.APIToken token = 1;
 }
 
+//GetProjectDatasetsRequest Request to get all datasets that belong to a certain project
 message GetProjectDatasetsRequest {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the project for that you want to get a the datasets."}];
 }
 
 message GetProjectDatasetsResponse {
@@ -60,8 +64,9 @@ message GetUserProjectsResponse {
     repeated models.v1.Project projects = 1;
 }
 
+//GetProjectRequest Request to get the details of a specific project
 message GetProjectRequest {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the project for that you want to get details."}];
 }
 
 message GetProjectResponse {
@@ -76,16 +81,18 @@ message GetAPITokenRequest {
 
 }
 
+//DeleteAPITokenRequest Request to delete an API token from a given project
 message DeleteAPITokenRequest {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the API token fyou want to delete."}];
 }
 
 message DeleteAPITokenResponse {
 
 }
 
+//DeleteProjectRequest Request to delete a specific project
 message DeleteProjectRequest {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the project for that you want to delete."}];
 }
 
 message DeleteProjectResponse {

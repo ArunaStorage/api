@@ -9,17 +9,19 @@ option java_outer_classname = "DatasetObjectsServiceModels";
 import "google/protobuf/timestamp.proto";
 import "api/models/v1/common_models.proto";
 import "api/models/v1/object_models.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 
+//CreateObjectGroupRequest Request to create an object group
 message CreateObjectGroupRequest {
-    string name = 1;
-    string description = 2;
-    string dataset_id = 3;
-    repeated models.v1.Label labels = 4;
-    repeated models.v1.Metadata metadata = 5;
-    repeated CreateObjectRequest objects = 6;
-    bool include_object_link = 8;
-    google.protobuf.Timestamp generated = 10;
-    string uuid = 11; // A user defined uuid that is used to identify requests in chunked workloads
+    string name = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The object group name."}];
+    string description = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The object group description."}];
+    string dataset_id = 3 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The ID of the dataset in that the object group should be created."}];
+    repeated models.v1.Label labels = 4 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The field for labels."}];
+    repeated models.v1.Metadata metadata = 5 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The field for metadata."}];
+    repeated CreateObjectRequest objects = 6 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The objects to be created in that new group."}];
+    bool include_object_link = 8 ;
+    google.protobuf.Timestamp generated = 10 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The Timestamp the data in this object group was generaded."}];
+    string uuid = 11 ; // A user defined uuid that is used to identify requests in chunked workloads
 
 }
 
@@ -44,24 +46,24 @@ message CreateObjectGroupResponse {
     string uuid = 4; // A user defined uuid that is used to identify requests in chunked/streamed workloads
 }
 
-
+//CreateObjectRequest Request to create an object
 message CreateObjectRequest {
-    string filename = 1;
-    string filetype = 2;
-    repeated models.v1.Label labels = 3;
-    repeated models.v1.Metadata metadata = 4;
-    int64 content_len = 5; // ContentLen: Lenght of the stored dataset
+    string filename = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The object filename."}];
+    string filetype = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The object filetype."}];
+    repeated models.v1.Label labels = 3 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The field for labels."}];
+    repeated models.v1.Metadata metadata = 4 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The field for metadata."}];
+    int64 content_len = 5 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The object filesize."}]; // ContentLen: Lenght of the stored dataset
     models.v1.Origin origin = 6; // Origin: Source of the dataset
 }
 
+//GetObjectGroupRequest Request to get details of a specific object group
 message GetObjectGroupRequest {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The object group ID."}];
 }
 
 message GetObjectGroupResponse {
     models.v1.ObjectGroup object_group = 1;
 }
-
 
 message FinishObjectUploadRequest {
     string id = 1;
@@ -71,8 +73,9 @@ message FinishObjectUploadResponse {
 
 }
 
+//DeleteObjectGroupRequest Request to delete a specific object group
 message DeleteObjectGroupRequest {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The object filename."}];
 }
 
 message DeleteObjectGroupResponse {

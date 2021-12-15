@@ -134,7 +134,7 @@ service ProjectService {
         };
     }
 
-	// Returns all API token for a specific user, based on the provided oauth2 token
+	//GetAPIToken Returns all API token for a specific user, based on the provided oauth2 token
     rpc GetAPIToken(GetAPITokenRequest) returns (GetAPITokenResponse) {
         option (google.api.http) = {
             get: "/api/v1/apitoken"
@@ -149,7 +149,7 @@ service ProjectService {
         };
     }
 
-	// Deletes a specific API token
+	//DeleteAPIToken Deletes a specific API token
     rpc DeleteAPIToken(DeleteAPITokenRequest) returns (DeleteAPITokenResponse) {
         option (google.api.http) = {
             delete: "/api/v1/apitoken/{id}/delete"
