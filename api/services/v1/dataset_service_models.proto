@@ -10,39 +10,43 @@ import "google/protobuf/timestamp.proto";
 import "api/models/v1/dataset.proto";
 import "api/models/v1/common_models.proto";
 import "api/models/v1/object_models.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 
 // Dataset related Models
+//CreateDatasetRequest Creates a new dataset
 message CreateDatasetRequest {
-    string name = 1; // Name of the dataset
-    string description = 2;
-    string project_id = 3; //ProjectID of the project the dataset is associated with
-    repeated models.v1.Label labels = 4;
-    repeated models.v1.Metadata metadata = 5;
+    string name = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The dataset name."}]; // Name of the dataset
+    string description = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The dataset description."}];
+    string project_id = 3 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The project ID the dataset is associated with."}]; //ProjectID of the project the dataset is associated with
+    repeated models.v1.Label labels = 4 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The field for labels."}];
+    repeated models.v1.Metadata metadata = 5 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The field for metadata."}];
 }
 
 message CreateDatasetResponse {
     string id = 1;
 }
 
+//GetDatasetRequest Request to get details of a specific dataset
 message GetDatasetRequest {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the dataset for that you want to get details."}];
 }
 
 message GetDatasetResponse {
     models.v1.Dataset dataset = 1;
 }
 
-
+//GetDatasetVersionsRequest Request to get the versions of a specific dataset
 message GetDatasetVersionsRequest {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the dataset for that you want to get the versions."}];
 }
 
 message GetDatasetVersionsResponse {
     repeated models.v1.DatasetVersion dataset_versions = 1;
 }
 
+//GetDatasetObjectGroupsRequest Request to get the object groups of a dataset
 message GetDatasetObjectGroupsRequest {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the dataset for that you want to get the object groups."}];
     models.v1.PageRequest page_request = 2;
 }
 
@@ -128,14 +132,15 @@ message DeleteDatasetResponse {
 
 // DatasetVersion related models
 
+//ReleaseDatasetVersionRequest Request to release a new dataset version
 message ReleaseDatasetVersionRequest {
-    string name = 1;
-    string dataset_id = 2;
-    models.v1.Version version = 3;
-    repeated models.v1.Label labels = 5;
-    repeated models.v1.Metadata metadata = 6;
-    repeated string object_group_ids = 7;
-    string description = 8;
+    string name = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The version name."}];
+    string dataset_id = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The dataset ID the version is associated with."}];
+    models.v1.Version version = 3 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The field for the version number."}];
+    repeated models.v1.Label labels = 5 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The field for labels."}];
+    repeated models.v1.Metadata metadata = 6 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The field for metadata."}];
+    repeated string object_group_ids = 7 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The object group ids that belong to this version."}];
+    string description = 8 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "The version description."}];
 }
 
 
@@ -143,16 +148,18 @@ message ReleaseDatasetVersionResponse {
     string id = 1;
 }
 
+//GetDatasetVersionRequest Request to get details of a specific version
 message GetDatasetVersionRequest {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the version for that you want to get details."}];
 }
 
 message GetDatasetVersionResponse {
     models.v1.DatasetVersion dataset_version = 1;
 }
 
+//GetDatasetVersionObjectGroupsRequest Request to get all object groups that belong to a specific version
 message GetDatasetVersionObjectGroupsRequest {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the version for that you want to get the object groups."}];
     models.v1.PageRequest page_request = 2;
 }
 
@@ -160,8 +167,9 @@ message GetDatasetVersionObjectGroupsResponse {
     repeated models.v1.ObjectGroup object_group = 1;
 }
 
+//DeleteDatasetVersionRequest Request to delete a specific version
 message DeleteDatasetVersionRequest {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the version for that you want to delete."}];
 }
 
 message DeleteDatasetVersionResponse {

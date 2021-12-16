@@ -8,9 +8,11 @@ option java_outer_classname = "ObjectLoadServiceModels";
 
 import "google/protobuf/timestamp.proto";
 import "api/models/v1/object_models.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 
+//CreateUploadLink Request to create an upload link for an object
 message CreateUploadLink {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the object the upload is requested for"}];
 }
 
 message CreateUploadLinkRequest {
@@ -21,9 +23,10 @@ message CreateUploadLinkResponse {
     string upload_link = 1;
 }
 
+//CreateDownloadLinkRequest Request to create a download link for a specific object
 message CreateDownloadLinkRequest {
-    string id = 1; //Object id the download is requested for
-    Range range = 2; //Optional; Byte range of the data object
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the object the download is requested for"}]; //Object id the download is requested for
+    Range range = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "Optional; Byte range of the data object"}]; //Optional; Byte range of the data object
 
     message Range {
         int64 start_byte = 1;
@@ -44,9 +47,9 @@ message CreateDownloadLinkBatchResponse {
     repeated CreateDownloadLinkResponse links = 1;
 }
 
-
+//StartMultipartUploadRequest Request to start a multipart upload
 message StartMultipartUploadRequest {
-    string id = 1;
+    string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the object the multipart upload is requested for."}];
 }
 
 message StartMultipartUploadResponse {
@@ -58,14 +61,16 @@ message GetMultipartUploadLinkResponse {
     models.v1.Object object = 2;
 }
 
+//GetMultipartUploadLinkRequest Request to upload a single part of the multipart upload
 message GetMultipartUploadLinkRequest {
-    string object_id = 1;
-    int64 upload_part = 2;
+    string object_id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the object the upload is requested for."}];
+    int64 upload_part = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "Number of the part the upload is requested for."}];
 }
 
+//CompleteMultipartUploadRequest Request to complete a multi part upload
 message CompleteMultipartUploadRequest {
-    string object_id = 1;
-    repeated CompletedParts parts = 2;
+    string object_id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the object the upload is requested for."}];
+    repeated CompletedParts parts = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "Field for the uploaded parts of the multipart upload"}];
 }
 
 message CompleteMultipartUploadResponse {
@@ -73,8 +78,8 @@ message CompleteMultipartUploadResponse {
 }
 
 message CompletedParts {
-    string etag = 1;
-    int64 part = 2;
+    string etag = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "ID of the upload part."}];
+    int64 part = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {description: "Number of the upload part."}];
 }
 
 message CreateDownloadLinkStreamRequest {
