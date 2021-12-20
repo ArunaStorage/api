@@ -40,6 +40,7 @@ message CreateObjectGroupResponse {
         string filename = 1;
         string link = 2;
         string object_id = 3;
+        int64 index = 4;
     }
     string uuid = 4; // A user defined uuid that is used to identify requests in chunked/streamed workloads
 }
