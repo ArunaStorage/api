@@ -15,12 +15,13 @@ message ObjectGroup {
     string name = 2;
     string description = 3;
     string dataset_id = 4;
-    repeated Label labels = 5;
-    repeated Metadata metadata = 6;
-    Status status = 7;
-    repeated Object objects = 8;
-    google.protobuf.Timestamp generated = 9;
-    google.protobuf.Timestamp created = 10;
+    string project_id = 5;
+    repeated Label labels = 6;
+    repeated Metadata metadata = 7;
+    Status status = 8;
+    repeated Object objects = 9;
+    google.protobuf.Timestamp generated = 10;
+    google.protobuf.Timestamp created = 11;
 }
 
 message Object {
