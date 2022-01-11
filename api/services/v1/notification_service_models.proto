@@ -9,9 +9,19 @@ option java_outer_classname = "NotificationServiceModels";
 import "api/models/v1/common_models.proto";
 import "google/protobuf/timestamp.proto";
 
-message CreateEventStreamingGroupRequest {}
+message CreateEventStreamingGroupRequest {
+  NotificationStreamRequest notification_request = 1;
+}
 
-message CreateEventStreamingGroupResponse { string queuename = 1; }
+message CreateEventStreamingGroupResponse { string stream_group_id = 1; }
+
+message NotificationStreamGroupRequest { string stream_group_id = 1; }
+
+message NotificationStreamGroupResponse {
+  EventNotificationMessage message = 1;
+  uint64 sequence = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
 
 message NotificationStreamRequest {
   EventResources resource = 1;
@@ -31,7 +41,7 @@ message NotificationStreamRequest {
     EVENT_RESOURCES_OBJECT_GROUP_RESOURCE = 4;
   }
 
-  string stream_group = 7;
+  string stream_group_id = 7;
 }
 
 message StreamFromSequence { uint64 sequence = 1; }

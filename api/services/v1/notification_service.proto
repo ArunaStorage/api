@@ -18,6 +18,14 @@ service UpdateNotificationService {
     };
   }
 
+  rpc NotificationStreamGroup(NotificationStreamGroupRequest)
+      returns (stream NotificationStreamGroupResponse) {
+    option (google.api.http) = {
+      post : "/api/v1/eventstream/notifications"
+      body : "*"
+    };
+  }
+
   rpc NotificationStream(NotificationStreamRequest)
       returns (stream NotificationStreamResponse) {
     option (google.api.http) = {
