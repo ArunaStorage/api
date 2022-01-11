@@ -21,7 +21,7 @@ service UpdateNotificationService {
   rpc NotificationStreamGroup(NotificationStreamGroupRequest)
       returns (stream NotificationStreamGroupResponse) {
     option (google.api.http) = {
-      post : "/api/v1/eventstream/notifications"
+      post : "/api/v1/eventstreamgroup/notifications"
       body : "*"
     };
   }
