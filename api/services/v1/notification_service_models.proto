@@ -9,53 +9,54 @@ option java_outer_classname = "NotificationServiceModels";
 import "api/models/v1/common_models.proto";
 import "google/protobuf/timestamp.proto";
 
+message CreateEventStreamingGroupRequest {}
+
+message CreateEventStreamingGroupResponse { string queuename = 1; }
 
 message NotificationStreamRequest {
-    EventResources resource = 1;
-    string resource_id = 2;
-    bool include_subresource = 3;
-    oneof StreamType {
-        StreamAll stream_all = 4;
-        StreamFromDate stream_from_date = 5;
-        StreamFromSequence stream_from_sequence = 6;
-    };
+  EventResources resource = 1;
+  string resource_id = 2;
+  bool include_subresource = 3;
+  oneof StreamType {
+    StreamAll stream_all = 4;
+    StreamFromDate stream_from_date = 5;
+    StreamFromSequence stream_from_sequence = 6;
+  };
 
-    enum EventResources {
-        EVENT_RESOURCES_UNSPECIFIED = 0;
-        EVENT_RESOURCES_PROJECT_RESOURCE = 1;
-        EVENT_RESOURCES_DATASET_RESOURCE = 2;
-        EVENT_RESOURCES_DATASET_VERSION_RESOURCE = 3;
-        EVENT_RESOURCES_OBJECT_GROUP_RESOURCE = 4;
-    }
+  enum EventResources {
+    EVENT_RESOURCES_UNSPECIFIED = 0;
+    EVENT_RESOURCES_PROJECT_RESOURCE = 1;
+    EVENT_RESOURCES_DATASET_RESOURCE = 2;
+    EVENT_RESOURCES_DATASET_VERSION_RESOURCE = 3;
+    EVENT_RESOURCES_OBJECT_GROUP_RESOURCE = 4;
+  }
+
+  string stream_group = 7;
 }
 
-message StreamFromSequence {
-    uint64 sequence = 1;
-}
+message StreamFromSequence { uint64 sequence = 1; }
 
-message StreamFromDate {
-    google.protobuf.Timestamp timestamp = 1;
-}
+message StreamFromDate { google.protobuf.Timestamp timestamp = 1; }
 
 message StreamAll {}
 
 message NotificationStreamResponse {
-    EventNotificationMessage message = 1;
-    uint64 sequence = 2;
-    google.protobuf.Timestamp timestamp = 3;
+  EventNotificationMessage message = 1;
+  uint64 sequence = 2;
+  google.protobuf.Timestamp timestamp = 3;
 }
 
 message EventNotificationMessage {
-    models.v1.Resource resource = 1;
-    string resource_id = 2;
-    UpdateType updated_type = 3;
+  models.v1.Resource resource = 1;
+  string resource_id = 2;
+  UpdateType updated_type = 3;
 
-    enum UpdateType {
-        UPDATE_TYPE_UNSPECIFIED = 0;
-        UPDATE_TYPE_CREATED = 1;
-        UPDATE_TYPE_AVAILABLE = 2;
-        UPDATE_TYPE_UPDATED = 3;
-        UPDATE_TYPE_METADATA_UPDATED = 4;
-        UPDATE_TYPE_DELETED = 5;
-    }
+  enum UpdateType {
+    UPDATE_TYPE_UNSPECIFIED = 0;
+    UPDATE_TYPE_CREATED = 1;
+    UPDATE_TYPE_AVAILABLE = 2;
+    UPDATE_TYPE_UPDATED = 3;
+    UPDATE_TYPE_METADATA_UPDATED = 4;
+    UPDATE_TYPE_DELETED = 5;
+  }
 }
