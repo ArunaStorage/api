@@ -15,12 +15,26 @@ message CreateEventStreamingGroupRequest {
 
 message CreateEventStreamingGroupResponse { string stream_group_id = 1; }
 
-message NotificationStreamGroupRequest { string stream_group_id = 1; }
+message NotificationStreamGroupRequest {
+  oneof init_or_ack {
+    NotificationStreamInit init = 1;
+    NotficationStreamAck ack = 2;
+  }
+}
+
+message NotificationStreamInit { string stream_group_id = 1; }
+
+message NotficationStreamAck { string ack_chunk_id = 1; }
 
 message NotificationStreamGroupResponse {
-  EventNotificationMessage message = 1;
-  uint64 sequence = 2;
-  google.protobuf.Timestamp timestamp = 3;
+  message Notification {
+    EventNotificationMessage message = 1;
+    uint64 sequence = 2;
+    google.protobuf.Timestamp timestamp = 3;
+  }
+
+  repeated Notification notification = 1;
+  string ack_chunk_id = 2;
 }
 
 message NotificationStreamRequest {
