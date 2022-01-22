@@ -27,13 +27,7 @@ message NotificationStreamInit { string stream_group_id = 1; }
 message NotficationStreamAck { string ack_chunk_id = 1; }
 
 message NotificationStreamGroupResponse {
-  message Notification {
-    EventNotificationMessage message = 1;
-    uint64 sequence = 2;
-    google.protobuf.Timestamp timestamp = 3;
-  }
-
-  repeated Notification notification = 1;
+  repeated NotificationStreamResponse notification = 1;
   string ack_chunk_id = 2;
 }
 
