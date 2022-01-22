@@ -20,6 +20,8 @@ message NotificationStreamGroupRequest {
     NotificationStreamInit init = 1;
     NotficationStreamAck ack = 2;
   }
+
+  bool close = 3;
 }
 
 message NotificationStreamInit { string stream_group_id = 1; }
