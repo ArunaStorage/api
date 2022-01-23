@@ -25,6 +25,7 @@ message CreateEventStreamingGroupRequest {
     EVENT_RESOURCES_DATASET_RESOURCE = 2;
     EVENT_RESOURCES_DATASET_VERSION_RESOURCE = 3;
     EVENT_RESOURCES_OBJECT_GROUP_RESOURCE = 4;
+    EVENT_RESOURCES_ALL_RESOURCE = 5;
   }
 
   string stream_group_id = 7;
