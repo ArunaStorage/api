@@ -33,7 +33,7 @@ message CreateEventStreamingGroupRequest {
 message CreateEventStreamingGroupResponse { string stream_group_id = 1; }
 
 message NotificationStreamGroupRequest {
-  oneof init_or_ack {
+  oneof stream_action {
     NotificationStreamInit init = 1;
     NotficationStreamAck ack = 2;
   }
@@ -43,7 +43,7 @@ message NotificationStreamGroupRequest {
 
 message NotificationStreamInit { string stream_group_id = 1; }
 
-message NotficationStreamAck { string ack_chunk_id = 1; }
+message NotficationStreamAck { repeated string ack_chunk_id = 1; }
 
 message NotificationStreamGroupResponse {
   repeated NotificationStreamResponse notification = 1;
