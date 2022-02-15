@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package sciobjsdb.api.storage.services.v1;
+package sciobjsdb.api.notification.services.v1;
 option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/services/v1";
 option java_multiple_files = true;
 option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.services.v1";
