@@ -12,8 +12,6 @@ option java_outer_classname = "ProjectAPIServiceModels";
 import "api/models/v1/dataset.proto";
 import "api/models/v1/projects.proto";
 
-
-
 // Request to create a project
 message CreateProjectRequest {
     string name = 1;
@@ -49,7 +47,7 @@ message GetProjectDatasetsRequest {
 }
 
 message GetProjectDatasetsResponse {
-    repeated models.v1.Dataset dataset = 1;
+    repeated models.v1.Dataset datasets = 1;
 }
 
 message GetUserProjectsRequest {
