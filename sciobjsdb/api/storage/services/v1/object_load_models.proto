@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package api.services.v1;
-option go_package = "github.com/ScienceObjectsDB/go-api/api/services/v1";
+package sciobjsdb.api.storage.services.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/services/v1";
 option java_multiple_files = true;
-option java_package = "com.github.ScienceObjectsDB.java_api.api.services.v1";
+option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.services.v1";
 option java_outer_classname = "ObjectLoadServiceModels";
 
 import "google/protobuf/timestamp.proto";
-import "api/models/v1/object_models.proto";
+import "sciobjsdb/api/storage/models/v1/object_models.proto";
 
 message CreateUploadLink {
     string id = 1;
@@ -33,7 +33,7 @@ message CreateDownloadLinkRequest {
 
 message CreateDownloadLinkResponse {
     string download_link = 1;
-    models.v1.Object object = 2;
+    sciobjsdb.api.storage.models.v1.Object object = 2;
 }
 
 message CreateDownloadLinkBatchRequest {
@@ -50,12 +50,12 @@ message StartMultipartUploadRequest {
 }
 
 message StartMultipartUploadResponse {
-    models.v1.Object object = 1;
+    sciobjsdb.api.storage.models.v1.Object object = 1;
 }
 
 message GetMultipartUploadLinkResponse {
     string upload_link = 1;
-    models.v1.Object object = 2;
+    sciobjsdb.api.storage.models.v1.Object object = 2;
 }
 
 message GetMultipartUploadLinkRequest {
@@ -106,7 +106,7 @@ message CreateDownloadLinkStreamResponse {
 
 
 message LinksResponse {
-    repeated models.v1.ObjectGroup object_groups = 1;
+    repeated sciobjsdb.api.storage.models.v1.ObjectGroup object_groups = 1;
     repeated InnerLinksResponse object_group_links = 2;
 
 }

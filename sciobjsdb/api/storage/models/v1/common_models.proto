@@ -1,31 +1,34 @@
 syntax = "proto3";
 
-package api.models.v1;
-option go_package = "github.com/ScienceObjectsDB/go-api/api/models/v1";
+package sciobjsdb.api.storage.models.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/models/v1";
 option java_multiple_files = true;
-option java_package = "com.github.ScienceObjectsDB.java_api.api.models.v1";
+option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.models.v1";
 option java_outer_classname = "CommonModels";
 
 enum Status {
-    INITIATING = 0;
-    AVAILABLE = 1;
-    UPDATING = 2;
-    ARCHIVED = 3;
-    DELETING = 4;
+    STATUS_UNSPECIFIED = 0;
+    STATUS_INITIATING = 1;
+    STATUS_AVAILABLE = 2;
+    STATUS_UPDATING = 3;
+    STATUS_ARCHIVED = 4;
+    STATUS_DELETING = 5;
 }
 
 enum Right {
-    READ = 0;
-    WRITE = 1;
+    RIGHT_UNSPECIFIED = 0;
+    RIGHT_READ = 1;
+    RIGHT_WRITE = 2;
 }
 
 enum Resource {
-    PROJECT_RESOURCE = 0;
-    DATASET_RESOURCE = 1;
-    DATASET_VERSION_RESOURCE = 2;
-    OBJECT_RESOURCE = 3;
-    OBJECT_GROUP_RESOURCE = 4;
-    OBJECT_GROUP_REVISION_RESOURCE = 5;
+    RESOURCE_UNSPECIFIED = 0;
+    RESOURCE_PROJECT = 1;
+    RESOURCE_DATASET = 2;
+    RESOURCE_DATASET_VERSION = 3;
+    RESOURCE_OBJECT = 4;
+    RESOURCE_OBJECT_GROUP = 5;
+    RESOURCE_OBJECT_GROUP_REVISION = 6;
 }
 
 
@@ -61,11 +64,12 @@ message Origin {
     oneof location {
         ObjectLocation object_location = 2;
     };
-    OriginTypeEnum origin_type = 3;
+    OriginType origin_type = 3;
 
-    enum OriginTypeEnum {
-        OBJECT_STORAGE = 0;
-        ORIGIN_LINK = 1;
+    enum OriginType {
+        ORIGIN_TYPE_UNSPECIFIED = 0;
+        ORIGIN_TYPE_OBJECT_STORAGE = 1;
+        ORIGIN_TYPE_ORIGIN_LINK = 2;
     }
 }
 
@@ -77,10 +81,11 @@ message Version {
     VersionStage stage = 5;
 
     enum VersionStage {
-        STABLE = 0;
-        RC = 1;
-        BETA = 2;
-        ALPHA = 3;
+        VERSION_STAGE_UNSPECIFIED = 0;
+        VERSION_STAGE_STABLE = 1;
+        VERSION_STAGE_RC = 2;
+        VERSION_STAGE_BETA = 3;
+        VERSION_STAGE_ALPHA = 4;
     }
 }
 

@@ -1,23 +1,23 @@
 syntax = "proto3";
 
-package api.services.v1;
-option go_package = "github.com/ScienceObjectsDB/go-api/api/services/v1";
-
-import "api/models/v1/common_models.proto";
+package sciobjsdb.api.storage.services.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/services/v1";
 option java_multiple_files = true;
-option java_package = "com.github.ScienceObjectsDB.java_api.api.services.v1";
+option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.services.v1";
 option java_outer_classname = "ProjectAPIServiceModels";
 
 
-import "api/models/v1/dataset.proto";
-import "api/models/v1/projects.proto";
+import "sciobjsdb/api/storage/models/v1/common_models.proto";
+
+import "sciobjsdb/api/storage/models/v1/dataset.proto";
+import "sciobjsdb/api/storage/models/v1/projects.proto";
 
 // Request to create a project
 message CreateProjectRequest {
     string name = 1;
     string description = 2;
-    repeated models.v1.Metadata metadata = 3;
-    repeated models.v1.Label labels = 4;
+    repeated sciobjsdb.api.storage.models.v1.Metadata metadata = 3;
+    repeated sciobjsdb.api.storage.models.v1.Label labels = 4;
 }
 
 message CreateProjectResponse {
@@ -26,7 +26,7 @@ message CreateProjectResponse {
 
 message AddUserToProjectRequest {
     string user_id = 1;
-    repeated models.v1.Right scope = 2;
+    repeated sciobjsdb.api.storage.models.v1.Right scope = 2;
     string project_id = 3;
 }
 
@@ -39,7 +39,7 @@ message CreateAPITokenRequest {
 }
 
 message CreateAPITokenResponse {
-    models.v1.APIToken token = 1;
+    sciobjsdb.api.storage.models.v1.APIToken token = 1;
 }
 
 message GetProjectDatasetsRequest {
@@ -47,7 +47,7 @@ message GetProjectDatasetsRequest {
 }
 
 message GetProjectDatasetsResponse {
-    repeated models.v1.Dataset datasets = 1;
+    repeated sciobjsdb.api.storage.models.v1.Dataset datasets = 1;
 }
 
 message GetUserProjectsRequest {
@@ -55,7 +55,7 @@ message GetUserProjectsRequest {
 }
 
 message GetUserProjectsResponse {
-    repeated models.v1.Project projects = 1;
+    repeated sciobjsdb.api.storage.models.v1.Project projects = 1;
 }
 
 message GetProjectRequest {
@@ -63,11 +63,11 @@ message GetProjectRequest {
 }
 
 message GetProjectResponse {
-    models.v1.Project project = 1;
+    sciobjsdb.api.storage.models.v1.Project project = 1;
 }
 
 message GetAPITokenResponse {
-    repeated models.v1.APIToken token = 1;
+    repeated sciobjsdb.api.storage.models.v1.APIToken token = 1;
 }
 
 message GetAPITokenRequest {
