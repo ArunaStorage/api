@@ -72,6 +72,14 @@ message FinishObjectUploadResponse {
 
 }
 
+message FinishObjectGroupUploadRequest {
+    string id = 1;
+}
+
+message FinishObjectGroupUploadResponse {
+
+}
+
 message DeleteObjectGroupRequest {
     string id = 1;
 }
