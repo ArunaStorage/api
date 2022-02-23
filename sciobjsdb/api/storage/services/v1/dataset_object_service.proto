@@ -52,7 +52,7 @@ service DatasetObjectsService {
     // Experimental, might change this to FinishObjectGroupUpload
     rpc FinishObjectGroupUpload(FinishObjectGroupUploadRequest) returns (FinishObjectGroupUploadResponse) {
         option (google.api.http) = {
-            post: "/api/v1/object/finish"
+            post: "/api/v1/objectgroup/finish"
             body: "*"
         };
     }
