@@ -16,4 +16,5 @@ message Project {
     repeated Metadata metadata = 5;
     repeated User users = 6;
     string bucket = 7;
+    Status status = 8;
 }

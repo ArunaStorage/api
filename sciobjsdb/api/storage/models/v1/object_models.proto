@@ -39,4 +39,5 @@ message Object {
     string object_group_id = 12;
     string dataset_id = 13;
     string project_id = 14;
+    Status status = 15;
 }
