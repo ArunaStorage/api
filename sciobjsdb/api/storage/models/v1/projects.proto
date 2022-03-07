@@ -17,6 +17,7 @@ message Project {
     repeated User users = 6;
     string bucket = 7;
     Status status = 8;
+    ProjectStats stats = 9;
 }
 
 message ProjectStats {
