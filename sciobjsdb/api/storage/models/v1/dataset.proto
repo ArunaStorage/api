@@ -36,7 +36,7 @@ message DatasetVersion {
     int64 object_count = 10; // Number of objects registered with this dataset version
     Status status = 11; // Indicates the status of a dataset
     string project_id = 12;
-    DatasetVersionStats stats = 12;
+    DatasetVersionStats stats = 13;
 }
 
 message DatasetStats {
