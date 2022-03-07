@@ -20,6 +20,7 @@ message Dataset {
     bool is_public = 8; //Indicates if the dataset if publicly available
     Status status = 9;
     string bucket = 10;
+    DatasetStats stats = 11;
 }
 
 message DatasetVersion {
@@ -35,4 +36,19 @@ message DatasetVersion {
     int64 object_count = 10; // Number of objects registered with this dataset version
     Status status = 11; // Indicates the status of a dataset
     string project_id = 12;
+    DatasetVersionStats stats = 12;
+}
+
+message DatasetStats {
+    int64 object_count = 1;
+    int64 object_group_count = 2;
+    int64 acc_size = 3;
+    int64 avg_object_size = 4;
+}
+
+message DatasetVersionStats {
+    int64 object_count = 1;
+    int64 object_group_count = 2;
+    int64 acc_size = 3;
+    int64 avg_object_size = 4;
 }

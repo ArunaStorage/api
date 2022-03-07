@@ -22,6 +22,13 @@ message ObjectGroup {
     repeated Object objects = 9;
     google.protobuf.Timestamp generated = 10;
     google.protobuf.Timestamp created = 11;
+    ObjectGroupStats stats = 12;
+}
+
+message  ObjectGroupStats {
+    int64 object_count = 1;
+    int64 acc_size = 2;
+    int64 avg_object_size = 3;
 }
 
 message Object {
@@ -40,4 +47,9 @@ message Object {
     string dataset_id = 13;
     string project_id = 14;
     Status status = 15;
+    ObjectStats stats = 16;
+}
+
+message ObjectStats {
+
 }
