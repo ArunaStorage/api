@@ -28,7 +28,7 @@ message ObjectGroup {
 message  ObjectGroupStats {
     int64 object_count = 1;
     int64 acc_size = 2;
-    int64 avg_object_size = 3;
+    double avg_object_size = 3;
 }
 
 message Object {

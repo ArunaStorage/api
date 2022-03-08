@@ -43,12 +43,12 @@ message DatasetStats {
     int64 object_count = 1;
     int64 object_group_count = 2;
     int64 acc_size = 3;
-    int64 avg_object_size = 4;
+    double avg_object_size = 4;
 }
 
 message DatasetVersionStats {
     int64 object_count = 1;
     int64 object_group_count = 2;
     int64 acc_size = 3;
-    int64 avg_object_size = 4;
+    double avg_object_size = 4;
 }
