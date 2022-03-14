@@ -98,7 +98,7 @@ service ProjectService {
         };
     }
 
-    //AddUserToProject Adds a new user to a given project
+    //AddUserToProject Adds a new user to a given project by its id
     rpc AddUserToProject (AddUserToProjectRequest) returns (AddUserToProjectResponse) {
         option (google.api.http) = {
             post: "/api/v1/project/addusertoproject"
@@ -106,7 +106,7 @@ service ProjectService {
         };
     }
 
-	//Creates an API token to authenticate 
+	//CreateAPIToken Creates an API token to authenticate 
     rpc CreateAPIToken(CreateAPITokenRequest) returns (CreateAPITokenResponse) {
         option (google.api.http) = {
             get: "/api/v1/createapitoken"
@@ -127,6 +127,7 @@ service ProjectService {
         };
     }
 
+	//GetProject Returns the specified project
     rpc GetProject(GetProjectRequest) returns (GetProjectResponse) {
         option (google.api.http) = {
             get: "/api/v1/project/{id}"
@@ -148,6 +149,7 @@ service ProjectService {
         };
     }
 
+	//DeleteAPITokenRequest Deletes the specified API Token
     rpc DeleteAPIToken(DeleteAPITokenRequest) returns (DeleteAPITokenResponse) {
         option (google.api.http) = {
             delete: "/api/v1/apitoken/{id}/delete"

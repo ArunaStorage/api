@@ -20,14 +20,17 @@ message CreateProjectRequest {
     repeated sciobjsdb.api.storage.models.v1.Label labels = 4;
 }
 
+//CreateProjectResponse Returns the id of the created project
 message CreateProjectResponse {
     string id = 1;
 }
 
+
+//AddUserToProjectRequest Request to add a user to a project
 message AddUserToProjectRequest {
-    string user_id = 1;
-    repeated sciobjsdb.api.storage.models.v1.Right scope = 2;
-    string project_id = 3;
+    string user_id = 1; //oauth2 id of the added user
+    repeated sciobjsdb.api.storage.models.v1.Right scope = 2; //rights of the user
+    string project_id = 3; //projectid of the project the user should be granted access to
 }
 
 message AddUserToProjectResponse {
@@ -39,7 +42,7 @@ message CreateAPITokenRequest {
 }
 
 message CreateAPITokenResponse {
-    sciobjsdb.api.storage.models.v1.APIToken token = 1;
+    sciobjsdb.api.storage.models.v1.APIToken token = 1; //API token with some additional information
 }
 
 message GetProjectDatasetsRequest {
@@ -47,7 +50,7 @@ message GetProjectDatasetsRequest {
 }
 
 message GetProjectDatasetsResponse {
-    repeated sciobjsdb.api.storage.models.v1.Dataset datasets = 1;
+    repeated sciobjsdb.api.storage.models.v1.Dataset datasets = 1; //Queried datasets 
 }
 
 message GetUserProjectsRequest {
@@ -55,7 +58,7 @@ message GetUserProjectsRequest {
 }
 
 message GetUserProjectsResponse {
-    repeated sciobjsdb.api.storage.models.v1.Project projects = 1;
+    repeated sciobjsdb.api.storage.models.v1.Project projects = 1; //Queried projects
 }
 
 message GetProjectRequest {
@@ -63,11 +66,11 @@ message GetProjectRequest {
 }
 
 message GetProjectResponse {
-    sciobjsdb.api.storage.models.v1.Project project = 1;
+    sciobjsdb.api.storage.models.v1.Project project = 1; //Quried project
 }
 
 message GetAPITokenResponse {
-    repeated sciobjsdb.api.storage.models.v1.APIToken token = 1;
+    repeated sciobjsdb.api.storage.models.v1.APIToken token = 1; //Queried API token
 }
 
 message GetAPITokenRequest {

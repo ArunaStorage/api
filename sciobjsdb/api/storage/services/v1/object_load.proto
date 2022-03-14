@@ -58,12 +58,16 @@ service ObjectLoadService {
         };
     }
 
+    // Returns a part of an multipart upload.
+    // Each but the last part needs to be bigger than 5MB in order to use this functionality
     rpc GetMultipartUploadLink(GetMultipartUploadLinkRequest) returns (GetMultipartUploadLinkResponse) {
         option (google.api.http) = {
             get: "/api/v1/objectload/upload_multipart_part/{object_id}/{upload_part}"
         };
     }
 
+
+    //CompleteMultipartUploadRequest Finishes a multipart upload after all parts have been uploaded
     rpc CompleteMultipartUpload(CompleteMultipartUploadRequest) returns (CompleteMultipartUploadResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectload/complete_multipart"

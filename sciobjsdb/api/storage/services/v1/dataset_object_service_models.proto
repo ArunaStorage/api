@@ -17,7 +17,7 @@ message CreateObjectGroupRequest {
     repeated sciobjsdb.api.storage.models.v1.Label labels = 4;
     repeated sciobjsdb.api.storage.models.v1.Metadata metadata = 5;
     repeated CreateObjectRequest objects = 6;
-    bool include_object_link = 8;
+    bool include_object_link = 8; //If true, an upload link for each generated object will be created. The order of the objects will be preserved in the returned list
     google.protobuf.Timestamp generated = 10;
     string uuid = 11; // A user defined uuid that is used to identify requests in chunked workloads
 
@@ -34,7 +34,7 @@ message CreateObjectGroupBatchResponse {
 
 message CreateObjectGroupResponse {
     string object_group_id = 1;
-    repeated ObjectLinks object_links = 2;
+    repeated ObjectLinks object_links = 2; //upload link for the individual objects of the objectgroup. Will only be used if include_object_link in the create request is specified.
     string object_group_name = 3;
     message ObjectLinks  {
         string filename = 1;
