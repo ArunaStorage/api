@@ -23,7 +23,7 @@ message CreateObjectGroupRequest {
     string uuid = 11; // A user defined uuid that is used to identify requests in chunked workloads
     sciobjsdb.api.storage.models.v1.Subpath subpath = 12; //External path that the objectgroup contents should be stored under.
     sciobjsdb.api.storage.models.v1.InnerPathType inner_path_type = 13;
-    sciobjsdb.api.storage.models.v1.OuterPathType outer_path_type = 14;
+    sciobjsdb.api.storage.models.v1.SubpathType subpath_type = 14;
 }
 
 message CreateObjectGroupBatchRequest {

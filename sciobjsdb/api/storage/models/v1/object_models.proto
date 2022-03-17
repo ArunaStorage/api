@@ -26,7 +26,7 @@ message ObjectGroup {
     ObjectGroupStats stats = 13;
     InnerPathType inner_path_type = 14; // Expected representation of the data and metadata objects in a file system
     Subpath subpath = 15; // Expected external path; Can be used when downloading data; Should be a relative path
-    OuterPathType outer_path_type = 16; // Modifies the way how objectgroups are handled in file systems
+    SubpathType subpath_type = 16; // Modifies the way how objectgroups are handled in file systems
 }
 
 message  ObjectGroupStats {
@@ -64,10 +64,10 @@ message Subpath {
     string path = 1;
 }
 
-enum OuterPathType {
-    OUTER_PATH_TYPE_UNSPECIFIED = 0; //Should behave like dir
-    OUTER_PATH_TYPE_DIR = 1; //Create a separate dir per ObjectGroup
-    OUTER_PATH_TYPE_FLAT = 2; //Do not create a separate dir per ObjectGroup; should still use the provided subpath
+enum SubpathType {
+    SUBPATH_TYPE_UNSPECIFIED = 0; //Should behave like dir
+    SUBPATH_TYPE_DIR = 1; //Create a separate dir per ObjectGroup
+    SUBPATH_TYPE_FLAT = 2; //Do not create a separate dir per ObjectGroup; should still use the provided subpath
 }
 
 //PathType represents the style in which the 
