@@ -13,7 +13,7 @@ message Project {
     string name = 2;
     string description = 3;
     repeated Label labels = 4;
-    repeated Metadata metadata = 5;
+    repeated Annotation annotations = 5;
     repeated User users = 6;
     string bucket = 7;
     Status status = 8;

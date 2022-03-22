@@ -114,15 +114,6 @@ message User {
     Resource resource = 3;
 }
 
-message Metadata {
-    string key = 1;
-    repeated Label labels = 2;
-    bytes metadata = 3;
-    oneof schema {
-        string simple_schema = 4;
-    }
-}
-
 message VersionTag {
     string name = 1;
     string version_id = 2;

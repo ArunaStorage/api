@@ -18,12 +18,10 @@ message CreateObjectGroupRequest {
     repeated sciobjsdb.api.storage.models.v1.Annotation annotations = 5;
     repeated CreateObjectRequest objects = 6;
     repeated CreateObjectRequest metadata_objects = 7;
-    bool include_object_link = 8; //If true, an upload link for each generated object will be created. The order of the objects will be preserved in the returned list
+    bool include_object_link = 8; //If true, an upload link for each generated object and metadata object will be created. The order of the objects will be preserved in the returned list
     google.protobuf.Timestamp generated = 10;
     string uuid = 11; // A user defined uuid that is used to identify requests in chunked workloads
     sciobjsdb.api.storage.models.v1.Subpath subpath = 12; //External path that the objectgroup contents should be stored under.
-    sciobjsdb.api.storage.models.v1.InnerPathType inner_path_type = 13;
-    sciobjsdb.api.storage.models.v1.SubpathType subpath_type = 14;
 }
 
 message CreateObjectGroupBatchRequest {
@@ -57,6 +55,7 @@ message CreateObjectRequest {
     repeated sciobjsdb.api.storage.models.v1.Annotation annotations = 4;
     int64 content_len = 5; // ContentLen: Lenght of the stored dataset
     sciobjsdb.api.storage.models.v1.Origin origin = 6; // Origin: Source of the dataset
+    sciobjsdb.api.storage.models.v1.Subpath subpath = 12; //External path that the object content should be stored under.
 }
 
 message GetObjectGroupRequest {

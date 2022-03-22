@@ -8,6 +8,7 @@ option java_outer_classname = "DatasetModels";
 
 import "google/protobuf/timestamp.proto";
 import "sciobjsdb/api/storage/models/v1/common_models.proto";
+import "sciobjsdb/api/storage/models/v1/object_models.proto";
 
 message Dataset {
     string id = 1;
@@ -15,12 +16,13 @@ message Dataset {
     string description = 3;
     google.protobuf.Timestamp created = 4; // When the datasets was created
     repeated Label labels = 5;
-    repeated Metadata metadata = 6;
+    repeated Annotation annotations = 6;
     string project_id = 7;
     bool is_public = 8; //Indicates if the dataset if publicly available
     Status status = 9;
     string bucket = 10;
     DatasetStats stats = 11;
+    repeated Object metadata_objects = 12;
 }
 
 message DatasetVersion {
@@ -29,7 +31,7 @@ message DatasetVersion {
     string description = 3;
     string dataset_id = 4;
     repeated Label labels = 5;
-    repeated Metadata metadata = 6;
+    repeated Annotation annotations = 6;
     google.protobuf.Timestamp created = 7; // When the datasets version was created
     Version version = 8;
     repeated string object_group_ids = 9;
@@ -37,6 +39,7 @@ message DatasetVersion {
     Status status = 11; // Indicates the status of a dataset
     string project_id = 12;
     DatasetVersionStats stats = 13;
+    repeated Object metadata_objects = 14;
 }
 
 message DatasetStats {
