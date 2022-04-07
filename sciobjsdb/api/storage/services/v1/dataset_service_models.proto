@@ -10,6 +10,8 @@ import "google/protobuf/timestamp.proto";
 import "sciobjsdb/api/storage/models/v1/dataset.proto";
 import "sciobjsdb/api/storage/models/v1/common_models.proto";
 import "sciobjsdb/api/storage/models/v1/object_models.proto";
+import "sciobjsdb/api/storage/services/v1/dataset_object_service_models.proto";
+
 
 // Dataset related Models
 message CreateDatasetRequest {
@@ -17,7 +19,8 @@ message CreateDatasetRequest {
     string description = 2;
     string project_id = 3; //ProjectID of the project the dataset is associated with
     repeated sciobjsdb.api.storage.models.v1.Label labels = 4;
-    repeated sciobjsdb.api.storage.models.v1.Metadata metadata = 5;
+    repeated sciobjsdb.api.storage.models.v1.Annotation annotations = 5;
+    repeated CreateObjectRequest metadata_objects = 6;
 }
 
 message CreateDatasetResponse {
@@ -133,8 +136,8 @@ message ReleaseDatasetVersionRequest {
     string name = 1;
     string dataset_id = 2;
     sciobjsdb.api.storage.models.v1.Version version = 3;
-    repeated sciobjsdb.api.storage.models.v1.Label labels = 5;
-    repeated sciobjsdb.api.storage.models.v1.Metadata metadata = 6;
+    repeated sciobjsdb.api.storage.models.v1.Label labels = 4;
+    repeated sciobjsdb.api.storage.models.v1.Annotation annotations = 5;
     repeated string object_group_ids = 7;
     string description = 8;
 }

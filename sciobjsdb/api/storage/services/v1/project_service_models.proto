@@ -16,8 +16,9 @@ import "sciobjsdb/api/storage/models/v1/projects.proto";
 message CreateProjectRequest {
     string name = 1;
     string description = 2;
-    repeated sciobjsdb.api.storage.models.v1.Metadata metadata = 3;
     repeated sciobjsdb.api.storage.models.v1.Label labels = 4;
+    repeated sciobjsdb.api.storage.models.v1.Annotation annotations = 5;
+
 }
 
 //CreateProjectResponse Returns the id of the created project

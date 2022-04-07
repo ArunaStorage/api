@@ -94,6 +94,11 @@ message Label {
     string value = 2;
 }
 
+message Annotation {
+    string key = 1;
+    string value = 2;
+}
+
 message ID {
     string id = 1; // An arbitrary ID
 }
@@ -107,15 +112,6 @@ message User {
     string user_id = 1;
     repeated Right rights = 2;
     Resource resource = 3;
-}
-
-message Metadata {
-    string key = 1;
-    repeated Label labels = 2;
-    bytes metadata = 3;
-    oneof schema {
-        string simple_schema = 4;
-    }
 }
 
 message VersionTag {
