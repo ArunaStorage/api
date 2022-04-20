@@ -10,6 +10,36 @@ import "sciobjsdb/api/storage/services/v1/dataset_object_service_models.proto";
 
 import "google/api/annotations.proto";
 
+service ObjectGroupRevisionsService {
+    rpc CreateRevisionMonitor(CreateRevisionMonitorRequest) returns (CreateRevisionMonitorResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectgrouprevisionsmonitor/create"
+            body: "*"
+        };
+    }
+
+    rpc GetRevisionMonitor(GetRevisionMonitorRequest) returns (GetRevisionMonitorResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectgrouprevisionsmonitor/get"
+            body: "*"
+        };
+    }
+
+    rpc GetRevisionMonitorObjectGroups(GetRevisionMonitorObjectGroupsRequest) returns (GetRevisionMonitorObjectGroupsResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectgrouprevisionsmonitorobjectgroups/get"
+            body: "*"
+        };
+    }
+
+    rpc GetCurrentRevisionMonitorObjectGroup(GetCurrentRevisionMonitorObjectGroupRequest) returns (GetCurrentRevisionMonitorObjectGroupResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/currentrevisionsmonitorobjectgroup/get"
+            body: "*"
+        };
+    }
+}
+
 service DatasetObjectsService {
     // Creates a new object group
     rpc CreateObjectGroup(CreateObjectGroupRequest) returns (CreateObjectGroupResponse) {

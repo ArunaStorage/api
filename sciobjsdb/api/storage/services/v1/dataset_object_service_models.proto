@@ -1,92 +1,117 @@
 syntax = "proto3";
 
 package sciobjsdb.api.storage.services.v1;
-option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/services/v1";
-option java_multiple_files = true;
-option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.services.v1";
-option java_outer_classname = "DatasetObjectsServiceModels";
 
 import "google/protobuf/timestamp.proto";
 import "sciobjsdb/api/storage/models/v1/common_models.proto";
 import "sciobjsdb/api/storage/models/v1/object_models.proto";
 
+option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/services/v1";
+option java_multiple_files = true;
+option java_outer_classname = "DatasetObjectsServiceModels";
+option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.services.v1";
+
 message CreateObjectGroupRequest {
-    string name = 1;
-    string description = 2;
-    string dataset_id = 3;
-    repeated sciobjsdb.api.storage.models.v1.Label labels = 4;
-    repeated sciobjsdb.api.storage.models.v1.Annotation annotations = 5;
-    repeated CreateObjectRequest objects = 6;
-    repeated CreateObjectRequest metadata_objects = 7;
-    bool include_object_link = 8; //If true, an upload link for each generated object and metadata object will be created. The order of the objects will be preserved in the returned list
-    google.protobuf.Timestamp generated = 10;
-    string uuid = 11; // A user defined uuid that is used to identify requests in chunked workloads
-    sciobjsdb.api.storage.models.v1.Subpath subpath = 12; //External path that the objectgroup contents should be stored under.
+  string name = 1;
+  string description = 2;
+  string dataset_id = 3;
+  repeated sciobjsdb.api.storage.models.v1.Label labels = 4;
+  repeated sciobjsdb.api.storage.models.v1.Annotation annotations = 5;
+  repeated CreateObjectRequest objects = 6;
+  repeated CreateObjectRequest metadata_objects = 7;
+  bool include_object_link = 8; //If true, an upload link for each generated object and metadata object will be created. The order of the objects will be preserved in the returned list
+  google.protobuf.Timestamp generated = 10;
+  string uuid = 11; // A user defined uuid that is used to identify requests in chunked workloads
+  sciobjsdb.api.storage.models.v1.Subpath subpath = 12; //External path that the objectgroup contents should be stored under.
+  string revision_monitor_id = 13; //If set the object group will be attached to the linked revision monitor
 }
 
 message CreateObjectGroupBatchRequest {
-    repeated CreateObjectGroupRequest requests = 1;
-    bool include_object_link = 2;
+  repeated CreateObjectGroupRequest requests = 1;
+  bool include_object_link = 2;
 }
 
 message CreateObjectGroupBatchResponse {
-    repeated CreateObjectGroupResponse responses = 1;
+  repeated CreateObjectGroupResponse responses = 1;
 }
 
 message CreateObjectGroupResponse {
-    string object_group_id = 1;
-    repeated ObjectLinks object_links = 2; //upload link for the individual objects of the objectgroup. Will only be used if include_object_link in the create request is specified.
-    repeated ObjectLinks metadata_object_links = 3;
-    string object_group_name = 4;
-    message ObjectLinks  {
-        string filename = 1;
-        string link = 2;
-        string object_id = 3;
-        int64 index = 4;
-    }
-    string uuid = 5; // A user defined uuid that is used to identify requests in chunked/streamed workloads
+  string object_group_id = 1;
+  repeated ObjectLinks object_links = 2; //upload link for the individual objects of the objectgroup. Will only be used if include_object_link in the create request is specified.
+  repeated ObjectLinks metadata_object_links = 3;
+  string object_group_name = 4;
+  message ObjectLinks {
+    string filename = 1;
+    string link = 2;
+    string object_id = 3;
+    int64 index = 4;
+  }
+  string uuid = 5; // A user defined uuid that is used to identify requests in chunked/streamed workloads
 }
 
-
 message CreateObjectRequest {
-    string filename = 1;
-    string filetype = 2;
-    repeated sciobjsdb.api.storage.models.v1.Label labels = 3;
-    repeated sciobjsdb.api.storage.models.v1.Annotation annotations = 4;
-    int64 content_len = 5; // ContentLen: Lenght of the stored dataset
-    sciobjsdb.api.storage.models.v1.Origin origin = 6; // Origin: Source of the dataset
-    sciobjsdb.api.storage.models.v1.Subpath subpath = 12; //External path that the object content should be stored under.
+  string filename = 1;
+  string filetype = 2;
+  repeated sciobjsdb.api.storage.models.v1.Label labels = 3;
+  repeated sciobjsdb.api.storage.models.v1.Annotation annotations = 4;
+  int64 content_len = 5; // ContentLen: Lenght of the stored dataset
+  sciobjsdb.api.storage.models.v1.Origin origin = 6; // Origin: Source of the dataset
+  sciobjsdb.api.storage.models.v1.Subpath subpath = 12; //External path that the object content should be stored under.
 }
 
 message GetObjectGroupRequest {
-    string id = 1;
+  string id = 1;
 }
 
 message GetObjectGroupResponse {
-    sciobjsdb.api.storage.models.v1.ObjectGroup object_group = 1;
+  sciobjsdb.api.storage.models.v1.ObjectGroup object_group = 1;
 }
-
 
 message FinishObjectUploadRequest {
-    string id = 1;
+  string id = 1;
 }
 
-message FinishObjectUploadResponse {
-
-}
+message FinishObjectUploadResponse {}
 
 message FinishObjectGroupUploadRequest {
-    string id = 1;
+  string id = 1;
 }
 
-message FinishObjectGroupUploadResponse {
-
-}
+message FinishObjectGroupUploadResponse {}
 
 message DeleteObjectGroupRequest {
-    string id = 1;
+  string id = 1;
 }
 
-message DeleteObjectGroupResponse {
-    
+message DeleteObjectGroupResponse {}
+
+message CreateRevisionMonitorRequest {}
+
+message CreateRevisionMonitorResponse {
+  string id = 1;
+}
+
+message GetRevisionMonitorRequest {
+  string id = 1;
+}
+
+message GetRevisionMonitorResponse {
+  sciobjsdb.api.storage.models.v1.ObjectGroupRevisionMonitor monitor = 1;
+}
+
+message GetRevisionMonitorObjectGroupsRequest {
+  string id = 1;
+  sciobjsdb.api.storage.models.v1.PageRequest page_request = 2;
+}
+
+message GetRevisionMonitorObjectGroupsResponse {
+  repeated sciobjsdb.api.storage.models.v1.ObjectGroup object_groups = 1;
+}
+
+message GetCurrentRevisionMonitorObjectGroupRequest {
+  string id = 1;
+}
+
+message GetCurrentRevisionMonitorObjectGroupResponse {
+  sciobjsdb.api.storage.models.v1.ObjectGroup object_group = 1;
 }
