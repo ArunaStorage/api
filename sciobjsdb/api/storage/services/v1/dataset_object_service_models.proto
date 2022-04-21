@@ -85,9 +85,7 @@ message DeleteObjectGroupRequest {
 
 message DeleteObjectGroupResponse {}
 
-message CreateRevisionMonitorRequest {
-  string dataset_id = 1;
-}
+message CreateRevisionMonitorRequest {}
 
 message CreateRevisionMonitorResponse {
   string id = 1;
