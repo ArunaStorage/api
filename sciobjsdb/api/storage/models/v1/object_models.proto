@@ -14,6 +14,8 @@ message ObjectGroup {
     string id = 1;
     int64 revision_counter = 2;
     ObjectGroupRevision current_revision = 3;
+    string dataset_id = 4;
+    string project_id = 5;
 }
 
 message ObjectGroupRevision {
