@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package sciobjsdb.api.storage.services.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/services/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.services.v1";
+option java_outer_classname = "AnonymousUploadServiceModels";
+
+import "google/protobuf/timestamp.proto";
+//import "sciobjsdb/api/storage/models/v1/common_models.proto";
+import "sciobjsdb/api/storage/models/v1/object_models.proto";
+
+
+message AnonymousUpload {
+    string id = 1;
+    repeated sciobjsdb.api.storage.models.v1.ObjectGroup objectgroups = 2;
+    google.protobuf.Timestamp created_at = 3;
+    google.protobuf.Timestamp expires_at = 4;
+    string secret = 5;
+}
+
+message CreateAnonymousUploadRequest {
+    string id = 1;
+    repeated sciobjsdb.api.storage.models.v1.ObjectGroup objectgroups = 2;
+}
+
+message CreateAnonymousUploadResponse {
+    string id = 1;
+    string signature = 2;
+}
+
+message DeleteAnonymousUploadRequest {
+    string id = 1;
+}
+
+message DeleteAnonymousUploadResponse {}
+
+
+message UpdateAnonymousUploadRequest {
+    string id = 1;
+    repeated sciobjsdb.api.storage.models.v1.ObjectGroup objectgroups = 2;
+}
+
+message UpdateAnonymousUploadResponse {
+    string id = 1;
+    string signature = 2;
+}
+
+message GetAnonymousUploadRequest {
+    string id = 1;
+    string signature = 2;
+}
+
+message UrlResponse {
+    repeated Url url = 1;
+}
+
+message Url {
+    sciobjsdb.api.storage.models.v1.ObjectGroup objectgroup = 1;
+    string url = 2;
+}
+
