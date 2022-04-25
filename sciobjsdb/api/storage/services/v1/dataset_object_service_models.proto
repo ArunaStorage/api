@@ -61,10 +61,24 @@ message CreateObjectRequest {
 
 message GetObjectGroupRequest {
     string id = 1;
+    ObjectGroupRevisionPagination pagination = 2; //If left empty, all revisions will be added to the response
+    message ObjectGroupRevisionPagination {
+        int64 start_revision_number = 1;
+        int64 last_revision_number = 2;
+    }
 }
 
 message GetObjectGroupResponse {
     sciobjsdb.api.storage.models.v1.ObjectGroup object_group = 1;
+    repeated sciobjsdb.api.storage.models.v1.ObjectGroupRevision object_group_revisions = 2;
+}
+
+message GetObjectGroupRevisionRequest {
+    string id = 1;
+}
+
+message GetObjectGroupRevisionResponse {
+    sciobjsdb.api.storage.models.v1.ObjectGroupRevision object_group_revision = 1;
 }
 
 

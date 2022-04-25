@@ -29,10 +29,18 @@ service DatasetObjectsService {
         };
     }
 
-    //Returns the object group with the given ID
     rpc GetObjectGroup(GetObjectGroupRequest) returns (GetObjectGroupResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/get"
+            body: "*"
+        };
+    }
+
+
+    //Returns the object group with the given ID
+    rpc GetObjectGroupRevision(GetObjectGroupRevisionRequest) returns (GetObjectGroupRevisionResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectgrouprevision/get"
             body: "*"
         };
     }
