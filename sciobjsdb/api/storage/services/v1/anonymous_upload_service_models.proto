@@ -8,20 +8,18 @@ option java_outer_classname = "AnonymousUploadServiceModels";
 
 import "google/protobuf/timestamp.proto";
 //import "sciobjsdb/api/storage/models/v1/common_models.proto";
-import "sciobjsdb/api/storage/models/v1/object_models.proto";
-
+//import "sciobjsdb/api/storage/models/v1/object_models.proto";
 
 message AnonymousUpload {
     string id = 1;
-    repeated sciobjsdb.api.storage.models.v1.ObjectGroup objectgroups = 2;
+    repeated string objectid = 2;
     google.protobuf.Timestamp created_at = 3;
     google.protobuf.Timestamp expires_at = 4;
     string secret = 5;
 }
 
 message CreateAnonymousUploadRequest {
-    string id = 1;
-    repeated sciobjsdb.api.storage.models.v1.ObjectGroup objectgroups = 2;
+    repeated string objectid = 1;
 }
 
 message CreateAnonymousUploadResponse {
@@ -38,7 +36,8 @@ message DeleteAnonymousUploadResponse {}
 
 message UpdateAnonymousUploadRequest {
     string id = 1;
-    repeated sciobjsdb.api.storage.models.v1.ObjectGroup objectgroups = 2;
+    string signature = 2;
+    repeated string objectid = 3;
 }
 
 message UpdateAnonymousUploadResponse {
@@ -56,7 +55,7 @@ message UrlResponse {
 }
 
 message Url {
-    sciobjsdb.api.storage.models.v1.ObjectGroup objectgroup = 1;
+    string objectid = 1;
     string url = 2;
 }
 
