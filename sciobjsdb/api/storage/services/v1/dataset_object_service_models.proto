@@ -45,6 +45,7 @@ message CreateObjectGroupResponse {
         int64 index = 4;
     }
     string uuid = 5; // A user defined uuid that is used to identify requests in chunked/streamed workloads
+    string object_group_revision_id = 6;
 }
 
 

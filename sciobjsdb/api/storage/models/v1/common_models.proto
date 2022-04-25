@@ -13,6 +13,7 @@ enum Status {
     STATUS_UPDATING = 3;
     STATUS_ARCHIVED = 4;
     STATUS_DELETING = 5;
+    STATUS_STAGING = 6;
 }
 
 enum Right {
