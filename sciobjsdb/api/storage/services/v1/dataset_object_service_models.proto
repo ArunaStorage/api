@@ -90,11 +90,11 @@ message FinishObjectUploadResponse {
 
 }
 
-message FinishObjectGroupUploadRequest {
+message FinishObjectGroupRevisionUploadRequest {
     string id = 1;
 }
 
-message FinishObjectGroupUploadResponse {
+message FinishObjectGroupRevisionUploadResponse {
 
 }
 

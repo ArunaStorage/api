@@ -58,7 +58,7 @@ service DatasetObjectsService {
     // Finishes the upload process for an objectgroup
     // This will change the status of the objectgroup to "available"
     // Experimental, might change this to FinishObjectGroupUpload
-    rpc FinishObjectGroupUpload(FinishObjectGroupUploadRequest) returns (FinishObjectGroupUploadResponse) {
+    rpc FinishObjectGroupRevisionUpload(FinishObjectGroupRevisionUploadRequest) returns (FinishObjectGroupRevisionUploadResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/finish"
             body: "*"
