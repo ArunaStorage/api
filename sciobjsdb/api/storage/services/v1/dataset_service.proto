@@ -79,8 +79,8 @@ service DatasetService {
   // The date range is not the date when the data was created in the system but
   // byte the externally date that indicates the actual creation of the data
   // rather than the date the data was ingested into the system
-  rpc GetObjectGroupsInDateRange(GetObjectGroupsInDateRangeRequest)
-      returns (GetObjectGroupsInDateRangeResponse) {
+  rpc GetObjectGroupRevisionsInDateRange(GetObjectGroupRevisionsInDateRangeRequest)
+      returns (GetObjectGroupRevisionsInDateRangeResponse) {
     option (google.api.http) = {
       post : "/api/v1/objectgroupsindaterange/query"
       body : "*"

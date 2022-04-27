@@ -53,14 +53,14 @@ message GetDatasetObjectGroupsResponse {
     repeated sciobjsdb.api.storage.models.v1.ObjectGroup object_groups = 1;
 }
 
-message GetObjectGroupsInDateRangeRequest {
+message GetObjectGroupRevisionsInDateRangeRequest {
     string id = 1;
     google.protobuf.Timestamp start = 2;
     google.protobuf.Timestamp end = 3;
 }
 
-message GetObjectGroupsInDateRangeResponse {
-    repeated sciobjsdb.api.storage.models.v1.ObjectGroup object_groups = 1;
+message GetObjectGroupRevisionsInDateRangeResponse {
+    repeated sciobjsdb.api.storage.models.v1.ObjectGroupRevision object_group_revisions = 1;
 }
 
 // GetObjectGroupsStreamLinkRequest a request for a get link to stream a set of object groups
