@@ -44,10 +44,20 @@ service DatasetObjectsService {
             body: "*"
         };
     }
+    
+    // Updates an ObjectGroup
+    // This creates a new ObjectGroupRevisions
+    // It needs to be finished via FinishObjectGroupRevisionUpload before it is actually available
+    // Currently experimental
+    rpc UpdateObjectGroup(UpdateObjectGroupRequest) returns (UpdateObjectGroupResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/objectgroup/update"
+            body: "*"
+        };
+    }
 
     // Finishes the upload process for an object
     // This will change the status of the objects to "available"
-    // Experimental, might change this to FinishObjectGroupUpload
     rpc FinishObjectUpload(FinishObjectUploadRequest) returns (FinishObjectUploadResponse) {
         option (google.api.http) = {
             post: "/api/v1/object/finish"
@@ -57,7 +67,6 @@ service DatasetObjectsService {
 
     // Finishes the upload process for an objectgroup
     // This will change the status of the objectgroup to "available"
-    // Experimental, might change this to FinishObjectGroupUpload
     rpc FinishObjectGroupRevisionUpload(FinishObjectGroupRevisionUploadRequest) returns (FinishObjectGroupRevisionUploadResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgroup/finish"

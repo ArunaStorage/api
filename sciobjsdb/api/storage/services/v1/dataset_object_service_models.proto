@@ -81,7 +81,7 @@ message GetObjectGroupRevisionResponse {
     sciobjsdb.api.storage.models.v1.ObjectGroupRevision object_group_revision = 1;
 }
 
-message UpdateObjectGroup{
+message UpdateObjectGroupRequest{
     string id = 1;
     string parent_revision_id = 2;
     UpdateObjectsRequests update_objects = 3;
@@ -100,6 +100,9 @@ message UpdateObjectRequest {
     oneof update_object {
         CreateObjectRequest updated_object = 2;
     };
+}
+
+message UpdateObjectGroupResponse{
 }
 
 
