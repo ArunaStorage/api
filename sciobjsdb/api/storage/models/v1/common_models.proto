@@ -45,6 +45,7 @@ message ObjectLocation {
     string bucket = 1;
     string key = 2;
     string url = 3; // Object storage endpoint
+    Status status = 4;
 }
 
 // A location in S3
@@ -53,6 +54,7 @@ message IndexedObjectLocation {
     string key = 2;
     string url = 3; // Object storage endpoint
     Index index = 4;
+    Status status = 5;
 }
 
 message Index {
