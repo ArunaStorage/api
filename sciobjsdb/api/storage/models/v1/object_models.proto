@@ -54,7 +54,6 @@ message Object {
     repeated Location location = 7; // Location: Location of the data
     Origin origin = 8; // Origin: Source of the dataset
     int64 content_len = 9; // ContentLen: Lenght of the stored dataset
-    string upload_id = 10;
     google.protobuf.Timestamp generated = 11;
     string object_group_id = 12;
     string dataset_id = 13;
