@@ -51,7 +51,7 @@ message Object {
     repeated Label labels = 4;
     repeated Annotation annotations = 5;
     google.protobuf.Timestamp created = 6; // When the data object was created
-    Location location = 7; // Location: Location of the data
+    repeated Location location = 7; // Location: Location of the data
     Origin origin = 8; // Origin: Source of the dataset
     int64 content_len = 9; // ContentLen: Lenght of the stored dataset
     string upload_id = 10;
