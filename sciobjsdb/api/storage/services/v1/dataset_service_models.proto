@@ -53,14 +53,14 @@ message GetDatasetObjectGroupsResponse {
     repeated sciobjsdb.api.storage.models.v1.ObjectGroup object_groups = 1;
 }
 
-message GetObjectGroupsInDateRangeRequest {
+message GetObjectGroupRevisionsInDateRangeRequest {
     string id = 1;
     google.protobuf.Timestamp start = 2;
     google.protobuf.Timestamp end = 3;
 }
 
-message GetObjectGroupsInDateRangeResponse {
-    repeated sciobjsdb.api.storage.models.v1.ObjectGroup object_groups = 1;
+message GetObjectGroupRevisionsInDateRangeResponse {
+    repeated sciobjsdb.api.storage.models.v1.ObjectGroupRevision object_group_revisions = 1;
 }
 
 // GetObjectGroupsStreamLinkRequest a request for a get link to stream a set of object groups
@@ -138,7 +138,7 @@ message ReleaseDatasetVersionRequest {
     sciobjsdb.api.storage.models.v1.Version version = 3;
     repeated sciobjsdb.api.storage.models.v1.Label labels = 4;
     repeated sciobjsdb.api.storage.models.v1.Annotation annotations = 5;
-    repeated string object_group_ids = 7;
+    repeated string object_group_revision_ids = 7;
     string description = 8;
 }
 
@@ -161,7 +161,7 @@ message GetDatasetVersionObjectGroupsRequest {
 }
 
 message GetDatasetVersionObjectGroupsResponse {
-    repeated sciobjsdb.api.storage.models.v1.ObjectGroup object_group = 1;
+    repeated sciobjsdb.api.storage.models.v1.ObjectGroupRevision object_group_revisions = 1;
 }
 
 message DeleteDatasetVersionRequest {

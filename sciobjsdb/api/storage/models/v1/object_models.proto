@@ -12,6 +12,14 @@ import "google/protobuf/timestamp.proto";
 
 message ObjectGroup {
     string id = 1;
+    int64 revision_counter = 2;
+    ObjectGroupRevision current_revision = 3;
+    string dataset_id = 4;
+    string project_id = 5;
+}
+
+message ObjectGroupRevision {
+    string id = 1;
     string name = 2;
     string description = 3;
     string dataset_id = 4;
@@ -25,6 +33,8 @@ message ObjectGroup {
     google.protobuf.Timestamp created = 12;
     ObjectGroupStats stats = 13;
     Subpath subpath = 15; // Expected external path; Can be used when downloading data; Should be a relative path
+    string object_group_id = 16;
+    int64 revision_number = 17; //Number in the history, will be assigned after the ObjectGroupRevision has been finalized
 }
 
 message  ObjectGroupStats {

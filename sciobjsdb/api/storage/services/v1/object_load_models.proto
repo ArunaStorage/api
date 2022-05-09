@@ -106,8 +106,8 @@ message CreateDownloadLinkStreamResponse {
 
 
 message LinksResponse {
-    repeated sciobjsdb.api.storage.models.v1.ObjectGroup object_groups = 1;
-    repeated InnerLinksResponse object_group_links = 2;
+    repeated sciobjsdb.api.storage.models.v1.ObjectGroupRevision object_group_revisions = 1;
+    repeated InnerLinksResponse object_group_revision_links = 2;
 
 }
 
