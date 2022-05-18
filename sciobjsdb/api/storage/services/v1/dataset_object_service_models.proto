@@ -48,6 +48,16 @@ message CreateObjectGroupResponse {
     string object_group_revision_id = 6;
 }
 
+message CreateObjectGroupRevisionFromRevisionRequest {
+    string revision_id = 1;
+    UpdateObjectsRequests update_objects = 2;
+    UpdateObjectsRequests update_meta_objects = 3;
+    string object_group_id = 4;
+}
+
+message CreateObjectGroupRevisionFromRevisionResponse {
+    string id = 1;
+}
 
 message CreateObjectRequest {
     string filename = 1;
@@ -83,9 +93,7 @@ message GetObjectGroupRevisionResponse {
 
 message UpdateObjectGroupRequest{
     string id = 1;
-    string parent_revision_id = 2;
-    UpdateObjectsRequests update_objects = 3;
-    UpdateObjectsRequests update_meta_objects = 4;
+    string revision_id = 2;
 }
 
 message UpdateObjectsRequests {
@@ -98,7 +106,7 @@ message UpdateObjectsRequests {
 message UpdateObjectRequest {
     string id = 1;
     oneof update_object {
-        CreateObjectRequest updated_object = 2;
+        CreateObjectRequest updated_object = 2; // For testing only
     };
 }
 
