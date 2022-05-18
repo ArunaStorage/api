@@ -23,7 +23,7 @@ service DatasetObjectsService {
     // The created revision will be associated with an objectgroup but is not part of its revision history
     // The revision needs to be finished and in available status. After that the UpdateObjectGroup request can be issued to actually add the revision to
     // the objectgroups revision history.
-    rpc CreateObjectGroupRevisionFromRevision(CreateObjectGroupRevisionFromRevisionRequest) returns (CreateObjectGroupRevisionFromRevisionResponse) {
+    rpc CreateObjectGroupRevision(CreateObjectGroupRevisionRequest) returns (CreateObjectGroupRevisionResponse) {
         option (google.api.http) = {
             post: "/api/v1/objectgrouprevision/createfromrevision"
             body: "*"
