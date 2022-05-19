@@ -95,9 +95,13 @@ message UpdateObjectGroupRequest{
 
 message UpdateObjectsRequests {
     repeated CreateObjectRequest add_objects = 1;
-    repeated UpdateObjectRequest update_object = 2;
-    repeated string delete_objects = 3;
+    repeated UpdateObjectRequest update_objects = 2;
+    repeated ExistingObjectRequest existing_objects = 3;
 
+}
+
+message ExistingObjectRequest {
+    string id = 1;
 }
 
 message UpdateObjectRequest {
