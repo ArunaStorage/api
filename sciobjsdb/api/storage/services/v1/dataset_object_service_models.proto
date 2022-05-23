@@ -90,7 +90,7 @@ message GetObjectGroupRevisionResponse {
 
 message UpdateObjectGroupRequest{
     string id = 1;
-    string revision_id = 2;
+    UpdateObjectsRequests update = 2;
 }
 
 message UpdateObjectsRequests {
