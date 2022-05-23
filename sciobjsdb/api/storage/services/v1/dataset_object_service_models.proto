@@ -26,17 +26,8 @@ message CreateObjectGroupBatchResponse {
 
 message CreateObjectGroupResponse {
     string object_group_id = 1;
-    repeated ObjectLinks object_links = 2; //upload link for the individual objects of the objectgroup. Will only be used if include_object_link in the create request is specified.
-    repeated ObjectLinks metadata_object_links = 3;
     string object_group_name = 4;
-    message ObjectLinks  {
-        string filename = 1;
-        string link = 2;
-        string object_id = 3;
-        int64 index = 4;
-    }
-    string uuid = 5; // A user defined uuid that is used to identify requests in chunked/streamed workloads
-    string object_group_revision_id = 6;
+    CreateObjectGroupRevisionResponse create_revision_response = 6;
 }
 
 message CreateObjectGroupRevisionRequest {
@@ -54,6 +45,15 @@ message CreateObjectGroupRevisionRequest {
 
 message CreateObjectGroupRevisionResponse {
     string id = 1;
+    repeated ObjectLinks object_links = 2; //upload link for the individual objects of the objectgroup. Will only be used if include_object_link in the create request is specified.
+    repeated ObjectLinks metadata_object_links = 3;
+    message ObjectLinks  {
+        string filename = 1;
+        string link = 2;
+        string object_id = 3;
+        int64 index = 4;
+    }
+
 }
 
 message CreateObjectRequest {
