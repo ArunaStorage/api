@@ -45,13 +45,13 @@ message CreateObjectGroupRevisionRequest {
 
 message CreateObjectGroupRevisionResponse {
     string id = 1;
-    repeated ObjectLinks object_links = 2; //upload link for the individual objects of the objectgroup. Will only be used if include_object_link in the create request is specified.
-    repeated ObjectLinks metadata_object_links = 3;
+    repeated sciobjsdb.api.storage.models.v1.Object data_objects = 2;
+    repeated sciobjsdb.api.storage.models.v1.Object meta_objects = 3;
+    repeated ObjectLinks object_links = 4; //upload link for the individual objects of the objectgroup. Will only be used if include_object_link in the create request is specified.
+    repeated ObjectLinks metadata_object_links = 5;
     message ObjectLinks  {
-        string filename = 1;
         string link = 2;
         string object_id = 3;
-        int64 index = 4;
     }
 
 }
