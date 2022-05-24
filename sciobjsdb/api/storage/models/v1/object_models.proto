@@ -35,7 +35,6 @@ message ObjectGroupRevision {
     Subpath subpath = 15; // Expected external path; Can be used when downloading data; Should be a relative path
     string object_group_id = 16;
     int64 revision_number = 17; //Number in the history, will be assigned after the ObjectGroupRevision has been finalized and added to the objectgroups history
-    RevisionChanges changes = 18;
 }
 
 message  ObjectGroupStats {
@@ -43,13 +42,6 @@ message  ObjectGroupStats {
     int64 acc_size = 2;
     double avg_object_size = 3;
     int64 meta_object_count = 4;
-}
-
-message RevisionChanges {
-    repeated string added_objects = 1;
-    repeated string updated_objects = 2;
-    repeated string existing_objects = 3;
-    repeated string deleted_objects = 4;
 }
 
 message Object {
