@@ -74,20 +74,18 @@ service DatasetObjectsService {
         };
     }
 
-    // Finishes the upload process for an objectgroup
-    // This will change the status of the objectgroup to "available"
-    rpc FinishObjectGroupRevisionUpload(FinishObjectGroupRevisionUploadRequest) returns (FinishObjectGroupRevisionUploadResponse) {
-        option (google.api.http) = {
-            post: "/api/v1/objectgroup/finish"
-            body: "*"
-        };
-    }
-
     // Deletes the given object group
     // This will also delete all associated objects both as metadata objects and the actual objects in the object storage
     rpc DeleteObjectGroup(DeleteObjectGroupRequest) returns (DeleteObjectGroupResponse) {
         option (google.api.http) = {
             delete: "/api/v1/objectgroup/{id}"
+        };
+    }
+
+    rpc CreateObject(CreateObjectRequest) returns (CreateObjectResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/object"
+            body: "*"
         };
     }
 }

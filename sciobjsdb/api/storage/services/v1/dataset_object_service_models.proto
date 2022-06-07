@@ -31,7 +31,6 @@ message CreateObjectGroupResponse {
 }
 
 message CreateObjectGroupRevisionRequest {
-    string revision_id = 1;
     UpdateObjectsRequests update_objects = 2;
     UpdateObjectsRequests update_meta_objects = 3;
     string object_group_id = 4;
@@ -66,6 +65,22 @@ message CreateObjectRequest {
     sciobjsdb.api.storage.models.v1.Subpath subpath = 12; //External path that the object content should be stored under.
 }
 
+message CreateObjectResponse {
+    string id = 1;
+    string upload_link = 2;
+}
+
+message GetObjectRequest {
+    string id = 1;
+}
+
+message CreateObjectFromUpdate {}
+
+
+message DeleteObject {
+    string id = 1;
+}
+
 message GetObjectGroupRequest {
     string id = 1;
     ObjectGroupRevisionPagination pagination = 2; //If left empty, all revisions will be added to the response
@@ -94,22 +109,21 @@ message UpdateObjectGroupRequest{
 }
 
 message UpdateObjectsRequests {
-    repeated CreateObjectRequest add_objects = 1;
+    repeated AddObjectRequest add_objects = 1;
     repeated UpdateObjectRequest update_objects = 2;
-    repeated ExistingObjectRequest existing_objects = 3;
+    repeated DeleteObjectRequest delete_objects = 3;
 
 }
 
-message ExistingObjectRequest {
+message AddObjectRequest {
     string id = 1;
 }
 
-message UpdateObjectRequest {
+message DeleteObjectRequest {
     string id = 1;
-    oneof update_object {
-        CreateObjectRequest updated_object = 2; // For testing only
-    };
 }
+
+message UpdateObjectRequest {}
 
 message UpdateObjectGroupResponse{
 }
