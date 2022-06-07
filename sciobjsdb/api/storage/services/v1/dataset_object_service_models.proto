@@ -63,6 +63,7 @@ message CreateObjectRequest {
     int64 content_len = 5; // ContentLen: Lenght of the stored dataset
     sciobjsdb.api.storage.models.v1.Origin origin = 6; // Origin: Source of the dataset
     sciobjsdb.api.storage.models.v1.Subpath subpath = 12; //External path that the object content should be stored under.
+    string dataset_id = 13;
 }
 
 message CreateObjectResponse {
