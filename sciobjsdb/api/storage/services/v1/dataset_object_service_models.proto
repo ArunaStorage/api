@@ -106,7 +106,7 @@ message GetObjectGroupRevisionResponse {
 
 message UpdateObjectGroupRequest{
     string id = 1;
-    string revision_id = 2;
+    CreateObjectGroupRevisionRequest create_revision_request = 2;
 }
 
 message UpdateObjectsRequests {
