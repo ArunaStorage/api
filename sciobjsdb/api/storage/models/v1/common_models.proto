@@ -131,3 +131,7 @@ message PageRequest {
     string last_uuid = 1;
     uint64 page_size = 2;
 }
+
+message LabelFilter {
+    repeated Label labels = 1;
+}

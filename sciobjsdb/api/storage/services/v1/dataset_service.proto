@@ -30,6 +30,13 @@ service DatasetService {
     };
   }
 
+  rpc GetDatasetObjects(GetDatasetObjectsRequest) returns (GetDatasetObjectsResponse) {
+    option (google.api.http) = {
+      post : "/api/v1/datasetobjects/get"
+      body : "*"
+    };
+  }
+
   // Lists Versions of a dataset
   rpc GetDatasetVersions(GetDatasetVersionsRequest)
       returns (GetDatasetVersionsResponse) {

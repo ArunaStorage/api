@@ -35,6 +35,14 @@ message GetDatasetResponse {
     sciobjsdb.api.storage.models.v1.Dataset dataset = 1;
 }
 
+message GetDatasetObjectsRequest {
+    string id = 1;
+    sciobjsdb.api.storage.models.v1.PageRequest page_request = 2;
+}
+
+message GetDatasetObjectsResponse {
+    repeated sciobjsdb.api.storage.models.v1.Object objects = 1;
+}
 
 message GetDatasetVersionsRequest {
     string id = 1;
@@ -47,6 +55,7 @@ message GetDatasetVersionsResponse {
 message GetDatasetObjectGroupsRequest {
     string id = 1;
     sciobjsdb.api.storage.models.v1.PageRequest page_request = 2;
+    sciobjsdb.api.storage.models.v1.Label label_filter = 3;
 }
 
 message GetDatasetObjectGroupsResponse {
