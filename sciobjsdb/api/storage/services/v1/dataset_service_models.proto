@@ -38,6 +38,7 @@ message GetDatasetResponse {
 message GetDatasetObjectsRequest {
     string id = 1;
     sciobjsdb.api.storage.models.v1.PageRequest page_request = 2;
+    sciobjsdb.api.storage.models.v1.LabelFilter label_filter = 3;
 }
 
 message GetDatasetObjectsResponse {
