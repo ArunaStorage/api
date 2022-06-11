@@ -35,6 +35,9 @@ message GetDatasetResponse {
     sciobjsdb.api.storage.models.v1.Dataset dataset = 1;
 }
 
+// Returns all objects of a dataset, the label filter option can be used to find only objects that at least have a specific set of labels (but can have more)
+// For returning large numbers of objects the query can be paginated
+// There is no guarantee that paginated queries return consistent results, since they can reflect changes that were made between two different pagianted calls.
 message GetDatasetObjectsRequest {
     string id = 1;
     sciobjsdb.api.storage.models.v1.PageRequest page_request = 2;
