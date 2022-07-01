@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package sciobjsdb.api.storage.services.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/services/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.services.v1";
+option java_outer_classname = "ObjectLoadServiceModels";
+
+import "google/protobuf/timestamp.proto";
+import "sciobjsdb/api/storage/models/v1/object_models.proto";
+
+message CreateUploadLink {
+    string id = 1;
+}
+
+message CreateUploadLinkRequest {
+    string id = 1;
+}
+
+message CreateUploadLinkResponse {
+    string upload_link = 1;
+}
+
+message CreateDownloadLinkRequest {
+    string id = 1; //Object id the download is requested for
+    Range range = 2; //Optional; Byte range of the data object
+
+    message Range {
+        int64 start_byte = 1;package sciobjsdb.api.storage.services.v1;
+        option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/services/v1";
+        option java_multiple_files = true;
+        option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.services.v1";
+        option java_outer_classname = "ObjectLoadServices";
+        
+        import "sciobjsdb/api/storage/services/v1/object_load_models.proto";
+        import "google/api/annotations.proto";
+    repeated CreateDownloadLinkRequest requests = 1;
+}
+
+message CreateDownloadLinkBatchResponse {
+    repeated CreateDownloadLinkResponse links = 1;
+}
+
+
+message StartMultipartUploadRequest {
+    string id = 1;package sciobjsdb.api.storage.services.v1;
+    option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/services/v1";
+    option java_multiple_files = true;
+    option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.services.v1";
+    option java_outer_classname = "ObjectLoadServices";
+    
+    import "sciobjsdb/api/storage/services/v1/object_load_models.proto";
+    import "google/api/annotations.proto";
+
+message GetMultipartUploadLinkRequest {
+    string object_id = 1;
+    int64 upload_part = 2;
+}
+
+message CompleteMultipartUploadRequest {
+    string object_id = 1;
+    repeated CompletedParts parts = 2;
+}
+
+message CompleteMultipartUploadResponse {
+
+}
+
+message CompletedParts {
+    string etag = 1;
+    int64 part = 2;
+}
+
+message CreateDownloadLinkStreamRequest {
+    oneof query {
+        DatasetQuery dataset = 1;
+        DatasetVersionQuery dataset_version = 3;
+        DateRangeQuery date_range = 4;
+    }
+
+    message DateRangeQuery {
+        string dataset_id = 3;
+        google.protobuf.Timestamp start = 1;
+        google.protobuf.Timestamp end = 2;
+    }
+
+    message DatasetQuery {
+        string dataset_id = 1;
+    }
+
+    message DatasetVersionQuery {
+        string dataset_id = 1;
+        string dataset_version_id = 2;
+    }
+}
+
+message CreateDownloadLinkStreamResponse {
+    LinksResponse links = 1;
+}
+
+
+message LinksResponse {
+    repeated sciobjsdb.api.storage.models.v1.ObjectGroup object_groups = 1;
+    repeated InnerLinksResponse object_group_links = 2;
+
+}
+
+message InnerLinksResponse {
+    repeated string object_links = 1; 
+}
