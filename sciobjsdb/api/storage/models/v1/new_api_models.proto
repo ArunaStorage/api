@@ -1,5 +1,5 @@
 syntax = "proto3";
-import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";;
 
 // A key value pair for hooks and labels
 message KeyValue {
@@ -9,9 +9,9 @@ message KeyValue {
 
 // An arbitrary status for Objects
 enum Status {
-    STATUS_INITIALIZING = 1;
-    STATUS_AVAILABLE = 2;
-    STATUS_UNAVAILABLE = 3;
+    STATUS_INITIALIZING = 0;
+    STATUS_AVAILABLE = 1;
+    STATUS_UNAVAILABLE = 2;
 }
 
 // S3 location(s) for an object
@@ -64,16 +64,16 @@ message Version {
 }
 
 enum Permission {
-    PERM_READ = 1; // Read only
-    PERM_APPEND = 2; // Append objects to the collection cannot modify existing objects
-    PERM_MODIFY = 3; // Can Read/Append/Modify objects in the collection that owns the object
-    PERM_ADMIN = 4; // Can modify the collection itself and permanently delete owned objects / move ownership of objects
+    PERM_READ = 0; // Read only
+    PERM_APPEND = 1; // Append objects to the collection cannot modify existing objects
+    PERM_MODIFY = 2; // Can Read/Append/Modify objects in the collection that owns the object
+    PERM_ADMIN = 3; // Can modify the collection itself and permanently delete owned objects / move ownership of objects
 }
 
 enum PermType {
-    PERM_TYPE_USER = 1; // Regular OAuth users
-    PERM_TYPE_ANONYMOUS = 2; // Anonymous users without an OAuth token
-    PERM_TYPE_TOKEN = 3; // Access token on behalf of a user
+    PERM_TYPE_USER = 0; // Regular OAuth users
+    PERM_TYPE_ANONYMOUS = 1; // Anonymous users without an OAuth token
+    PERM_TYPE_TOKEN = 2; // Access token on behalf of a user
 }
 
 message Authorization {
@@ -84,10 +84,10 @@ message Authorization {
 }
 
 enum Hashalgorithm {
-    HASHALGO_MD5 = 1;
-    HASHALGO_SHA1 = 2;
-    HASHALGO_SHA256 = 3;
-    HASHALGO_SHA512 = 4;
+    HASHALGO_MD5 = 0;
+    HASHALGO_SHA1 = 1;
+    HASHALGO_SHA256 = 2;
+    HASHALGO_SHA512 = 3;
 }
 
 message HashType {
