@@ -1,0 +1,179 @@
+syntax = "proto3";
+import "google/api/annotations.proto";
+
+// A key value pair for hooks and labels
+message KeyValue {
+    string key = 1;
+    string value = 2;
+}
+
+// An arbitrary status for Objects
+enum Status {
+    STATUS_INITIALIZING = 1;
+    STATUS_AVAILABLE = 2;
+    STATUS_UNAVAILABLE = 3;
+}
+
+// S3 location(s) for an object
+message Location {
+    ObjectLocation default = 1; // default location
+    repeated ObjectLocation locations = 2; // list of locations
+}
+
+// A location in S3
+message ObjectLocation {
+    oneof location {
+        string location_id = 1;
+        S3Location s3_location = 2;
+    }
+}
+
+message S3Location {
+    string bucket = 1; // Bucket in S3
+    string key = 2; // Key in S3
+    string url = 3; // Object storage endpoint
+}
+
+
+// Stats for a set of objects
+message Stats {
+    int64 count = 1;
+    int64 acc_size = 2;
+    double avg_object_size = 3;
+}
+
+
+// Stats for a collection
+message CollectionStats {
+    Stats object_stats = 1;
+    int64 object_group_count = 2;
+}
+
+// Stats for an object group
+message ObjectGroupStats {
+    Stats total_stats = 1;
+    Stats object_stats = 2;
+    Stats meta_object_stats = 3;
+}
+
+// Semver version -> Alpha Beta release are not supported -> Use "latest" for mutable collections that are in development
+message Version {
+    int32 major = 1;
+    int32 minor = 2;
+    int32 patch = 3;
+}
+
+enum Permission {
+    PERM_READ = 1; // Read only
+    PERM_APPEND = 2; // Append objects to the collection cannot modify existing objects
+    PERM_MODIFY = 3; // Can Read/Append/Modify objects in the collection that owns the object
+    PERM_ADMIN = 4; // Can modify the collection itself and permanently delete owned objects / move ownership of objects
+}
+
+enum PermType {
+    PERM_TYPE_USER = 1; // Regular OAuth users
+    PERM_TYPE_ANONYMOUS = 2; // Anonymous users without an OAuth token
+    PERM_TYPE_TOKEN = 3; // Access token on behalf of a user
+}
+
+message Authorization {
+    string id = 1;
+    Permission permission = 2;
+    PermType perm_type = 3;
+    string client_id = 4; // Can be userid, tokenid or anonymous id depending on perm_type
+}
+
+enum Hashalgorithm {
+    HASHALGO_MD5 = 1;
+    HASHALGO_SHA1 = 2;
+    HASHALGO_SHA256 = 3;
+    HASHALGO_SHA512 = 4;
+}
+
+message HashType {
+    Hashalgorithm alg = 1;
+    string hash = 2;
+}
+
+
+
+// RULES for Objects:
+// 1.  Each object is "owned" by exactly one collection
+// 2.  Objects can be "borrowed" to multiple other collections
+// 3.  Objects are immutable, updating an object will create a new object with increased revision number
+//     only people with modify permissions in the owner collection can update an object
+// 3.1 Special cases: 
+//     Hooks: Can be added/removed and modified without changing the object revision number
+//     Labels: Can be added without changing the object revision number, removing or modifying labels WILL change the object revision number (append only)
+//     auto_update: Can be added/removed without changing the object revision number and is collection specific
+// 4.  Objects can only be permanently deleted by a person with admin rights on the owner collection
+
+
+message Object {
+    string id = 1; //ObjectID -> This is not unique across the database -> Composite key with revision
+    string filename = 2; // Filename: Name of the original file e.g.: mydata.json
+    repeated KeyValue labels = 4; // Labels to additionally describe the object
+    repeated KeyValue hooks = 5; // Hooks to be executed on the object
+    google.protobuf.Timestamp created = 6;
+    string collection_id = 7; // Each object is owned by exactly one collection
+    // TODO: Does the User need to know where the object is stored? URL ? Standort ?
+    Location location = 8; // Location of the data
+    int64 content_len = 9; // Lenght of the stored dataset
+    Status status = 10;
+    string hash = 11; // MD5 hash of the data TODO: Aufblasen auf mehrere Hash-Funktionen
+    int64 rev_number = 12; // Increasing revion number for each update -> This is used in the database
+    bool latest = 13; // Is this the latest version of the object?
+    
+    
+    // This is a collection specific attribute
+    // Must be false if collection is immutable
+    bool auto_update = 14; // If true, the object will be updated automatically when the data is changed
+        
+}
+
+// ObjectGroups are optional and can be used to group objects in a collection together
+// They need to refer to objects in the same collection
+// Objectgroups can be changed if the collection is mutable
+message ObjectGroup {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    string collection_id = 4; // Exactly one collection must be specified
+    repeated KeyValue labels = 6; // TODO: Is this really needed ?
+    repeated KeyValue hooks = 7; // TODO: Is this really needed ?
+    repeated Object objects = 8; // Must be in collection objects
+    repeated Object meta_objects = 9; // Must be in collection objects
+    ObjectGroupStats stats = 10;
+    int64 rev_number = 11;
+}
+
+
+
+
+// RULES for Collections:
+// 1. Each object is "owned" by exactly one collection
+// 2. Objects can be in multiple collections and must be in the owner collection
+// 3. Collections are either mutable with Version.latest == true or immutable with a fixed version number
+// 3.1 If a collection gets a fixed version a copy is created with all "latest" objects dereferenced to their respective revisions
+// 3.2 Modifying an immutable collection will create a new copy of the collection with a new version number
+// 4. Collections can be created by any user, but only the owner can modify or delete them
+
+
+message Collection {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    repeated KeyValue labels = 4;
+    repeated KeyValue hooks = 5;
+    google.protobuf.Timestamp created = 6;
+    repeated Object objects = 7;
+    repeated Object collection_specification = 8;
+    repeated ObjectGroup object_groups = 9;
+    repeated Authorization authorization = 10;
+    oneof Version {
+        Version version = 11;
+        bool latest = 12;
+    }
+    CollectionStats stats = 13;
+    bool is_public = 14;   
+}
