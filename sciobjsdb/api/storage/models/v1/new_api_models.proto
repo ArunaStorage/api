@@ -1,6 +1,8 @@
 syntax = "proto3";
 import "google/protobuf/timestamp.proto";;
 
+package storage.models.v1;
+
 // A key value pair for hooks and labels
 message KeyValue {
     string key = 1;
