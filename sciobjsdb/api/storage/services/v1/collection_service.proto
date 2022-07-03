@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package storage.services.v1;
+
+import "sciobjsdb/api/storage/services/v1/collection_service_models.proto";
+
+service ObjectLoadService {
+    rpc CreateCollection(CreateCollectionRequest) returns (CreateCollectionResponse);
+    rpc GetCollection(GetCollectionRequest) returns (GetCollectionResponse);
+}

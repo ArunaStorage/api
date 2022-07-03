@@ -7,7 +7,6 @@ option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storag
 option java_outer_classname = "ObjectLoadServiceModels";
 
 import "google/protobuf/timestamp.proto";
-import "sciobjsdb/api/storage/models/v1/object_models.proto";
 
 message CreateUploadLink {
     string id = 1;
@@ -26,14 +25,17 @@ message CreateDownloadLinkRequest {
     Range range = 2; //Optional; Byte range of the data object
 
     message Range {
-        int64 start_byte = 1;package sciobjsdb.api.storage.services.v1;
-        option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/services/v1";
-        option java_multiple_files = true;
-        option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.services.v1";
-        option java_outer_classname = "ObjectLoadServices";
-        
-        import "sciobjsdb/api/storage/services/v1/object_load_models.proto";
-        import "google/api/annotations.proto";
+        int64 start_byte = 1;
+        int64 end_byte = 2;
+    }
+}
+
+message CreateDownloadLinkResponse {
+    string download_link = 1;
+    sciobjsdb.api.storage.models.v1.Object object = 2;
+}
+
+message CreateDownloadLinkBatchRequest {
     repeated CreateDownloadLinkRequest requests = 1;
 }
 
@@ -43,14 +45,17 @@ message CreateDownloadLinkBatchResponse {
 
 
 message StartMultipartUploadRequest {
-    string id = 1;package sciobjsdb.api.storage.services.v1;
-    option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/services/v1";
-    option java_multiple_files = true;
-    option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.services.v1";
-    option java_outer_classname = "ObjectLoadServices";
-    
-    import "sciobjsdb/api/storage/services/v1/object_load_models.proto";
-    import "google/api/annotations.proto";
+    string id = 1;
+}
+
+message StartMultipartUploadResponse {
+    sciobjsdb.api.storage.models.v1.Object object = 1;
+}
+
+message GetMultipartUploadLinkResponse {
+    string upload_link = 1;
+    sciobjsdb.api.storage.models.v1.Object object = 2;
+}
 
 message GetMultipartUploadLinkRequest {
     string object_id = 1;
@@ -100,8 +105,8 @@ message CreateDownloadLinkStreamResponse {
 
 
 message LinksResponse {
-    repeated sciobjsdb.api.storage.models.v1.ObjectGroup object_groups = 1;
-    repeated InnerLinksResponse object_group_links = 2;
+    repeated sciobjsdb.api.storage.models.v1.ObjectGroupRevision object_group_revisions = 1;
+    repeated InnerLinksResponse object_group_revision_links = 2;
 
 }
 
