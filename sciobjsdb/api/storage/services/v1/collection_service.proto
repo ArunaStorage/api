@@ -4,7 +4,7 @@ package storage.services.v1;
 
 import "sciobjsdb/api/storage/services/v1/collection_service_models.proto";
 
-service ObjectLoadService {
+service CollectionService {
     rpc CreateCollection(CreateCollectionRequest) returns (CreateCollectionResponse);
     rpc GetCollection(GetCollectionRequest) returns (GetCollectionResponse);
 }
