@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package sciobjsdb.api.notification.services.v1;
-option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/services/v1";
+package aruna.api.notification.services.v1;
+option go_package = "github.com/ArunaStorage/go-api/sciobjsdb/api/storage/services/v1";
 option java_multiple_files = true;
-option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.services.v1";
+option java_package = "com.github.ArunaStorage.java_api.sciobjsdb.api.storage.services.v1";
 option java_outer_classname = "NotificationServiceModels";
 
-import "sciobjsdb/api/storage/models/v1/common_models.proto";
+import "aruna/api/storage/models/v1/new_api_models.proto";
 import "google/protobuf/timestamp.proto";
 
 message CreateEventStreamingGroupRequest {
@@ -64,7 +64,7 @@ message NotificationStreamResponse {
 }
 
 message EventNotificationMessage {
-  sciobjsdb.api.storage.models.v1.Resource resource = 1;
+  //storage.models.v1.Resource resource = 1;
   string resource_id = 2;
   UpdateType updated_type = 3;
 

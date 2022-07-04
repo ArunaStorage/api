@@ -1,7 +1,7 @@
 syntax = "proto3";
-import "google/protobuf/timestamp.proto";;
+import "google/protobuf/timestamp.proto";
 
-package storage.models.v1;
+package aruna.api.storage.models.v1;
 
 // A key value pair for hooks and labels
 message KeyValue {
@@ -23,6 +23,7 @@ message Location {
 }
 
 // A location in S3
+// This can be either a location_id as a description e.g. "giessen" or a specific S3 location
 message ObjectLocation {
     oneof location {
         string location_id = 1;
@@ -92,9 +93,16 @@ enum Hashalgorithm {
     HASHALGO_SHA512 = 3;
 }
 
-message HashType {
+message Hash {
     Hashalgorithm alg = 1;
     string hash = 2;
+}
+
+message Project {
+    string id = 1;
+    repeated string user_ids = 2;
+    repeated string collection_ids = 3;
+    string description = 4;
 }
 
 
@@ -122,7 +130,7 @@ message Object {
     Location location = 8; // Location of the data
     int64 content_len = 9; // Lenght of the stored dataset
     Status status = 10;
-    string hash = 11; // MD5 hash of the data TODO: Aufblasen auf mehrere Hash-Funktionen
+    Hash hash = 11; // MD5 hash of the data TODO: Aufblasen auf mehrere Hash-Funktionen
     int64 rev_number = 12; // Increasing revion number for each update -> This is used in the database
     bool latest = 13; // Is this the latest version of the object?
     

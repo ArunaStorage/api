@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v1;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v1";
+option java_outer_classname = "CollectionService";
+
+import "aruna/api/storage/models/v1/new_api_models.proto";
+import "google/api/annotations.proto";
+
+
+service CollectionService {
+    rpc CreateNewCollection(CreateNewCollectionRequest) returns (CollectionId){
+        option (google.api.http) = {
+            post: "/v1/collection"
+            body: "*"
+        };
+    }
+    rpc GetCollection(CollectionId) returns (storage.models.v1.Collection){
+        option (google.api.http) = {
+            get: "/api/v1/collection/{id}"
+        };
+    }
+
+    rpc UpdateCollection(storage.models.v1.Collection) returns (storage.models.v1.Collection){
+        option (google.api.http) = {
+            put: "/api/v1/collection/{id}"
+            body: "*"
+        };
+    }
+
+    rpc AddExistingObjectsToCollection(AddObjectRequest) returns (storage.models.v1.Collection){
+        option (google.api.http) = {
+            post: "/api/v1/collection/{collection_id}/objects"
+            body: "*"
+        };
+    }
+
+}
+
+// Models:
+
+message CollectionId {
+    string id = 1;
+}
+
+message CreateNewCollectionRequest {
+    string name = 1;
+    string description = 2;
+    repeated storage.models.v1.KeyValue labels = 3;
+    repeated storage.models.v1.KeyValue hooks = 4;
+    repeated storage.models.v1.Authorization authorization = 5;
+}
+
+message AddObjectRequest {
+    string collection_id = 1;
+    repeated string object_id = 2;
+}
