@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package aruna.api.storage.models.v1;
+
+enum Permission {
+    PERM_READ = 0; // Read only
+    PERM_APPEND = 1; // Append objects to the collection cannot modify existing objects
+    PERM_MODIFY = 2; // Can Read/Append/Modify objects in the collection that owns the object
+    PERM_ADMIN = 3; // Can modify the collection itself and permanently delete owned objects / move ownership of objects
+}
+
+enum PermType {
+    PERM_TYPE_USER = 0; // Regular OAuth users
+    PERM_TYPE_ANONYMOUS = 1; // Anonymous users without an OAuth token
+    PERM_TYPE_TOKEN = 2; // Access token on behalf of a user
+}
+
+message Authorization {
+    string id = 1;
+    Permission permission = 2;
+    PermType perm_type = 3;
+    string client_id = 4; // Can be userid, tokenid or anonymous id depending on perm_type
+}
