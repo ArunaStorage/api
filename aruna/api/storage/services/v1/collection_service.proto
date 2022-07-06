@@ -41,10 +41,6 @@ service CollectionService {
 
 // Models:
 
-message CollectionId {
-    string id = 1;
-}
-
 message CreateNewCollectionRequest {
     string name = 1;
     string description = 2;
