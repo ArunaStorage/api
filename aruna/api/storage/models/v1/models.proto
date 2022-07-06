@@ -13,9 +13,10 @@ message KeyValue {
 
 // An arbitrary status for Objects
 enum Status {
-    STATUS_INITIALIZING = 0;
-    STATUS_AVAILABLE = 1;
-    STATUS_UNAVAILABLE = 2;
+    STATUS_UNSPECIFIED = 0;
+    STATUS_INITIALIZING = 1;
+    STATUS_AVAILABLE = 2;
+    STATUS_UNAVAILABLE = 3;
 }
 
 // S3 location(s) for an object
@@ -69,10 +70,11 @@ message Version {
 }
 
 enum Hashalgorithm {
-    HASHALGO_MD5 = 0;
-    HASHALGO_SHA1 = 1;
-    HASHALGO_SHA256 = 2;
-    HASHALGO_SHA512 = 3;
+    HASHALGO_UNSPECIFIED = 0;
+    HASHALGO_MD5 = 1;
+    HASHALGO_SHA1 = 2;
+    HASHALGO_SHA256 = 3;
+    HASHALGO_SHA512 = 4;
 }
 
 message Hash {
