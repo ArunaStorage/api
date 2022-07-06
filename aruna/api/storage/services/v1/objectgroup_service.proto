@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v1;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v1";
+option java_outer_classname = "ObjectGroupService";
+
+import "aruna/api/storage/models/v1/models.proto";
+import "aruna/api/storage/models/v1/auth.proto";
+import "google/api/annotations.proto";
+
+
+// This service is tightly coupled with the collection service
+// Objectgroups are bound to collections and are only revisioned in the collection
+// Therefore the http paths for the underlying collections are used for the objectgroup
+
+service ObjectGroupService {
+
+    // This creates a new ObjectGroup in the collection
+    rpc CreateObjectGroup(AddGroupRequest) returns (storage.models.v1.ObjectGroup) {
+        option (google.api.http) = {
+            post: "/v1/collection/{collection_id}/group"
+            body: "*"
+        };
+    }
+
+}
+
+
+// Models
+
+message AddGroupRequest {
+    string name = 1;
+    string description = 2;
+    string collection_id = 3;
+    repeated storage.models.v1.Object objects = 4; // This is the reference to the Objects that should be added to the group
+    repeated storage.models.v1.Object meta_objects = 5; // This is a reference to the Objects that are associated with "meta" data about corresponding objects in the group
+    repeated storage.models.v1.KeyValue labels = 6; // TODO: Is this needed?
+    repeated storage.models.v1.KeyValue hooks = 7; // TODO: Is this needed?
+}

@@ -7,32 +7,33 @@ option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.servic
 option java_outer_classname = "CollectionService";
 
 import "aruna/api/storage/models/v1/models.proto";
+import "aruna/api/storage/models/v1/auth.proto";
 import "google/api/annotations.proto";
 
 
 service CollectionService {
-    rpc CreateNewCollection(CreateNewCollectionRequest) returns (CollectionId){
+    rpc CreateNewCollection(CreateNewCollectionRequest) returns (CreateNewCollectionResponse){
         option (google.api.http) = {
             post: "/v1/collection"
             body: "*"
         };
     }
-    rpc GetCollection(CollectionId) returns (storage.models.v1.Collection){
+    rpc GetCollection(GetCollectionRequest) returns (GetCollectionResponse){
         option (google.api.http) = {
-            get: "/api/v1/collection/{id}"
+            get: "/v1/collection/{id}"
         };
     }
 
-    rpc UpdateCollection(storage.models.v1.Collection) returns (storage.models.v1.Collection){
+    rpc UpdateCollection(UpdateCollectionRequest) returns (UpdateCollectionResponse){
         option (google.api.http) = {
-            put: "/api/v1/collection/{id}"
+            put: "/v1/collection/{id}"
             body: "*"
         };
     }
 
-    rpc AddExistingObjectsToCollection(AddObjectRequest) returns (storage.models.v1.Collection){
+    rpc AddExistingObjectsToCollection(AddExistingObjectToCollectionRequest) returns (AddExistingObjectToCollectionResponse){
         option (google.api.http) = {
-            post: "/api/v1/collection/{collection_id}/objects"
+            post: "/v1/collection/{collection_id}/objects"
             body: "*"
         };
     }
@@ -49,7 +50,36 @@ message CreateNewCollectionRequest {
     repeated storage.models.v1.Authorization authorization = 5;
 }
 
-message AddObjectRequest {
+message CreateNewCollectionResponse {
+    string id = 1;
+}
+
+message GetCollectionRequest {
+    string id = 1;
+}
+
+message GetCollectionResponse {
+    storage.models.v1.Collection collection = 1;
+}
+
+message UpdateCollectionRequest {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    repeated storage.models.v1.KeyValue labels = 4;
+    repeated storage.models.v1.KeyValue hooks = 5;
+    repeated storage.models.v1.Authorization authorization = 6;
+}
+
+message UpdateCollectionResponse {
+    storage.models.v1.Collection collection = 1;
+}
+
+message AddExistingObjectToCollectionRequest {
     string collection_id = 1;
     repeated string object_id = 2;
+}
+
+message AddExistingObjectToCollectionResponse {
+    storage.models.v1.Collection collection = 1;
 }

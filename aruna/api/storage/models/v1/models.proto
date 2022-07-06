@@ -159,7 +159,7 @@ message Collection {
     repeated KeyValue hooks = 5;
     google.protobuf.Timestamp created = 6;
     repeated Object objects = 7;
-    repeated Object collection_specification = 8;
+    repeated Object specifications = 8;
     repeated ObjectGroup object_groups = 9;
     repeated Authorization authorization = 10;
     oneof Version {
