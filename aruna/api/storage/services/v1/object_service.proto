@@ -16,7 +16,7 @@ service ObjectService {
     // This initializes a new object
     // Initializing an object will put it in a staging area.
     // Staged objects will get a separate staging id and need to be finished before they can be used.
-    rpc InitializeNewObject(ObjectInitRequest) returns (StagingObject){
+    rpc InitializeNewObject(InitializeNewObjectRequest) returns (InitializeNewObjectResponse){
         option (google.api.http) = {
             post: "/v1/object"
             body: "*"
@@ -25,21 +25,21 @@ service ObjectService {
 
     // S3 url service
     // This method will return a url that can be used to upload a file to S3.
-    rpc GetUploadURLSingle(GetSingleUrl) returns (URL){
+    rpc GetUploadURLSingle(GetUploadURLSingleRequest) returns (GetUploadURLSingleResponse){
         option (google.api.http) = {
             get: "/v1/object/{id}/staging/{staging_id}/upload"
         };
     }
 
     // This method will return a (multi-part) url that can be used to upload a file to S3.
-    rpc GetUploadURLMulti(GetMultiUrl) returns (URL){
+    rpc GetUploadURLMulti(GetUploadURLMultiRequest) returns (GetUploadURLMultiResponse){
         option (google.api.http) = {
             get: "/v1/object/{id}/staging/{staging_id}/upload_multi/{part_number}"
         };
     }
 
     // This method will return a url that can be used to download a file from S3.
-    rpc GetDownloadURL(GetDownloadUrl) returns (URL){
+    rpc GetDownloadURL(GetDownloadURLRequest) returns (GetDownloadURLResponse){
         option (google.api.http) = {
             get: "/v1/object/{id}/download"
         };
@@ -48,16 +48,15 @@ service ObjectService {
 
     // This method can be used to get download urls for multiple objects.
     // The order of the returned urls will be the same as the order of the object ids in the request.
-    rpc CreateDownloadLinkBatch(GetDownloadBatch) returns (URLList) {
+    rpc GetDownloadLinksBatch(GetDownloadLinkBatchRequest) returns (GetDownloadLinkBatchResponse) {
         option (google.api.http) = {
-            post: "/v1/objects"
-            body: "*"
+            get: "/v1/objects"
         };
     }
 
     // Creates a stream of objects and presigned links based on the provided query
     // This can be used retrieve a large number of Objects as a stream that would otherwise cause issues with the connection
-    rpc CreateDownloadLinkStream(GetDownloadBatch) returns (stream URL) {
+    rpc CreateDownloadLinksStream(CreateDownloadLinksStreamRequest) returns (stream CreateDownloadLinksStreamResponse) {
          option (google.api.http) = {
              post: "/v1/objects/stream"
              body: "*"
@@ -68,7 +67,7 @@ service ObjectService {
 
 
     // This method completes the staging of an object.
-    rpc FinishObjectStaging(FinishRequest) returns (storage.models.v1.Object){
+    rpc FinishObjectStaging(FinishObjectStagingRequest) returns (FinishObjectStagingResponse){
         option (google.api.http) = {
             post: "/v1/object/{id}/staging/{staging_id}/finish"
             body: "*"
@@ -79,7 +78,7 @@ service ObjectService {
     // Updating an object will create a new revision for the object
     // This method will put the new revision in a staging area.
     // Staged objects will get a separate staging id and need to be finished before they can be used.
-    rpc UpdateObject(ObjectUpdateRequest) returns (StagingObject){
+    rpc UpdateObject(UpdateObjectRequest) returns (UpdateObjectResponse){
         option (google.api.http) = {
             post: "/v1/object/{id}/update"
             body: "*"
@@ -94,11 +93,7 @@ message URL {
     string url = 1;
 }
 
-message URLList {
-    repeated URL urls = 1;
-}
-
-message InitObject {
+message StageObject {
     string filename = 1;
     string description = 2;
     string collection_id = 3;
@@ -107,14 +102,14 @@ message InitObject {
     repeated storage.models.v1.KeyValue hooks = 6;
 }
 
-message ObjectInitRequest {
+message InitializeNewObjectRequest {
     // This describes the object to be initialized.
-    InitObject object = 1;
+    StageObject object = 1;
     // Should the object be uploaded via multipart?
     bool multipart = 2;
 }
 
-message StagingObject {
+message InitializeNewObjectResponse {
     // ObjectId 
     string id = 1;
     // Staging ID, a generic ID when multipart is not enabled, otherwise the multipart upload ID.
@@ -123,7 +118,7 @@ message StagingObject {
     string collection_id = 3;
 }
 
-message GetSingleUrl {
+message GetUploadURLSingleRequest {
     // ObjectId 
     string id = 1;
     // Staging ID, a generic ID when multipart is not enabled, otherwise the multipart upload ID.
@@ -132,7 +127,13 @@ message GetSingleUrl {
     string collection_id = 3;
 }
 
-message GetMultiUrl {
+message GetUploadURLSingleResponse {
+    // URL
+    URL url = 1;
+}
+
+
+message GetUploadURLMultiRequest {
     // ObjectId 
     string id = 1;
     // Staging ID, a generic ID when multipart is not enabled, otherwise the multipart upload ID.
@@ -141,6 +142,11 @@ message GetMultiUrl {
     string collection_id = 3;
     // Part number
     int32 part_number = 4;
+}
+
+message GetUploadURLMultiResponse {
+    // URL
+    URL url = 1;
 }
 
 
@@ -159,21 +165,42 @@ message ObjectRevision {
     int64 revision = 2;
 }
 
-message GetDownloadUrl {
+message GetDownloadURLRequest {
     string collection_id = 1;
     ObjectRevision object = 2;
 }
 
+message GetDownloadURLResponse {
+    URL url = 1;
+}
 
-message GetDownloadBatch {
+
+message GetDownloadLinkBatchRequest {
     // CollectionID
     string collection_id = 1;
     // ObjectIds
     repeated ObjectRevision objects = 2;
 }
 
+message GetDownloadLinkBatchResponse {
+    repeated URL urls = 1;
+}
 
-message FinishRequest {
+
+message CreateDownloadLinksStreamRequest {
+       // CollectionID
+       string collection_id = 1;
+       // ObjectIds
+       repeated ObjectRevision objects = 2;
+}
+
+message CreateDownloadLinksStreamResponse {
+    URL url = 1;
+}
+
+
+
+message FinishObjectStagingRequest {
     // ObjectId 
     string id = 1;
     // Staging ID, a generic ID when multipart is not enabled, otherwise the multipart upload ID.
@@ -198,13 +225,26 @@ message FinishRequest {
     repeated string collection_ids = 7;
 }
 
-message ObjectUpdateRequest {
+message FinishObjectStagingResponse {
+    storage.models.v1.Object object = 1;
+}
+
+message UpdateObjectRequest {
     // Existing object ID
     string id = 1;
     // New object data
-    InitObject object = 2;
+    StageObject object = 2;
     // Should new data be uploaded ?
     bool reupload = 3;
     // Should a multipart upload be used?
     bool multi_part = 4;
+}
+
+message UpdateObjectResponse {
+    // ObjectId 
+    string id = 1;
+    // Staging ID, a generic ID when multipart is not enabled, otherwise the multipart upload ID.
+    string staging_id = 2;
+    // CollectionID
+    string collection_id = 3;
 }
