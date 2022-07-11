@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+// Definition for the internal API that is used to communicate with all internal components.
+
+service Internal {
+    rpc CreatePresignedUpload(CreatePresignedUploadRequest) returns (CreatePresignedUploadResponse) {}
+    rpc CreatePresignedDownload(CreatePresignedDownloadRequest) returns (CreatePresignedDownloadResponse) {}
+}
+
+
+enum LocationType{
+    LOCATION_TYPE_UNSPECIFIED = 0;
+    LOCATION_TYPE_S3 = 1;
+    LOCATION_TYPE_FILE = 2;
+}
+
+message Location {
+    LocationType type = 1;
+    string group = 2; // This is the bucket name for S3. This is the folder name for local file.
+    string path = 3; // This is the key name for S3. This is the file name for local file.
+}
+
+message CreatePresignedUploadRequest {
+    Location location = 1;
+}
+
+message CreatePresignedUploadResponse {
+    // The presigned URL to upload the file to.
+    string url = 1;
+}
+
+message CreatePresignedDownloadRequest {
+    Location location = 1;
+}
+
+message CreatePresignedDownloadResponse {
+    // The presigned URL to download the file to.
+    string url = 1;
+}
