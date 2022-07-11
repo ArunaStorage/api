@@ -89,6 +89,29 @@ message Project {
     string description = 4;
 }
 
+// Specifies the Origin of the object
+enum OriginType {
+    ORIG_UNSPECIFIED = 0;
+    ORIG_USER = 1; // User uploaded the object
+    ORIG_OBJCLONE = 2; // Object was cloned from another object
+}
+
+
+// Origin of the object -> To be DSGVO compliant
+message Origin {
+    OriginType type = 1;
+    string id = 2;
+}
+
+// Dataclass defines the confidentiality of the object
+enum DataClass {
+    DATA_CLASS_UNSPECIFIED = 0;
+    DATA_CLASS_PUBLIC = 1;
+    DATA_CLASS_PRIVATE = 2;
+    DATA_CLASS_CONFIDENTIAL = 3;
+    DATA_CLASS_PROTECTED = 4;
+}
+
 
 
 // RULES for Objects:
@@ -110,18 +133,19 @@ message Object {
     repeated KeyValue hooks = 5; // Hooks to be executed on the object
     google.protobuf.Timestamp created = 6;
     string collection_id = 7; // Each object is owned by exactly one collection
-    // TODO: Does the User need to know where the object is stored? URL ? Standort ?
     Location location = 8; // Location of the data
     int64 content_len = 9; // Lenght of the stored dataset
     Status status = 10;
-    Hash hash = 11; // MD5 hash of the data TODO: Aufblasen auf mehrere Hash-Funktionen
-    int64 rev_number = 12; // Increasing revion number for each update -> This is used in the database
-    bool latest = 13; // Is this the latest version of the object?
+    Origin origin = 11; // Origin of the object
+    DataClass data_class = 12; // Confidentiality of the object
+    Hash hash = 13; // MD5 hash of the data
+    int64 rev_number = 14; // Increasing revion number for each update -> This is used in the database
+    bool latest = 15; // Is this the latest version of the object?
     
     
     // This is a collection specific attribute
     // Must be false if collection is immutable
-    bool auto_update = 14; // If true, the object will be updated automatically when the data is changed
+    bool auto_update = 16; // If true, the object will be updated automatically when the data is changed
         
 }
 
@@ -133,8 +157,8 @@ message ObjectGroup {
     string name = 2;
     string description = 3;
     string collection_id = 4; // Exactly one collection must be specified
-    repeated KeyValue labels = 6; // TODO: Is this really needed ?
-    repeated KeyValue hooks = 7; // TODO: Is this really needed ?
+    repeated KeyValue labels = 6; 
+    repeated KeyValue hooks = 7;
     repeated Object objects = 8; // Must be in collection objects
     repeated Object meta_objects = 9; // Must be in collection objects
     ObjectGroupStats stats = 10;
