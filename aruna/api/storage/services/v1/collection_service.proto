@@ -38,6 +38,12 @@ service CollectionService {
         };
     }
 
+    rpc GetObjectsInCollection(GetObjectsInCollectionRequest) returns (GetObjectsInCollectionResponse){
+        option (google.api.http) = {
+            get: "/v1/collection/{collection_id}/objects"
+        };
+    }
+
 }
 
 // Models:
@@ -82,4 +88,12 @@ message AddExistingObjectToCollectionRequest {
 
 message AddExistingObjectToCollectionResponse {
     storage.models.v1.Collection collection = 1;
+}
+
+message GetObjectsInCollectionRequest {
+    string collection_id = 1;
+}
+
+message GetObjectsInCollectionResponse {
+    repeated storage.models.v1.Object object = 1;
 }
