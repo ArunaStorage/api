@@ -1,27 +1,55 @@
 syntax = "proto3";
 
 // Definition for the internal API that is used to communicate with all internal components.
+//
+// All uploads should follow this procedure:
+// 1. Init a new upload.
+// 2. Create a Upload Presigned URL (The URL should contain a specifier for the upload and part id)
+// 3. Use the presigned URL to upload individual parts, 1-x times.
+// 4. When all parts are uploaded, call FinishPresignedUpload to complete the upload and provide the parts list.
 
 service Internal {
-    rpc CreatePresignedUpload(CreatePresignedUploadRequest) returns (CreatePresignedUploadResponse) {}
+    rpc InitPresignedUpload(InitPresignedUploadRequest) returns (InitPresignedUploadResponse){}
+    rpc CreatePresignedUrl(CreatePresignedUploadRequest) returns (CreatePresignedUploadResponse) {}
+    rpc FinishPresignedUpload(FinishPresignedUploadRequest) returns (FinishPresignedUploadResponse) {}
     rpc CreatePresignedDownload(CreatePresignedDownloadRequest) returns (CreatePresignedDownloadResponse) {}
 }
 
 
+
+// Enum to support multiple target Locations.
 enum LocationType{
     LOCATION_TYPE_UNSPECIFIED = 0;
     LOCATION_TYPE_S3 = 1;
     LOCATION_TYPE_FILE = 2;
 }
 
+// Locations is the path to the requested data.
 message Location {
     LocationType type = 1;
-    string group = 2; // This is the bucket name for S3. This is the folder name for local file.
+    string bucket = 2; // This is the bucket name for S3. This is the folder name for local file.
     string path = 3; // This is the key name for S3. This is the file name for local file.
 }
 
+// Etag / Part combination to finish a presigned multipart upload.
+message PartETag {
+    string part_number = 1;
+    string etag = 2;
+}
+
+message InitPresignedUploadRequest {
+    Location location = 1;
+    bool multipart = 2; // True if multipart upload is requested.
+}
+
+message InitPresignedUploadResponse {
+    string upload_id = 1;
+}
+
+
 message CreatePresignedUploadRequest {
     Location location = 1;
+    string upload_id = 2;
 }
 
 message CreatePresignedUploadResponse {
@@ -29,8 +57,26 @@ message CreatePresignedUploadResponse {
     string url = 1;
 }
 
+message FinishPresignedUploadRequest {
+    string upload_id = 1;
+    repeated PartETag part_etags = 2;
+    bool multipart = 3;
+}
+
+message FinishPresignedUploadResponse {
+    // If the upload finished successfully.
+    bool ok = 1;
+}
+
+message Range {
+    int64 start = 1;
+    int64 end = 2;
+}
+
 message CreatePresignedDownloadRequest {
     Location location = 1;
+    // optional Range
+    Range range = 2;
 }
 
 message CreatePresignedDownloadResponse {
