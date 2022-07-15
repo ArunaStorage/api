@@ -44,6 +44,13 @@ service CollectionService {
         };
     }
 
+    rpc PinCollectionVersion(PinCollectionVersionRequest) returns (PinCollectionVersionResponse){
+        option (google.api.http) = {
+            post: "/v1/collection/{collection_id}/pin"
+            body: "*"
+        };
+    }
+
 }
 
 // Models:
@@ -96,4 +103,13 @@ message GetObjectsInCollectionRequest {
 
 message GetObjectsInCollectionResponse {
     repeated storage.models.v1.Object object = 1;
+}
+
+message PinCollectionVersionRequest{
+    string collection_id = 1;
+    storage.models.v1.Version version = 2;
+}
+
+message PinCollectionVersionResponse{
+    storage.models.v1.Collection collection = 1;
 }
