@@ -53,6 +53,7 @@ message Stats {
 message CollectionStats {
     Stats object_stats = 1;
     int64 object_group_count = 2;
+    Stats specification_stats = 3;
 }
 
 // Stats for an object group
@@ -172,6 +173,20 @@ message ObjectGroup {
 
 
 
+// This is a representation of the objectgroup without the recursive nature of objectreferences
+message ObjectGroupOverview {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    string collection_id = 4; // Exactly one collection must be specified
+    repeated KeyValue labels = 6; 
+    repeated KeyValue hooks = 7;
+    ObjectGroupStats stats = 8;
+    int64 rev_number = 9;
+}
+
+
+
 
 // RULES for Collections:
 // 1. Each object is "owned" by exactly one collection
@@ -192,6 +207,25 @@ message Collection {
     repeated Object objects = 7;
     repeated Object specifications = 8;
     repeated ObjectGroup object_groups = 9;
+    repeated Authorization authorization = 10;
+    oneof Version {
+        Version version = 11;
+        bool latest = 12;
+    }
+    CollectionStats stats = 13;
+    bool is_public = 14;   
+}
+
+
+
+// This is a representation of the collection without the recursive nature of objectreferences
+message CollectionOverview {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    repeated KeyValue labels = 4;
+    repeated KeyValue hooks = 5;
+    google.protobuf.Timestamp created = 6;
     repeated Authorization authorization = 10;
     oneof Version {
         Version version = 11;

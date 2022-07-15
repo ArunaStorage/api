@@ -8,6 +8,8 @@ option java_outer_classname = "ObjectGroupService";
 
 import "aruna/api/storage/models/v1/models.proto";
 import "aruna/api/storage/models/v1/auth.proto";
+import "aruna/api/storage/models/v1/query.proto";
+
 import "google/api/annotations.proto";
 
 
@@ -94,6 +96,8 @@ message GetObjectGroupByIdResponse{
 message GetObjectGroupsFromObjectRequest{
     string object_id = 1;
     string collection_id = 2;
+
+    storage.models.v1.PageRequest page_request = 3;
 }
 
 message GetObjectGroupsFromObjectResponse{
