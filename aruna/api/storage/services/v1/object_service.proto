@@ -116,6 +116,7 @@ message GetUploadURLRequest {
     // CollectionID
     string collection_id = 3;
     // Is this a multipart upload?
+    // If this is false and the ContentLength is greater than the max_upload_size, an error will be returned.
     bool multipart = 4;
     // (optional) if multi Part number
     int32 part_number = 5;
