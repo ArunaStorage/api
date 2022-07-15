@@ -18,10 +18,31 @@ import "google/api/annotations.proto";
 service ObjectGroupService {
 
     // This creates a new ObjectGroup in the collection
-    rpc CreateObjectGroup(AddGroupRequest) returns (storage.models.v1.ObjectGroup) {
+    rpc CreateObjectGroup(CreateObjectGroupRequest) returns (CreateObjectGroupResponse) {
         option (google.api.http) = {
             post: "/v1/collection/{collection_id}/group"
             body: "*"
+        };
+    }
+
+    // ObjectGroups are immutable
+    // Updating an ObjectGroup will create a new Revision of the ObjectGroup
+    rpc UpdateObjectGroup(UpdateObjectGroupRequest) returns (UpdateObjectGroupResponse) {
+        option (google.api.http) = {
+            put: "/v1/collection/{collection_id}/group/{group_id}"
+            body: "*"
+        };
+    }
+
+    rpc GetObjectGroupById(GetObjectGroupByIdRequest) returns (GetObjectGroupByIdResponse) {
+        option (google.api.http) = {
+            get: "/v1/collection/{collection_id}/group/{group_id}"
+        };
+    }
+
+    rpc GetObjectGroupsFromObject(GetObjectGroupsFromObjectRequest) returns (GetObjectGroupsFromObjectResponse) {
+        option (google.api.http) = {
+            get: "/v1/collection/{collection_id}/group/{group_id}"
         };
     }
 
@@ -30,12 +51,41 @@ service ObjectGroupService {
 
 // Models
 
-message AddGroupRequest {
+message CreateObjectGroupRequest {
     string name = 1;
     string description = 2;
     string collection_id = 3;
     repeated storage.models.v1.Object objects = 4; // This is the reference to the Objects that should be added to the group
     repeated storage.models.v1.Object meta_objects = 5; // This is a reference to the Objects that are associated with "meta" data about corresponding objects in the group
-    repeated storage.models.v1.KeyValue labels = 6; // TODO: Is this needed?
-    repeated storage.models.v1.KeyValue hooks = 7; // TODO: Is this needed?
+    repeated storage.models.v1.KeyValue labels = 6;
+    repeated storage.models.v1.KeyValue hooks = 7;
 }
+
+message CreateObjectGroupResponse{
+    storage.models.v1.ObjectGroup object_group = 1;
+}
+
+message UpdateObjectGroupRequest {
+    string group_id = 1;
+    string name = 2;
+    string description = 3;
+    string collection_id = 4;
+    repeated storage.models.v1.Object objects = 5; // This is the reference to the Objects that should be added to the group
+    repeated storage.models.v1.Object meta_objects = 6; // This is a reference to the Objects that are associated with "meta" data about corresponding objects in the group
+    repeated storage.models.v1.KeyValue labels = 7;
+    repeated storage.models.v1.KeyValue hooks = 8;
+}
+
+message UpdateObjectGroupResponse{
+    storage.models.v1.ObjectGroup object_group = 1;
+}
+
+message GetObjectGroupByIdRequest {
+    string group_id = 1;
+    string collection_id = 2;
+}
+
+message GetObjectGroupByIdResponse{
+    storage.models.v1.ObjectGroup object_group = 1;
+}
+

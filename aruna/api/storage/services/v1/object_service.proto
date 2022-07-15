@@ -17,7 +17,7 @@ service ObjectService {
     // Staged objects will get a separate staging id and need to be finished before they can be used.
     rpc InitializeNewObject(InitializeNewObjectRequest) returns (InitializeNewObjectResponse){
         option (google.api.http) = {
-            post: "/v1/object"
+            post: "/v1/collection/{collection_id}/object"
             body: "*"
         };
     }
@@ -26,14 +26,14 @@ service ObjectService {
     // Part is a optional query parameter that can be used to upload a part of the file / multipart upload.
     rpc GetUploadURL(GetUploadURLRequest) returns (GetUploadURLResponse){
         option (google.api.http) = {
-            get: "/v1/object/{id}/staging/{staging_id}/upload"
+            get: "/v1/collection/{collection_id}/object/{id}/staging/{staging_id}/upload"
         };
     }
 
     // This method will return a url that can be used to download a file from S3.
     rpc GetDownloadURL(GetDownloadURLRequest) returns (GetDownloadURLResponse){
         option (google.api.http) = {
-            get: "/v1/object/{id}/download"
+            get: "/v1/collection/{collection_id}/object/{id}/download"
         };
     }
 
@@ -42,7 +42,7 @@ service ObjectService {
     // The order of the returned urls will be the same as the order of the object ids in the request.
     rpc GetDownloadLinksBatch(GetDownloadLinkBatchRequest) returns (GetDownloadLinkBatchResponse) {
         option (google.api.http) = {
-            get: "/v1/objects"
+            get: "/v1/collection/{collection_id}/objects"
         };
     }
 
@@ -50,7 +50,7 @@ service ObjectService {
     // This can be used retrieve a large number of Objects as a stream that would otherwise cause issues with the connection
     rpc CreateDownloadLinksStream(CreateDownloadLinksStreamRequest) returns (stream CreateDownloadLinksStreamResponse) {
          option (google.api.http) = {
-             post: "/v1/objects/stream"
+             post: "/v1/collection/{collection_id}/objects/stream"
              body: "*"
          };
     }
@@ -58,7 +58,7 @@ service ObjectService {
     // This method completes the staging of an object.
     rpc FinishObjectStaging(FinishObjectStagingRequest) returns (FinishObjectStagingResponse){
         option (google.api.http) = {
-            post: "/v1/object/{id}/staging/{staging_id}/finish"
+            post: "/v1/collection/{collection_id}/object/{id}/staging/{staging_id}/finish"
             body: "*"
         };
     }
@@ -69,7 +69,7 @@ service ObjectService {
     // Staged objects will get a separate staging id and need to be finished before they can be used.
     rpc UpdateObject(UpdateObjectRequest) returns (UpdateObjectResponse){
         option (google.api.http) = {
-            post: "/v1/object/{id}/update"
+            post: "/v1/collection/{collection_id}/object/{id}/update"
             body: "*"
         };
     }
@@ -94,8 +94,10 @@ message StageObject {
 message InitializeNewObjectRequest {
     // This describes the object to be initialized.
     StageObject object = 1;
+    // Collection id of the collection to which the object will be added.
+    string collection_id = 2;
     // Should the object be uploaded via multipart?
-    bool multipart = 2;
+    bool multipart = 3;
 }
 
 message InitializeNewObjectResponse {
@@ -116,10 +118,8 @@ message GetUploadURLRequest {
     // CollectionID
     string collection_id = 3;
     // Is this a multipart upload?
-    // If this is false and the ContentLength is greater than the max_upload_size, an error will be returned.
-    bool multipart = 4;
-    // (optional) if multi Part number
-    int32 part_number = 5;
+    // (optional) if multi was initialized 
+    int32 part_number = 4;
 }
 
 message GetUploadURLResponse {
@@ -210,12 +210,14 @@ message FinishObjectStagingResponse {
 message UpdateObjectRequest {
     // Existing object ID
     string id = 1;
+    // collection ID
+    string collection_id = 2;
     // New object data
-    StageObject object = 2;
+    StageObject object = 3;
     // Should new data be uploaded ?
-    bool reupload = 3;
+    bool reupload = 4;
     // Should a multipart upload be used?
-    bool multi_part = 4;
+    bool multi_part = 5;
 }
 
 message UpdateObjectResponse {

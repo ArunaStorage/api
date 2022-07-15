@@ -76,6 +76,7 @@ message GetCollectionResponse {
 }
 
 message UpdateCollectionRequest {
+    // This updates the collection
     string id = 1;
     string name = 2;
     string description = 3;
