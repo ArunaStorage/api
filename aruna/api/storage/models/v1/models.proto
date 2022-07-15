@@ -83,14 +83,15 @@ message Hash {
 }
 
 
-// A project is a list of collections with associated users
+// A AuthGroup is a list of collections with associated users
 // This is used to manage access to multiple collections at the same time
-// Each Collection can only be in one project at a time
-message Project {
+// Each Collection can only be in one AuthGroup at a time
+message AuthGroup {
     string id = 1;
-    repeated string user_ids = 2;
-    repeated string collection_ids = 3;
-    string description = 4;
+    string name = 2;
+    repeated string user_ids = 3;
+    repeated string collection_ids = 4;
+    string description = 5;
 }
 
 // Specifies the Origin of the object

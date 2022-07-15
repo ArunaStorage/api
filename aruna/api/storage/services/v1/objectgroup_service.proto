@@ -46,20 +46,6 @@ service ObjectGroupService {
         };
     }
 
-    // This method will borrow an objectgroup (and all referenced objects) to another collection.
-    // This can only be used if all objects from the group are owned by the current collection.
-    // Borrowed objects are references and cannot be updated directly.
-    // Updating a borrowed objectgroup will clone the objectgroup and create a copy in the new collection.
-    // This copy will not receive any updates from the original objectgroup.
-    // This owner can delete the object even if it was cloned
-    rpc BorrowObjectGroup(BorrowObjectGroupRequest) returns (BorrowObjectGroupResponse){
-        option (google.api.http) = {
-            post: "/v1/collection/{collection_id}/group/{id}/borrow/{target_collection_id}"
-            body: "*"
-        };
-    }
-
-
 }
 
 
@@ -113,12 +99,3 @@ message GetObjectGroupsFromObjectRequest{
 message GetObjectGroupsFromObjectResponse{
     repeated storage.models.v1.ObjectGroup object_groups = 1;
 }
-
-message BorrowObjectGroupRequest{
-    string id = 1;
-    string collection_id = 2;
-    string target_collection_id = 3;
-}
-
-message BorrowObjectGroupResponse{}
-
