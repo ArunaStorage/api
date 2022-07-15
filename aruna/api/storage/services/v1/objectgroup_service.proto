@@ -89,3 +89,12 @@ message GetObjectGroupByIdResponse{
     storage.models.v1.ObjectGroup object_group = 1;
 }
 
+message GetObjectGroupsFromObjectRequest{
+    string object_id = 1;
+    string collection_id = 2;
+}
+
+message GetObjectGroupsFromObjectResponse{
+    repeated storage.models.v1.ObjectGroup object_groups = 1;
+}
+

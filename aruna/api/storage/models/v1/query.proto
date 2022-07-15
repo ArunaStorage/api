@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package aruna.api.storage.models.v1;
+
+import "aruna/api/storage/models/v1/models.proto";
+
+
+// This file contains parameters for queries that return a list of resources.
+
+message PageRequest {
+    string last_uuid = 1;
+    uint64 page_size = 2;
+}
+
+message LabelFilter {
+    repeated KeyValue labels = 1;
+}
