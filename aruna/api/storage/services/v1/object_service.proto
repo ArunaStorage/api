@@ -12,7 +12,6 @@ import "google/api/annotations.proto";
 
 service ObjectService {
 
-
     // This initializes a new object
     // Initializing an object will put it in a staging area.
     // Staged objects will get a separate staging id and need to be finished before they can be used.
@@ -23,18 +22,11 @@ service ObjectService {
         };
     }
 
-    // S3 url service
-    // This method will return a url that can be used to upload a file to S3.
-    rpc GetUploadURLSingle(GetUploadURLSingleRequest) returns (GetUploadURLSingleResponse){
+    // This method will return a (multi-part) url that can be used to upload a file to S3.
+    // Part is a optional query parameter that can be used to upload a part of the file / multipart upload.
+    rpc GetUploadURL(GetUploadURLRequest) returns (GetUploadURLResponse){
         option (google.api.http) = {
             get: "/v1/object/{id}/staging/{staging_id}/upload"
-        };
-    }
-
-    // This method will return a (multi-part) url that can be used to upload a file to S3.
-    rpc GetUploadURLMulti(GetUploadURLMultiRequest) returns (GetUploadURLMultiResponse){
-        option (google.api.http) = {
-            get: "/v1/object/{id}/staging/{staging_id}/upload_multi/{part_number}"
         };
     }
 
@@ -62,9 +54,6 @@ service ObjectService {
              body: "*"
          };
     }
-
-
-
 
     // This method completes the staging of an object.
     rpc FinishObjectStaging(FinishObjectStagingRequest) returns (FinishObjectStagingResponse){
@@ -118,33 +107,21 @@ message InitializeNewObjectResponse {
     string collection_id = 3;
 }
 
-message GetUploadURLSingleRequest {
+
+message GetUploadURLRequest {
     // ObjectId 
     string id = 1;
     // Staging ID, a generic ID when multipart is not enabled, otherwise the multipart upload ID.
     string staging_id = 2;
     // CollectionID
     string collection_id = 3;
+    // Is this a multipart upload?
+    bool multipart = 4;
+    // (optional) if multi Part number
+    int32 part_number = 5;
 }
 
-message GetUploadURLSingleResponse {
-    // URL
-    URL url = 1;
-}
-
-
-message GetUploadURLMultiRequest {
-    // ObjectId 
-    string id = 1;
-    // Staging ID, a generic ID when multipart is not enabled, otherwise the multipart upload ID.
-    string staging_id = 2;
-    // CollectionID
-    string collection_id = 3;
-    // Part number
-    int32 part_number = 4;
-}
-
-message GetUploadURLMultiResponse {
+message GetUploadURLResponse {
     // URL
     URL url = 1;
 }
