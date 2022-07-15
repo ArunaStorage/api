@@ -74,6 +74,20 @@ service ObjectService {
         };
     }
 
+    // This method will borrow an object to another collection.
+    // This can only be used if the object is owned by the current collection.
+    // Borrowed objects are references and cannot be updated directly.
+    // Updating a borrowed object will clone the object and create a copy in the new collection.
+    // This copy will not receive any updates from the original object.
+    // The original owner will be referenced in the origin section of the object.
+    // This owner can delete the object even if it was cloned
+    rpc BorrowObject(BorrowObjectRequest) returns (BorrowObjectResponse){
+        option (google.api.http) = {
+            post: "/v1/collection/{collection_id}/object/{id}/borrow/{target_collection_id}"
+            body: "*"
+        };
+    }
+
 }
 
 // Models:
@@ -228,3 +242,14 @@ message UpdateObjectResponse {
     // CollectionID
     string collection_id = 3;
 }
+
+message BorrowObjectRequest {
+    // ObjectId 
+    string id = 1;
+    // OwnerCollectionID
+    string collection_id = 2;
+    // BorrowerCollectionID
+    string target_collection_id = 3;
+}
+
+message BorrowObjectResponse {}
