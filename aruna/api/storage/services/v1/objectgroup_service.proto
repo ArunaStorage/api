@@ -76,7 +76,7 @@ message CreateObjectGroupRequest {
 }
 
 message CreateObjectGroupResponse{
-    storage.models.v1.ObjectGroup object_group = 1;
+    string object_group_id = 1;
 }
 
 message UpdateObjectGroupRequest {
@@ -97,6 +97,8 @@ message UpdateObjectGroupResponse{
 message GetObjectGroupByIdRequest {
     string group_id = 1;
     string collection_id = 2;
+    // Optional revision
+    int64 revision = 3;
 }
 
 message GetObjectGroupByIdResponse{

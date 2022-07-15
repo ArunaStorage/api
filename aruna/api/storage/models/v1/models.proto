@@ -82,6 +82,10 @@ message Hash {
     string hash = 2;
 }
 
+
+// A project is a list of collections with associated users
+// This is used to manage access to multiple collections at the same time
+// Each Collection can only be in one project at a time
 message Project {
     string id = 1;
     repeated string user_ids = 2;
@@ -97,7 +101,7 @@ enum OriginType {
 }
 
 
-// Origin of the object -> To be DSGVO compliant
+// Origin of the object -> To be GDPA compliant
 message Origin {
     OriginType type = 1;
     string id = 2;
