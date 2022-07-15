@@ -31,13 +31,6 @@ service CollectionService {
         };
     }
 
-    rpc AddExistingObjectsToCollection(AddExistingObjectToCollectionRequest) returns (AddExistingObjectToCollectionResponse){
-        option (google.api.http) = {
-            post: "/v1/collection/{collection_id}/objects"
-            body: "*"
-        };
-    }
-
     rpc GetObjectsInCollection(GetObjectsInCollectionRequest) returns (GetObjectsInCollectionResponse){
         option (google.api.http) = {
             get: "/v1/collection/{collection_id}/objects"
@@ -86,15 +79,6 @@ message UpdateCollectionRequest {
 }
 
 message UpdateCollectionResponse {
-    storage.models.v1.Collection collection = 1;
-}
-
-message AddExistingObjectToCollectionRequest {
-    string collection_id = 1;
-    repeated string object_id = 2;
-}
-
-message AddExistingObjectToCollectionResponse {
     storage.models.v1.Collection collection = 1;
 }
 
