@@ -48,6 +48,12 @@ service ObjectGroupService {
         };
     }
 
+    rpc DeleteObjectGroup(DeleteObjectGroupRequest) returns (DeleteObjectGroupResponse) {
+        option (google.api.http) = {
+            delete: "/v1/collection/{collection_id}/group/{group_id}"
+        };
+    }
+
 }
 
 
@@ -103,3 +109,10 @@ message GetObjectGroupsFromObjectRequest{
 message GetObjectGroupsFromObjectResponse{
     repeated storage.models.v1.ObjectGroup object_groups = 1;
 }
+
+message DeleteObjectGroupRequest{
+    string group_id = 1;
+    string collection_id = 2;
+}
+
+message DeleteObjectGroupResponse{}

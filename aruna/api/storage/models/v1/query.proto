@@ -6,10 +6,13 @@ import "aruna/api/storage/models/v1/models.proto";
 
 
 // This file contains parameters for queries that return a list of resources.
-
+// The results are paginated.
+// The page request specifies the page size and last_id.
+// If page_size is not specified, it defaults to 20.
+// If page_size is -1, it returns all objects.
 message PageRequest {
     string last_uuid = 1;
-    uint64 page_size = 2;
+    uint64 page_size = 2; // Default to 20, -1 for all
 }
 
 message LabelFilter {

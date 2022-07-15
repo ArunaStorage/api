@@ -88,6 +88,27 @@ service ObjectService {
         };
     }
 
+
+    // This method clones an object and creates a copy in the same collection.
+    // This copy has a new id and revision and will not receive any updates from the original object.
+    rpc CloneObject(CloneObjectRequest) returns (CloneObjectResponse){
+        option (google.api.http) = {
+            post: "/v1/collection/{collection_id}/object/{id}/clone"
+            body: "*"
+        };
+    }
+
+
+    // Deletes the object with the complete revision history.
+    // This should be avoided if possible.
+    // This method allows the owner to cascade the deletion of all objects that were cloned from this object.
+    // -> GDPR compliant procedure.
+    rpc DeleteObject(DeleteObjectRequest) returns (DeleteObjectResponse){
+        option (google.api.http) = {
+            delete: "/v1/collection/{collection_id}/object/{id}"
+        };
+    }
+
 }
 
 // Models:
@@ -253,3 +274,30 @@ message BorrowObjectRequest {
 }
 
 message BorrowObjectResponse {}
+
+
+message CloneObjectRequest{
+    // ObjectId 
+    string id = 1;
+    // CollectionID
+    string collection_id = 2;
+}
+
+message CloneObjectResponse{
+    // This describes the new object.
+    storage.models.v1.Object object = 1;
+}
+
+
+message DeleteObjectRequest{
+    // ObjectId 
+    string id = 1;
+    // CollectionID
+    string collection_id = 2;
+    // This will by default delete the object only in the specified collection.
+    // If the collection_id is the owner of the object, cascading=true will delete the object in all collections.
+    // Default: false
+    bool cascade = 3;
+}
+
+message DeleteObjectResponse{}
