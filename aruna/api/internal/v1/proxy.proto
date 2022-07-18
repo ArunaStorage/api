@@ -1,5 +1,8 @@
 syntax = "proto3";
 
+package aruna.api.internal.proxy.v1;
+
+
 // Definition for the internal API that is used to communicate with all internal components.
 //
 // All uploads should follow this procedure:
