@@ -13,7 +13,7 @@ package aruna.api.internal.proxy.v1;
 
 service Internal {
     rpc InitPresignedUpload(InitPresignedUploadRequest) returns (InitPresignedUploadResponse){}
-    rpc CreatePresignedUrl(CreatePresignedUploadRequest) returns (CreatePresignedUploadResponse) {}
+    rpc CreatePresignedUploadUrl(CreatePresignedUploadUrlRequest) returns (CreatePresignedUploadUrlResponse) {}
     rpc FinishPresignedUpload(FinishPresignedUploadRequest) returns (FinishPresignedUploadResponse) {}
     rpc CreatePresignedDownload(CreatePresignedDownloadRequest) returns (CreatePresignedDownloadResponse) {}
 }
@@ -50,12 +50,12 @@ message InitPresignedUploadResponse {
 }
 
 
-message CreatePresignedUploadRequest {
+message CreatePresignedUploadUrlRequest {
     Location location = 1;
     string upload_id = 2;
 }
 
-message CreatePresignedUploadResponse {
+message CreatePresignedUploadUrlResponse {
     // The presigned URL to upload the file to.
     string url = 1;
 }
