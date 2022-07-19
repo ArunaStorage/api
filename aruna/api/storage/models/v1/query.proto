@@ -11,10 +11,25 @@ import "aruna/api/storage/models/v1/models.proto";
 // If page_size is not specified, it defaults to 20.
 // If page_size is -1, it returns all objects.
 message PageRequest {
-    string last_uuid = 1;
+    string last_uuid = 1; // This is the last ID of the previous returned request
     uint64 page_size = 2; // Default to 20, -1 for all
 }
 
+
+// This defines the behaviour of the Query how to combine multiple Labels
+// The default Query Type is: AND so each Label must be present in the result
+enum QueryType{
+    QUERY_TYPE_UNSPECIFIED = 0;
+    QUERY_TYPE_AND = 1; // A AND B
+    QUERY_TYPE_OR = 2; // A OR B including A AND B, This is similar to Any
+    QUERY_TYPE_XOR = 3; // Either A OR B but not both
+    QUERY_TYPE_KEY = 4; // Return all objects with a specific Key independent of value
+}
+
+
+// LabelFilter is used to filter resources by labels.
+// The labels are specified as a map of key-value pairs.
 message LabelFilter {
     repeated KeyValue labels = 1;
+    QueryType type = 2;
 }

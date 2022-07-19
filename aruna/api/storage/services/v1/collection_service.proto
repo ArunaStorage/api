@@ -33,12 +33,6 @@ service CollectionService {
         };
     }
 
-    rpc GetObjectsInCollection(GetObjectsInCollectionRequest) returns (GetObjectsInCollectionResponse){
-        option (google.api.http) = {
-            get: "/v1/collection/{collection_id}/objects"
-        };
-    }
-
     rpc GetObjectGroupsInCollection(GetObjectGroupsInCollectionRequest) returns (GetObjectGroupsInCollectionResponse){
         option (google.api.http) = {
             get: "/v1/collection/{collection_id}/object_groups"
@@ -108,21 +102,6 @@ message UpdateCollectionRequest {
 
 message UpdateCollectionResponse {
     storage.models.v1.CollectionOverview collection = 1;
-}
-
-message GetObjectsInCollectionRequest {
-    string collection_id = 1;
-
-    // Paginate the results: Default is 20
-    storage.models.v1.PageRequest page_request = 2;
-
-
-    // Filter by Labels
-    storage.models.v1.LabelFilter label_filter = 3;
-}
-
-message GetObjectsInCollectionResponse {
-    repeated storage.models.v1.Object object = 1;
 }
 
 message PinCollectionVersionRequest{

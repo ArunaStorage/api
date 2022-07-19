@@ -7,6 +7,8 @@ option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.servic
 option java_outer_classname = "ObjectService";
 
 import "aruna/api/storage/models/v1/models.proto";
+import "aruna/api/storage/models/v1/query.proto";
+
 import "google/api/annotations.proto";
 
 
@@ -109,9 +111,40 @@ service ObjectService {
         };
     }
 
+
+    // GetObjectByID gets a specific Object by ID that is associated to the current collection
+    // By default only the latest revision of an object will be returned
+    // Specify a revision_number to select an older revision
+    // With the optional with_url boolean a download link can automatically be requested
+    rpc GetObjectByID(GetObjectByIDRequest) returns (GetObjectByIDResponse){
+        option (google.api.http) = {
+            get: "/v1/collection/{collection_id}/object/{id}"
+        };
+    }
+
+    // GetObjects returns a (paginated) list of objects in a specific collection
+    // By default only the latest revisions of all objects will be shown
+    // This behaviour can be changed with the include_history flag
+    // With the optional with_url boolean a download link can automatically be requested for each Object
+    rpc GetObjects(GetObjectsRequest) returns (GetObjectsResponse){
+        option (google.api.http) = {
+            get: "/v1/collection/{collection_id}/objects"
+        };
+    }
+
+    // GetObjectHistoryByID returns the full history of a specified object
+    // With the optional with_url boolean a download link can automatically be requested for each Object
+    rpc GetObjectHistoryByID(GetObjectHistoryByIDRequest) returns (GetObjectHistoryByIDResponse){
+        option (google.api.http) = {
+            get: "/v1/collection/{collection_id}/object/{id}/history"
+        };
+    }
+
 }
 
-// Models:
+// Models
+// These are the models for the above described requests and responses.
+// gRPC best practises advice each Request and Response message in a RPC to be called {rpc_name}Request and {rpc_name}Response.
 
 message URL {
     string url = 1;
@@ -301,3 +334,50 @@ message DeleteObjectRequest{
 }
 
 message DeleteObjectResponse{}
+
+message ObjectWithURL{
+    // Description of a specified object
+    storage.models.v1.Object object = 1;
+    // This is a associated download URL
+    // Will be empty if request does not contain the associated with_url flag
+    string URL = 2;
+}
+
+message GetObjectByIDRequest{
+    string collection_id = 1;
+    string object_id = 2;
+    int64 revision = 3;
+    // With URL: Include URL in response ?
+    bool with_url = 4;
+}
+
+message GetObjectByIDResponse{
+    ObjectWithURL object = 1;
+}
+
+message GetObjectsRequest {
+    string collection_id = 1;
+    // Paginate the results: Default is 20
+    storage.models.v1.PageRequest page_request = 2;
+    // Filter by Labels (optional)
+    storage.models.v1.LabelFilter label_filter = 3;
+    // With URL: Include URL in response ?
+    bool with_url = 4;
+    // Should this request consider older revisions of Objects ?
+    bool include_history = 5;
+}
+
+message GetObjectsResponse {
+    // A List of objects with (optional) associated URLs
+    repeated ObjectWithURL objects = 1;
+}
+
+message GetObjectHistoryByIDRequest{
+    string collection_id = 1;
+    string object_id = 2;
+    bool with_url = 3;
+}
+
+message GetObjectHistoryByIDResponse{
+    repeated ObjectWithURL objects = 1;
+}
