@@ -18,7 +18,7 @@ message PageRequest {
 
 // This defines the behaviour of the Query how to combine multiple Labels
 // The default Query Type is: AND so each Label must be present in the result
-enum QueryType{
+enum LabelQueryType{
     QUERY_TYPE_UNSPECIFIED = 0;
     QUERY_TYPE_AND = 1; // A AND B
     QUERY_TYPE_OR = 2; // A OR B including A AND B, This is similar to Any
@@ -31,7 +31,7 @@ enum QueryType{
 // The labels are specified as a map of key-value pairs.
 message LabelFilter {
     repeated KeyValue labels = 1;
-    QueryType type = 2;
+    LabelQueryType type = 2;
 }
 
 
@@ -47,4 +47,18 @@ message LabelOrIDQuery {
         LabelFilter labels = 1;
         ResourceIDList ids = 2;
     }
+}
+
+
+// OutputFormat is an enum for GET queries that specifies how the Response should be structured
+// This is necessary because Collections and ObjectGroups can contain large number of objects
+// The default behaviour is "OVERVIEW" this will only return statistics about the collection or objectgroup 
+// but no specific IDs or additional information
+// the "WITH_IDS" tag returns only lists of RevIDs
+// If "FULL" is specified the complete recursive list of objects with all labels and meta-information will be returned
+enum OutputFormat {
+    OUTPUT_FORMAT_UNSPECIFIED = 0; // Unspecified enum will default to overview
+    OUTPUT_FORMAT_OVERVIEW = 1; // Only give an overview of the resources
+    OUTPUT_FORMAT_WITH_IDS = 2; // Return only a list of RevIDs
+    OUTPUT_FORMAT_FULL = 3; // Return the full list of resources -> This may have slow performance
 }
