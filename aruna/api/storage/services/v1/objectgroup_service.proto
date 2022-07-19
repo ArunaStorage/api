@@ -53,10 +53,16 @@ service ObjectGroupService {
         };
     }
 
-    // GetObjectGroupsByLabel is a request that returns a (paginated) list of ObjectGroups that contain a specific set of labels.    
-    rpc GetObjectGroupsByLabel(GetObjectGroupsByLabelRequest) returns (GetObjectGroupsByLabelResponse) {
+    // GetObjectGroups is a request that returns a (paginated) list of ObjectGroups that contain a specific set of labels.    
+    rpc GetObjectGroups(GetObjectGroupsRequest) returns (GetObjectGroupsResponse) {
         option (google.api.http) = {
             get: "/v1/collection/{collection_id}/group/"
+        };
+    }
+
+    rpc GetObjectGroupHistoryByID(GetObjectGroupHistoryByIDRequest) returns (GetObjectGroupHistoryByIDResponse) {
+        option (google.api.http) = {
+            get: "/v1/collection/{collection_id}/group/{group_id}/history"
         };
     }
 
@@ -123,12 +129,37 @@ message GetObjectGroupsFromObjectRequest{
 }
 
 message GetObjectGroupsFromObjectResponse{
-    repeated storage.models.v1.ObjectGroup object_groups = 1;
+    repeated storage.models.v1.ObjectGroupOverview object_groups = 1;
 }
 
 message DeleteObjectGroupRequest{
     string group_id = 1;
     string collection_id = 2;
+    // Optional revision
+    int64 revision = 3;
 }
 
 message DeleteObjectGroupResponse{}
+
+
+message GetObjectGroupsRequest {
+    string collection_id = 1;
+    // Paginate the results: Default is 20
+    storage.models.v1.PageRequest page_request = 2;
+    // Filter by Labels (optional) OR request a specific list of ObjectGroups
+    storage.models.v1.LabelOrIDQuery label_id_filter = 3;
+}
+
+message GetObjectGroupsResponse {
+    repeated storage.models.v1.ObjectGroupOverview object_groups = 1;
+}
+
+message GetObjectGroupHistoryByIDRequest{
+    string collection_id = 1;
+    string group_id = 2;
+    storage.models.v1.PageRequest page_request = 3;
+}
+
+message GetObjectGroupHistoryByIDResponse{
+    repeated storage.models.v1.ObjectGroupOverview object_groups = 1;
+}

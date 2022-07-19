@@ -363,7 +363,7 @@ message GetObjectsRequest {
     // Paginate the results: Default is 20
     storage.models.v1.PageRequest page_request = 2;
     // Filter by Labels (optional) OR request a specific list of Objects
-    storage.models.v1.LabelOrIDQuery label_filter = 3;
+    storage.models.v1.LabelOrIDQuery label_id_filter = 3;
     // With URL: Include URL in response ?
     bool with_url = 4;
     // Should this request consider older revisions of Objects ?
