@@ -115,21 +115,30 @@ message GetObjectGroupByIdRequest {
     string collection_id = 2;
     // Optional revision
     int64 revision = 3;
+    storage.models.v1.OutputFormat format = 4;
 }
 
 message GetObjectGroupByIdResponse{
-    storage.models.v1.ObjectGroup object_group = 1;
+    oneof object_group {
+        storage.models.v1.ObjectGroupOverview object_group_overview = 1;
+        storage.models.v1.ObjectGroupWithID object_group_with_id = 2;
+        storage.models.v1.ObjectGroup object_group_full = 3;
+    }
 }
 
 message GetObjectGroupsFromObjectRequest{
     string object_id = 1;
     string collection_id = 2;
-
     storage.models.v1.PageRequest page_request = 3;
+    storage.models.v1.OutputFormat format = 4;
 }
 
 message GetObjectGroupsFromObjectResponse{
-    repeated storage.models.v1.ObjectGroupOverview object_groups = 1;
+    oneof object_groups {
+        storage.models.v1.ObjectGroupOverviews object_groups_overview = 1;
+        storage.models.v1.ObjectGroupWithIDs object_groups_with_id = 2;
+        storage.models.v1.ObjectGroups object_groups_full = 3;
+    }
 }
 
 message DeleteObjectGroupRequest{
@@ -148,18 +157,28 @@ message GetObjectGroupsRequest {
     storage.models.v1.PageRequest page_request = 2;
     // Filter by Labels (optional) OR request a specific list of ObjectGroups
     storage.models.v1.LabelOrIDQuery label_id_filter = 3;
+    storage.models.v1.OutputFormat format = 4;
 }
 
 message GetObjectGroupsResponse {
-    repeated storage.models.v1.ObjectGroupOverview object_groups = 1;
+    oneof object_groups {
+        storage.models.v1.ObjectGroupOverviews object_groups_overview = 1;
+        storage.models.v1.ObjectGroupWithIDs object_groups_with_id = 2;
+        storage.models.v1.ObjectGroups object_groups_full = 3;
+    }
 }
 
 message GetObjectGroupHistoryByIDRequest{
     string collection_id = 1;
     string group_id = 2;
     storage.models.v1.PageRequest page_request = 3;
+    storage.models.v1.OutputFormat format = 4;
 }
 
 message GetObjectGroupHistoryByIDResponse{
-    repeated storage.models.v1.ObjectGroupOverview object_groups = 1;
+    oneof object_groups {
+        storage.models.v1.ObjectGroupOverviews object_groups_overview = 1;
+        storage.models.v1.ObjectGroupWithIDs object_groups_with_id = 2;
+        storage.models.v1.ObjectGroups object_groups_full = 3;
+    }
 }

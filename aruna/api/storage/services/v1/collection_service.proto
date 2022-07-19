@@ -101,7 +101,7 @@ message GetCollectionByIDRequest {
 message GetCollectionByIDResponse {
     oneof collection {
         storage.models.v1.CollectionOverview collection_overview = 1;
-        storage.models.v1.CollectionWithIDs collection_with_ids = 2;
+        storage.models.v1.CollectionWithID collection_with_id = 2;
         storage.models.v1.Collection collection_full = 3;
     }
 }
@@ -114,7 +114,12 @@ message GetCollectionsRequest {
 }
 
 message GetCollectionsResponse {
-    repeated storage.models.v1.CollectionOverview collections = 1;
+    // These are plural representations of their specific single counterparts
+    oneof collections {
+        storage.models.v1.CollectionOverviews collections_overview = 1;
+        storage.models.v1.CollectionWithIDs collections_with_id = 2;
+        storage.models.v1.Collections collections_full = 3;
+    }
 }
 
 
