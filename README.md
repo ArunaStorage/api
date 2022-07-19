@@ -1,6 +1,6 @@
-# Aruna Object Storage (AOS) API Definitions
+# Aruna API Definitions
 
-This repo contains the definitions of the Aruna API. It is written in the [protocol-buffers](https://developers.google.com/protocol-buffers) interface definition language (IDL). This can be used to automatically generate clients in many different programming languages using the [grpc](https://grpc.io/docs/what-is-grpc/introduction/) framework. 
+This repo contains the definitions of the Aruna Object Storage (AOS) API. It is written in the [protocol-buffers](https://developers.google.com/protocol-buffers) interface definition language (IDL). This can be used to automatically generate clients in many different programming languages using the [grpc](https://grpc.io/docs/what-is-grpc/introduction/) framework. 
 
 ## Usage
 
@@ -22,9 +22,9 @@ The API contains three main sections:
 
 The storage section is divided in two sub-sections:
 
-- [Models](storage/models/v1): This section contains the models that are used by the storage system. 
+- [Models](aruna/api/storage/models/v1): This section contains the models that are used by the storage system. 
 
-- [Storage services](storage/services/v1/): This section contains all services that are used to interact with the storage system. Services are defined as RPCs and are grouped by object type.
+- [Storage services](aruna/api/storage/services/v1/): This section contains all services that are used to interact with the storage system. Services are defined as RPCs and are grouped by object type.
 
 ### Notifications
 
