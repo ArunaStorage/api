@@ -33,3 +33,18 @@ message LabelFilter {
     repeated KeyValue labels = 1;
     QueryType type = 2;
 }
+
+
+message ResourceIDList{
+    repeated string ids = 1;
+}
+
+
+// This is a combined query for either a list of resource IDs or filtered by Label
+// Can be expanded in the future to allow for more complex queries
+message LabelOrIDQuery {
+    oneof Query {
+        LabelFilter labels = 1;
+        ResourceIDList ids = 2;
+    }
+}

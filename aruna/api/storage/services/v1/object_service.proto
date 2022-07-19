@@ -126,6 +126,8 @@ service ObjectService {
     // By default only the latest revisions of all objects will be shown
     // This behaviour can be changed with the include_history flag
     // With the optional with_url boolean a download link can automatically be requested for each Object
+    // This request contains a LabelOrIDQuery message, this is either a list of request ObjectIDs
+    // or a query filtered by Labels
     rpc GetObjects(GetObjectsRequest) returns (GetObjectsResponse){
         option (google.api.http) = {
             get: "/v1/collection/{collection_id}/objects"
@@ -134,6 +136,7 @@ service ObjectService {
 
     // GetObjectHistoryByID returns the full history of a specified object
     // With the optional with_url boolean a download link can automatically be requested for each Object
+    // This is by default a paginated request
     rpc GetObjectHistoryByID(GetObjectHistoryByIDRequest) returns (GetObjectHistoryByIDResponse){
         option (google.api.http) = {
             get: "/v1/collection/{collection_id}/object/{id}/history"
@@ -359,8 +362,8 @@ message GetObjectsRequest {
     string collection_id = 1;
     // Paginate the results: Default is 20
     storage.models.v1.PageRequest page_request = 2;
-    // Filter by Labels (optional)
-    storage.models.v1.LabelFilter label_filter = 3;
+    // Filter by Labels (optional) OR request a specific list of Objects
+    storage.models.v1.LabelOrIDQuery label_filter = 3;
     // With URL: Include URL in response ?
     bool with_url = 4;
     // Should this request consider older revisions of Objects ?
@@ -375,7 +378,8 @@ message GetObjectsResponse {
 message GetObjectHistoryByIDRequest{
     string collection_id = 1;
     string object_id = 2;
-    bool with_url = 3;
+    storage.models.v1.PageRequest page_request = 3;
+    bool with_url = 4;
 }
 
 message GetObjectHistoryByIDResponse{
