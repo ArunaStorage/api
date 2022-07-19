@@ -154,6 +154,11 @@ message Object {
         
 }
 
+// Multiple Objects
+message Objects {
+    repeated Object objects = 1;
+}
+
 // ObjectGroups are optional and can be used to group objects in a collection together
 // They need to refer to objects in the same collection
 // Objectgroups can be changed if the collection is mutable
@@ -171,6 +176,12 @@ message ObjectGroup {
 }
 
 
+// Multiple ObjectGroups
+message ObjectGroups {
+    repeated ObjectGroup object_groups = 1;
+}
+
+
 
 // This is a representation of the ObjectGroup without the recursive nature of object references
 message ObjectGroupOverview {
@@ -184,9 +195,15 @@ message ObjectGroupOverview {
     int64 rev_number = 9;
 }
 
+// Multiple ObjectGroupOverviews
+message ObjectGroupOverviews {
+    repeated ObjectGroupOverview object_group_overviews = 1;
+}
+
+
 
 // This is a representation of the ObjectGroup with only ObjectIDs instead of full objects
-message ObjectGroupWithIDs {
+message ObjectGroupWithID {
     string id = 1;
     string name = 2;
     string description = 3;
@@ -197,6 +214,11 @@ message ObjectGroupWithIDs {
     repeated RevID meta_object_ids = 9; // Must be in collection objects
     ObjectGroupStats stats = 10;
     int64 rev_number = 11;
+}
+
+// Multiple ObjectGroupWithIDs
+message ObjectGroupWithIDs {
+    repeated ObjectGroupWithID object_group_with_ids = 1;
 }
 
 
@@ -231,6 +253,12 @@ message Collection {
 }
 
 
+// Multiple Collections
+message Collections {
+    repeated Collection collections = 1;
+}
+
+
 
 // This is a representation of the Collection without the recursive nature of objectreferences
 message CollectionOverview {
@@ -249,8 +277,13 @@ message CollectionOverview {
     bool is_public = 14;   
 }
 
+// Multiple CollectionOverviews
+message CollectionOverviews {
+    repeated CollectionOverview collection_overviews = 1;
+}
+
 // This is a representation of the Collection with only Resource RevisionIDs instead of full objects
-message CollectionWithIDs {
+message CollectionWithID {
     string id = 1;
     string name = 2;
     string description = 3;
@@ -267,4 +300,10 @@ message CollectionWithIDs {
     }
     CollectionStats stats = 13;
     bool is_public = 14;   
+}
+
+
+// Multiple CollectionWithIDs
+message CollectionWithIDs {
+    repeated CollectionWithID collection_with_ids = 1;
 }
