@@ -11,6 +11,13 @@ message KeyValue {
     string value = 2;
 }
 
+message LabelOntology{
+    // These are the keys for labels that are required for the collection
+    // Adding an Object without these keys will result in an error
+    // Defaults to empty string if not specified
+    repeated string required_label_keys = 1;
+}
+
 
 // This is a message to uniquely identify specific Objects
 // IDs by itself are not unique
@@ -239,17 +246,18 @@ message Collection {
     string description = 3;
     repeated KeyValue labels = 4;
     repeated KeyValue hooks = 5;
-    google.protobuf.Timestamp created = 6;
-    repeated Object objects = 7;
-    repeated Object specifications = 8;
-    repeated ObjectGroup object_groups = 9;
-    repeated Authorization authorization = 10;
+    LabelOntology label_ontology = 6; // Ontology for labels
+    google.protobuf.Timestamp created = 7;
+    repeated Object objects = 8;
+    repeated Object specifications = 9;
+    repeated ObjectGroup object_groups = 10;
+    repeated Authorization authorization = 11;
     oneof Version {
-        Version version = 11;
-        bool latest = 12;
+        Version version = 12;
+        bool latest = 13;
     }
-    CollectionStats stats = 13;
-    bool is_public = 14;   
+    CollectionStats stats = 14;
+    bool is_public = 15;   
 }
 
 
@@ -267,14 +275,15 @@ message CollectionOverview {
     string description = 3;
     repeated KeyValue labels = 4;
     repeated KeyValue hooks = 5;
-    google.protobuf.Timestamp created = 6;
-    repeated Authorization authorization = 10;
+    LabelOntology label_ontology = 6; // Ontology for labels
+    google.protobuf.Timestamp created = 7;
+    repeated Authorization authorization = 11;
     oneof Version {
-        Version version = 11;
-        bool latest = 12;
+        Version version = 12;
+        bool latest = 13;
     }
-    CollectionStats stats = 13;
-    bool is_public = 14;   
+    CollectionStats stats = 14;
+    bool is_public = 15;   
 }
 
 // Multiple CollectionOverviews
@@ -289,17 +298,18 @@ message CollectionWithID {
     string description = 3;
     repeated KeyValue labels = 4;
     repeated KeyValue hooks = 5;
-    google.protobuf.Timestamp created = 6;
-    repeated RevID objects = 7;
-    repeated RevID specifications = 8;
-    repeated RevID object_groups = 9;
-    repeated Authorization authorization = 10;
+    LabelOntology label_ontology = 6; // Ontology for labels
+    google.protobuf.Timestamp created = 7;
+    repeated RevID objects = 8;
+    repeated RevID specifications = 9;
+    repeated RevID object_groups = 10;
+    repeated Authorization authorization = 11;
     oneof Version {
-        Version version = 11;
-        bool latest = 12;
+        Version version = 12;
+        bool latest = 13;
     }
-    CollectionStats stats = 13;
-    bool is_public = 14;   
+    CollectionStats stats = 14;
+    bool is_public = 15;   
 }
 
 
