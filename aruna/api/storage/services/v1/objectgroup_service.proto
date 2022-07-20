@@ -75,6 +75,30 @@ service ObjectGroupService {
         };
     }
 
+
+    // This method will borrow an ObjectGroup to another collection.
+    // Borrowed ObjectGroup are references and cannot be updated directly.
+    // Borrowing an ObjectGroup will also automatically borrow all associated Objects to the new collection.
+    // Updating a borrowed ObjectGroup will clone the ObjectGroup and create a copy in the new collection.
+    // This is equivalent to the CloneObjectGroup rpc.
+    // This copy will not receive any updates from the original ObjectGroup.
+    rpc BorrowObjectGroup(BorrowObjectGroupRequest) returns (BorrowObjectGroupResponse){
+        option (google.api.http) = {
+            post: "/v1/collection/{collection_id}/group/{group_id}/borrow/{target_collection_id}"
+            body: "*"
+        };
+    }
+
+
+    // This method clones an ObjectGroup and creates a copy in the same collection.
+    // This copy has a new id and revision and will not receive any updates from the original ObjectGroup.
+    rpc CloneObjectGroup(CloneObjectGroupRequest) returns (CloneObjectGroupResponse){
+        option (google.api.http) = {
+            post: "/v1/collection/{collection_id}/group/{group_id}/clone"
+            body: "*"
+        };
+    }
+
 }
 
 
@@ -94,12 +118,7 @@ message CreateObjectGroupRequest {
 message CreateObjectGroupResponse{
     string object_group_id = 1;
 }
-
-message UpdateObjectGroupRequest {
-    string group_id = 1;
-    string name = 2;
-    string description = 3;
-    string collection_id = 4;
+CloneObjectGroupRe
     repeated storage.models.v1.Object objects = 5; // This is the reference to the Objects that should be added to the group
     repeated storage.models.v1.Object meta_objects = 6; // This is a reference to the Objects that are associated with "meta" data about corresponding objects in the group
     repeated storage.models.v1.KeyValue labels = 7;
@@ -181,4 +200,22 @@ message GetObjectGroupHistoryByIDResponse{
         storage.models.v1.ObjectGroupWithIDs object_groups_with_id = 2;
         storage.models.v1.ObjectGroups object_groups_full = 3;
     }
+}
+
+message BorrowObjectGroupRequest{
+    string group_id = 1;
+    string collection_id = 2;
+    string target_collection_id = 3;
+}
+
+message BorrowObjectGroupResponse{}
+
+
+message CloneObjectGroupRequest{
+    string group_id = 1;
+    string collection_id = 2;
+}
+
+message CloneObjectGroupResponse{
+    storage.models.v1.ObjectGroupOverview object_group = 1;
 }
