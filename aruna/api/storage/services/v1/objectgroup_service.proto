@@ -118,7 +118,12 @@ message CreateObjectGroupRequest {
 message CreateObjectGroupResponse{
     string object_group_id = 1;
 }
-CloneObjectGroupRe
+
+message UpdateObjectGroupRequest {
+    string group_id = 1;
+    string name = 2;
+    string description = 3;
+    string collection_id = 4;
     repeated storage.models.v1.Object objects = 5; // This is the reference to the Objects that should be added to the group
     repeated storage.models.v1.Object meta_objects = 6; // This is a reference to the Objects that are associated with "meta" data about corresponding objects in the group
     repeated storage.models.v1.KeyValue labels = 7;
