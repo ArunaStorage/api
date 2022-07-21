@@ -94,6 +94,9 @@ enum Hashalgorithm {
     HASHALGO_SHA1 = 2;
     HASHALGO_SHA256 = 3;
     HASHALGO_SHA512 = 4;
+    HASHALGO_MURMUR3A32 = 5;
+    HASHALGO_XXHASH32 = 6;
+
 }
 
 message Hash {
@@ -242,7 +245,7 @@ message ObjectGroupWithIDs {
 
 message Collection {
     string id = 1;
-    string name = 2;
+    string name = 2; // Should be unique in authgroup
     string description = 3;
     repeated KeyValue labels = 4;
     repeated KeyValue hooks = 5;
