@@ -18,17 +18,17 @@ service AuthService {
 
     // This creates a new authorization group.option
     // All users and collections are bundled in a authorization group.
-    rpc CreateAuthGroup (CreateAuthGroupRequest) returns (CreateAuthGroupResponse) {
+    rpc CreateProject (CreateProjectRequest) returns (CreateProjectResponse) {
         option (google.api.http) = {
-            post: "/v1/authgroup"
+            post: "/v1/project"
             body: "*"
         };
     }
 
-    //AddUserToAuthGroup Adds a new user to a given authgroup by its id
-    rpc AddUserToAuthGroup (AddUserToAuthGroupRequest) returns (AddUserToAuthGroupResponse) {
+    //AddUserToProject Adds a new user to a given project by its id
+    rpc AddUserToProject (AddUserToProjectRequest) returns (AddUserToProjectResponse) {
         option (google.api.http) = {
-            post: "/v1/authgroup/{id}/adduser"
+            post: "/v1/project/{id}/adduser"
             body: "*"
         };
     }
@@ -36,75 +36,75 @@ service AuthService {
 	//CreateAPIToken Creates an API token to authenticate
     rpc CreateAPIToken(CreateAPITokenRequest) returns (CreateAPITokenResponse) {
         option (google.api.http) = {
-            post: "/v1/authgroup/{id}/user/{user_id}/apitoken"
+            post: "/v1/project/{id}/user/{user_id}/apitoken"
             body: "*"
         };
     }
 
-    //GetAuthGroupCollections Returns all collections that belong to a certain authgroup
-    rpc GetAuthGroupCollections(GetAuthGroupCollectionsRequest) returns (GetAuthGroupCollectionsResponse) {
+    //GetProjectCollections Returns all collections that belong to a certain project
+    rpc GetProjectCollections(GetProjectCollectionsRequest) returns (GetProjectCollectionsResponse) {
         option (google.api.http) = {
-            get: "/v1/authgroup/{id}/collections"
+            get: "/v1/project/{id}/collections"
         };
     }
 
     //GetUserCollections Returns all collections that a specified user has access to
     rpc GetUserCollections(GetUserCollectionsRequest) returns (GetUserCollectionsResponse) {
         option (google.api.http) = {
-            get: "/v1/authgroup/{id}/user/{user_id}/collections"
+            get: "/v1/project/{id}/user/{user_id}/collections"
         };
     }
 
-	//GetAuthGroup Returns the specified authgroup
-    rpc GetAuthGroup(GetAuthGroupRequest) returns (GetAuthGroupResponse) {
+	//GetProject Returns the specified project
+    rpc GetProject(GetProjectRequest) returns (GetProjectResponse) {
         option (google.api.http) = {
-            get: "/v1/authgroup/{id}"
+            get: "/v1/project/{id}"
         };
     }
 
 	// Returns all API token for a specific user
     rpc GetAPITokens(GetAPITokensRequest) returns (GetAPITokensResponse) {
         option (google.api.http) = {
-            get: "/v1/authgroup/{id}/user/{user_id}/token"
+            get: "/v1/project/{id}/user/{user_id}/token"
         };
     }
 
 	//DeleteAPITokenRequest Deletes the specified API Token
     rpc DeleteAPIToken(DeleteAPITokenRequest) returns (DeleteAPITokenResponse) {
         option (google.api.http) = {
-            delete: "/v1/authgroup/{id}/user/{user_id}/token/{token_id}"
+            delete: "/v1/project/{id}/user/{user_id}/token/{token_id}"
         };
     }
 
-    // This will destroy the authgroup and all its associated data.
+    // This will destroy the project and all its associated data.
     // including users, collections, and API tokens and all data associated with them.
-    rpc DestroyAuthGroup(DestroyAuthGroupRequest) returns (DestroyAuthGroupResponse) {
+    rpc DestroyProject(DestroyProjectRequest) returns (DestroyProjectResponse) {
         option (google.api.http) = {
-            delete: "/v1/authgroup/{id}"
+            delete: "/v1/project/{id}"
         };
     }
 }
 
 
-message CreateAuthGroupRequest{
+message CreateProjectRequest{
     string name = 1;
     string description = 2;
 }
 
-message CreateAuthGroupResponse{
+message CreateProjectResponse{
     string id = 1;
 }
 
-message AddUserToAuthGroupRequest{
-    // The id of the authgroup to add the user to
+message AddUserToProjectRequest{
+    // The id of the project to add the user to
     string id = 1;
-    storage.models.v1.AuthGroupPermission user_permission = 3; 
+    storage.models.v1.ProjectPermission user_permission = 3; 
 }
 
-message AddUserToAuthGroupResponse{}
+message AddUserToProjectResponse{}
 
 message CreateAPITokenRequest{
-    // The id of the authgroup to create the token for
+    // The id of the project to create the token for
     string id = 1;
     string user_id = 2;
     storage.models.v1.TokenType token_type = 3;
@@ -118,18 +118,18 @@ message CreateAPITokenResponse{
     storage.models.v1.Token token = 1;
 }
 
-message GetAuthGroupCollectionsRequest{
-    // The id of the authgroup to get the collections for
+message GetProjectCollectionsRequest{
+    // The id of the project to get the collections for
     string id = 1;
     storage.models.v1.PageRequest page_request = 2;
 }
 
-message GetAuthGroupCollectionsResponse{
+message GetProjectCollectionsResponse{
     repeated storage.models.v1.CollectionOverview collection = 1;
 }
 
 message GetUserCollectionsRequest{
-    // The id of the authgroup to get the collections for
+    // The id of the project to get the collections for
     string id = 1;
     string user_id = 2;
     storage.models.v1.PageRequest page_request = 3;
@@ -139,17 +139,17 @@ message GetUserCollectionsResponse{
     repeated storage.models.v1.CollectionOverview collection = 1;
 }
 
-message GetAuthGroupRequest{
-    // The id of the authgroup to get
+message GetProjectRequest{
+    // The id of the project to get
     string id = 1;
 }
 
-message GetAuthGroupResponse{
-    storage.models.v1.AuthGroupOverview authgroup = 1;
+message GetProjectResponse{
+    storage.models.v1.ProjectOverview project = 1;
 }
 
 message GetAPITokensRequest{
-    // The id of the authgroup to get the API tokens for
+    // The id of the project to get the API tokens for
     string id = 1;
     string user_id = 2;
     storage.models.v1.PageRequest page_request = 3;
@@ -161,7 +161,7 @@ message GetAPITokensResponse{
 }
 
 message DeleteAPITokenRequest{
-    // The id of the authgroup to delete the API token for
+    // The id of the project to delete the API token for
     string id = 1;
     string user_id = 2;
     string token_id = 3;
@@ -169,9 +169,9 @@ message DeleteAPITokenRequest{
 
 message DeleteAPITokenResponse{}
 
-message DestroyAuthGroupRequest{
-    // The id of the authgroup to destroy
+message DestroyProjectRequest{
+    // The id of the project to destroy
     string id = 1;
 }
 
-message DestroyAuthGroupResponse{}
+message DestroyProjectResponse{}

@@ -5,18 +5,18 @@ package aruna.api.storage.models.v1;
 import "google/protobuf/timestamp.proto";
 
 
-// A AuthGroup is a list of collections with associated users
+// A Project is a list of collections with associated users
 // This is used to manage access to multiple collections at the same time
-// Each Collection can only be in one AuthGroup at a time
-message AuthGroup {
+// Each Collection can only be in one Project at a time
+message Project {
     string id = 1;
     string name = 2;
-    repeated AuthGroupPermission user_permissions = 3;
+    repeated ProjectPermission user_permissions = 3;
     repeated string collection_ids = 4;
     string description = 5;
 }
 
-message AuthGroupOverview {
+message ProjectOverview {
     string id = 1;
     string name = 2;
     string description = 3;
@@ -26,7 +26,7 @@ message AuthGroupOverview {
 
 enum Permission {
     PERMISSION_UNSPECIFIED = 0;
-    PERMISSION_NONE = 1; // No permissions granted, used for users that are in the authgroup but have no default permissions
+    PERMISSION_NONE = 1; // No permissions granted, used for users that are in the project but have no default permissions
     PERMISSION_READ = 2; // Read only
     PERMISSION_APPEND = 3; // Append objects to the collection cannot modify existing objects
     PERMISSION_MODIFY = 4; // Can Read/Append/Modify objects in the collection that owns the object / Create new collections
@@ -61,7 +61,7 @@ message Token {
     Permission permission = 8;
 }
 
-message AuthGroupPermission {
+message ProjectPermission {
     string user_id = 1;
     Permission permission = 2;
     repeated Token tokens = 3;
