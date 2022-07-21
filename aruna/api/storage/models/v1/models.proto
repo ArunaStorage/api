@@ -89,13 +89,13 @@ message Version {
 }
 
 enum Hashalgorithm {
-    HASHALGO_UNSPECIFIED = 0;
-    HASHALGO_MD5 = 1;
-    HASHALGO_SHA1 = 2;
-    HASHALGO_SHA256 = 3;
-    HASHALGO_SHA512 = 4;
-    HASHALGO_MURMUR3A32 = 5;
-    HASHALGO_XXHASH32 = 6;
+    HASHALGORITHM_UNSPECIFIED = 0;
+    HASHALGORITHM_MD5 = 1;
+    HASHALGORITHM_SHA1 = 2;
+    HASHALGORITHM_SHA256 = 3;
+    HASHALGORITHM_SHA512 = 4;
+    HASHALGORITHM_MURMUR3A32 = 5;
+    HASHALGORITHM_XXHASH32 = 6;
 
 }
 
@@ -106,9 +106,9 @@ message Hash {
 
 // Specifies the Origin of the object
 enum OriginType {
-    ORIG_UNSPECIFIED = 0;
-    ORIG_USER = 1; // User uploaded the object
-    ORIG_OBJCLONE = 2; // Object was cloned from another object
+    ORIGIN_TYPE_UNSPECIFIED = 0;
+    ORIGIN_TYPE_USER = 1; // User uploaded the object
+    ORIGIN_TYPE_OBJCLONE = 2; // Object was cloned from another object
 }
 
 
@@ -255,8 +255,8 @@ message Collection {
     repeated Object specifications = 9;
     repeated ObjectGroup object_groups = 10;
     repeated Authorization authorization = 11;
-    oneof Version {
-        Version version = 12;
+    oneof version {
+        Version semantic_version = 12;
         bool latest = 13;
     }
     CollectionStats stats = 14;
@@ -281,8 +281,8 @@ message CollectionOverview {
     LabelOntology label_ontology = 6; // Ontology for labels
     google.protobuf.Timestamp created = 7;
     repeated Authorization authorization = 11;
-    oneof Version {
-        Version version = 12;
+    oneof version {
+        Version semantic_version = 12;
         bool latest = 13;
     }
     CollectionStats stats = 14;
@@ -307,8 +307,8 @@ message CollectionWithID {
     repeated RevID specifications = 9;
     repeated RevID object_groups = 10;
     repeated Authorization authorization = 11;
-    oneof Version {
-        Version version = 12;
+    oneof version {
+        Version semantic_version = 12;
         bool latest = 13;
     }
     CollectionStats stats = 14;

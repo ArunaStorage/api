@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package aruna.api.internal.proxy.v1;
+package aruna.api.internal.v1;
 
 
 // Definition for the internal API that is used to communicate with all internal components.
@@ -11,7 +11,7 @@ package aruna.api.internal.proxy.v1;
 // 3. Use the presigned URL to upload individual parts, 1-x times.
 // 4. When all parts are uploaded, call FinishPresignedUpload to complete the upload and provide the parts list.
 
-service Internal {
+service InternalProxyService {
     rpc InitPresignedUpload(InitPresignedUploadRequest) returns (InitPresignedUploadResponse){}
     rpc CreatePresignedUploadUrl(CreatePresignedUploadUrlRequest) returns (CreatePresignedUploadUrlResponse) {}
     rpc FinishPresignedUpload(FinishPresignedUploadRequest) returns (FinishPresignedUploadResponse) {}

@@ -42,7 +42,7 @@ service ObjectService {
 
     // This method can be used to get download urls for multiple objects.
     // The order of the returned urls will be the same as the order of the object ids in the request.
-    rpc GetDownloadLinksBatch(GetDownloadLinkBatchRequest) returns (GetDownloadLinkBatchResponse) {
+    rpc GetDownloadLinksBatch(GetDownloadLinksBatchRequest) returns (GetDownloadLinksBatchResponse) {
         option (google.api.http) = {
             get: "/v1/collection/{collection_id}/objects"
         };
@@ -224,14 +224,14 @@ message GetDownloadURLResponse {
 }
 
 
-message GetDownloadLinkBatchRequest {
+message GetDownloadLinksBatchRequest {
     // CollectionID
     string collection_id = 1;
     // ObjectIds
     repeated ObjectRevision objects = 2;
 }
 
-message GetDownloadLinkBatchResponse {
+message GetDownloadLinksBatchResponse {
     repeated URL urls = 1;
 }
 
@@ -343,7 +343,7 @@ message ObjectWithURL{
     storage.models.v1.Object object = 1;
     // This is a associated download URL
     // Will be empty if request does not contain the associated with_url flag
-    string URL = 2;
+    string url = 2;
 }
 
 message GetObjectByIDRequest{

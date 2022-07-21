@@ -25,12 +25,12 @@ message AuthGroupOverview {
 }
 
 enum Permission {
-    PERM_UNSPECIFIED = 0;
-    PERM_NONE = 1; // No permissions granted, used for users that are in the authgroup but have no default permissions
-    PERM_READ = 2; // Read only
-    PERM_APPEND = 3; // Append objects to the collection cannot modify existing objects
-    PERM_MODIFY = 4; // Can Read/Append/Modify objects in the collection that owns the object / Create new collections
-    PERM_ADMIN = 5; // Can modify the collections itself and permanently delete owned objects / move ownership of objects
+    PERMISSION_UNSPECIFIED = 0;
+    PERMISSION_NONE = 1; // No permissions granted, used for users that are in the authgroup but have no default permissions
+    PERMISSION_READ = 2; // Read only
+    PERMISSION_APPEND = 3; // Append objects to the collection cannot modify existing objects
+    PERMISSION_MODIFY = 4; // Can Read/Append/Modify objects in the collection that owns the object / Create new collections
+    PERMISSION_ADMIN = 5; // Can modify the collections itself and permanently delete owned objects / move ownership of objects
 }
 
 enum PermType {
