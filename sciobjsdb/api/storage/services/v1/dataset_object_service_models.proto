@@ -1,0 +1,155 @@
+syntax = "proto3";
+
+package sciobjsdb.api.storage.services.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/services/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.services.v1";
+option java_outer_classname = "DatasetObjectsServiceModels";
+
+import "google/protobuf/timestamp.proto";
+import "sciobjsdb/api/storage/models/v1/common_models.proto";
+import "sciobjsdb/api/storage/models/v1/object_models.proto";
+
+message CreateObjectGroupRequest {
+    CreateObjectGroupRevisionRequest create_revision_request = 1;
+    string dataset_id = 2;
+}
+
+message CreateObjectGroupBatchRequest {
+    repeated CreateObjectGroupRequest requests = 1;
+    bool include_object_link = 2;
+}
+
+message CreateObjectGroupBatchResponse {
+    repeated CreateObjectGroupResponse responses = 1;
+}
+
+message CreateObjectGroupResponse {
+    string object_group_id = 1;
+    string object_group_name = 4;
+    CreateObjectGroupRevisionResponse create_revision_response = 6;
+}
+
+message CreateObjectGroupRevisionRequest {
+    UpdateObjectsRequests update_objects = 2;
+    UpdateObjectsRequests update_meta_objects = 3;
+    string object_group_id = 4;
+    string name = 5;
+    string description = 6;
+    repeated sciobjsdb.api.storage.models.v1.Label labels = 7;
+    repeated sciobjsdb.api.storage.models.v1.Annotation annotations = 8;
+    bool include_object_link = 9; //If true, an upload link for each generated object and metadata object will be created. The order of the objects will be preserved in the returned list
+    google.protobuf.Timestamp generated = 10;
+}
+
+message CreateObjectGroupRevisionResponse {
+    string id = 1;
+    repeated sciobjsdb.api.storage.models.v1.Object data_objects = 2;
+    repeated sciobjsdb.api.storage.models.v1.Object meta_objects = 3;
+    repeated ObjectLinks object_links = 4; //upload link for the individual objects of the objectgroup. Will only be used if include_object_link in the create request is specified.
+    repeated ObjectLinks metadata_object_links = 5;
+    message ObjectLinks  {
+        string link = 2;
+        string object_id = 3;
+    }
+
+}
+
+message CreateObjectRequest {
+    string filename = 1;
+    string filetype = 2;
+    repeated sciobjsdb.api.storage.models.v1.Label labels = 3;
+    repeated sciobjsdb.api.storage.models.v1.Annotation annotations = 4;
+    int64 content_len = 5; // ContentLen: Lenght of the stored dataset
+    sciobjsdb.api.storage.models.v1.Origin origin = 6; // Origin: Source of the dataset
+    sciobjsdb.api.storage.models.v1.Subpath subpath = 12; //External path that the object content should be stored under.
+    string dataset_id = 13;
+}
+
+message CreateObjectResponse {
+    string id = 1;
+    string upload_link = 2;
+}
+
+message GetObjectRequest {
+    string id = 1;
+}
+
+message CreateObjectFromUpdate {}
+
+
+message DeleteObject {
+    string id = 1;
+}
+
+message GetObjectGroupRequest {
+    string id = 1;
+    ObjectGroupRevisionPagination pagination = 2; //If left empty, all revisions will be added to the response
+    message ObjectGroupRevisionPagination {
+        int64 start_revision_number = 1;
+        int64 last_revision_number = 2;
+    }
+}
+
+message GetObjectGroupResponse {
+    sciobjsdb.api.storage.models.v1.ObjectGroup object_group = 1;
+    repeated sciobjsdb.api.storage.models.v1.ObjectGroupRevision object_group_revisions = 2;
+}
+
+message GetObjectGroupRevisionRequest {
+    string id = 1;
+}
+
+message GetObjectGroupRevisionResponse {
+    sciobjsdb.api.storage.models.v1.ObjectGroupRevision object_group_revision = 1;
+}
+
+message UpdateObjectGroupRequest{
+    string id = 1;
+    CreateObjectGroupRevisionRequest create_revision_request = 2;
+}
+
+message UpdateObjectsRequests {
+    repeated AddObjectRequest add_objects = 1;
+    repeated UpdateObjectRequest update_objects = 2;
+    repeated DeleteObjectRequest delete_objects = 3;
+
+}
+
+message AddObjectRequest {
+    string id = 1;
+}
+
+message DeleteObjectRequest {
+    string id = 1;
+}
+
+message UpdateObjectRequest {}
+
+message UpdateObjectGroupResponse{
+}
+
+
+message FinishObjectUploadRequest {
+    string id = 1;
+}
+
+message FinishObjectUploadResponse {
+
+}
+
+message FinishObjectGroupRevisionUploadRequest {
+    string id = 1;
+}
+
+message FinishObjectGroupRevisionUploadResponse {
+
+}
+
+message DeleteObjectGroupRequest {
+    string id = 1;
+}
+
+message DeleteObjectGroupResponse {
+    
+}

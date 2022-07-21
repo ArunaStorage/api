@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package sciobjsdb.api.storage.models.v1;
+option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/models/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.models.v1";
+option java_outer_classname = "ObjectModels";
+
+
+import "sciobjsdb/api/storage/models/v1/common_models.proto";
+import "google/protobuf/timestamp.proto";
+
+message ObjectGroup {
+    string id = 1;
+    int64 revision_counter = 2;
+    ObjectGroupRevision current_revision = 3;
+    string dataset_id = 4;
+    string project_id = 5;
+}
+
+message ObjectGroupRevision {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    string dataset_id = 4;
+    string project_id = 5;
+    repeated Label labels = 6;
+    repeated Annotation annotations = 7;
+    Status status = 8;
+    repeated Object objects = 9;
+    repeated Object metadata_objects = 10;
+    google.protobuf.Timestamp generated = 11;
+    google.protobuf.Timestamp created = 12;
+    ObjectGroupStats stats = 13;
+    Subpath subpath = 15; // Expected external path; Can be used when downloading data; Should be a relative path
+    string object_group_id = 16;
+    int64 revision_number = 17; //Number in the history, will be assigned after the ObjectGroupRevision has been finalized and added to the objectgroups history
+}
+
+message  ObjectGroupStats {
+    int64 object_count = 1;
+    int64 acc_size = 2;
+    double avg_object_size = 3;
+    int64 meta_object_count = 4;
+}
+
+message Object {
+    string id = 1; //ID of the entity
+    string filename = 2; // Filename: Name of the original file e.g.: mydata.json
+    string filetype = 3; // Filetype: The specific type of the file, which can be the combination of a format like json and a specific schema (e.g. mzML using XML format and a specific schema)
+    repeated Label labels = 4;
+    repeated Annotation annotations = 5;
+    google.protobuf.Timestamp created = 6; // When the data object was created
+    repeated Location locations = 7; // Location: Location of the data
+    Location default_location = 18;
+    Origin origin = 8; // Origin: Source of the dataset
+    int64 content_len = 9; // ContentLen: Lenght of the stored dataset
+    google.protobuf.Timestamp generated = 11;
+    string object_group_id = 12;
+    string dataset_id = 13;
+    string project_id = 14;
+    Status status = 15;
+    ObjectStats stats = 16;
+    string fileformat = 17; // Fileformat: Format of the stored file, e.g.: json, csv,...
+}
+
+message ObjectStats {
+
+}
+
+message Subpath {
+    string path = 1;
+}
