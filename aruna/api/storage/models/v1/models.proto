@@ -1,0 +1,322 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+package aruna.api.storage.models.v1;
+
+import "aruna/api/storage/models/v1/auth.proto";
+
+// A key value pair for hooks and labels
+message KeyValue {
+    string key = 1;
+    string value = 2;
+}
+
+message LabelOntology{
+    // These are the keys for labels that are required for the collection
+    // Adding an Object without these keys will result in an error
+    // Defaults to empty string if not specified
+    repeated string required_label_keys = 1;
+}
+
+
+// This is a message to uniquely identify specific Objects
+// IDs by itself are not unique
+// Only the combination of ID and revision number is unique
+// A revision number of -1 corresponds to a "latest" tag
+// This will automatically update itself
+message RevID {
+    string id = 1;
+    int64 revision = 2;
+}
+
+// An arbitrary status for Objects
+enum Status {
+    STATUS_UNSPECIFIED = 0;
+    STATUS_INITIALIZING = 1;
+    STATUS_AVAILABLE = 2;
+    STATUS_UNAVAILABLE = 3;
+}
+
+// S3 location(s) for an object
+message Location {
+    ObjectLocation default = 1; // default location
+    repeated ObjectLocation locations = 2; // list of locations
+}
+
+// A location in S3
+// This can be either a location_id as a description e.g. "giessen" or a specific S3 location
+message ObjectLocation {
+    oneof location {
+        string location_id = 1;
+        S3Location s3_location = 2;
+    }
+}
+
+message S3Location {
+    string bucket = 1; // Bucket in S3
+    string key = 2; // Key in S3
+    string url = 3; // Object storage endpoint
+}
+
+
+// Stats for a set of objects
+message Stats {
+    int64 count = 1;
+    int64 acc_size = 2;
+}
+
+
+// Stats for a collection
+message CollectionStats {
+    Stats object_stats = 1;
+    int64 object_group_count = 2;
+    Stats specification_stats = 3;
+    google.protobuf.Timestamp last_date_updated = 6;
+}
+
+// Stats for an object group
+message ObjectGroupStats {
+    Stats total_stats = 1;
+    Stats object_stats = 2;
+    Stats meta_object_stats = 3;
+}
+
+// Semver version -> Alpha Beta release are not supported -> Use "latest" for mutable collections that are in development
+message Version {
+    int32 major = 1;
+    int32 minor = 2;
+    int32 patch = 3;
+}
+
+enum Hashalgorithm {
+    HASHALGORITHM_UNSPECIFIED = 0;
+    HASHALGORITHM_MD5 = 1;
+    HASHALGORITHM_SHA1 = 2;
+    HASHALGORITHM_SHA256 = 3;
+    HASHALGORITHM_SHA512 = 4;
+    HASHALGORITHM_MURMUR3A32 = 5;
+    HASHALGORITHM_XXHASH32 = 6;
+
+}
+
+message Hash {
+    Hashalgorithm alg = 1;
+    string hash = 2;
+}
+
+// Specifies the Origin of the object
+enum OriginType {
+    ORIGIN_TYPE_UNSPECIFIED = 0;
+    ORIGIN_TYPE_USER = 1; // User uploaded the object
+    ORIGIN_TYPE_OBJCLONE = 2; // Object was cloned from another object
+}
+
+
+// Origin of the object -> To be GDPA compliant
+message Origin {
+    OriginType type = 1;
+    string id = 2;
+}
+
+// Dataclass defines the confidentiality of the object
+enum DataClass {
+    DATA_CLASS_UNSPECIFIED = 0;
+    DATA_CLASS_PUBLIC = 1;
+    DATA_CLASS_PRIVATE = 2;
+    DATA_CLASS_CONFIDENTIAL = 3;
+    DATA_CLASS_PROTECTED = 4;
+}
+
+
+
+// RULES for Objects:
+// 1.  Each object is "owned" by exactly one collection
+// 2.  Objects can be "borrowed" to multiple other collections
+// 3.  Objects are immutable, updating an object will create a new object with increased revision number
+//     only people with modify permissions in the owner collection can update an object
+// 3.1 Special cases: 
+//     Hooks: Can be added/removed and modified without changing the object revision number
+//     Labels: Can be added without changing the object revision number, removing or modifying labels WILL change the object revision number (append only)
+//     auto_update: Can be added/removed without changing the object revision number and is collection specific
+// 4.  Objects can only be permanently deleted by a person with admin rights on the owner collection
+
+
+message Object {
+    string id = 1; //ObjectID -> This is not unique across the database -> Composite key with revision
+    string filename = 2; // Filename: Name of the original file e.g.: mydata.json
+    repeated KeyValue labels = 4; // Labels to additionally describe the object
+    repeated KeyValue hooks = 5; // Hooks to be executed on the object
+    google.protobuf.Timestamp created = 6;
+    string collection_id = 7; // Each object is owned by exactly one collection
+    Location location = 8; // Location of the data
+    int64 content_len = 9; // Lenght of the stored dataset
+    Status status = 10;
+    Origin origin = 11; // Origin of the object
+    DataClass data_class = 12; // Confidentiality of the object
+    Hash hash = 13; // MD5 hash of the data
+    int64 rev_number = 14; // Increasing revion number for each update -> This is used in the database
+    bool latest = 15; // Is this the latest version of the object?
+    
+    
+    // This is a collection specific attribute
+    // Must be false if collection is immutable
+    bool auto_update = 16; // If true, the object will be updated automatically when the data is changed
+        
+}
+
+// Multiple Objects
+message Objects {
+    repeated Object objects = 1;
+}
+
+// ObjectGroups are optional and can be used to group objects in a collection together
+// They need to refer to objects in the same collection
+// Objectgroups can be changed if the collection is mutable
+message ObjectGroup {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    string collection_id = 4; // Exactly one collection must be specified
+    repeated KeyValue labels = 6; 
+    repeated KeyValue hooks = 7;
+    repeated Object objects = 8; // Must be in collection objects
+    repeated Object meta_objects = 9; // Must be in collection objects
+    ObjectGroupStats stats = 10;
+    int64 rev_number = 11;
+}
+
+
+// Multiple ObjectGroups
+message ObjectGroups {
+    repeated ObjectGroup object_groups = 1;
+}
+
+
+
+// This is a representation of the ObjectGroup without the recursive nature of object references
+message ObjectGroupOverview {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    string collection_id = 4; // Exactly one collection must be specified
+    repeated KeyValue labels = 6; 
+    repeated KeyValue hooks = 7;
+    ObjectGroupStats stats = 8;
+    int64 rev_number = 9;
+}
+
+// Multiple ObjectGroupOverviews
+message ObjectGroupOverviews {
+    repeated ObjectGroupOverview object_group_overviews = 1;
+}
+
+
+
+// This is a representation of the ObjectGroup with only ObjectIDs instead of full objects
+message ObjectGroupWithID {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    string collection_id = 4; // Exactly one collection must be specified
+    repeated KeyValue labels = 6; 
+    repeated KeyValue hooks = 7;
+    repeated RevID object_ids = 8; // Must be in collection objects
+    repeated RevID meta_object_ids = 9; // Must be in collection objects
+    ObjectGroupStats stats = 10;
+    int64 rev_number = 11;
+}
+
+// Multiple ObjectGroupWithIDs
+message ObjectGroupWithIDs {
+    repeated ObjectGroupWithID object_group_with_ids = 1;
+}
+
+
+
+
+// RULES for Collections:
+// 1. Each object is "owned" by exactly one collection
+// 2. Objects can be in multiple collections and must be in the owner collection
+// 3. Collections are either mutable with Version.latest == true or immutable with a fixed version number
+// 3.1 If a collection gets a fixed version a copy is created with all "latest" objects dereferenced to their respective revisions
+// 3.2 Modifying an immutable collection will create a new copy of the collection with a new version number
+// 4. Collections can be created by any user, but only the owner can modify or delete them
+
+
+message Collection {
+    string id = 1;
+    string name = 2; // Should be unique in authgroup
+    string description = 3;
+    repeated KeyValue labels = 4;
+    repeated KeyValue hooks = 5;
+    LabelOntology label_ontology = 6; // Ontology for labels
+    google.protobuf.Timestamp created = 7;
+    repeated Object objects = 8;
+    repeated Object specifications = 9;
+    repeated ObjectGroup object_groups = 10;
+    repeated Authorization authorization = 11;
+    oneof version {
+        Version semantic_version = 12;
+        bool latest = 13;
+    }
+    CollectionStats stats = 14;
+    bool is_public = 15;   
+}
+
+
+// Multiple Collections
+message Collections {
+    repeated Collection collections = 1;
+}
+
+
+
+// This is a representation of the Collection without the recursive nature of objectreferences
+message CollectionOverview {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    repeated KeyValue labels = 4;
+    repeated KeyValue hooks = 5;
+    LabelOntology label_ontology = 6; // Ontology for labels
+    google.protobuf.Timestamp created = 7;
+    repeated Authorization authorization = 11;
+    oneof version {
+        Version semantic_version = 12;
+        bool latest = 13;
+    }
+    CollectionStats stats = 14;
+    bool is_public = 15;   
+}
+
+// Multiple CollectionOverviews
+message CollectionOverviews {
+    repeated CollectionOverview collection_overviews = 1;
+}
+
+// This is a representation of the Collection with only Resource RevisionIDs instead of full objects
+message CollectionWithID {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    repeated KeyValue labels = 4;
+    repeated KeyValue hooks = 5;
+    LabelOntology label_ontology = 6; // Ontology for labels
+    google.protobuf.Timestamp created = 7;
+    repeated RevID objects = 8;
+    repeated RevID specifications = 9;
+    repeated RevID object_groups = 10;
+    repeated Authorization authorization = 11;
+    oneof version {
+        Version semantic_version = 12;
+        bool latest = 13;
+    }
+    CollectionStats stats = 14;
+    bool is_public = 15;   
+}
+
+
+// Multiple CollectionWithIDs
+message CollectionWithIDs {
+    repeated CollectionWithID collection_with_ids = 1;
+}

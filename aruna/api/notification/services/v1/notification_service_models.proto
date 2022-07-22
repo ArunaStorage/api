@@ -1,12 +1,10 @@
 syntax = "proto3";
 
-package sciobjsdb.api.notification.services.v1;
-option go_package = "github.com/ScienceObjectsDB/go-api/sciobjsdb/api/storage/services/v1";
+package aruna.api.notification.services.v1;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v1";
 option java_multiple_files = true;
-option java_package = "com.github.ScienceObjectsDB.java_api.sciobjsdb.api.storage.services.v1";
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v1";
 option java_outer_classname = "NotificationServiceModels";
-
-import "sciobjsdb/api/storage/models/v1/common_models.proto";
 import "google/protobuf/timestamp.proto";
 
 message CreateEventStreamingGroupRequest {
@@ -21,10 +19,7 @@ message CreateEventStreamingGroupRequest {
 
   enum EventResources {
     EVENT_RESOURCES_UNSPECIFIED = 0;
-    EVENT_RESOURCES_PROJECT_RESOURCE = 1;
-    EVENT_RESOURCES_DATASET_RESOURCE = 2;
-    EVENT_RESOURCES_DATASET_VERSION_RESOURCE = 3;
-    EVENT_RESOURCES_OBJECT_GROUP_RESOURCE = 4;
+    EVENT_RESOURCES_COLLECTION_RESOURCE = 1;
     EVENT_RESOURCES_ALL_RESOURCE = 5;
   }
 
@@ -64,7 +59,7 @@ message NotificationStreamResponse {
 }
 
 message EventNotificationMessage {
-  sciobjsdb.api.storage.models.v1.Resource resource = 1;
+  EventResources resource = 1;
   string resource_id = 2;
   UpdateType updated_type = 3;
 
@@ -75,5 +70,11 @@ message EventNotificationMessage {
     UPDATE_TYPE_UPDATED = 3;
     UPDATE_TYPE_METADATA_UPDATED = 4;
     UPDATE_TYPE_DELETED = 5;
+  }
+
+  enum EventResources {
+    EVENT_RESOURCES_UNSPECIFIED = 0;
+    EVENT_RESOURCES_COLLECTION_RESOURCE = 1;
+    EVENT_RESOURCES_ALL_RESOURCE = 5;
   }
 }
