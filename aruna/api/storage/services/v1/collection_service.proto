@@ -12,154 +12,152 @@ import "aruna/api/storage/models/v1/query.proto";
 
 import "google/api/annotations.proto";
 
-
 service CollectionService {
 
-    // CreateNewCollection creates a new Collection
-    rpc CreateNewCollection(CreateNewCollectionRequest) returns (CreateNewCollectionResponse){
-        option (google.api.http) = {
-            post: "/v1/collection"
-            body: "*"
-        };
-    }
+  // CreateNewCollection creates a new Collection
+  rpc CreateNewCollection(CreateNewCollectionRequest)
+      returns (CreateNewCollectionResponse) {
+    option (google.api.http) = {
+      post : "/v1/collection"
+      body : "*"
+    };
+  }
 
-    // GetCollection queries a specific Collection by ID
-    // The result can be one_of:
-    // CollectionOverview -> default
-    // CollectionWithID
-    // Collection (full)
-    // This can be modified with the optional OutputFormat parameter
-    rpc GetCollectionByID(GetCollectionByIDRequest) returns (GetCollectionByIDResponse){
-        option (google.api.http) = {
-            get: "/v1/collection/{id}"
-        };
-    }
+  // GetCollection queries a specific Collection by ID
+  // The result can be one_of:
+  // CollectionOverview -> default
+  // CollectionWithID
+  // Collection (full)
+  // This can be modified with the optional OutputFormat parameter
+  rpc GetCollectionByID(GetCollectionByIDRequest)
+      returns (GetCollectionByIDResponse) {
+    option (google.api.http) = {
+      get : "/v1/collection/{id}"
+    };
+  }
 
-    // GetCollections queries multiple collections by ID or by LabelFilter
-    // This returns by default a paginated result with 20 entries.
-    rpc GetCollections(GetCollectionsRequest) returns (GetCollectionsResponse){
-        option (google.api.http) = {
-            get: "/v1/collections"
-        };
-    }
+  // GetCollections queries multiple collections by ID or by LabelFilter
+  // This returns by default a paginated result with 20 entries.
+  rpc GetCollections(GetCollectionsRequest) returns (GetCollectionsResponse) {
+    option (google.api.http) = {
+      get : "/v1/collections"
+    };
+  }
 
-    // UpdateCollection updates the current collection
-    // This will update the collection in place if it is unversioned / latest
-    // A versioned (pinned) collection requires a new semantic version after the update
-    // This can be used to pin a collection to a specific version
-    // similar to the PinCollectionVersion request
-    rpc UpdateCollection(UpdateCollectionRequest) returns (UpdateCollectionResponse){
-        option (google.api.http) = {
-            put: "/v1/collection/{id}"
-            body: "*"
-        };
-    }
+  // UpdateCollection updates the current collection
+  // This will update the collection in place if it is unversioned / latest
+  // A versioned (pinned) collection requires a new semantic version after the
+  // update This can be used to pin a collection to a specific version similar
+  // to the PinCollectionVersion request
+  rpc UpdateCollection(UpdateCollectionRequest)
+      returns (UpdateCollectionResponse) {
+    option (google.api.http) = {
+      put : "/v1/collection/{id}"
+      body : "*"
+    };
+  }
 
-    // PinCollectionVersion this pins the current status of the version to a specific version
-    // This effectively creates a copy of the collection with a stable version
-    // All objects will be pinned to an explicit revision number
-    // Pinned collections can not be updated in place
-    rpc PinCollectionVersion(PinCollectionVersionRequest) returns (PinCollectionVersionResponse){
-        option (google.api.http) = {
-            post: "/v1/collection/{collection_id}/pin"
-            body: "*"
-        };
-    }
+  // PinCollectionVersion this pins the current status of the version to a
+  // specific version This effectively creates a copy of the collection with a
+  // stable version All objects will be pinned to an explicit revision number
+  // Pinned collections can not be updated in place
+  rpc PinCollectionVersion(PinCollectionVersionRequest)
+      returns (PinCollectionVersionResponse) {
+    option (google.api.http) = {
+      post : "/v1/collection/{collection_id}/pin"
+      body : "*"
+    };
+  }
 
-
-    // This request deletes the collection.
-    // If with_version is true, it deletes the collection and all its versions.
-    // If cascade is true, all objects that are owned by the collection will also deleted.
-    // This should be avoided
-    rpc DeleteCollection(DeleteCollectionRequest) returns (DeleteCollectionResponse){
-        option (google.api.http) = {
-            delete: "/v1/collection/{id}"
-        };
-    }
-
+  // This request deletes the collection.
+  // If with_version is true, it deletes the collection and all its versions.
+  // If cascade is true, all objects that are owned by the collection will also
+  // deleted. This should be avoided
+  rpc DeleteCollection(DeleteCollectionRequest)
+      returns (DeleteCollectionResponse) {
+    option (google.api.http) = {
+      delete : "/v1/collection/{id}"
+    };
+  }
 }
 
 // Models:
 
 message CreateNewCollectionRequest {
-    string name = 1;
-    string description = 2;
-    repeated storage.models.v1.KeyValue labels = 3;
-    repeated storage.models.v1.KeyValue hooks = 4;
-    repeated storage.models.v1.Authorization authorization = 5;
+  string name = 1;
+  string description = 2;
+  string project_id = 3;
+  repeated storage.models.v1.KeyValue labels = 4;
+  repeated storage.models.v1.KeyValue hooks = 5;
+  repeated storage.models.v1.Authorization authorization = 6;
 }
 
-message CreateNewCollectionResponse {
-    string id = 1;
-}
+message CreateNewCollectionResponse { string id = 1; }
 
 message GetCollectionByIDRequest {
-    string id = 1;
-    storage.models.v1.OutputFormat format = 2;
+  string id = 1;
+  storage.models.v1.OutputFormat format = 2;
 }
 
 message GetCollectionByIDResponse {
-    oneof collection {
-        storage.models.v1.CollectionOverview collection_overview = 1;
-        storage.models.v1.CollectionWithID collection_with_id = 2;
-        storage.models.v1.Collection collection_full = 3;
-    }
+  oneof collection {
+    storage.models.v1.CollectionOverview collection_overview = 1;
+    storage.models.v1.CollectionWithID collection_with_id = 2;
+    storage.models.v1.Collection collection_full = 3;
+  }
 }
 
 message GetCollectionsRequest {
-    // Filter by Labels (optional) OR request a specific list of Collections
-    storage.models.v1.LabelOrIDQuery label_filter = 1;
-    storage.models.v1.PageRequest page_request = 2;
-    storage.models.v1.OutputFormat format = 3;
+  // Filter by Labels (optional) OR request a specific list of Collections
+  storage.models.v1.LabelOrIDQuery label_filter = 1;
+  storage.models.v1.PageRequest page_request = 2;
+  storage.models.v1.OutputFormat format = 3;
 }
 
 message GetCollectionsResponse {
-    // These are plural representations of their specific single counterparts
-    oneof collections {
-        storage.models.v1.CollectionOverviews collections_overview = 1;
-        storage.models.v1.CollectionWithIDs collections_with_id = 2;
-        storage.models.v1.Collections collections_full = 3;
-    }
+  // These are plural representations of their specific single counterparts
+  oneof collections {
+    storage.models.v1.CollectionOverviews collections_overview = 1;
+    storage.models.v1.CollectionWithIDs collections_with_id = 2;
+    storage.models.v1.Collections collections_full = 3;
+  }
 }
-
-
-
-
 
 // This updates the collection
 // Updating a pinned collection will require a new version to be created
 message UpdateCollectionRequest {
-    string id = 1;
-    string name = 2;
-    string description = 3;
-    repeated storage.models.v1.KeyValue labels = 4;
-    repeated storage.models.v1.KeyValue hooks = 5;
-    repeated storage.models.v1.Authorization authorization = 6;
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  repeated storage.models.v1.KeyValue labels = 4;
+  repeated storage.models.v1.KeyValue hooks = 5;
+  repeated storage.models.v1.Authorization authorization = 6;
 
-    // If this is set, the collection will be automatically pinned to this version
-    // Similar to the more explicit Pin request
-    // Updating a pinned collection will make this field required
-    // (optional if unpinned || required if pinned)
-    storage.models.v1.Version version = 7;
+  // If this is set, the collection will be automatically pinned to this version
+  // Similar to the more explicit Pin request
+  // Updating a pinned collection will make this field required
+  // (optional if unpinned || required if pinned)
+  storage.models.v1.Version version = 7;
 }
 
 message UpdateCollectionResponse {
-    storage.models.v1.CollectionOverview collection = 1;
+  storage.models.v1.CollectionOverview collection = 1;
 }
 
-message PinCollectionVersionRequest{
-    string collection_id = 1;
-    storage.models.v1.Version version = 2;
+message PinCollectionVersionRequest {
+  string collection_id = 1;
+  storage.models.v1.Version version = 2;
 }
 
-message PinCollectionVersionResponse{
-    storage.models.v1.CollectionOverview collection = 1;
+message PinCollectionVersionResponse {
+  storage.models.v1.CollectionOverview collection = 1;
 }
 
-message DeleteCollectionRequest{
-    string id = 1;
-    bool with_versions = 2; // Should the collection and all associated versions be deleted ?
-    bool cascade = 3; // Should the deletion cascade to all owned objects ?
+message DeleteCollectionRequest {
+  string id = 1;
+  bool with_versions =
+      2; // Should the collection and all associated versions be deleted ?
+  bool cascade = 3; // Should the deletion cascade to all owned objects ?
 }
 
-message DeleteCollectionResponse{}
+message DeleteCollectionResponse {}
