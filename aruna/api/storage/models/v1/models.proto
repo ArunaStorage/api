@@ -242,7 +242,6 @@ message Collection {
   repeated Object objects = 8;
   repeated Object specifications = 9;
   repeated ObjectGroup object_groups = 10;
-  repeated Authorization authorization = 11;
   oneof version {
     Version semantic_version = 12;
     bool latest = 13;
@@ -264,7 +263,6 @@ message CollectionOverview {
   repeated KeyValue hooks = 5;
   LabelOntology label_ontology = 6; // Ontology for labels
   google.protobuf.Timestamp created = 7;
-  repeated Authorization authorization = 11;
   oneof version {
     Version semantic_version = 12;
     bool latest = 13;
@@ -291,7 +289,6 @@ message CollectionWithID {
   repeated string objects = 8;
   repeated string specifications = 9;
   repeated string object_groups = 10;
-  repeated Authorization authorization = 11;
   oneof version {
     Version semantic_version = 12;
     bool latest = 13;
