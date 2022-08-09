@@ -3,8 +3,6 @@ import "google/protobuf/timestamp.proto";
 
 package aruna.api.storage.models.v1;
 
-import "aruna/api/storage/models/v1/auth.proto";
-
 // A key value pair for hooks and labels
 message KeyValue {
   string key = 1;
