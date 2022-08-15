@@ -4,72 +4,72 @@ package aruna.api.storage.models.v1;
 
 import "google/protobuf/timestamp.proto";
 
-
 // A Project is a list of collections with associated users
 // This is used to manage access to multiple collections at the same time
 // Each Collection can only be in one Project at a time
 message Project {
-    string id = 1;
-    string name = 2;
-    repeated ProjectPermission user_permissions = 3;
-    repeated string collection_ids = 4;
-    string description = 5;
+  string id = 1;
+  string name = 2;
+  repeated ProjectPermission user_permissions = 3;
+  repeated string collection_ids = 4;
+  string description = 5;
 }
 
 message ProjectOverview {
-    string id = 1;
-    string name = 2;
-    string description = 3;
-    repeated string collection_ids = 4;
-    repeated string user_ids = 5;
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  repeated string collection_ids = 4;
+  repeated string user_ids = 5;
 }
 
 enum Permission {
-    PERMISSION_UNSPECIFIED = 0;
-    PERMISSION_NONE = 1; // No permissions granted, used for users that are in the project but have no default permissions
-    PERMISSION_READ = 2; // Read only
-    PERMISSION_APPEND = 3; // Append objects to the collection cannot modify existing objects
-    PERMISSION_MODIFY = 4; // Can Read/Append/Modify objects in the collection that owns the object / Create new collections
-    PERMISSION_ADMIN = 5; // Can modify the collections itself and permanently delete owned objects / move ownership of objects
+  PERMISSION_UNSPECIFIED = 0;
+  PERMISSION_NONE = 1; // No permissions granted, used for users that are in the
+                       // project but have no default permissions
+  PERMISSION_READ = 2; // Read only
+  PERMISSION_APPEND =
+      3; // Append objects to the collection cannot modify existing objects
+  PERMISSION_MODIFY = 4; // Can Read/Append/Modify objects in the collection
+                         // that owns the object / Create new collections
+  PERMISSION_ADMIN = 5;  // Can modify the collections itself and permanently
+                         // delete owned objects / move ownership of objects
 }
 
 enum PermType {
-    PERM_TYPE_UNSPECIFIED = 0;
-    PERM_TYPE_USER = 1; // Regular OAuth users
-    PERM_TYPE_ANONYMOUS = 2; // Anonymous users without an OAuth token
-    PERM_TYPE_TOKEN = 3; // Access token on behalf of a user
+  PERM_TYPE_UNSPECIFIED = 0;
+  PERM_TYPE_USER = 1;      // Regular OAuth users
+  PERM_TYPE_ANONYMOUS = 2; // Anonymous users without an OAuth token
+  PERM_TYPE_TOKEN = 3;     // Access token on behalf of a user
 }
 
 enum TokenType {
-    TOKEN_TYPE_UNSPECIFIED = 0;
-    TOKEN_TYPE_PERSONAL = 1;
-    TOKEN_TYPE_SCOPED = 2;
+  TOKEN_TYPE_UNSPECIFIED = 0;
+  TOKEN_TYPE_PERSONAL = 1;
+  TOKEN_TYPE_SCOPED = 2;
 }
 
 message Token {
-    string id = 1;
-
-    string name = 2;
-    // The actual token, this will be redacted on every get request
-    string token = 3;
-    TokenType token_type = 4;
-
-    google.protobuf.Timestamp created_at = 5;
-    google.protobuf.Timestamp expires_on = 6;
-
-    repeated string collection_ids = 7;
-    Permission permission = 8;
+  string id = 1;
+  string name = 2;
+  TokenType token_type = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp expires_at = 6;
+  string collection_id = 7;
+  string project_id = 8;
+  Permission permission = 9;
 }
 
 message ProjectPermission {
-    string user_id = 1;
-    Permission permission = 2;
-    repeated Token tokens = 3;
+  string user_id = 1;
+  Permission permission = 2;
+  repeated Token tokens = 3;
 }
 
 message Authorization {
-    Permission permission = 1;
-    PermType perm_type = 2;
-    string client_id = 3; // Can be userid, tokenid or anonymous id depending on perm_type
-    string created_by = 4; // Userid of the user who created the authorization
+  Permission permission = 1;
+  PermType perm_type = 2;
+  string client_id =
+      3; // Can be userid, tokenid or anonymous id depending on perm_type
+  string created_by = 4; // Userid of the user who created the authorization
 }
