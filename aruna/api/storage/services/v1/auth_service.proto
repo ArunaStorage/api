@@ -157,7 +157,7 @@ message DeleteAPITokenRequest {
 
 message DeleteAPITokenResponse {}
 
-message DeleteAPITokenRequest {
+message DeleteAPITokensRequest {
   // This request invalidates all tokens of a specific user
   // usually the user_id is specified via the provided oidc or aruna token
   // This user_id can be used by admins to invalidate all tokens of a specific
@@ -165,7 +165,7 @@ message DeleteAPITokenRequest {
   string user_id = 1;
 }
 
-message DeleteAPITokenResponse {}
+message DeleteAPITokensResponse {}
 
 message CreateProjectRequest {
   string name = 1;
