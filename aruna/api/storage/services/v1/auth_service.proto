@@ -125,8 +125,9 @@ message CreateAPITokenRequest {
   // project to create the token for
   string project_id = 1;
   string collection_id = 2;
-  ExpiresAt expires_at = 3;
-  storage.models.v1.Permission permission = 4;
+  string name = 3;
+  ExpiresAt expires_at = 4;
+  storage.models.v1.Permission permission = 5;
 }
 
 message CreateAPITokenResponse { storage.models.v1.Token token = 1; }
