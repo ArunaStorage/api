@@ -143,15 +143,25 @@ service ObjectService {
     };
   }
 
-  // GetObjectHistoryByID returns the full history of a specified object
+  // GetObjectRevisions returns the full list of revisions of a specified object
   // With the optional with_url boolean a download link can automatically be
   // requested for each Object This is by default a paginated request
-  rpc GetObjectHistoryByID(GetObjectHistoryByIDRequest)
-      returns (GetObjectHistoryByIDResponse) {
+  rpc GetObjectRevisions(GetObjectRevisionsRequest)
+      returns (GetObjectRevisionsResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/object/{object_id}/history"
+      get : "/v1/collection/{collection_id}/object/{object_id}/revisions"
     };
   }
+  // GetLatestObjectRevision returns the latest revision of a specific object
+  // The returned `latest` object will have a different id if the current
+  // object is not the latest revision
+  rpc GetLatestObjectRevision(GetLatestObjectRevisionRequest)
+      returns (GetLatestObjectRevisionResponse) {
+    option (google.api.http) = {
+      get : "/v1/collection/{collection_id}/object/{object_id}/latest"
+    };
+  }
+
   // GetObjectEndpoints returns a list of endpoints
   // One endpoint will be the "default" endpoint
   rpc GetObjectEndpoints(GetObjectEndpointsRequest)
@@ -407,14 +417,24 @@ message GetObjectsResponse {
   repeated ObjectWithURL objects = 1;
 }
 
-message GetObjectHistoryByIDRequest {
+message GetObjectRevisionsRequest {
   string collection_id = 1;
   string object_id = 2;
   storage.models.v1.PageRequest page_request = 3;
   bool with_url = 4;
 }
 
-message GetObjectHistoryByIDResponse { repeated ObjectWithURL objects = 1; }
+message GetObjectRevisionsResponse { repeated ObjectWithURL objects = 1; }
+
+message GetLatestObjectRevisionRequest {
+  string collection_id = 1;
+  string object_id = 2;
+}
+
+message GetLatestObjectRevisionResponse {
+  // The object with the latest revision
+  storage.models.v1.Object object = 1;
+}
 
 message GetObjectEndpointsRequest {
   string collection_id = 1;
