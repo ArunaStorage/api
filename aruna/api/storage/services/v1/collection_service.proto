@@ -89,6 +89,8 @@ message CreateNewCollectionRequest {
   string project_id = 3;
   repeated storage.models.v1.KeyValue labels = 4;
   repeated storage.models.v1.KeyValue hooks = 5;
+  // Optional dataclass
+  storage.models.v1.DataClass dataclass = 6;
 }
 
 message CreateNewCollectionResponse { string collection_id = 1; }
@@ -118,6 +120,11 @@ message UpdateCollectionRequest {
   string description = 3;
   repeated storage.models.v1.KeyValue labels = 4;
   repeated storage.models.v1.KeyValue hooks = 5;
+
+  // Optional update Dataclass, this will not overwrite
+  // the dataclass of all existing associated objects
+  // New objects can only have this dataclass
+  storage.models.v1.DataClass dataclass = 6;
 
   // If this is set, the collection will be automatically pinned to this version
   // Similar to the more explicit Pin request
