@@ -61,12 +61,27 @@ service UserService {
     };
   }
 
-  // GetUserCollections Returns all collections that a specified user has access
-  // to
-  rpc GetUserCollections(GetUserCollectionsRequest)
-      returns (GetUserCollectionsResponse) {
+  // UserWhoAmI is a request that returns the user information of the current
+  // user
+  rpc UserWhoAmI(UserWhoAmIRequest) returns (UserWhoAmIResponse) {
     option (google.api.http) = {
-      get : "/v1/project/{id}/user/{user_id}/collections"
+      get : "/v1/user"
+    };
+  }
+
+  // UserWhoAmI is a request that returns the user information of the current
+  // user
+  rpc UpdateUserDisplayName(UpdateUserDisplayNameRequest)
+      returns (UpdateUserDisplayNameResponse) {
+    option (google.api.http) = {
+      post : "/v1/user/display_name"
+    };
+  }
+
+  rpc GetUserProjects(GetUserProjectsRequest)
+      returns (GetUserProjectsResponse) {
+    option (google.api.http) = {
+      delete : "/v1/user/{user_id}/projects"
     };
   }
 }
@@ -125,13 +140,12 @@ message DeleteAPITokensRequest {
 
 message DeleteAPITokensResponse {}
 
-message GetUserCollectionsRequest {
-  // The id of the project to get the collections for
-  string id = 1;
-  string user_id = 2;
-  storage.models.v1.PageRequest page_request = 3;
-}
+message UserWhoAmIRequest {}
+message UserWhoAmIResponse { storage.models.v1.User user = 1; }
 
-message GetUserCollectionsResponse {
-  repeated storage.models.v1.CollectionOverview collection = 1;
+message UpdateUserDisplayNameRequest { string new_display_name = 1; }
+message UpdateUserDisplayNameResponse { storage.models.v1.User user = 1; }
+message GetUserProjectsRequest { string user_id = 1; }
+message GetUserProjectsResponse {
+  repeated storage.models.v1.ProjectOverview projects = 1;
 }

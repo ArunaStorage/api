@@ -23,6 +23,17 @@ message ProjectOverview {
   repeated string user_ids = 5;
 }
 
+message User {
+  // Internal Aruna UserID
+  string id = 1;
+  // Oidc subject ID
+  string external_id = 2;
+  // (optional) User display_name
+  string display_name = 3;
+  // Is the user activated
+  bool active = 4;
+}
+
 enum Permission {
   PERMISSION_UNSPECIFIED = 0;
   PERMISSION_NONE = 1; // No permissions granted, used for users that are in the
