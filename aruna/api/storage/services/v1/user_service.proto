@@ -6,7 +6,6 @@ option java_multiple_files = true;
 option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v1";
 option java_outer_classname = "UserService";
 
-import "aruna/api/storage/models/v1/models.proto";
 import "aruna/api/storage/models/v1/auth.proto";
 import "aruna/api/storage/models/v1/query.proto";
 
