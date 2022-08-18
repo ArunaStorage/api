@@ -151,6 +151,11 @@ message UserWhoAmIResponse { storage.models.v1.User user = 1; }
 message UpdateUserDisplayNameRequest { string new_display_name = 1; }
 message UpdateUserDisplayNameResponse { storage.models.v1.User user = 1; }
 message GetUserProjectsRequest { string user_id = 1; }
-message GetUserProjectsResponse {
-  repeated storage.models.v1.ProjectOverview projects = 1;
+
+message UserProject {
+  string id = 1;
+  string name = 2;
+  string description = 3;
 }
+
+message GetUserProjectsResponse { repeated UserProject projects = 1; }
