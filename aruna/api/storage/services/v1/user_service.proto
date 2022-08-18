@@ -100,7 +100,14 @@ message CreateAPITokenRequest {
   storage.models.v1.Permission permission = 5;
 }
 
-message CreateAPITokenResponse { storage.models.v1.Token token = 1; }
+message CreateAPITokenResponse {
+  // This contains only the token description
+  storage.models.v1.Token token = 1;
+  // This is the actual secret token
+  // Attention, this can not be recreated and needs to be stored securely
+  // New tokens will always contain a new secret
+  string token_secret = 2;
+}
 
 message GetAPITokenRequest {
   // The token id
