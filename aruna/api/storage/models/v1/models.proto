@@ -24,28 +24,6 @@ enum Status {
   STATUS_UNAVAILABLE = 3;
 }
 
-// S3 location(s) for an object
-message Location {
-  ObjectLocation default = 1;            // default location
-  repeated ObjectLocation locations = 2; // list of locations
-}
-
-// A location in S3
-// This can be either a location_id as a description e.g. "giessen" or a
-// specific S3 location
-message ObjectLocation {
-  oneof location {
-    string location_id = 1;
-    S3Location s3_location = 2;
-  }
-}
-
-message S3Location {
-  string bucket = 1; // Bucket in S3
-  string key = 2;    // Key in S3
-  string url = 3;    // Object storage endpoint
-}
-
 // Stats for a set of objects
 message Stats {
   int64 count = 1;
@@ -123,6 +101,22 @@ enum SourceType {
   SOURCE_TYPE_UNSPECIFIED = 0;
   SOURCE_TYPE_URL = 1;
   SOURCE_TYPE_DOI = 2;
+}
+
+enum EndpointType {
+  ENDPOINT_TYPE_UNSPECIFIED = 0;
+  ENDPOINT_TYPE_S3 = 1;
+  ENDPOINT_TYPE_FILE = 2;
+}
+
+message Endpoint {
+  string id = 1;
+  EndpointType ep_type = 2;
+  string name = 3;
+  string proxy_hostname = 4;
+  string internal_hostname = 5;
+  string documentation_path = 6;
+  bool is_public = 7;
 }
 
 // RULES for Objects:

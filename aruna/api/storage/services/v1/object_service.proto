@@ -152,6 +152,14 @@ service ObjectService {
       get : "/v1/collection/{collection_id}/object/{id}/history"
     };
   }
+  // GetObjectEndpoints returns a list of endpoints
+  // One endpoint will be the "default" endpoint
+  rpc GetObjectEndpoints(GetObjectEndpointsRequest)
+      returns (GetObjectEndpointsResponse) {
+    option (google.api.http) = {
+      get : "/v1/collection/{collection_id}/object/{id}/endpoints"
+    };
+  }
 }
 
 // Models
@@ -177,11 +185,16 @@ message InitializeNewObjectRequest {
   string collection_id = 2;
   // Source
   storage.models.v1.Source source = 3;
+  // (optional) Used to specify a preferred endpoint by id
+  // this can be used to specify which endpoint this object should use
+  // only needed if it is not the default endpoint for the current server
+  // instance
+  string preferred_endpoint_id = 4;
   // Should the object be uploaded via multipart?
-  bool multipart = 4;
+  bool multipart = 5;
   // Is specification ?
   // Should this object contain a specification for the collection ?
-  bool is_specification = 5;
+  bool is_specification = 6;
 }
 
 message InitializeNewObjectResponse {
@@ -381,3 +394,15 @@ message GetObjectHistoryByIDRequest {
 }
 
 message GetObjectHistoryByIDResponse { repeated ObjectWithURL objects = 1; }
+
+message GetObjectEndpointsRequest {
+  string collection_id = 1;
+  string object_id = 2;
+}
+
+message EndpointsList {
+  storage.models.v1.Endpoint endpoint = 1;
+  bool is_default = 2;
+}
+
+message GetObjectEndpointsResponse { EndpointsList endpoints = 1; }
