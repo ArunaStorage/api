@@ -1,3 +1,4 @@
 [submodule "aruna/api/google"]
 	path = aruna/api/google
 	url = https://github.com/googleapis/googleapis
+	branch = master
