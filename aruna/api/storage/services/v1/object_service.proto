@@ -30,15 +30,15 @@ service ObjectService {
   // part of the file / multipart upload.
   rpc GetUploadURL(GetUploadURLRequest) returns (GetUploadURLResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/object/{id}/staging/{staging_id}/"
-            "upload"
+      get : "/v1/collection/{collection_id}/object/{object_id}/staging/"
+            "{upload_id}/upload"
     };
   }
 
   // This method will return a url that can be used to download a file from S3.
   rpc GetDownloadURL(GetDownloadURLRequest) returns (GetDownloadURLResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/object/{id}/download"
+      get : "/v1/collection/{collection_id}/object/{object_id}/download"
     };
   }
 
@@ -67,8 +67,8 @@ service ObjectService {
   rpc FinishObjectStaging(FinishObjectStagingRequest)
       returns (FinishObjectStagingResponse) {
     option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/object/{id}/staging/{staging_id}/"
-             "finish"
+      post : "/v1/collection/{collection_id}/object/{object_id}/staging/"
+             "{upload_id}/finish"
       body : "*"
     };
   }
@@ -80,7 +80,7 @@ service ObjectService {
   // before they can be used.
   rpc UpdateObject(UpdateObjectRequest) returns (UpdateObjectResponse) {
     option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/object/{id}/update"
+      post : "/v1/collection/{collection_id}/object/{object_id}/update"
       body : "*"
     };
   }
@@ -94,7 +94,7 @@ service ObjectService {
   // object. This owner can delete the object even if it was cloned
   rpc BorrowObject(BorrowObjectRequest) returns (BorrowObjectResponse) {
     option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/object/{id}/borrow/"
+      post : "/v1/collection/{collection_id}/object/{object_id}/borrow/"
              "{target_collection_id}"
       body : "*"
     };
@@ -105,7 +105,7 @@ service ObjectService {
   // the original object.
   rpc CloneObject(CloneObjectRequest) returns (CloneObjectResponse) {
     option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/object/{id}/clone"
+      post : "/v1/collection/{collection_id}/object/{object_id}/clone"
       body : "*"
     };
   }
@@ -117,7 +117,7 @@ service ObjectService {
   // -> GDPR compliant procedure.
   rpc DeleteObject(DeleteObjectRequest) returns (DeleteObjectResponse) {
     option (google.api.http) = {
-      delete : "/v1/collection/{collection_id}/object/{id}"
+      delete : "/v1/collection/{collection_id}/object/{object_id}"
     };
   }
 
@@ -127,7 +127,7 @@ service ObjectService {
   // optional with_url boolean a download link can automatically be requested
   rpc GetObjectByID(GetObjectByIDRequest) returns (GetObjectByIDResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/object/{id}"
+      get : "/v1/collection/{collection_id}/object/{object_id}"
     };
   }
 
@@ -149,7 +149,7 @@ service ObjectService {
   rpc GetObjectHistoryByID(GetObjectHistoryByIDRequest)
       returns (GetObjectHistoryByIDResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/object/{id}/history"
+      get : "/v1/collection/{collection_id}/object/{object_id}/history"
     };
   }
   // GetObjectEndpoints returns a list of endpoints
@@ -157,7 +157,27 @@ service ObjectService {
   rpc GetObjectEndpoints(GetObjectEndpointsRequest)
       returns (GetObjectEndpointsResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/object/{id}/endpoints"
+      get : "/v1/collection/{collection_id}/object/{object_id}/endpoints"
+    };
+  }
+  // AddLabelToObject is a specific request to add a new label
+  // to an existing object, in contrast to UpdateObject
+  // this will not create a new object in the staging area
+  // Instead it will directly add the specified label(s) to the object
+  rpc AddLabelToObject(AddLabelToObjectRequest)
+      returns (AddLabelToObjectResponse) {
+    option (google.api.http) = {
+      post : "/v1/collection/{collection_id}/object/{object_id}/add_labels"
+    };
+  }
+  // SetHooksOfObject is a specific request to update the complete list
+  // of hooks for a specific object. This will not update the object
+  // and create a new id, instead it will overwrite all hooks of the existing
+  // object.
+  rpc SetHooksOfObject(SetHooksOfObjectRequest)
+      returns (SetHooksOfObjectResponse) {
+    option (google.api.http) = {
+      post : "/v1/collection/{collection_id}/object/{object_id}/set_hooks"
     };
   }
 }
@@ -199,20 +219,18 @@ message InitializeNewObjectRequest {
 
 message InitializeNewObjectResponse {
   // ObjectId
-  string id = 1;
-  // Staging ID, a generic ID when multipart is not enabled, otherwise the
-  // multipart upload ID.
-  string staging_id = 2;
+  string object_id = 1;
+  // Upload ID, a ID used to identify the upload / staging object
+  string upload_id = 2;
   // CollectionID
   string collection_id = 3;
 }
 
 message GetUploadURLRequest {
   // ObjectId
-  string id = 1;
-  // Staging ID, a generic ID when multipart is not enabled, otherwise the
-  // multipart upload ID.
-  string staging_id = 2;
+  string object_id = 1;
+  // Upload ID, a ID used to identify the upload / staging object
+  string upload_id = 2;
   // CollectionID
   string collection_id = 3;
   // Is this a multipart upload?
@@ -234,7 +252,7 @@ message CompletedParts {
 
 message ObjectRevision {
   // ObjectId
-  string id = 1;
+  string object_id = 1;
   // (optional) revision number, will be latest if not set.
   int64 revision = 2;
 }
@@ -266,7 +284,7 @@ message CreateDownloadLinksStreamResponse { URL url = 1; }
 
 message FinishObjectStagingRequest {
   // ObjectId
-  string id = 1;
+  string object_id = 1;
   // Staging ID, a generic ID when multipart is not enabled, otherwise the
   // multipart upload ID.
   string staging_id = 2;
@@ -294,20 +312,23 @@ message FinishObjectStagingResponse { storage.models.v1.Object object = 1; }
 
 message UpdateObjectRequest {
   // Existing object ID
-  string id = 1;
+  string object_id = 1;
   // collection ID
   string collection_id = 2;
   // New object data
   StageObject object = 3;
   // Should new data be uploaded ?
   bool reupload = 4;
+  // If this is an reupload a preferred endpoint
+  // can be specified by id
+  string preferred_endpoint_id = 5;
   // Should a multipart upload be used?
-  bool multi_part = 5;
+  bool multi_part = 6;
 }
 
 message UpdateObjectResponse {
   // ObjectId
-  string id = 1;
+  string object_id = 1;
   // Staging ID, a generic ID when multipart is not enabled, otherwise the
   // multipart upload ID.
   string staging_id = 2;
@@ -317,7 +338,7 @@ message UpdateObjectResponse {
 
 message BorrowObjectRequest {
   // ObjectId
-  string id = 1;
+  string object_id = 1;
   // OwnerCollectionID
   string collection_id = 2;
   // BorrowerCollectionID
@@ -328,7 +349,7 @@ message BorrowObjectResponse {}
 
 message CloneObjectRequest {
   // ObjectId
-  string id = 1;
+  string object_id = 1;
   // CollectionID
   string collection_id = 2;
 }
@@ -340,7 +361,7 @@ message CloneObjectResponse {
 
 message DeleteObjectRequest {
   // ObjectId
-  string id = 1;
+  string object_id = 1;
   // CollectionID
   string collection_id = 2;
   // This will by default delete the object only in the specified collection.
@@ -406,3 +427,28 @@ message EndpointsList {
 }
 
 message GetObjectEndpointsResponse { EndpointsList endpoints = 1; }
+
+message AddLabelToObjectRequest {
+  string collection_id = 1;
+  string object_id = 2;
+  // List of labels that should be added to the list of labels
+  repeated storage.models.v1.KeyValue labels_to_add = 3;
+}
+
+message AddLabelToObjectResponse {
+  // Returns the updated Object
+  storage.models.v1.Object object = 1;
+}
+
+message SetHooksOfObjectRequest {
+  string collection_id = 1;
+  string object_id = 2;
+  // This will overwrite all existing hooks
+  // Can be empty to remove all hooks
+  repeated storage.models.v1.KeyValue hooks = 3;
+}
+
+message SetHooksOfObjectResponse {
+  // Returns the updated Object
+  storage.models.v1.Object object = 1;
+}
