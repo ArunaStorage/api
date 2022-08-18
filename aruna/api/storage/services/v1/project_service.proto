@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v1;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v1";
+option java_outer_classname = "ProjectService";
+
+import "aruna/api/storage/models/v1/models.proto";
+import "aruna/api/storage/models/v1/auth.proto";
+import "aruna/api/storage/models/v1/query.proto";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+service ProjectService {
+
+  // This creates a new authorization group.option
+  // All users and collections are bundled in a authorization group.
+  rpc CreateProject(CreateProjectRequest) returns (CreateProjectResponse) {
+    option (google.api.http) = {
+      post : "/v1/project"
+      body : "*"
+    };
+  }
+
+  // AddUserToProject Adds a new user to a given project by its id
+  rpc AddUserToProject(AddUserToProjectRequest)
+      returns (AddUserToProjectResponse) {
+    option (google.api.http) = {
+      post : "/v1/project/{project_id}/adduser"
+      body : "*"
+    };
+  }
+
+  // GetProjectCollections Returns all collections that belong to a certain
+  // project
+  rpc GetProjectCollections(GetProjectCollectionsRequest)
+      returns (GetProjectCollectionsResponse) {
+    option (google.api.http) = {
+      get : "/v1/project/{project_id}/collections"
+    };
+  }
+
+  // GetProject Returns the specified project
+  rpc GetProject(GetProjectRequest) returns (GetProjectResponse) {
+    option (google.api.http) = {
+      get : "/v1/project/{project_id}"
+    };
+  }
+
+  // This will destroy the project and all its associated data.
+  // including users, collections, and API tokens and all data associated with
+  // them.
+  rpc DestroyProject(DestroyProjectRequest) returns (DestroyProjectResponse) {
+    option (google.api.http) = {
+      delete : "/v1/project/{project_id}"
+    };
+  }
+}
+
+message CreateProjectRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message CreateProjectResponse { string project_id = 1; }
+
+message AddUserToProjectRequest {
+  // The id of the project to add the user to
+  string project_id = 1;
+  storage.models.v1.ProjectPermission user_permission = 3;
+}
+
+message AddUserToProjectResponse {}
+
+message GetProjectCollectionsRequest {
+  // The id of the project to get the collections for
+  string project_id = 1;
+  storage.models.v1.PageRequest page_request = 2;
+}
+
+message GetProjectCollectionsResponse {
+  repeated storage.models.v1.CollectionOverview collection = 1;
+}
+
+message GetProjectRequest {
+  // The id of the project to get
+  string project_id = 1;
+}
+
+message GetProjectResponse { storage.models.v1.ProjectOverview project = 1; }
+
+message DestroyProjectRequest {
+  // The id of the project to destroy
+  string project_id = 1;
+}
+
+message DestroyProjectResponse {}
