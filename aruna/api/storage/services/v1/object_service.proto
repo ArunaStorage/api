@@ -260,16 +260,9 @@ message CompletedParts {
   int64 part = 2;
 }
 
-message ObjectRevision {
-  // ObjectId
-  string object_id = 1;
-  // (optional) revision number, will be latest if not set.
-  int64 revision = 2;
-}
-
 message GetDownloadURLRequest {
   string collection_id = 1;
-  ObjectRevision object = 2;
+  string object = 2;
 }
 
 message GetDownloadURLResponse { URL url = 1; }
@@ -278,7 +271,7 @@ message GetDownloadLinksBatchRequest {
   // CollectionID
   string collection_id = 1;
   // ObjectIds
-  repeated ObjectRevision objects = 2;
+  repeated string objects = 2;
 }
 
 message GetDownloadLinksBatchResponse { repeated URL urls = 1; }
@@ -287,7 +280,7 @@ message CreateDownloadLinksStreamRequest {
   // CollectionID
   string collection_id = 1;
   // ObjectIds
-  repeated ObjectRevision objects = 2;
+  repeated string objects = 2;
 }
 
 message CreateDownloadLinksStreamResponse { URL url = 1; }
