@@ -74,13 +74,4 @@ message Token {
 message ProjectPermission {
   string user_id = 1;
   Permission permission = 2;
-  repeated Token tokens = 3;
-}
-
-message Authorization {
-  Permission permission = 1;
-  PermType perm_type = 2;
-  string client_id =
-      3; // Can be userid, tokenid or anonymous id depending on perm_type
-  string created_by = 4; // Userid of the user who created the authorization
 }
