@@ -34,8 +34,7 @@ message Stats {
 message CollectionStats {
   Stats object_stats = 1;
   int64 object_group_count = 2;
-  Stats specification_stats = 3;
-  google.protobuf.Timestamp last_date_updated = 6;
+  google.protobuf.Timestamp last_updated = 3;
 }
 
 // Stats for an object group

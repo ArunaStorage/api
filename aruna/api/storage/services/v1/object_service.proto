@@ -346,6 +346,10 @@ message BorrowObjectRequest {
   string collection_id = 2;
   // BorrowerCollectionID
   string target_collection_id = 3;
+  // Should the other collection have permissions to edit the ressource
+  bool writeable = 4;
+  // Should the borrowed ressource be automatically updated ?
+  bool auto_update = 5;
 }
 
 message BorrowObjectResponse {}
@@ -386,7 +390,6 @@ message ObjectWithURL {
 message GetObjectByIDRequest {
   string collection_id = 1;
   string object_id = 2;
-  int64 revision = 3;
   // With URL: Include URL in response ?
   bool with_url = 4;
 }

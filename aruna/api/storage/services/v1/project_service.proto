@@ -48,12 +48,34 @@ service ProjectService {
     };
   }
 
-  // This will destroy the project and all its associated data.
-  // including users, collections, and API tokens and all data associated with
-  // them.
+  // Destroys the project and all its associated data. Must be empty
+  // (cannot contain any collections).
   rpc DestroyProject(DestroyProjectRequest) returns (DestroyProjectResponse) {
     option (google.api.http) = {
       delete : "/v1/project/{project_id}"
+    };
+  }
+
+  // Updates the project. All (meta) data will be overwritten.
+  rpc UpdateProject(UpdateProjectRequest) returns (UpdateProjectResponse) {
+    option (google.api.http) = {
+      put : "/v1/project/{project_id}"
+    };
+  }
+
+  // Removes a specified user from the project.
+  rpc RemoveUserFromProject(RemoveUserFromProjectRequest)
+      returns (RemoveUserFromProjectResponse) {
+    option (google.api.http) = {
+      post : "/v1/project/{project_id}/remove_user"
+    };
+  }
+
+  // Edit the user_permission of a specific user for the project.
+  rpc EditUserPermissionsForProject(EditUserPermissionsForProjectRequest)
+      returns (EditUserPermissionsForProjectResponse) {
+    option (google.api.http) = {
+      post : "/v1/project/{project_id}/edit_user"
     };
   }
 }
@@ -96,3 +118,28 @@ message DestroyProjectRequest {
 }
 
 message DestroyProjectResponse {}
+
+message UpdateProjectRequest {
+  string project_id = 1;
+  // Updated name
+  string name = 2;
+  // Update description
+  string description = 3;
+}
+
+message UpdateProjectResponse { storage.models.v1.ProjectOverview project = 1; }
+
+message RemoveUserFromProjectRequest {
+  string project_id = 1;
+  string user_id = 2;
+}
+
+message RemoveUserFromProjectResponse {}
+
+message EditUserPermissionsForProjectRequest {
+  string project_id = 1;
+  // This contains the user_id and the "new permission"
+  storage.models.v1.ProjectPermission user_permission = 2;
+}
+
+message EditUserPermissionsForProjectResponse {}
