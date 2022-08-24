@@ -85,16 +85,10 @@ service ObjectService {
     };
   }
 
-  // This method will borrow an object to another collection.
-  // This can only be used if the object is owned by the current collection.
-  // Borrowed objects are references and cannot be updated directly.
-  // Updating a borrowed object will clone the object and create a copy in the
-  // new collection. This copy will not receive any updates from the original
-  // object. The original owner will be referenced in the origin section of the
-  // object. This owner can delete the object even if it was cloned
-  rpc BorrowObject(BorrowObjectRequest) returns (BorrowObjectResponse) {
+  rpc CreateObjectReference(CreateObjectReferenceRequest)
+      returns (CreateObjectReferenceResponse) {
     option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/object/{object_id}/borrow/"
+      post : "/v1/collection/{collection_id}/object/{object_id}/reference/"
              "{target_collection_id}"
       body : "*"
     };
@@ -188,6 +182,13 @@ service ObjectService {
       returns (SetHooksOfObjectResponse) {
     option (google.api.http) = {
       post : "/v1/collection/{collection_id}/object/{object_id}/set_hooks"
+    };
+  }
+
+  // Get a list of references for this object (optional) including all revisions
+  rpc GetReferences(GetReferenceRequest) returns (GetReferenceResponse) {
+    option (google.api.http) = {
+      post : "/v1/collection/{collection_id}/object/{object_id}/references"
     };
   }
 }
@@ -339,7 +340,7 @@ message UpdateObjectResponse {
   string collection_id = 3;
 }
 
-message BorrowObjectRequest {
+message CreateObjectReferenceRequest {
   // ObjectId
   string object_id = 1;
   // OwnerCollectionID
@@ -352,7 +353,7 @@ message BorrowObjectRequest {
   bool auto_update = 5;
 }
 
-message BorrowObjectResponse {}
+message CreateObjectReferenceResponse {}
 
 message CloneObjectRequest {
   // ObjectId
@@ -371,10 +372,10 @@ message DeleteObjectRequest {
   string object_id = 1;
   // CollectionID
   string collection_id = 2;
-  // This will by default delete the object only in the specified collection.
-  // If the collection_id is the owner of the object, cascading=true will delete
-  // the object in all collections. Default: false
-  bool cascade = 3;
+  // Delete including revisions
+  bool with_revisions = 3;
+  // Force delete including revisions
+  bool force = 4;
 }
 
 message DeleteObjectResponse {}
@@ -468,3 +469,18 @@ message SetHooksOfObjectResponse {
   // Returns the updated Object
   storage.models.v1.Object object = 1;
 }
+
+message GetReferenceRequest {
+  string collection_id = 1;
+  string object_id = 2;
+  bool with_revisions = 3;
+}
+
+message ObjectReference {
+  string object_id = 1;
+  string collection_id = 2;
+  int64 revision_number = 3;
+  bool is_writeable = 4;
+}
+
+message GetReferenceResponse { repeated ObjectReference references = 1; }

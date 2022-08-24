@@ -89,25 +89,24 @@ service ObjectGroupService {
   // the ObjectGroup and create a copy in the new collection. This is equivalent
   // to the CloneObjectGroup rpc. This copy will not receive any updates from
   // the original ObjectGroup.
-  rpc BorrowObjectGroup(BorrowObjectGroupRequest)
-      returns (BorrowObjectGroupResponse) {
-    option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/group/{group_id}/borrow/"
-             "{target_collection_id}"
-      body : "*"
-    };
-  }
+  // rpc BorrowObjectGroup(BorrowObjectGroupRequest)
+  //     returns (BorrowObjectGroupResponse) {
+  //   option (google.api.http) = {
+  //     post : "/v1/collection/{collection_id}/group/{group_id}/borrow/"
+  //            "{target_collection_id}"
+  //     body : "*"
+  //   };
+  // }
 
-  // This method clones an ObjectGroup and creates a copy in the same
-  // collection. This copy has a new id and revision and will not receive any
-  // updates from the original ObjectGroup.
-  rpc CloneObjectGroup(CloneObjectGroupRequest)
-      returns (CloneObjectGroupResponse) {
-    option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/group/{group_id}/clone"
-      body : "*"
-    };
-  }
+  // Creates a new objectgroup with
+  // rpc CloneObjectGroup(CloneObjectGroupRequest)
+  //     returns (CloneObjectGroupResponse) {
+  //   option (google.api.http) = {
+  //     post : "/v1/collection/{collection_id}/group/{group_id}/clone/"
+  //            "{target_collection_id}"
+  //     body : "*"
+  //   };
+  // }
 }
 
 // Models
@@ -195,19 +194,20 @@ message GetObjectGroupHistoryResponse {
   storage.models.v1.ObjectGroupOverviews object_groups = 1;
 }
 
-message BorrowObjectGroupRequest {
-  string group_id = 1;
-  string collection_id = 2;
-  string target_collection_id = 3;
-}
+// message BorrowObjectGroupRequest {
+//   string group_id = 1;
+//   string collection_id = 2;
+//   string target_collection_id = 3;
+// }
 
-message BorrowObjectGroupResponse {}
+// message BorrowObjectGroupResponse {}
 
-message CloneObjectGroupRequest {
-  string group_id = 1;
-  string collection_id = 2;
-}
+// message CloneObjectGroupRequest {
+//   string group_id = 1;
+//   string collection_id = 2;
+//   string target_collection_id = 3;
+// }
 
-message CloneObjectGroupResponse {
-  storage.models.v1.ObjectGroupOverview object_group = 1;
-}
+// message CloneObjectGroupResponse {
+//   storage.models.v1.ObjectGroupOverview object_group = 1;
+// }

@@ -147,9 +147,7 @@ message PinCollectionVersionResponse {
 
 message DeleteCollectionRequest {
   string collection_id = 1;
-  // Should the collection and all associated versions be deleted
-  bool with_versions = 2;
-  bool cascade = 3; // Should the deletion cascade to all owned objects ?
+  bool force = 2;
 }
 
 message DeleteCollectionResponse {}
