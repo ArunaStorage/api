@@ -186,7 +186,7 @@ service ObjectService {
   }
 
   // Get a list of references for this object (optional) including all revisions
-  rpc GetReferences(GetReferenceRequest) returns (GetReferenceResponse) {
+  rpc GetReferences(GetReferencesRequest) returns (GetReferencesResponse) {
     option (google.api.http) = {
       post : "/v1/collection/{collection_id}/object/{object_id}/references"
     };
@@ -470,7 +470,7 @@ message SetHooksOfObjectResponse {
   storage.models.v1.Object object = 1;
 }
 
-message GetReferenceRequest {
+message GetReferencesRequest {
   string collection_id = 1;
   string object_id = 2;
   bool with_revisions = 3;
@@ -483,4 +483,4 @@ message ObjectReference {
   bool is_writeable = 4;
 }
 
-message GetReferenceResponse { repeated ObjectReference references = 1; }
+message GetReferencesResponse { repeated ObjectReference references = 1; }
