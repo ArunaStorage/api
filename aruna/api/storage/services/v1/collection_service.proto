@@ -39,7 +39,7 @@ service CollectionService {
   // This returns by default a paginated result with 20 entries.
   rpc GetCollections(GetCollectionsRequest) returns (GetCollectionsResponse) {
     option (google.api.http) = {
-      get : "/v1/collections"
+      get : "/v1/project/{project_id}/collections"
     };
   }
 
@@ -102,8 +102,9 @@ message GetCollectionByIDResponse {
 
 message GetCollectionsRequest {
   // Filter by Labels (optional) OR request a specific list of Collections
-  storage.models.v1.LabelOrIDQuery label_filter = 1;
-  storage.models.v1.PageRequest page_request = 2;
+  string project_id = 1;
+  storage.models.v1.LabelOrIDQuery label_filter = 2;
+  storage.models.v1.PageRequest page_request = 3;
 }
 
 message GetCollectionsResponse {
