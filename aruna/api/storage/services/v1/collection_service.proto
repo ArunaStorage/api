@@ -101,9 +101,9 @@ message GetCollectionByIDResponse {
 }
 
 message GetCollectionsRequest {
-  // Filter by Labels (optional) OR request a specific list of Collections
+  // Filter by Labels (optional) OR request a specific list of Collections by id
   string project_id = 1;
-  storage.models.v1.LabelOrIDQuery label_filter = 2;
+  storage.models.v1.LabelOrIDQuery label_or_id_filter = 2;
   storage.models.v1.PageRequest page_request = 3;
 }
 
