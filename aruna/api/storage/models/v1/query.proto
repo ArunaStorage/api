@@ -11,14 +11,16 @@ import "aruna/api/storage/models/v1/models.proto";
 // If page_size is -1, it returns all objects.
 message PageRequest {
   string last_uuid = 1; // This is the last ID of the previous returned request
-  uint64 page_size = 2; // Default to 20, -1 for all
+  int64 page_size = 2;  // Default to 20, -1 for all
 }
 
 // LabelFilter is used to filter resources by labels.
 // The labels are specified as a map of key-value pairs.
 message LabelFilter {
   repeated KeyValue labels = 1;
+  // True if and, if empty or false or
   bool and_or_or = 2;
+  // Should only the keys be considered ?
   bool keys_only = 3;
 }
 
