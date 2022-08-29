@@ -121,16 +121,18 @@ message UpdateCollectionRequest {
   repeated storage.models.v1.KeyValue labels = 4;
   repeated storage.models.v1.KeyValue hooks = 5;
 
+  repeated storage.models.v1.LabelOntology label_ontology = 6;
+
   // Optional update Dataclass, this will not overwrite
   // the dataclass of all existing associated objects
   // New objects can only have this dataclass
-  storage.models.v1.DataClass dataclass = 6;
+  storage.models.v1.DataClass dataclass = 7;
 
   // If this is set, the collection will be automatically pinned to this version
   // Similar to the more explicit Pin request
   // Updating a pinned collection will make this field required
   // (optional if unpinned || required if pinned)
-  storage.models.v1.Version version = 7;
+  storage.models.v1.Version version = 8;
 }
 
 message UpdateCollectionResponse {
