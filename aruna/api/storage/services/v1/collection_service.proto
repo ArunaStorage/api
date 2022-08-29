@@ -115,24 +115,25 @@ message GetCollectionsResponse {
 // This updates the collection
 // Updating a pinned collection will require a new version to be created
 message UpdateCollectionRequest {
-  string collection_id = 1;
-  string name = 2;
-  string description = 3;
-  repeated storage.models.v1.KeyValue labels = 4;
-  repeated storage.models.v1.KeyValue hooks = 5;
+  string project_id = 1;
+  string collection_id = 2;
+  string name = 3;
+  string description = 4;
+  repeated storage.models.v1.KeyValue labels = 5;
+  repeated storage.models.v1.KeyValue hooks = 6;
 
-  repeated storage.models.v1.LabelOntology label_ontology = 6;
+  repeated storage.models.v1.LabelOntology label_ontology = 7;
 
   // Optional update Dataclass, this will not overwrite
   // the dataclass of all existing associated objects
   // New objects can only have this dataclass
-  storage.models.v1.DataClass dataclass = 7;
+  storage.models.v1.DataClass dataclass = 8;
 
   // If this is set, the collection will be automatically pinned to this version
   // Similar to the more explicit Pin request
   // Updating a pinned collection will make this field required
   // (optional if unpinned || required if pinned)
-  storage.models.v1.Version version = 8;
+  storage.models.v1.Version version = 9;
 }
 
 message UpdateCollectionResponse {
