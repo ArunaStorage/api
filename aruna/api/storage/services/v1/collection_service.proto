@@ -151,7 +151,8 @@ message PinCollectionVersionResponse {
 
 message DeleteCollectionRequest {
   string collection_id = 1;
-  bool force = 2;
+  string project_id = 2;
+  bool force = 3;
 }
 
 message DeleteCollectionResponse {}
