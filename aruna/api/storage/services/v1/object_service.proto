@@ -289,9 +289,8 @@ message CreateDownloadLinksStreamResponse { URL url = 1; }
 message FinishObjectStagingRequest {
   // ObjectId
   string object_id = 1;
-  // Staging ID, a generic ID when multipart is not enabled, otherwise the
-  // multipart upload ID.
-  string staging_id = 2;
+  // Always the S3 upload_id
+  string upload_id = 2;
   // CollectionID
   string collection_id = 3;
   // Hash of the uploaded data - used to verify the data integrity.
@@ -303,13 +302,9 @@ message FinishObjectStagingRequest {
   // (optional)
   repeated CompletedParts completed_parts = 5;
 
-  // Should the object be auto-updated in the owner collection?
+  // Should the object be auto-updated in the collection?
   // default: false
   bool auto_update = 6;
-
-  // Add the object automatically to these collections
-  // (optional)
-  repeated string collection_ids = 7;
 }
 
 message FinishObjectStagingResponse { storage.models.v1.Object object = 1; }
