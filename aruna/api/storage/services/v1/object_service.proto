@@ -297,14 +297,18 @@ message FinishObjectStagingRequest {
   // This supports multiple hashing algorithms.
   storage.models.v1.Hash hash = 4;
 
+  // If the staging object had no uploads
+  // Use this argument to skip the finish upload request
+  bool no_upload = 5;
+
   // If the upload was multipart, this is the list of parts that were uploaded.
   // Should be empty if the upload was not multipart.
   // (optional)
-  repeated CompletedParts completed_parts = 5;
+  repeated CompletedParts completed_parts = 6;
 
   // Should the object be auto-updated in the collection?
   // default: false
-  bool auto_update = 6;
+  bool auto_update = 7;
 }
 
 message FinishObjectStagingResponse { storage.models.v1.Object object = 1; }
