@@ -245,8 +245,9 @@ message GetUploadURLRequest {
   // CollectionID
   string collection_id = 3;
   // Is this a multipart upload?
+  bool multipart = 4;
   // (optional) if multi was initialized
-  int32 part_number = 4;
+  int32 part_number = 5;
 }
 
 message GetUploadURLResponse {
