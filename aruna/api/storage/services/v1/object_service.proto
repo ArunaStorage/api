@@ -205,9 +205,10 @@ message StageObject {
   string description = 2;
   string collection_id = 3;
   int64 content_len = 4;
-  storage.models.v1.DataClass dataclass = 5;
-  repeated storage.models.v1.KeyValue labels = 6;
-  repeated storage.models.v1.KeyValue hooks = 7;
+  storage.models.v1.Source source = 5;
+  storage.models.v1.DataClass dataclass = 6;
+  repeated storage.models.v1.KeyValue labels = 7;
+  repeated storage.models.v1.KeyValue hooks = 8;
 }
 
 message InitializeNewObjectRequest {
@@ -215,8 +216,6 @@ message InitializeNewObjectRequest {
   StageObject object = 1;
   // Collection id of the collection to which the object will be added.
   string collection_id = 2;
-  // Source
-  storage.models.v1.Source source = 3;
   // (optional) Used to specify a preferred endpoint by id
   // this can be used to specify which endpoint this object should use
   // only needed if it is not the default endpoint for the current server
