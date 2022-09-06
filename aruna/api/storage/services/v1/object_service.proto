@@ -328,6 +328,9 @@ message UpdateObjectRequest {
   string preferred_endpoint_id = 5;
   // Should a multipart upload be used?
   bool multi_part = 6;
+  // Is specification ?
+  // Should this object contain a specification for the collection ?
+  bool is_specification = 7;
 }
 
 message UpdateObjectResponse {
