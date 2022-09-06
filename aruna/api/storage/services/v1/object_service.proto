@@ -361,8 +361,10 @@ message CreateObjectReferenceResponse {}
 message CloneObjectRequest {
   // ObjectId
   string object_id = 1;
-  // CollectionID
-  string collection_id = 2;
+  // From CollectionID
+  string from_collection_id = 2;
+  // Target CollectionID
+  string to_collection_id = 3;
 }
 
 message CloneObjectResponse {
