@@ -53,6 +53,8 @@ message InitPresignedUploadResponse {
 message CreatePresignedUploadUrlRequest {
     Location location = 1;
     string upload_id = 2;
+    int64 part_number = 3;
+    bool multipart = 4;
 }
 
 message CreatePresignedUploadUrlResponse {
