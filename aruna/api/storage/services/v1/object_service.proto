@@ -443,12 +443,9 @@ message GetObjectEndpointsRequest {
   string object_id = 2;
 }
 
-message EndpointsList {
-  storage.models.v1.Endpoint endpoint = 1;
-  bool is_default = 2;
+message GetObjectEndpointsResponse {
+  repeated storage.models.v1.Endpoint endpoints = 1;
 }
-
-message GetObjectEndpointsResponse { EndpointsList endpoints = 1; }
 
 message AddLabelToObjectRequest {
   string collection_id = 1;

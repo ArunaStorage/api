@@ -116,6 +116,7 @@ message Endpoint {
   string internal_hostname = 5;
   string documentation_path = 6;
   bool is_public = 7;
+  bool is_default = 8;
 }
 
 // RULES for Objects:
