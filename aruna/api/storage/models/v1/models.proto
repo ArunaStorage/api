@@ -39,9 +39,8 @@ message CollectionStats {
 
 // Stats for an object group
 message ObjectGroupStats {
-  Stats total_stats = 1;
-  Stats object_stats = 2;
-  Stats meta_object_stats = 3;
+  Stats object_stats = 1;
+  google.protobuf.Timestamp last_updated = 2;
 }
 
 // Semver version -> Alpha Beta release are not supported -> Use "latest" for
