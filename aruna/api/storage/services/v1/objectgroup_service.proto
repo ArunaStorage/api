@@ -73,6 +73,12 @@ service ObjectGroupService {
     };
   }
 
+  rpc GetObjectGroupObjects(GetObjectGroupObjectsRequest)
+      returns (GetObjectGroupObjectsResponse) {
+    option (google.api.http) = {
+      get : "/v1/collection/{collection_id}/group/{group_id}/objects"
+    };
+  }
   // DeleteObjectGroup is a request that deletes a specified ObjectGroup
   // This does not delete the associated Objects
   rpc DeleteObjectGroup(DeleteObjectGroupRequest)
@@ -118,15 +124,17 @@ message CreateObjectGroupRequest {
   string description = 2;
   string collection_id = 3;
   // This is the reference to the Objects that should be added to the group
-  repeated storage.models.v1.Object objects = 4;
+  repeated string object_ids = 4;
   // This is a reference to the Objects that are associated with "meta" data
   // about corresponding objects in the group
-  repeated storage.models.v1.Object meta_objects = 5;
+  repeated string meta_object_ids = 5;
   repeated storage.models.v1.KeyValue labels = 6;
   repeated storage.models.v1.KeyValue hooks = 7;
 }
 
-message CreateObjectGroupResponse { string object_group_id = 1; }
+message CreateObjectGroupResponse {
+  storage.models.v1.ObjectGroupOverview object_group = 1;
+}
 
 message UpdateObjectGroupRequest {
   string group_id = 1;
@@ -134,16 +142,16 @@ message UpdateObjectGroupRequest {
   string description = 3;
   string collection_id = 4;
   // This is the reference to the Objects that should be added to the group
-  repeated storage.models.v1.Object objects = 5;
+  repeated string object_ids = 5;
   // This is a reference to the Objects that are associated with "meta" data
   // about corresponding objects in the group
-  repeated storage.models.v1.Object meta_objects = 6;
+  repeated string meta_object_ids = 6;
   repeated storage.models.v1.KeyValue labels = 7;
   repeated storage.models.v1.KeyValue hooks = 8;
 }
 
 message UpdateObjectGroupResponse {
-  storage.models.v1.ObjectGroup object_group = 1;
+  storage.models.v1.ObjectGroupOverview object_group = 1;
 }
 
 message GetObjectGroupByIdRequest {
@@ -192,6 +200,24 @@ message GetObjectGroupHistoryRequest {
 
 message GetObjectGroupHistoryResponse {
   storage.models.v1.ObjectGroupOverviews object_groups = 1;
+}
+
+message GetObjectGroupObjectsRequest {
+  string collection_id = 1;
+  string group_id = 2;
+  storage.models.v1.PageRequest page_request = 3;
+  bool meta_only = 4; // Should only the "meta" objects be returned
+}
+
+// Objectgroup objects are a combination of "object" and the boolean is_metadata
+// flag Returned as single list to allow for more precise queries
+message ObjectGroupObject {
+  storage.models.v1.Object object = 1;
+  bool is_metadata = 2;
+}
+
+message GetObjectGroupObjectsResponse {
+  repeated ObjectGroupObject object_group_objects = 1;
 }
 
 // message BorrowObjectGroupRequest {
