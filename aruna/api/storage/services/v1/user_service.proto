@@ -22,6 +22,13 @@ service UserService {
     };
   }
 
+  rpc ActivateUser(ActivateUserRequest) returns (ActivateUserResponse) {
+    option (google.api.http) = {
+      post : "/v1/user/{user_id}/activate"
+      body : "*"
+    };
+  }
+
   // CreateAPIToken Creates an API token to authenticate
   rpc CreateAPIToken(CreateAPITokenRequest) returns (CreateAPITokenResponse) {
     option (google.api.http) = {
@@ -159,3 +166,7 @@ message UserProject {
 }
 
 message GetUserProjectsResponse { repeated UserProject projects = 1; }
+
+message ActivateUserRequest { string user_id = 1; }
+
+message ActivateUserResponse {}
