@@ -43,7 +43,7 @@ message Location {
 
 // Etag / Part combination to finish a presigned multipart upload.
 message PartETag {
-  string part_number = 1;
+  int64 part_number = 1;
   string etag = 2;
 }
 
