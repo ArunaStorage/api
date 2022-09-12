@@ -69,7 +69,9 @@ message CreatePresignedUploadUrlResponse {
 message FinishPresignedUploadRequest {
   string upload_id = 1;
   repeated PartETag part_etags = 2;
-  bool multipart = 3;
+  string bucket = 3;
+  string key = 4;
+  bool multipart = 5;
 }
 
 message FinishPresignedUploadResponse {
