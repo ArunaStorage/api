@@ -73,5 +73,6 @@ message Token {
 
 message ProjectPermission {
   string user_id = 1;
-  Permission permission = 2;
+  string project_id = 2;
+  Permission permission = 3;
 }
