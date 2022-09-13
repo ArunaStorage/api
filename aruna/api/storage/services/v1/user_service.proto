@@ -153,7 +153,7 @@ message DeleteAPITokensRequest {
 message DeleteAPITokensResponse {}
 
 message GetUserRequest { string user_id = 1; } // Optional user_id
-message GetUserResponseResponse { storage.models.v1.User user = 1; }
+message GetUserResponse { storage.models.v1.User user = 1; }
 
 message UpdateUserDisplayNameRequest { string new_display_name = 1; }
 message UpdateUserDisplayNameResponse { storage.models.v1.User user = 1; }
