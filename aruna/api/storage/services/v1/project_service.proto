@@ -71,6 +71,14 @@ service ProjectService {
     };
   }
 
+  // Get the user_permission of a specific user for the project.
+  rpc GetUserPermissionsForProject(GetUserPermissionsForProjectRequest)
+      returns (GetUserPermissionsForProjectResponse) {
+    option (google.api.http) = {
+      post : "/v1/project/{project_id}/get_user"
+    };
+  }
+
   // Edit the user_permission of a specific user for the project.
   rpc EditUserPermissionsForProject(EditUserPermissionsForProjectRequest)
       returns (EditUserPermissionsForProjectResponse) {
@@ -135,6 +143,15 @@ message RemoveUserFromProjectRequest {
 }
 
 message RemoveUserFromProjectResponse {}
+
+message GetUserPermissionsForProjectRequest {
+  string project_id = 1;
+  string user_id = 2;
+}
+
+message GetUserPermissionsForProjectResponse {
+  storage.models.v1.ProjectPermission user_permission = 1;
+}
 
 message EditUserPermissionsForProjectRequest {
   string project_id = 1;

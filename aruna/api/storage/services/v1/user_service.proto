@@ -66,9 +66,9 @@ service UserService {
     };
   }
 
-  // UserWhoAmI is a request that returns the user information of the current
-  // user
-  rpc UserWhoAmI(UserWhoAmIRequest) returns (UserWhoAmIResponse) {
+  // GetUserRequest is a request that returns the user information of the
+  // current user or if invoked by an admin from another user
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {
     option (google.api.http) = {
       get : "/v1/user"
     };
@@ -152,8 +152,8 @@ message DeleteAPITokensRequest {
 
 message DeleteAPITokensResponse {}
 
-message UserWhoAmIRequest {}
-message UserWhoAmIResponse { storage.models.v1.User user = 1; }
+message GetUserRequest { string user_id = 1; } // Optional user_id
+message GetUserResponseResponse { storage.models.v1.User user = 1; }
 
 message UpdateUserDisplayNameRequest { string new_display_name = 1; }
 message UpdateUserDisplayNameResponse { storage.models.v1.User user = 1; }
