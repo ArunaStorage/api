@@ -22,6 +22,8 @@ enum Status {
   STATUS_INITIALIZING = 1;
   STATUS_AVAILABLE = 2;
   STATUS_UNAVAILABLE = 3;
+  STATUS_ERROR = 4;
+  STATUS_TRASH = 5;
 }
 
 // Stats for a set of objects
