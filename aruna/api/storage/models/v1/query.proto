@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package aruna.api.storage.models.v1;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/models/v1";
 
 import "aruna/api/storage/models/v1/models.proto";
 
