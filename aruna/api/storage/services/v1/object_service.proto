@@ -48,7 +48,7 @@ service ObjectService {
   rpc GetDownloadLinksBatch(GetDownloadLinksBatchRequest)
       returns (GetDownloadLinksBatchResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/objects"
+      get : "/v1/collection/{collection_id}/objects/stream"
     };
   }
 
