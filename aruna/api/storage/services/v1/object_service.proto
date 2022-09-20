@@ -264,7 +264,7 @@ message CompletedParts {
 
 message GetDownloadURLRequest {
   string collection_id = 1;
-  string object = 2;
+  string object_id = 2;
 }
 
 message GetDownloadURLResponse { URL url = 1; }
