@@ -33,6 +33,8 @@ message User {
   string display_name = 3;
   // Is the user activated
   bool active = 4;
+  // Is the user admin ?
+  bool is_admin = 5;
 }
 
 enum Permission {

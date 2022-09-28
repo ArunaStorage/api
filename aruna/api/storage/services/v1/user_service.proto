@@ -74,8 +74,6 @@ service UserService {
     };
   }
 
-  // UserWhoAmI is a request that returns the user information of the current
-  // user
   rpc UpdateUserDisplayName(UpdateUserDisplayNameRequest)
       returns (UpdateUserDisplayNameResponse) {
     option (google.api.http) = {
