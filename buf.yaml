@@ -4,6 +4,7 @@ lint:
     - DEFAULT
   ignore:
     - ./aruna/api/google
+    - ./aruna/api/protoc-get-openapiv2
   ignore_only:
     ENUM_VALUE_PREFIX:
       - grpc/gateway/protoc_gen_openapiv2/options/openapiv2.proto
