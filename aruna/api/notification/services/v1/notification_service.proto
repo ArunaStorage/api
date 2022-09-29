@@ -10,7 +10,7 @@ import "google/api/visibility.proto";
 import "aruna/api/notification/services/v1/notification_service_models.proto";
 
 service UpdateNotificationService {
-  option (google.api.method_visibility).restriction = "INTERNAL";
+  option (google.api.api_visibility).restriction = "INTERNAL";
   rpc CreateEventStreamingGroup(CreateEventStreamingGroupRequest)
       returns (CreateEventStreamingGroupResponse) {}
 

@@ -16,7 +16,7 @@ import "google/api/visibility.proto";
 // upload and provide the parts list.
 
 service InternalProxyService {
-  option (google.api.method_visibility).restriction = "INTERNAL";
+  option (google.api.api_visibility).restriction = "INTERNAL";
   rpc InitPresignedUpload(InitPresignedUploadRequest)
       returns (InitPresignedUploadResponse) {}
   rpc CreatePresignedUploadUrl(CreatePresignedUploadUrlRequest)
