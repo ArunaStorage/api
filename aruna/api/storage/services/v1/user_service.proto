@@ -14,7 +14,6 @@ import "google/protobuf/timestamp.proto";
 service UserService {
 
   // This request should be called when a new user logs in for the first time
-
   rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse) {
     option (google.api.http) = {
       post : "/v1/auth/register"
@@ -22,6 +21,7 @@ service UserService {
     };
   }
 
+  // ActivateUser enables a specific user (Admin request)
   rpc ActivateUser(ActivateUserRequest) returns (ActivateUserResponse) {
     option (google.api.http) = {
       post : "/v1/user/{user_id}/activate"
@@ -74,6 +74,7 @@ service UserService {
     };
   }
 
+  // Updates the Displayname for the user (Personal only)
   rpc UpdateUserDisplayName(UpdateUserDisplayNameRequest)
       returns (UpdateUserDisplayNameResponse) {
     option (google.api.http) = {
@@ -81,10 +82,19 @@ service UserService {
     };
   }
 
+  // Gets all project_ids a user is member of
   rpc GetUserProjects(GetUserProjectsRequest)
       returns (GetUserProjectsResponse) {
     option (google.api.http) = {
-      delete : "/v1/user/{user_id}/projects"
+      get : "/v1/user/{user_id}/projects"
+    };
+  }
+
+  // Get all "unregistered" users (Admin only)
+  rpc GetUsersUnregistered(GetUsersUnregisteredRequest)
+      returns (GetUsersUnregisteredResponse) {
+    option (google.api.http) = {
+      get : "/v1/user/unregistered"
     };
   }
 }
@@ -171,3 +181,9 @@ message GetUserProjectsResponse { repeated UserProject projects = 1; }
 message ActivateUserRequest { string user_id = 1; }
 
 message ActivateUserResponse {}
+
+message GetUsersUnregisteredRequest {}
+
+message GetUsersUnregisteredResponse {
+  repeated storage.models.v1.User users = 1;
+}

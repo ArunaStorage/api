@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package aruna.api.internal.v1;
 option go_package = "github.com/ArunaStorage/go-api/aruna/api/internal/v1";
+import "google/api/visibility.proto";
 
 // Definition for the internal API that is used to communicate with all internal
 // components.
@@ -15,6 +16,7 @@ option go_package = "github.com/ArunaStorage/go-api/aruna/api/internal/v1";
 // upload and provide the parts list.
 
 service InternalProxyService {
+  option (google.api.method_visibility).restriction = "INTERNAL";
   rpc InitPresignedUpload(InitPresignedUploadRequest)
       returns (InitPresignedUploadResponse) {}
   rpc CreatePresignedUploadUrl(CreatePresignedUploadUrlRequest)
