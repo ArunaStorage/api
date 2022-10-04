@@ -112,6 +112,7 @@ service ObjectService {
   rpc DeleteObject(DeleteObjectRequest) returns (DeleteObjectResponse) {
     option (google.api.http) = {
       delete : "/v1/collection/{collection_id}/object/{object_id}"
+      body : "*"
     };
   }
 

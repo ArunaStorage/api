@@ -76,6 +76,7 @@ service CollectionService {
       returns (DeleteCollectionResponse) {
     option (google.api.http) = {
       delete : "/v1/collection/{collection_id}"
+      body : "*"
     };
   }
 }
