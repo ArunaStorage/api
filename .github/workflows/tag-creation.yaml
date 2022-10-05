@@ -1,0 +1,52 @@
+name: create-publish-release
+on: 
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Semver release version'
+        required: true
+        type: string
+      message:
+        description: 'Message for the new tag'     
+        required: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout without submodules
+        uses: actions/checkout@v3
+      - name: Setup buf
+        uses: bufbuild/buf-setup-action@v1
+      - name: Lint protofiles with buf
+        uses: bufbuild/buf-lint-action@v1
+      - name: Checkout with submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Git Submodule Update
+        run: |
+          git pull --recurse-submodules
+          git submodule update --init --recursive
+          git submodule update --remote --recursive
+      - name: Commit files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m "Update to version to ${{ inputs.tag }}" -a
+          git tag -a v${{ inputs.tag }} -m "Published new version: ${{ inputs.tag }}. Changes: ${{ inputs.message }}."
+      - name: Create release
+        run: gh release create v${{ inputs.tag }}
+      - name: Repository Dispatch (go)
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.ARUNA_ACCESS_TOKEN }}
+          repository: ArunaStorage/go-api
+          event-type: publish
+          client-payload: '{"version": "${{ inputs.tag }}", "message": "${{ inputs.message }}"}'
+      - name: Repository Dispatch (rust)
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.ARUNA_ACCESS_TOKEN }}
+          repository: ArunaStorage/rust-api
+          event-type: publish
+          client-payload: '{"version": "${{ inputs.tag }}", "message": "${{ inputs.message }}"}'

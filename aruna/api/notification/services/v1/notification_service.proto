@@ -5,15 +5,15 @@ option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v
 option java_multiple_files = true;
 option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v1";
 option java_outer_classname = "UpdateNotificationServices";
+import "google/api/visibility.proto";
 
 import "aruna/api/notification/services/v1/notification_service_models.proto";
 
 service UpdateNotificationService {
+  option (google.api.api_visibility).restriction = "INTERNAL";
   rpc CreateEventStreamingGroup(CreateEventStreamingGroupRequest)
-      returns (CreateEventStreamingGroupResponse) {
-  }
+      returns (CreateEventStreamingGroupResponse) {}
 
   rpc NotificationStreamGroup(stream NotificationStreamGroupRequest)
-      returns (stream NotificationStreamGroupResponse) {
-  }
+      returns (stream NotificationStreamGroupResponse) {}
 }

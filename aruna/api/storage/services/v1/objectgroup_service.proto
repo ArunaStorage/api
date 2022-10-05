@@ -11,215 +11,229 @@ import "aruna/api/storage/models/v1/query.proto";
 
 import "google/api/annotations.proto";
 
-
 // This service is tightly coupled with the collection service
-// Objectgroups are bound to collections and are only revisioned in the parent collection
-// Therefore the http paths for the underlying collections are used for the objectgroup
+// Objectgroups are bound to collections and are only revisioned in the parent
+// collection Therefore the http paths for the underlying collections are used
+// for the objectgroup
 
 service ObjectGroupService {
 
-    // CreateObjectGroup creates a new ObjectGroup in the collection
-    rpc CreateObjectGroup(CreateObjectGroupRequest) returns (CreateObjectGroupResponse) {
-        option (google.api.http) = {
-            post: "/v1/collection/{collection_id}/group"
-            body: "*"
-        };
-    }
+  // CreateObjectGroup creates a new ObjectGroup in the collection
+  rpc CreateObjectGroup(CreateObjectGroupRequest)
+      returns (CreateObjectGroupResponse) {
+    option (google.api.http) = {
+      post : "/v1/collection/{collection_id}/group"
+      body : "*"
+    };
+  }
 
-    // UpdateObjectGroup creates an updated ObjectGroup
-    // ObjectGroups are immutable
-    // Updating an ObjectGroup will create a new Revision of the ObjectGroup
-    rpc UpdateObjectGroup(UpdateObjectGroupRequest) returns (UpdateObjectGroupResponse) {
-        option (google.api.http) = {
-            put: "/v1/collection/{collection_id}/group/{group_id}"
-            body: "*"
-        };
-    }
+  // UpdateObjectGroup creates an updated ObjectGroup
+  // ObjectGroups are immutable
+  // Updating an ObjectGroup will create a new Revision of the ObjectGroup
+  rpc UpdateObjectGroup(UpdateObjectGroupRequest)
+      returns (UpdateObjectGroupResponse) {
+    option (google.api.http) = {
+      put : "/v1/collection/{collection_id}/group/{group_id}"
+      body : "*"
+    };
+  }
 
-    // GetObjectGroupById gets a specific ObjectGroup by ID
-    // By default the latest revision is always returned, older revisions need to be specified separately
-    rpc GetObjectGroupById(GetObjectGroupByIdRequest) returns (GetObjectGroupByIdResponse) {
-        option (google.api.http) = {
-            get: "/v1/collection/{collection_id}/group/{group_id}"
-        };
-    }
+  // GetObjectGroupById gets a specific ObjectGroup by ID
+  // By default the latest revision is always returned, older revisions need to
+  // be specified separately
+  rpc GetObjectGroupById(GetObjectGroupByIdRequest)
+      returns (GetObjectGroupByIdResponse) {
+    option (google.api.http) = {
+      get : "/v1/collection/{collection_id}/group/{group_id}"
+    };
+  }
 
-    // GetObjectGroupsFromObject gets all ObjectGroups associated to a specific Object
-    // Objects can be part of multiple ObjectGroups at once
-    rpc GetObjectGroupsFromObject(GetObjectGroupsFromObjectRequest) returns (GetObjectGroupsFromObjectResponse) {
-        option (google.api.http) = {
-            get: "/v1/collection/{collection_id}/group/{group_id}"
-        };
-    }
+  // GetObjectGroupsFromObject gets all ObjectGroups associated to a specific
+  // Object Objects can be part of multiple ObjectGroups at once
+  rpc GetObjectGroupsFromObject(GetObjectGroupsFromObjectRequest)
+      returns (GetObjectGroupsFromObjectResponse) {
+    option (google.api.http) = {
+      get : "/v1/collection/{collection_id}/object/{object_id}/groups"
+    };
+  }
 
-    // GetObjectGroups is a request that returns a (paginated) list of ObjectGroups that contain a specific set of labels.    
-    rpc GetObjectGroups(GetObjectGroupsRequest) returns (GetObjectGroupsResponse) {
-        option (google.api.http) = {
-            get: "/v1/collection/{collection_id}/group/"
-        };
-    }
+  // GetObjectGroups is a request that returns a (paginated) list of
+  // ObjectGroups that contain a specific set of labels.
+  rpc GetObjectGroups(GetObjectGroupsRequest)
+      returns (GetObjectGroupsResponse) {
+    option (google.api.http) = {
+      get : "/v1/collection/{collection_id}/group"
+    };
+  }
 
-    rpc GetObjectGroupHistoryByID(GetObjectGroupHistoryByIDRequest) returns (GetObjectGroupHistoryByIDResponse) {
-        option (google.api.http) = {
-            get: "/v1/collection/{collection_id}/group/{group_id}/history"
-        };
-    }
+  rpc GetObjectGroupHistory(GetObjectGroupHistoryRequest)
+      returns (GetObjectGroupHistoryResponse) {
+    option (google.api.http) = {
+      get : "/v1/collection/{collection_id}/group/{group_id}/history"
+    };
+  }
 
+  rpc GetObjectGroupObjects(GetObjectGroupObjectsRequest)
+      returns (GetObjectGroupObjectsResponse) {
+    option (google.api.http) = {
+      get : "/v1/collection/{collection_id}/group/{group_id}/objects"
+    };
+  }
+  // DeleteObjectGroup is a request that deletes a specified ObjectGroup
+  // This does not delete the associated Objects
+  rpc DeleteObjectGroup(DeleteObjectGroupRequest)
+      returns (DeleteObjectGroupResponse) {
+    option (google.api.http) = {
+      delete : "/v1/collection/{collection_id}/group/{group_id}"
+    };
+  }
 
-    // DeleteObjectGroup is a request that deletes a specified ObjectGroup
-    // This does not delete the associated Objects
-    rpc DeleteObjectGroup(DeleteObjectGroupRequest) returns (DeleteObjectGroupResponse) {
-        option (google.api.http) = {
-            delete: "/v1/collection/{collection_id}/group/{group_id}"
-        };
-    }
+  // This method will borrow an ObjectGroup to another collection.
+  // Borrowed ObjectGroup are references and cannot be updated directly.
+  // Borrowing an ObjectGroup will also automatically borrow all associated
+  // Objects to the new collection. Updating a borrowed ObjectGroup will clone
+  // the ObjectGroup and create a copy in the new collection. This is equivalent
+  // to the CloneObjectGroup rpc. This copy will not receive any updates from
+  // the original ObjectGroup.
+  // rpc BorrowObjectGroup(BorrowObjectGroupRequest)
+  //     returns (BorrowObjectGroupResponse) {
+  //   option (google.api.http) = {
+  //     post : "/v1/collection/{collection_id}/group/{group_id}/borrow/"
+  //            "{target_collection_id}"
+  //     body : "*"
+  //   };
+  // }
 
-
-    // This method will borrow an ObjectGroup to another collection.
-    // Borrowed ObjectGroup are references and cannot be updated directly.
-    // Borrowing an ObjectGroup will also automatically borrow all associated Objects to the new collection.
-    // Updating a borrowed ObjectGroup will clone the ObjectGroup and create a copy in the new collection.
-    // This is equivalent to the CloneObjectGroup rpc.
-    // This copy will not receive any updates from the original ObjectGroup.
-    rpc BorrowObjectGroup(BorrowObjectGroupRequest) returns (BorrowObjectGroupResponse){
-        option (google.api.http) = {
-            post: "/v1/collection/{collection_id}/group/{group_id}/borrow/{target_collection_id}"
-            body: "*"
-        };
-    }
-
-
-    // This method clones an ObjectGroup and creates a copy in the same collection.
-    // This copy has a new id and revision and will not receive any updates from the original ObjectGroup.
-    rpc CloneObjectGroup(CloneObjectGroupRequest) returns (CloneObjectGroupResponse){
-        option (google.api.http) = {
-            post: "/v1/collection/{collection_id}/group/{group_id}/clone"
-            body: "*"
-        };
-    }
-
+  // Creates a new objectgroup with
+  // rpc CloneObjectGroup(CloneObjectGroupRequest)
+  //     returns (CloneObjectGroupResponse) {
+  //   option (google.api.http) = {
+  //     post : "/v1/collection/{collection_id}/group/{group_id}/clone/"
+  //            "{target_collection_id}"
+  //     body : "*"
+  //   };
+  // }
 }
-
 
 // Models
-// This section contains the models for each individual Request and corresponding Response
+// This section contains the models for each individual Request and
+// corresponding Response
 
 message CreateObjectGroupRequest {
-    string name = 1;
-    string description = 2;
-    string collection_id = 3;
-    repeated storage.models.v1.Object objects = 4; // This is the reference to the Objects that should be added to the group
-    repeated storage.models.v1.Object meta_objects = 5; // This is a reference to the Objects that are associated with "meta" data about corresponding objects in the group
-    repeated storage.models.v1.KeyValue labels = 6;
-    repeated storage.models.v1.KeyValue hooks = 7;
+  string name = 1;
+  string description = 2;
+  string collection_id = 3;
+  // This is the reference to the Objects that should be added to the group
+  repeated string object_ids = 4;
+  // This is a reference to the Objects that are associated with "meta" data
+  // about corresponding objects in the group
+  repeated string meta_object_ids = 5;
+  repeated storage.models.v1.KeyValue labels = 6;
+  repeated storage.models.v1.KeyValue hooks = 7;
 }
 
-message CreateObjectGroupResponse{
-    string object_group_id = 1;
+message CreateObjectGroupResponse {
+  storage.models.v1.ObjectGroupOverview object_group = 1;
 }
 
 message UpdateObjectGroupRequest {
-    string group_id = 1;
-    string name = 2;
-    string description = 3;
-    string collection_id = 4;
-    repeated storage.models.v1.Object objects = 5; // This is the reference to the Objects that should be added to the group
-    repeated storage.models.v1.Object meta_objects = 6; // This is a reference to the Objects that are associated with "meta" data about corresponding objects in the group
-    repeated storage.models.v1.KeyValue labels = 7;
-    repeated storage.models.v1.KeyValue hooks = 8;
+  string group_id = 1;
+  string name = 2;
+  string description = 3;
+  string collection_id = 4;
+  // This is the reference to the Objects that should be added to the group
+  repeated string object_ids = 5;
+  // This is a reference to the Objects that are associated with "meta" data
+  // about corresponding objects in the group
+  repeated string meta_object_ids = 6;
+  repeated storage.models.v1.KeyValue labels = 7;
+  repeated storage.models.v1.KeyValue hooks = 8;
 }
 
-message UpdateObjectGroupResponse{
-    storage.models.v1.ObjectGroup object_group = 1;
+message UpdateObjectGroupResponse {
+  storage.models.v1.ObjectGroupOverview object_group = 1;
 }
 
 message GetObjectGroupByIdRequest {
-    string group_id = 1;
-    string collection_id = 2;
-    // Optional revision
-    int64 revision = 3;
-    storage.models.v1.OutputFormat format = 4;
+  string group_id = 1;
+  string collection_id = 2;
 }
 
-message GetObjectGroupByIdResponse{
-    oneof object_group {
-        storage.models.v1.ObjectGroupOverview object_group_overview = 1;
-        storage.models.v1.ObjectGroupWithID object_group_with_id = 2;
-        storage.models.v1.ObjectGroup object_group_full = 3;
-    }
+message GetObjectGroupByIdResponse {
+  storage.models.v1.ObjectGroupOverview object_group = 1;
 }
 
-message GetObjectGroupsFromObjectRequest{
-    string object_id = 1;
-    string collection_id = 2;
-    storage.models.v1.PageRequest page_request = 3;
-    storage.models.v1.OutputFormat format = 4;
+message GetObjectGroupsFromObjectRequest {
+  string object_id = 1;
+  string collection_id = 2;
+  storage.models.v1.PageRequest page_request = 3;
 }
 
-message GetObjectGroupsFromObjectResponse{
-    oneof object_groups {
-        storage.models.v1.ObjectGroupOverviews object_groups_overview = 1;
-        storage.models.v1.ObjectGroupWithIDs object_groups_with_id = 2;
-        storage.models.v1.ObjectGroups object_groups_full = 3;
-    }
+message GetObjectGroupsFromObjectResponse {
+  storage.models.v1.ObjectGroupOverviews object_groups = 1;
 }
 
-message DeleteObjectGroupRequest{
-    string group_id = 1;
-    string collection_id = 2;
-    // Optional revision
-    int64 revision = 3;
+message DeleteObjectGroupRequest {
+  string group_id = 1;
+  string collection_id = 2;
 }
 
-message DeleteObjectGroupResponse{}
-
+message DeleteObjectGroupResponse {}
 
 message GetObjectGroupsRequest {
-    string collection_id = 1;
-    // Paginate the results: Default is 20
-    storage.models.v1.PageRequest page_request = 2;
-    // Filter by Labels (optional) OR request a specific list of ObjectGroups
-    storage.models.v1.LabelOrIDQuery label_id_filter = 3;
-    storage.models.v1.OutputFormat format = 4;
+  string collection_id = 1;
+  // Paginate the results: Default is 20
+  storage.models.v1.PageRequest page_request = 2;
+  // Filter by Labels (optional) OR request a specific list of ObjectGroups
+  storage.models.v1.LabelOrIDQuery label_id_filter = 3;
 }
 
 message GetObjectGroupsResponse {
-    oneof object_groups {
-        storage.models.v1.ObjectGroupOverviews object_groups_overview = 1;
-        storage.models.v1.ObjectGroupWithIDs object_groups_with_id = 2;
-        storage.models.v1.ObjectGroups object_groups_full = 3;
-    }
+  storage.models.v1.ObjectGroupOverviews object_groups = 1;
 }
 
-message GetObjectGroupHistoryByIDRequest{
-    string collection_id = 1;
-    string group_id = 2;
-    storage.models.v1.PageRequest page_request = 3;
-    storage.models.v1.OutputFormat format = 4;
+message GetObjectGroupHistoryRequest {
+  string collection_id = 1;
+  string group_id = 2;
+  storage.models.v1.PageRequest page_request = 3;
 }
 
-message GetObjectGroupHistoryByIDResponse{
-    oneof object_groups {
-        storage.models.v1.ObjectGroupOverviews object_groups_overview = 1;
-        storage.models.v1.ObjectGroupWithIDs object_groups_with_id = 2;
-        storage.models.v1.ObjectGroups object_groups_full = 3;
-    }
+message GetObjectGroupHistoryResponse {
+  storage.models.v1.ObjectGroupOverviews object_groups = 1;
 }
 
-message BorrowObjectGroupRequest{
-    string group_id = 1;
-    string collection_id = 2;
-    string target_collection_id = 3;
+message GetObjectGroupObjectsRequest {
+  string collection_id = 1;
+  string group_id = 2;
+  storage.models.v1.PageRequest page_request = 3;
+  bool meta_only = 4; // Should only the "meta" objects be returned
 }
 
-message BorrowObjectGroupResponse{}
-
-
-message CloneObjectGroupRequest{
-    string group_id = 1;
-    string collection_id = 2;
+// Objectgroup objects are a combination of "object" and the boolean is_metadata
+// flag Returned as single list to allow for more precise queries
+message ObjectGroupObject {
+  storage.models.v1.Object object = 1;
+  bool is_metadata = 2;
 }
 
-message CloneObjectGroupResponse{
-    storage.models.v1.ObjectGroupOverview object_group = 1;
+message GetObjectGroupObjectsResponse {
+  repeated ObjectGroupObject object_group_objects = 1;
 }
+
+// message BorrowObjectGroupRequest {
+//   string group_id = 1;
+//   string collection_id = 2;
+//   string target_collection_id = 3;
+// }
+
+// message BorrowObjectGroupResponse {}
+
+// message CloneObjectGroupRequest {
+//   string group_id = 1;
+//   string collection_id = 2;
+//   string target_collection_id = 3;
+// }
+
+// message CloneObjectGroupResponse {
+//   storage.models.v1.ObjectGroupOverview object_group = 1;
+// }

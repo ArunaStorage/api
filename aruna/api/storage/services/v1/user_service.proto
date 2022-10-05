@@ -1,0 +1,189 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v1;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v1";
+option java_outer_classname = "UserService";
+
+import "aruna/api/storage/models/v1/auth.proto";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+service UserService {
+
+  // This request should be called when a new user logs in for the first time
+  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse) {
+    option (google.api.http) = {
+      post : "/v1/auth/register"
+      body : "*"
+    };
+  }
+
+  // ActivateUser enables a specific user (Admin request)
+  rpc ActivateUser(ActivateUserRequest) returns (ActivateUserResponse) {
+    option (google.api.http) = {
+      post : "/v1/user/{user_id}/activate"
+      body : "*"
+    };
+  }
+
+  // CreateAPIToken Creates an API token to authenticate
+  rpc CreateAPIToken(CreateAPITokenRequest) returns (CreateAPITokenResponse) {
+    option (google.api.http) = {
+      post : "/v1/auth/token"
+      body : "*"
+    };
+  }
+
+  // Returns one API token by id
+  rpc GetAPIToken(GetAPITokenRequest) returns (GetAPITokenResponse) {
+    option (google.api.http) = {
+      get : "/v1/auth/token"
+    };
+  }
+
+  // Returns all API token for a specific user
+  rpc GetAPITokens(GetAPITokensRequest) returns (GetAPITokensResponse) {
+    option (google.api.http) = {
+      get : "/v1/auth/tokens"
+    };
+  }
+
+  // DeleteAPITokenRequest Deletes the specified API Token
+  rpc DeleteAPIToken(DeleteAPITokenRequest) returns (DeleteAPITokenResponse) {
+    option (google.api.http) = {
+      delete : "/v1/auth/token/{token_id}"
+    };
+  }
+
+  // DeleteAPITokenRequest Deletes the specified API Token
+  rpc DeleteAPITokens(DeleteAPITokensRequest)
+      returns (DeleteAPITokensResponse) {
+    option (google.api.http) = {
+      delete : "/v1/auth/tokens"
+    };
+  }
+
+  // GetUserRequest is a request that returns the user information of the
+  // current user or if invoked by an admin from another user
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {
+    option (google.api.http) = {
+      get : "/v1/user"
+    };
+  }
+
+  // Updates the Displayname for the user (Personal only)
+  rpc UpdateUserDisplayName(UpdateUserDisplayNameRequest)
+      returns (UpdateUserDisplayNameResponse) {
+    option (google.api.http) = {
+      post : "/v1/user/display_name"
+    };
+  }
+
+  // Gets all project_ids a user is member of
+  rpc GetUserProjects(GetUserProjectsRequest)
+      returns (GetUserProjectsResponse) {
+    option (google.api.http) = {
+      get : "/v1/user/{user_id}/projects"
+    };
+  }
+
+  // Get all "unregistered" users (Admin only)
+  rpc GetUsersUnregistered(GetUsersUnregisteredRequest)
+      returns (GetUsersUnregisteredResponse) {
+    option (google.api.http) = {
+      get : "/v1/user/unregistered"
+    };
+  }
+}
+
+message ExpiresAt { google.protobuf.Timestamp timestamp = 1; }
+
+message RegisterUserRequest { string display_name = 1; }
+
+message RegisterUserResponse { string user_id = 1; }
+
+message CreateAPITokenRequest {
+  // Empty if token_type is personal, otherwise the id of the collection or
+  // project to create the token for
+  string project_id = 1;
+  string collection_id = 2;
+  string name = 3;
+  ExpiresAt expires_at = 4;
+  storage.models.v1.Permission permission = 5;
+}
+
+message CreateAPITokenResponse {
+  // This contains only the token description
+  storage.models.v1.Token token = 1;
+  // This is the actual secret token
+  // Attention, this can not be recreated and needs to be stored securely
+  // New tokens will always contain a new secret
+  string token_secret = 2;
+}
+
+message GetAPITokenRequest {
+  // The token id
+  string token_id = 1;
+  // or the user_defined name
+  string name = 2;
+}
+
+message GetAPITokenResponse {
+  // List of API tokens
+  storage.models.v1.Token token = 1;
+}
+
+message GetAPITokensRequest {}
+
+message GetAPITokensResponse {
+  // List of API tokens with redacted actual token
+  repeated storage.models.v1.Token token = 1;
+}
+
+message DeleteAPITokenRequest {
+  // The token_id
+  string token_id = 1;
+}
+
+message DeleteAPITokenResponse {}
+
+message DeleteAPITokensRequest {
+  // This request invalidates all tokens of a specific user
+  // usually the user_id is specified via the provided oidc or aruna token
+  // This user_id can be used by admins to invalidate all tokens of a specific
+  // user
+  string user_id = 1;
+}
+
+message DeleteAPITokensResponse {}
+
+message GetUserRequest { string user_id = 1; } // Optional user_id
+message GetUserResponse {
+  storage.models.v1.User user = 1;
+  repeated storage.models.v1.ProjectPermission project_permissions = 2;
+}
+
+message UpdateUserDisplayNameRequest { string new_display_name = 1; }
+message UpdateUserDisplayNameResponse { storage.models.v1.User user = 1; }
+message GetUserProjectsRequest { string user_id = 1; }
+
+message UserProject {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message GetUserProjectsResponse { repeated UserProject projects = 1; }
+
+message ActivateUserRequest { string user_id = 1; }
+
+message ActivateUserResponse {}
+
+message GetUsersUnregisteredRequest {}
+
+message GetUsersUnregisteredResponse {
+  repeated storage.models.v1.User users = 1;
+}
