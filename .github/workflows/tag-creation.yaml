@@ -39,14 +39,14 @@ jobs:
       - name: Repository Dispatch (go)
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.GO_ACCESS_TOKEN }}
+          token: ${{ secrets.ARUNA_ACCESS_TOKEN }}
           repository: ArunaStorage/go-api
           event-type: publish
           client-payload: '{"version": "${{ inputs.tag }}", "message": "${{ inputs.message }}"}'
       - name: Repository Dispatch (rust)
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.RUST_ACCESS_TOKEN }}
+          token: ${{ secrets.ARUNA_ACCESS_TOKEN }}
           repository: ArunaStorage/rust-api
           event-type: publish
           client-payload: '{"version": "${{ inputs.tag }}", "message": "${{ inputs.message }}"}'
