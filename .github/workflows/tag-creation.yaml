@@ -10,7 +10,7 @@ on:
         description: 'Message for the new tag'     
         required: false
 jobs:
-  update:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout without submodules
