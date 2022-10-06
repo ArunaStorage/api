@@ -44,7 +44,7 @@ jobs:
           tags: true
           force: true
       - name: Create release
-        run: gh release create v${{ inputs.tag }}
+        run: gh release create v${{ inputs.tag }} --title "v{{ inputs.tag }}" --notes "${{ inputs.message }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Repository Dispatch (go)
