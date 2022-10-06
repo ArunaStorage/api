@@ -11,8 +11,16 @@ import "aruna/api/storage/models/v1/auth.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 
+
+// UserService
+//
+// Contains all methods that get/create or update Users and associated resource
+// including all autorization methods
 service UserService {
 
+
+  // RegisterUser
+  //
   // This request should be called when a new user logs in for the first time
   rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse) {
     option (google.api.http) = {
@@ -21,15 +29,19 @@ service UserService {
     };
   }
 
-  // ActivateUser enables a specific user (Admin request)
+  // ActivateUser 
+  //
+  // This activates a specific user (Admin request)
   rpc ActivateUser(ActivateUserRequest) returns (ActivateUserResponse) {
     option (google.api.http) = {
-      post : "/v1/user/{user_id}/activate"
+      patch : "/v1/user/{user_id}/activate"
       body : "*"
     };
   }
 
-  // CreateAPIToken Creates an API token to authenticate
+  // CreateAPIToken
+  //
+  // Creates an API token to authenticate
   rpc CreateAPIToken(CreateAPITokenRequest) returns (CreateAPITokenResponse) {
     option (google.api.http) = {
       post : "/v1/auth/token"
@@ -37,28 +49,36 @@ service UserService {
     };
   }
 
+  // GetAPIToken
+  //
   // Returns one API token by id
   rpc GetAPIToken(GetAPITokenRequest) returns (GetAPITokenResponse) {
     option (google.api.http) = {
-      get : "/v1/auth/token"
+      get : "/v1/auth/token/{token_id}"
     };
   }
 
-  // Returns all API token for a specific user
+  // GetAPITokens
+  //
+  // Returns a list of API tokens for a specific user
   rpc GetAPITokens(GetAPITokensRequest) returns (GetAPITokensResponse) {
     option (google.api.http) = {
       get : "/v1/auth/tokens"
     };
   }
 
-  // DeleteAPITokenRequest Deletes the specified API Token
+  // DeleteAPIToken
+  //
+  // Deletes the specified API Token
   rpc DeleteAPIToken(DeleteAPITokenRequest) returns (DeleteAPITokenResponse) {
     option (google.api.http) = {
       delete : "/v1/auth/token/{token_id}"
     };
   }
 
-  // DeleteAPITokenRequest Deletes the specified API Token
+  // DeleteAPITokens
+  //
+  // Deletes the specified API Token
   rpc DeleteAPITokens(DeleteAPITokensRequest)
       returns (DeleteAPITokensResponse) {
     option (google.api.http) = {
@@ -66,7 +86,9 @@ service UserService {
     };
   }
 
-  // GetUserRequest is a request that returns the user information of the
+  // GetUserRequest
+  //
+  // This is a request that returns the user information of the
   // current user or if invoked by an admin from another user
   rpc GetUser(GetUserRequest) returns (GetUserResponse) {
     option (google.api.http) = {
@@ -74,14 +96,19 @@ service UserService {
     };
   }
 
+  // UpdateUserDisplayName
+  //
   // Updates the Displayname for the user (Personal only)
   rpc UpdateUserDisplayName(UpdateUserDisplayNameRequest)
       returns (UpdateUserDisplayNameResponse) {
     option (google.api.http) = {
-      post : "/v1/user/display_name"
+      patch : "/v1/user/display_name"
+      body : "*"
     };
   }
 
+  // GetUserProjects
+  //
   // Gets all project_ids a user is member of
   rpc GetUserProjects(GetUserProjectsRequest)
       returns (GetUserProjectsResponse) {
@@ -90,28 +117,45 @@ service UserService {
     };
   }
 
-  // Get all "unregistered" users (Admin only)
-  rpc GetUsersUnregistered(GetUsersUnregisteredRequest)
-      returns (GetUsersUnregisteredResponse) {
+  // GetNotActivatedUsers
+  //
+  // Get all not activated users (Admin only)
+  rpc GetNotActivatedUsers(GetNotActivatedUsersRequest)
+      returns (GetNotActivatedUsersResponse) {
     option (google.api.http) = {
-      get : "/v1/user/unregistered"
+      get : "/v1/user/not_activated"
     };
   }
 }
 
-message ExpiresAt { google.protobuf.Timestamp timestamp = 1; }
+message ExpiresAt {
+  // Expiry time
+  google.protobuf.Timestamp timestamp = 1;
+}
 
-message RegisterUserRequest { string display_name = 1; }
+message RegisterUserRequest {
+  // Optional user_displayname
+  string display_name = 1;
+}
 
-message RegisterUserResponse { string user_id = 1; }
+message RegisterUserResponse {
+  // Created user id
+  string user_id = 1;
+}
 
 message CreateAPITokenRequest {
   // Empty if token_type is personal, otherwise the id of the collection or
   // project to create the token for
+
+  // Project id
   string project_id = 1;
+  // Collection id
   string collection_id = 2;
+  // Token name
   string name = 3;
+  // Token expiry
   ExpiresAt expires_at = 4;
+  // Token permissions
   storage.models.v1.Permission permission = 5;
 }
 
@@ -127,8 +171,6 @@ message CreateAPITokenResponse {
 message GetAPITokenRequest {
   // The token id
   string token_id = 1;
-  // or the user_defined name
-  string name = 2;
 }
 
 message GetAPITokenResponse {
@@ -160,30 +202,55 @@ message DeleteAPITokensRequest {
 
 message DeleteAPITokensResponse {}
 
-message GetUserRequest { string user_id = 1; } // Optional user_id
+message GetUserRequest {
+  // Optional user_id
+  string user_id = 1;
+}
+
 message GetUserResponse {
+  // User info
   storage.models.v1.User user = 1;
+  // User permissions per project
   repeated storage.models.v1.ProjectPermission project_permissions = 2;
 }
 
-message UpdateUserDisplayNameRequest { string new_display_name = 1; }
-message UpdateUserDisplayNameResponse { storage.models.v1.User user = 1; }
-message GetUserProjectsRequest { string user_id = 1; }
+message UpdateUserDisplayNameRequest {
+  // New display name
+  string new_display_name = 1;
+}
+message UpdateUserDisplayNameResponse {
+  // Updated user info
+  storage.models.v1.User user = 1;
+}
+message GetUserProjectsRequest {
+  // User id
+  string user_id = 1;
+}
 
 message UserProject {
+  // Project id
   string id = 1;
+  // Project name
   string name = 2;
+  // Project description
   string description = 3;
 }
 
-message GetUserProjectsResponse { repeated UserProject projects = 1; }
+message GetUserProjectsResponse {
+  // List of associated projects
+  repeated UserProject projects = 1;
+}
 
-message ActivateUserRequest { string user_id = 1; }
+message ActivateUserRequest {
+  // User to activate
+  string user_id = 1;
+}
 
 message ActivateUserResponse {}
 
-message GetUsersUnregisteredRequest {}
+message GetNotActivatedUsersRequest {}
 
-message GetUsersUnregisteredResponse {
+message GetNotActivatedUsersResponse {
+  // List of users that are not yet activated
   repeated storage.models.v1.User users = 1;
 }

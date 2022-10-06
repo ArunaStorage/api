@@ -10,11 +10,17 @@ import "aruna/api/storage/models/v1/models.proto";
 
 import "google/api/annotations.proto";
 
+
+// EndpointService
+//
+// Contains all methods that get/create or update Endpoint and associated resources
 service EndpointService {
 
+
+  // AddEndpoint
+  //
   // Registers a new Endpoint (Aruna DataProxy) to the server
   // Needs admin permissions
-
   rpc AddEndpoint(AddEndpointRequest) returns (AddEndpointResponse) {
     option (google.api.http) = {
       post : "/v1/endpoint"
@@ -22,6 +28,8 @@ service EndpointService {
     };
   }
 
+  // GetEndpoint
+  //
   // Gets an specific endpoint by ID or Name
   rpc GetEndpoint(GetEndpointRequest) returns (GetEndpointResponse) {
     option (google.api.http) = {
@@ -29,6 +37,8 @@ service EndpointService {
     };
   }
 
+  // GetEndpoints
+  // 
   // Gets all available endpoints
   rpc GetEndpoints(GetEndpointsRequest) returns (GetEndpointsResponse) {
     option (google.api.http) = {
@@ -36,6 +46,8 @@ service EndpointService {
     };
   }
 
+  // DeleteEndpoint
+  // 
   // Deletes a specific endpoint by id
   // This needs admin permissions
   rpc DeleteEndpoint(DeleteEndpointRequest) returns (DeleteEndpointResponse) {
@@ -44,7 +56,9 @@ service EndpointService {
     };
   }
 
-  // This request returns the default endpoint for the current server
+  // GetDefaultEndpoint
+  //
+  // This request returns the default endpoint for the current aruna_server
   // It may produce different results depending on the used server
   rpc GetDefaultEndpoint(GetDefaultEndpointRequest)
       returns (GetDefaultEndpointResponse) {
@@ -55,35 +69,59 @@ service EndpointService {
 }
 
 message AddEndpointRequest {
+  // Endpoint name
   string name = 1;
+  // Endpoint type
   storage.models.v1.EndpointType ep_type = 2;
+  // Public hostname of the proxy
   string proxy_hostname = 3;
+  // Internal hostname for the proxy
   string internal_hostname = 4;
+  // (optional) URL to a offsite documentation 
   string documentation_path = 5;
+  // Is this endpoint public
   bool is_public = 6;
 }
 
-message AddEndpointResponse { storage.models.v1.Endpoint endpoint = 1; }
+message AddEndpointResponse {
+  // Overview of the requested endpoint
+  storage.models.v1.Endpoint endpoint = 1;
+}
 
 message GetEndpointRequest {
+  // Either endpoint_name or id
   oneof endpoint {
+    // The name of the endpoint
     string endpoint_name = 1;
+    // Id of the endpoint
     string endpoint_id = 2;
   }
 }
 
-message GetEndpointResponse { storage.models.v1.Endpoint endpoint = 1; }
+message GetEndpointResponse {
+  // Overview of the requested endpoint
+  storage.models.v1.Endpoint endpoint = 1;
+}
 
-message GetEndpointsRequest {}
+message GetEndpointsRequest {
+  // Requests all endpoints
+}
 
 message GetEndpointsResponse {
+  // List of endpoints
   repeated storage.models.v1.Endpoint endpoints = 1;
 }
 
-message DeleteEndpointRequest { string endpoint_id = 1; }
+message DeleteEndpointRequest {
+  // Endpoint_id to delete
+  string endpoint_id = 1;
+}
 
 message DeleteEndpointResponse {}
 
 message GetDefaultEndpointRequest {}
 
-message GetDefaultEndpointResponse { storage.models.v1.Endpoint endpoint = 1; }
+message GetDefaultEndpointResponse {
+  // Default endpoint of the server instance
+  storage.models.v1.Endpoint endpoint = 1;
+}

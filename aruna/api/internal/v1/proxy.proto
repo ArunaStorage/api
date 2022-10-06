@@ -92,6 +92,8 @@ message CreatePresignedDownloadRequest {
   bool is_public = 2;
   // optional Range
   Range range = 3;
+  // filename
+  string filename = 4;
 }
 
 message CreatePresignedDownloadResponse {
