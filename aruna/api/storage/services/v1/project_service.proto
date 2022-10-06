@@ -20,7 +20,6 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 	};
 	// Overwriting host entry breaks tests, so this is not done here.
 	schemes: HTTPS;
-	schemes: HTTP;
 	consumes: "application/json";
 	produces: "application/json";
 	security_definitions: {
@@ -40,29 +39,17 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 			value: {}
 		}
 	}
-	responses: {
-		key: "401";
-		value: {
-			description: "Returned when the user does not have permission to access the resource.";
-		}
-	}
-	responses: {
-		key: "404";
-		value: {
-			description: "Returned when the resource does not exist.";
-			schema: {
-				json_schema: {
-					type: STRING;
-				}
-			}
-		}
-	}
-  };
+};
 
+
+// ProjectService
+//
+// Contains all methods that get/create or update Projects and associated resources
 service ProjectService {
 
-  // This creates a new authorization group.option
-  // All users and collections are bundled in a authorization group.
+  // CreateProject
+  //
+  // Creates a new project all users and collections are bundled in a project.
   rpc CreateProject(CreateProjectRequest) returns (CreateProjectResponse) {
     option (google.api.http) = {
       post : "/v1/project"
@@ -70,31 +57,28 @@ service ProjectService {
     };
   }
 
-  // AddUserToProject Adds a new user to a given project by its id
+  // AddUserToProject
+  // 
+  // Adds a new user to a given project by its id
   rpc AddUserToProject(AddUserToProjectRequest)
       returns (AddUserToProjectResponse) {
     option (google.api.http) = {
-      post : "/v1/project/{project_id}/adduser"
+      post : "/v1/project/{project_id}/add_user"
       body : "*"
     };
   }
 
-  // GetProjectCollections Returns all collections that belong to a certain
-  // project
-  rpc GetProjectCollections(GetProjectCollectionsRequest)
-      returns (GetProjectCollectionsResponse) {
-    option (google.api.http) = {
-      get : "/v1/project/{project_id}/collections"
-    };
-  }
-
-  // GetProject Returns the specified project
+  // GetProject
+  // 
+  // Requests a project by id
   rpc GetProject(GetProjectRequest) returns (GetProjectResponse) {
     option (google.api.http) = {
       get : "/v1/project/{project_id}"
     };
   }
 
+  // DestroyProject
+  //
   // Destroys the project and all its associated data. Must be empty
   // (cannot contain any collections).
   rpc DestroyProject(DestroyProjectRequest) returns (DestroyProjectResponse) {
@@ -103,6 +87,8 @@ service ProjectService {
     };
   }
 
+  // UpdateProject
+  //
   // Updates the project. All (meta) data will be overwritten.
   rpc UpdateProject(UpdateProjectRequest) returns (UpdateProjectResponse) {
     option (google.api.http) = {
@@ -110,62 +96,68 @@ service ProjectService {
     };
   }
 
+  // RemoveUserFromProject
+  //
   // Removes a specified user from the project.
   rpc RemoveUserFromProject(RemoveUserFromProjectRequest)
       returns (RemoveUserFromProjectResponse) {
     option (google.api.http) = {
-      post : "/v1/project/{project_id}/remove_user"
+      delete : "/v1/project/{project_id}/remove_user"
     };
   }
 
+  // GetUserPermissionsForProject
+  // 
   // Get the user_permission of a specific user for the project.
   rpc GetUserPermissionsForProject(GetUserPermissionsForProjectRequest)
       returns (GetUserPermissionsForProjectResponse) {
     option (google.api.http) = {
-      post : "/v1/project/{project_id}/get_user"
+      get : "/v1/project/{project_id}/get_user"
     };
   }
 
-  // Edit the user_permission of a specific user for the project.
+  // EditUserPermissionsForProject
+  //
+  // Modifies the user_permission of a specific user for the project.
   rpc EditUserPermissionsForProject(EditUserPermissionsForProjectRequest)
       returns (EditUserPermissionsForProjectResponse) {
     option (google.api.http) = {
-      post : "/v1/project/{project_id}/edit_user"
+      patch : "/v1/project/{project_id}/edit_user"
+      body : "*"
     };
   }
 }
 
 message CreateProjectRequest {
+  // Project name
   string name = 1;
+  // Description for the project
   string description = 2;
 }
 
-message CreateProjectResponse { string project_id = 1; }
+message CreateProjectResponse {
+  // The freshly created project_id 
+  string project_id = 1; 
+}
 
 message AddUserToProjectRequest {
   // The id of the project to add the user to
   string project_id = 1;
+  // Permissions for the user
   storage.models.v1.ProjectPermission user_permission = 3;
 }
 
 message AddUserToProjectResponse {}
-
-message GetProjectCollectionsRequest {
-  // The id of the project to get the collections for
-  string project_id = 1;
-  storage.models.v1.PageRequest page_request = 2;
-}
-
-message GetProjectCollectionsResponse {
-  repeated storage.models.v1.CollectionOverview collection = 1;
-}
 
 message GetProjectRequest {
   // The id of the project to get
   string project_id = 1;
 }
 
-message GetProjectResponse { storage.models.v1.ProjectOverview project = 1; }
+message GetProjectResponse {
+  // Overview of the projectroject
+  storage.models.v1.ProjectOverview project = 1;
+}
 
 message DestroyProjectRequest {
   // The id of the project to destroy
@@ -175,6 +167,7 @@ message DestroyProjectRequest {
 message DestroyProjectResponse {}
 
 message UpdateProjectRequest {
+  // Project id to update
   string project_id = 1;
   // Updated name
   string name = 2;
@@ -182,25 +175,34 @@ message UpdateProjectRequest {
   string description = 3;
 }
 
-message UpdateProjectResponse { storage.models.v1.ProjectOverview project = 1; }
+message UpdateProjectResponse {
+  // Updated project overview 
+  storage.models.v1.ProjectOverview project = 1;
+}
 
 message RemoveUserFromProjectRequest {
+  // Project id
   string project_id = 1;
+  // User that should be removed
   string user_id = 2;
 }
 
 message RemoveUserFromProjectResponse {}
 
 message GetUserPermissionsForProjectRequest {
+  // Project id
   string project_id = 1;
+  // User id
   string user_id = 2;
 }
 
 message GetUserPermissionsForProjectResponse {
+  // Userpermission for a specific user
   storage.models.v1.ProjectPermission user_permission = 1;
 }
 
 message EditUserPermissionsForProjectRequest {
+  // Project id
   string project_id = 1;
   // This contains the user_id and the "new permission"
   storage.models.v1.ProjectPermission user_permission = 2;

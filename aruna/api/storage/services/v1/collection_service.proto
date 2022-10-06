@@ -11,9 +11,14 @@ import "aruna/api/storage/models/v1/query.proto";
 
 import "google/api/annotations.proto";
 
+// CollectionService
+//
+// Contains all methods that get/create or update Collection and associated resources
 service CollectionService {
 
-  // CreateNewCollection creates a new Collection
+  // CreateNewCollection
+  //
+  // creates a new Collection
   rpc CreateNewCollection(CreateNewCollectionRequest)
       returns (CreateNewCollectionResponse) {
     option (google.api.http) = {
@@ -22,7 +27,9 @@ service CollectionService {
     };
   }
 
-  // GetCollection queries a specific Collection by ID
+  // GetCollectionByID
+  //
+  // Queries a specific Collection by ID
   // The result can be one_of:
   // CollectionOverview -> default
   // CollectionWithID
@@ -35,15 +42,20 @@ service CollectionService {
     };
   }
 
-  // GetCollections queries multiple collections by ID or by LabelFilter
+  // GetCollections
+  //
+  // queries multiple collections by ID or by LabelFilter
   // This returns by default a paginated result with 20 entries.
+  // Must specify a project_id as context
   rpc GetCollections(GetCollectionsRequest) returns (GetCollectionsResponse) {
     option (google.api.http) = {
-      get : "/v1/project/{project_id}/collections"
+      get : "/v1/collections/{project_id}"
     };
   }
 
-  // UpdateCollection updates the current collection
+  // UpdateCollection
+  //
+  // Updates the current collection
   // This will update the collection in place if it is unversioned / latest
   // A versioned (pinned) collection requires a new semantic version after the
   // update This can be used to pin a collection to a specific version similar
@@ -56,8 +68,10 @@ service CollectionService {
     };
   }
 
-  // PinCollectionVersion this pins the current status of the version to a
-  // specific version This effectively creates a copy of the collection with a
+  // PinCollectionVersion
+  //
+  // This pins the current status of the version to a
+  // specific version. Effectively creating a copy of the collection with a
   // stable version All objects will be pinned to an explicit revision number
   // Pinned collections can not be updated in place
   rpc PinCollectionVersion(PinCollectionVersionRequest)
@@ -68,6 +82,8 @@ service CollectionService {
     };
   }
 
+  // DeleteCollection
+  //
   // This request deletes the collection.
   // If with_version is true, it deletes the collection and all its versions.
   // If cascade is true, all objects that are owned by the collection will also
@@ -84,48 +100,68 @@ service CollectionService {
 // Models:
 
 message CreateNewCollectionRequest {
+  // Collection name
   string name = 1;
+  // Description
   string description = 2;
+  // Project id
   string project_id = 3;
+  // List of associated labels
   repeated storage.models.v1.KeyValue labels = 4;
+  // List of associated hooks
   repeated storage.models.v1.KeyValue hooks = 5;
-  // Optional LabelOntology with required Labels
+  // Optional LabelOntology with required labels
   storage.models.v1.LabelOntology label_ontology = 6;
-  // Optional dataclass
+  // Optional Dataclass
   storage.models.v1.DataClass dataclass = 7;
 }
 
-message CreateNewCollectionResponse { string collection_id = 1; }
+message CreateNewCollectionResponse {
+  // The new collection_id
+  string collection_id = 1;
+}
 
-message GetCollectionByIDRequest { string collection_id = 1; }
+message GetCollectionByIDRequest {
+  // Requested id
+  string collection_id = 1;
+}
 
 message GetCollectionByIDResponse {
+  // Overview of the requested collection
   storage.models.v1.CollectionOverview collection = 1;
 }
 
 message GetCollectionsRequest {
-  // Filter by Labels (optional) OR request a specific list of Collections by id
+  // Project id
   string project_id = 1;
+  // (optional) Filter, label or ids
   storage.models.v1.LabelOrIDQuery label_or_id_filter = 2;
+  // (optional) Pagerequest
   storage.models.v1.PageRequest page_request = 3;
 }
 
 message GetCollectionsResponse {
-  // These are plural representations of their specific single counterparts
+  // List of collection overviews
   storage.models.v1.CollectionOverviews collections = 1;
 }
 
 // This updates the collection
 // Updating a pinned collection will require a new version to be created
 message UpdateCollectionRequest {
+  // Project id
   string project_id = 1;
+  // Old collection_id
   string collection_id = 2;
+  // New name
   string name = 3;
+  // New description
   string description = 4;
+  // New list of labels
   repeated storage.models.v1.KeyValue labels = 5;
+  // New list of hooks
   repeated storage.models.v1.KeyValue hooks = 6;
 
-  // Optional LabelOntology
+  // (optional) LabelOntology
   storage.models.v1.LabelOntology label_ontology = 7;
 
   // Optional update Dataclass, this will not overwrite
@@ -141,21 +177,28 @@ message UpdateCollectionRequest {
 }
 
 message UpdateCollectionResponse {
+  // New collection overview
   storage.models.v1.CollectionOverview collection = 1;
 }
 
 message PinCollectionVersionRequest {
+  // Old collection_id
   string collection_id = 1;
+  // New version
   storage.models.v1.Version version = 2;
 }
 
 message PinCollectionVersionResponse {
+  // New collection overview
   storage.models.v1.CollectionOverview collection = 1;
 }
 
 message DeleteCollectionRequest {
+  // Collection id
   string collection_id = 1;
+  // Project id
   string project_id = 2;
+  // Force delete
   bool force = 3;
 }
 

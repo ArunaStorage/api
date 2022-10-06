@@ -11,8 +11,13 @@ import "aruna/api/storage/models/v1/query.proto";
 
 import "google/api/annotations.proto";
 
+// ObjectService
+//
+// Contains all methods that get/create or update Objects and associated resources
 service ObjectService {
 
+  // InitializeNewObject
+  //
   // This initializes a new object
   // Initializing an object will put it in a staging area.
   // Staged objects will get a separate staging id and need to be finished
@@ -25,6 +30,8 @@ service ObjectService {
     };
   }
 
+  // GetUploadURL
+  //
   // This method will return a (multi-part) url that can be used to upload a
   // file to S3. Part is a optional query parameter that can be used to upload a
   // part of the file / multipart upload.
@@ -35,6 +42,8 @@ service ObjectService {
     };
   }
 
+  // GetDownloadUrl
+  // 
   // This method will return a url that can be used to download a file from S3.
   rpc GetDownloadURL(GetDownloadURLRequest) returns (GetDownloadURLResponse) {
     option (google.api.http) = {
@@ -42,16 +51,20 @@ service ObjectService {
     };
   }
 
+  // GetDownloadLinksBatch
+  //
   // This method can be used to get download urls for multiple objects.
   // The order of the returned urls will be the same as the order of the object
   // ids in the request.
   rpc GetDownloadLinksBatch(GetDownloadLinksBatchRequest)
       returns (GetDownloadLinksBatchResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/objects/stream"
+      get : "/v1/collection/{collection_id}/objects/batch"
     };
   }
 
+  // CreateDownloadLinksStream
+  //
   // Creates a stream of objects and presigned links based on the provided query
   // This can be used retrieve a large number of Objects as a stream that would
   // otherwise cause issues with the connection
@@ -63,16 +76,20 @@ service ObjectService {
     };
   }
 
+  // FinishObjectStaging
+  //
   // This method completes the staging of an object.
   rpc FinishObjectStaging(FinishObjectStagingRequest)
       returns (FinishObjectStagingResponse) {
     option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/object/{object_id}/staging/"
+      patch : "/v1/collection/{collection_id}/object/{object_id}/staging/"
              "{upload_id}/finish"
       body : "*"
     };
   }
 
+  // UpdateObject
+  //
   // Objects are immutable!
   // Updating an object will create a new revision for the object
   // This method will put the new revision in a staging area.
@@ -85,6 +102,9 @@ service ObjectService {
     };
   }
 
+  // CreateObjectReference
+  //
+  // Creates a new reference of this object in another collection
   rpc CreateObjectReference(CreateObjectReferenceRequest)
       returns (CreateObjectReferenceResponse) {
     option (google.api.http) = {
@@ -94,6 +114,8 @@ service ObjectService {
     };
   }
 
+  // CloneObject 
+  //
   // This method clones an object and creates a copy in the same collection.
   // This copy has a new id and revision and will not receive any updates from
   // the original object.
@@ -104,6 +126,8 @@ service ObjectService {
     };
   }
 
+  // DeleteObject 
+  //
   // Deletes the object with the complete revision history.
   // This should be avoided if possible.
   // This method allows the owner to cascade the deletion of all objects that
@@ -115,8 +139,10 @@ service ObjectService {
       body : "*"
     };
   }
-
-  // GetObjectByID gets a specific Object by ID that is associated to the
+ 
+  // GetObjectByID 
+  // 
+  // gets a specific Object by ID that is associated to the
   // current collection By default only the latest revision of an object will be
   // returned Specify a revision_number to select an older revision With the
   // optional with_url boolean a download link can automatically be requested
@@ -126,6 +152,8 @@ service ObjectService {
     };
   }
 
+  // GetObjects
+  //
   // GetObjects returns a (paginated) list of objects in a specific collection
   // By default only the latest revisions of all objects will be shown
   // This behaviour can be changed with the include_history flag
@@ -138,7 +166,9 @@ service ObjectService {
     };
   }
 
-  // GetObjectRevisions returns the full list of revisions of a specified object
+  // GetObjectRevisions
+  //
+  // This returns the full list of revisions of a specified object
   // With the optional with_url boolean a download link can automatically be
   // requested for each Object This is by default a paginated request
   rpc GetObjectRevisions(GetObjectRevisionsRequest)
@@ -147,7 +177,9 @@ service ObjectService {
       get : "/v1/collection/{collection_id}/object/{object_id}/revisions"
     };
   }
-  // GetLatestObjectRevision returns the latest revision of a specific object
+  // GetLatestObjectRevision
+  //
+  // This returns the latest revision of a specific object
   // The returned `latest` object will have a different id if the current
   // object is not the latest revision
   rpc GetLatestObjectRevision(GetLatestObjectRevisionRequest)
@@ -157,7 +189,9 @@ service ObjectService {
     };
   }
 
-  // GetObjectEndpoints returns a list of endpoints
+  // GetObjectEndpoints
+  // 
+  // This returns a list of endpoints
   // One endpoint will be the "default" endpoint
   rpc GetObjectEndpoints(GetObjectEndpointsRequest)
       returns (GetObjectEndpointsResponse) {
@@ -165,31 +199,39 @@ service ObjectService {
       get : "/v1/collection/{collection_id}/object/{object_id}/endpoints"
     };
   }
-  // AddLabelToObject is a specific request to add a new label
+  // AddLabelToObject 
+  //
+  // This is a specific request to add a new label
   // to an existing object, in contrast to UpdateObject
   // this will not create a new object in the staging area
   // Instead it will directly add the specified label(s) to the object
   rpc AddLabelToObject(AddLabelToObjectRequest)
       returns (AddLabelToObjectResponse) {
     option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/object/{object_id}/add_labels"
+      patch : "/v1/collection/{collection_id}/object/{object_id}/add_labels"
+      body : "*"
     };
   }
-  // SetHooksOfObject is a specific request to update the complete list
+  // SetHooksOfObject
+  // 
+  // This is a specific request to update the complete list
   // of hooks for a specific object. This will not update the object
   // and create a new id, instead it will overwrite all hooks of the existing
   // object.
   rpc SetHooksOfObject(SetHooksOfObjectRequest)
       returns (SetHooksOfObjectResponse) {
     option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/object/{object_id}/set_hooks"
+      patch : "/v1/collection/{collection_id}/object/{object_id}/set_hooks"
+      body : "*"
     };
   }
 
+  // GetReferences
+  //
   // Get a list of references for this object (optional) including all revisions
   rpc GetReferences(GetReferencesRequest) returns (GetReferencesResponse) {
     option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/object/{object_id}/references"
+      get : "/v1/collection/{collection_id}/object/{object_id}/references"
     };
   }
 }
@@ -199,16 +241,27 @@ service ObjectService {
 // gRPC best practises advice each Request and Response message in a RPC to be
 // called {rpc_name}Request and {rpc_name}Response.
 
-message URL { string url = 1; }
+message URL {
+  // URL response
+  string url = 1;
+}
 
 message StageObject {
+  // Filename
   string filename = 1;
+  // File description
   string description = 2;
+  // Collection Id
   string collection_id = 3;
+  // Content length
   int64 content_len = 4;
+  // Source of the object (e.g. wikipedia)
   storage.models.v1.Source source = 5;
+  // Dataclass public / private
   storage.models.v1.DataClass dataclass = 6;
+  // List of label key-values
   repeated storage.models.v1.KeyValue labels = 7;
+  // List of hook key-values
   repeated storage.models.v1.KeyValue hooks = 8;
 }
 
@@ -264,11 +317,16 @@ message CompletedParts {
 }
 
 message GetDownloadURLRequest {
+  // Collection id
   string collection_id = 1;
+  // Object id
   string object_id = 2;
 }
 
-message GetDownloadURLResponse { URL url = 1; }
+message GetDownloadURLResponse {
+  // URL
+  URL url = 1;
+}
 
 message GetDownloadLinksBatchRequest {
   // CollectionID
@@ -277,7 +335,10 @@ message GetDownloadLinksBatchRequest {
   repeated string objects = 2;
 }
 
-message GetDownloadLinksBatchResponse { repeated URL urls = 1; }
+message GetDownloadLinksBatchResponse {
+  // List of URLs
+  repeated URL urls = 1;
+}
 
 message CreateDownloadLinksStreamRequest {
   // CollectionID
@@ -313,7 +374,10 @@ message FinishObjectStagingRequest {
   bool auto_update = 7;
 }
 
-message FinishObjectStagingResponse { storage.models.v1.Object object = 1; }
+message FinishObjectStagingResponse {
+  // (new) Object overview
+  storage.models.v1.Object object = 1;
+}
 
 message UpdateObjectRequest {
   // Existing object ID
@@ -395,7 +459,9 @@ message ObjectWithURL {
 }
 
 message GetObjectByIDRequest {
+  // Collection Id
   string collection_id = 1;
+  // Object Id
   string object_id = 2;
   // With URL: Include URL in response ?
   bool with_url = 4;
@@ -404,6 +470,7 @@ message GetObjectByIDRequest {
 message GetObjectByIDResponse { ObjectWithURL object = 1; }
 
 message GetObjectsRequest {
+  // Collection id
   string collection_id = 1;
   // Paginate the results: Default is 20
   storage.models.v1.PageRequest page_request = 2;
@@ -421,16 +488,25 @@ message GetObjectsResponse {
 }
 
 message GetObjectRevisionsRequest {
+  // Collection id
   string collection_id = 1;
+  // Object id
   string object_id = 2;
+  // Pagination info
   storage.models.v1.PageRequest page_request = 3;
+  // Should the response include download urls ?
   bool with_url = 4;
 }
 
-message GetObjectRevisionsResponse { repeated ObjectWithURL objects = 1; }
+message GetObjectRevisionsResponse {
+  // List of objects with (optional) URLs
+  repeated ObjectWithURL objects = 1;
+}
 
 message GetLatestObjectRevisionRequest {
+  // Collection id
   string collection_id = 1;
+  // Object id
   string object_id = 2;
 }
 
@@ -440,16 +516,21 @@ message GetLatestObjectRevisionResponse {
 }
 
 message GetObjectEndpointsRequest {
+  // Collection id
   string collection_id = 1;
+  // Object id
   string object_id = 2;
 }
 
 message GetObjectEndpointsResponse {
+  // List of endpoints
   repeated storage.models.v1.Endpoint endpoints = 1;
 }
 
 message AddLabelToObjectRequest {
+  // Collection id
   string collection_id = 1;
+  // Object id 
   string object_id = 2;
   // List of labels that should be added to the list of labels
   repeated storage.models.v1.KeyValue labels_to_add = 3;
@@ -461,7 +542,9 @@ message AddLabelToObjectResponse {
 }
 
 message SetHooksOfObjectRequest {
+  // Collection id
   string collection_id = 1;
+  // Object id
   string object_id = 2;
   // This will overwrite all existing hooks
   // Can be empty to remove all hooks
@@ -474,16 +557,26 @@ message SetHooksOfObjectResponse {
 }
 
 message GetReferencesRequest {
+  // Collection id
   string collection_id = 1;
+  // Object id
   string object_id = 2;
+  // Should all revisions be included?
   bool with_revisions = 3;
 }
 
 message ObjectReference {
+  // Object id
   string object_id = 1;
+  // Collection id
   string collection_id = 2;
+  // Specific revision number
   int64 revision_number = 3;
+  // Is the writeable?
   bool is_writeable = 4;
 }
 
-message GetReferencesResponse { repeated ObjectReference references = 1; }
+message GetReferencesResponse {
+  // List of object references
+  repeated ObjectReference references = 1;
+}
