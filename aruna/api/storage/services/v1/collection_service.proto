@@ -89,8 +89,10 @@ message CreateNewCollectionRequest {
   string project_id = 3;
   repeated storage.models.v1.KeyValue labels = 4;
   repeated storage.models.v1.KeyValue hooks = 5;
+  // Optional LabelOntology with required Labels
+  storage.models.v1.LabelOntology label_ontology = 6;
   // Optional dataclass
-  storage.models.v1.DataClass dataclass = 6;
+  storage.models.v1.DataClass dataclass = 7;
 }
 
 message CreateNewCollectionResponse { string collection_id = 1; }
@@ -123,7 +125,8 @@ message UpdateCollectionRequest {
   repeated storage.models.v1.KeyValue labels = 5;
   repeated storage.models.v1.KeyValue hooks = 6;
 
-  repeated storage.models.v1.LabelOntology label_ontology = 7;
+  // Optional LabelOntology
+  storage.models.v1.LabelOntology label_ontology = 7;
 
   // Optional update Dataclass, this will not overwrite
   // the dataclass of all existing associated objects
