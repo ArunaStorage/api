@@ -75,6 +75,15 @@ service ProjectService {
     };
   }
 
+  // GetProject
+  // 
+  // Admin request to get all projects
+  rpc GetProjects(GetProjectsRequest) returns (GetProjectsResponse) {
+    option (google.api.http) = {
+      get : "/v1/projects"
+    };
+  }
+
   // DestroyProject
   //
   // Destroys the project and all its associated data. Must be empty
@@ -156,6 +165,14 @@ message GetProjectResponse {
   // Overview of the projectroject
   storage.models.v1.ProjectOverview project = 1;
 }
+
+message GetProjectsRequest {}
+
+message GetProjectsResponse {
+  // Overview of the projects
+  repeated storage.models.v1.ProjectOverview projects = 1;
+}
+
 
 message DestroyProjectRequest {
   // The id of the project to destroy
