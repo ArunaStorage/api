@@ -8,7 +8,7 @@ option java_outer_classname = "NotificationServiceModels";
 import "google/protobuf/timestamp.proto";
 
 message CreateEventStreamingGroupRequest {
-  EventResources resource = 1;
+  EventResource resource = 1;
   string resource_id = 2;
   bool include_subresource = 3;
   oneof stream_type {
@@ -16,12 +16,6 @@ message CreateEventStreamingGroupRequest {
     StreamFromDate stream_from_date = 5;
     StreamFromSequence stream_from_sequence = 6;
   };
-
-  enum EventResources {
-    EVENT_RESOURCES_UNSPECIFIED = 0;
-    EVENT_RESOURCES_COLLECTION_RESOURCE = 1;
-    EVENT_RESOURCES_ALL_RESOURCE = 5;
-  }
 
   string stream_group_id = 7;
 }
@@ -59,22 +53,23 @@ message NotificationStreamResponse {
 }
 
 message EventNotificationMessage {
-  EventResources resource = 1;
+  EventResource resource = 1;
   string resource_id = 2;
-  UpdateType updated_type = 3;
+  EventType updated_type = 3;
+}
+enum EventResource {
+  EVENT_RESOURCE_UNSPECIFIED = 0;
+  EVENT_RESOURCE_COLLECTION = 1;
+  EVENT_RESOURCE_OBJECT_GROUP = 2;
+  EVENT_RESOURCE_OBJECT = 3;
+  EVENT_RESOURCE_ALL = 5;
+}
 
-  enum UpdateType {
-    UPDATE_TYPE_UNSPECIFIED = 0;
-    UPDATE_TYPE_CREATED = 1;
-    UPDATE_TYPE_AVAILABLE = 2;
-    UPDATE_TYPE_UPDATED = 3;
-    UPDATE_TYPE_METADATA_UPDATED = 4;
-    UPDATE_TYPE_DELETED = 5;
-  }
-
-  enum EventResources {
-    EVENT_RESOURCES_UNSPECIFIED = 0;
-    EVENT_RESOURCES_COLLECTION_RESOURCE = 1;
-    EVENT_RESOURCES_ALL_RESOURCE = 5;
-  }
+enum EventType {
+  EVENT_TYPE_UNSPECIFIED = 0;
+  EVENT_TYPE_CREATED = 1;
+  EVENT_TYPE_AVAILABLE = 2;
+  EVENT_TYPE_UPDATED = 3;
+  EVENT_TYPE_METADATA_UPDATED = 4;
+  EVENT_TYPE_DELETED = 5;
 }
