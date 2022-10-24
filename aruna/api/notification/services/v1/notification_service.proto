@@ -5,15 +5,98 @@ option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v
 option java_multiple_files = true;
 option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v1";
 option java_outer_classname = "UpdateNotificationServices";
-import "google/api/visibility.proto";
 
-import "aruna/api/notification/services/v1/notification_service_models.proto";
+import "google/protobuf/timestamp.proto";
+import "aruna/api/storage/models/v1/models.proto";
 
+
+// UpdateNotificationService
+//
+// A service to update streaminggroups in nats.io
 service UpdateNotificationService {
-  option (google.api.api_visibility).restriction = "INTERNAL";
+
+  // CreateEventStreamingGroup
+  //
+  // Creates a new EventStreamingGroup
   rpc CreateEventStreamingGroup(CreateEventStreamingGroupRequest)
       returns (CreateEventStreamingGroupResponse) {}
 
-  rpc NotificationStreamGroup(stream NotificationStreamGroupRequest)
-      returns (stream NotificationStreamGroupResponse) {}
+  // DeleteEventStreamingGroup
+  //
+  // Deletes a existing EventStreamingGroup by ID
+  rpc DeleteEventStreamingGroup(DeleteEventStreamingGroupRequest)
+      returns (DeleteEventStreamingGroupResponse) {}
+
+  // ReadStreamGroupMessages
+  //
+  // Reads a stream of messages for a specific StreamGroup
+  rpc ReadStreamGroupMessages(stream ReadStreamGroupMessagesRequest)
+      returns (stream ReadStreamGroupMessagesResponse) {}
+}
+
+message CreateEventStreamingGroupRequest {
+  storage.models.v1.ResourceType resource = 1;
+  string resource_id = 2;
+  bool include_subresource = 3;
+  oneof stream_type {
+    StreamAll stream_all = 4;
+    StreamFromDate stream_from_date = 5;
+    StreamFromSequence stream_from_sequence = 6;
+  };
+
+  string stream_group_id = 7;
+}
+
+message CreateEventStreamingGroupResponse { string stream_group_id = 1; }
+
+message ReadStreamGroupMessagesRequest {
+  oneof stream_action {
+    NotificationStreamInit init = 1;
+    NotficationStreamAck ack = 2;
+  }
+
+  bool close = 3;
+}
+
+
+message DeleteEventStreamingGroupRequest {
+    string stream_group_id = 1;
+}
+
+message DeleteEventStreamingGroupResponse {}
+
+message NotificationStreamInit { string stream_group_id = 1; }
+
+message NotficationStreamAck { repeated string ack_chunk_id = 1; }
+
+message ReadStreamGroupMessagesResponse {
+  repeated NotificationStreamResponse notification = 1;
+  string ack_chunk_id = 2;
+}
+
+message StreamFromSequence { uint64 sequence = 1; }
+
+message StreamFromDate { google.protobuf.Timestamp timestamp = 1; }
+
+message StreamAll {}
+
+message NotificationStreamResponse {
+  EventNotificationMessage message = 1;
+  uint64 sequence = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message EventNotificationMessage {
+  storage.models.v1.ResourceType resource = 1;
+  string resource_id = 2;
+  EventType updated_type = 3;
+}
+
+enum EventType {
+  EVENT_TYPE_UNSPECIFIED = 0;
+  EVENT_TYPE_CREATED = 1;
+  EVENT_TYPE_AVAILABLE = 2;
+  EVENT_TYPE_UPDATED = 3;
+  EVENT_TYPE_METADATA_UPDATED = 4;
+  EVENT_TYPE_DELETED = 5;
 }

@@ -213,7 +213,7 @@ message GetUserPermissionsForProjectRequest {
 
 message GetUserPermissionsForProjectResponse {
   // Userpermission for a specific user
-  storage.models.v1.ProjectPermission user_permission = 1;
+  storage.models.v1.ProjectPermissionDisplayName user_permission = 1;
 }
 
 message EditUserPermissionsForProjectRequest {
