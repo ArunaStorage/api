@@ -27,11 +27,11 @@ service UpdateNotificationService {
   rpc DeleteEventStreamingGroup(DeleteEventStreamingGroupRequest)
       returns (DeleteEventStreamingGroupResponse) {}
 
-  // NotificationStreamGroup
+  // ReadStreamGroupMessages
   //
-  // Requests a NotificationStreamGroup
-  rpc NotificationStreamGroup(stream NotificationStreamGroupRequest)
-      returns (stream NotificationStreamGroupResponse) {}
+  // Reads a stream of messages for a specific StreamGroup
+  rpc ReadStreamGroupMessages(stream ReadStreamGroupMessagesRequest)
+      returns (stream ReadStreamGroupMessagesResponse) {}
 }
 
 message CreateEventStreamingGroupRequest {
@@ -49,7 +49,7 @@ message CreateEventStreamingGroupRequest {
 
 message CreateEventStreamingGroupResponse { string stream_group_id = 1; }
 
-message NotificationStreamGroupRequest {
+message ReadStreamGroupMessagesRequest {
   oneof stream_action {
     NotificationStreamInit init = 1;
     NotficationStreamAck ack = 2;
@@ -69,7 +69,7 @@ message NotificationStreamInit { string stream_group_id = 1; }
 
 message NotficationStreamAck { repeated string ack_chunk_id = 1; }
 
-message NotificationStreamGroupResponse {
+message ReadStreamGroupMessagesResponse {
   repeated NotificationStreamResponse notification = 1;
   string ack_chunk_id = 2;
 }

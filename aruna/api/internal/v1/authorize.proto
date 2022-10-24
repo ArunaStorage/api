@@ -12,9 +12,9 @@ service InternalAuthorizeService {
 }
 
 message Authorization {
-    // Can be empty for now
-    string secretkey = 1;
     // Should include the APItoken
+    string secretkey = 1;
+    // Can be empty for now
     string accesskey = 2;
     // If the secret is an APIToken (or S3-style access / secretkey)
     bool is_token = 3;
