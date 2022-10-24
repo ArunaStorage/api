@@ -9,10 +9,27 @@ option java_outer_classname = "UpdateNotificationServices";
 import "google/protobuf/timestamp.proto";
 import "aruna/api/storage/models/v1/models.proto";
 
+
+// UpdateNotificationService
+//
+// A service to update streaminggroups in nats.io
 service UpdateNotificationService {
+
+  // CreateEventStreamingGroup
+  //
+  // Creates a new EventStreamingGroup
   rpc CreateEventStreamingGroup(CreateEventStreamingGroupRequest)
       returns (CreateEventStreamingGroupResponse) {}
 
+  // DeleteEventStreamingGroup
+  //
+  // Deletes a existing EventStreamingGroup by ID
+  rpc DeleteEventStreamingGroup(DeleteEventStreamingGroupRequest)
+      returns (DeleteEventStreamingGroupResponse) {}
+
+  // NotificationStreamGroup
+  //
+  // Requests a NotificationStreamGroup
   rpc NotificationStreamGroup(stream NotificationStreamGroupRequest)
       returns (stream NotificationStreamGroupResponse) {}
 }
@@ -40,6 +57,13 @@ message NotificationStreamGroupRequest {
 
   bool close = 3;
 }
+
+
+message DeleteEventStreamingGroupRequest {
+    string stream_group_id = 1;
+}
+
+message DeleteEventStreamingGroupResponse {}
 
 message NotificationStreamInit { string stream_group_id = 1; }
 
