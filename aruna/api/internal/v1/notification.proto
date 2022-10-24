@@ -2,6 +2,7 @@ syntax = "proto3";
 
 import "google/api/visibility.proto";
 package aruna.api.internal.v1;
+import "aruna/api/notification/services/v1/notification_service.proto";
 option go_package = "github.com/ArunaStorage/go-api/aruna/api/internal/v1";
 
 service InternalEventService {
@@ -10,26 +11,9 @@ service InternalEventService {
 }
 
 message RegisterEventRequest{
-    EventResource event_resource = 1;
+    aruna.api.notification.services.v1.EventResource event_resource = 1;
     string resource_id = 2;
-    EventType event_type = 3;
-}
-
-enum EventResource {
-    EVENT_RESOURCE_UNSPECIFIED = 0;
-    EVENT_RESOURCE_COLLECTION = 1;
-    EVENT_RESOURCE_OBJECT_GROUP = 2;
-    EVENT_RESOURCE_OBJECT = 3;
-    EVENT_RESOURCE_ALL = 5;
-}
-  
-enum EventType {
-    EVENT_TYPE_UNSPECIFIED = 0;
-    EVENT_TYPE_CREATED = 1;
-    EVENT_TYPE_AVAILABLE = 2;
-    EVENT_TYPE_UPDATED = 3;
-    EVENT_TYPE_METADATA_UPDATED = 4;
-    EVENT_TYPE_DELETED = 5;
+    aruna.api.notification.services.v1.EventType event_type = 3;
 }
 
 message RegisterEventResponse{}
