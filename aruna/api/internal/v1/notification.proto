@@ -13,7 +13,7 @@ service InternalEventService {
 }
 
 message RegisterEventRequest{
-    storage.models.v1.ResourceType event_resource = 1;
+    aruna.api.storage.models.v1.ResourceType event_resource = 1;
     string resource_id = 2;
     notification.services.v1.EventType event_type = 3;
 }

@@ -22,11 +22,11 @@ message Authorization {
 
 message AuthorizeRequest{
     // The resource type
-    storage.models.v1.ResourceType resource = 1;
+    aruna.api.storage.models.v1.ResourceType resource = 1;
     // Id of the resource
     string resource_id = 2;
     // Which action should be performed (CRUD)
-    storage.models.v1.ResourceAction resource_action = 3;
+    aruna.api.storage.models.v1.ResourceAction resource_action = 3;
 }
 
 message AuthorizeResponse {

@@ -35,7 +35,7 @@ service UpdateNotificationService {
 }
 
 message CreateEventStreamingGroupRequest {
-  storage.models.v1.ResourceType resource = 1;
+  aruna.api.storage.models.v1.ResourceType resource = 1;
   string resource_id = 2;
   bool include_subresource = 3;
   oneof stream_type {
@@ -87,7 +87,7 @@ message NotificationStreamResponse {
 }
 
 message EventNotificationMessage {
-  storage.models.v1.ResourceType resource = 1;
+  aruna.api.storage.models.v1.ResourceType resource = 1;
   string resource_id = 2;
   EventType updated_type = 3;
 }
