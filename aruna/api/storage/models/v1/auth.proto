@@ -78,5 +78,11 @@ message ProjectPermission {
   string user_id = 1;
   string project_id = 2;
   Permission permission = 3;
+}
+
+message ProjectPermissionDisplayName {
+  string user_id = 1;
+  string project_id = 2;
+  Permission permission = 3;
   string display_name = 4;
 }
