@@ -17,6 +17,27 @@ message LabelOntology {
   repeated string required_label_keys = 1;
 }
 
+// An resourcetype used to identify generic authorizations
+enum ResourceType {
+  RESOURCE_TYPE_UNSPECIFIED = 0;
+  RESOURCE_TYPE_PROJECT = 1;
+  RESOURCE_TYPE_COLLECTION = 2;
+  RESOURCE_TYPE_OBJECT_GROUP = 3;
+  RESOURCE_TYPE_OBJECT = 4;
+  RESOURCE_TYPE_ALL = 5;
+}
+
+// Used for the internal associated services to validate permissions
+// Actions are similar to HTTP verbs
+enum ResourceAction {
+  RESOURCE_ACTION_UNSPECIFIED = 0;
+  RESOURCE_ACTION_CREATE = 1;
+  RESOURCE_ACTION_APPEND = 2;
+  RESOURCE_ACTION_UPDATE = 3;
+  RESOURCE_ACTION_READ = 4;
+  RESOURCE_ACTION_DELETE = 5;
+}
+
 // An arbitrary status for Objects
 enum Status {
   STATUS_UNSPECIFIED = 0;
