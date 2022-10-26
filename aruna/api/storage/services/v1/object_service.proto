@@ -129,13 +129,20 @@ service ObjectService {
   // DeleteObject 
   //
   // Deletes the object with the complete revision history.
-  // This should be avoided if possible.
-  // This method allows the owner to cascade the deletion of all objects that
-  // were cloned from this object.
-  // -> GDPR compliant procedure.
   rpc DeleteObject(DeleteObjectRequest) returns (DeleteObjectResponse) {
     option (google.api.http) = {
       delete : "/v1/collection/{collection_id}/object/{object_id}"
+      body : "*"
+    };
+  }
+
+
+  // DeleteObjects
+  //
+  // Deletes multiple objects at once.
+  rpc DeleteObjects(DeleteObjectsRequest) returns (DeleteObjectsResponse) {
+    option (google.api.http) = {
+      delete : "/v1/collection/{collection_id}/objects"
       body : "*"
     };
   }
@@ -449,6 +456,19 @@ message DeleteObjectRequest {
 }
 
 message DeleteObjectResponse {}
+
+message DeleteObjectsRequest {
+  // Multiple ObjectIds
+  repeated string object_ids = 1;
+  // CollectionID
+  string collection_id = 2;
+  // Delete including revisions
+  bool with_revisions = 3;
+  // Force delete including revisions
+  bool force = 4;
+}
+
+message DeleteObjectsResponse {}
 
 message ObjectWithURL {
   // Description of a specified object
