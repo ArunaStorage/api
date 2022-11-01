@@ -71,7 +71,7 @@ service ObjectGroupService {
   rpc GetObjectGroups(GetObjectGroupsRequest)
       returns (GetObjectGroupsResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/group"
+      get : "/v1/collection/{collection_id}/groups"
     };
   }
 

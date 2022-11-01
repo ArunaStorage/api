@@ -498,8 +498,6 @@ message GetObjectsRequest {
   storage.models.v1.LabelOrIDQuery label_id_filter = 3;
   // With URL: Include URL in response ?
   bool with_url = 4;
-  // Should this request consider older revisions of Objects ?
-  bool include_history = 5;
 }
 
 message GetObjectsResponse {
