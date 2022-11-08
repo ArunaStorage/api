@@ -124,6 +124,8 @@ message CreateNewCollectionResponse {
 message GetCollectionByIDRequest {
   // Requested id
   string collection_id = 1;
+  // Project id
+  string project_id = 2;
 }
 
 message GetCollectionByIDResponse {
@@ -186,6 +188,8 @@ message PinCollectionVersionRequest {
   string collection_id = 1;
   // New version
   storage.models.v1.Version version = 2;
+  // Project id
+  string project_id = 3;
 }
 
 message PinCollectionVersionResponse {
