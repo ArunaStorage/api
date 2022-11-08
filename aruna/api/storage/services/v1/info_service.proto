@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v1;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v1";
+option java_outer_classname = "InfoService";
+
+import "aruna/api/storage/models/v1/models.proto";
+
+import "google/api/annotations.proto";
+
+
+// InfoService
+//
+// This is a generic service that contains utility functions 
+// these functions are used to query additional meta-information
+// about resources
+service InfoService {
+
+  // GetResourceHierarchy
+  //
+  // This requests a hierarchy based on one resource (object / objectgroup or collection)
+  // and returns a hierarchy with all associated higherlevel objects up to projects.
+  // Needs projects level read access.
+  rpc GetResourceHierarchy(GetResourceHierarchyRequest) returns (GetResourceHierarchyResponse) {
+    option (google.api.http) = {
+      get : "/v1/info/hierarchy"
+    };
+  }
+}
+
+
+message GetResourceHierarchyRequest {
+    string project_id = 1;
+    string resource_id = 2;
+    storage.models.v1.ResourceType resource_type = 3;
+}
+
+message Hierarchy {
+    // Starting with one object id 
+    // (might be empty if higher is queried)
+    string object_id = 1;
+    // 0..n object groups per object in one collection
+    repeated string object_group_ids = 2;
+    // one collection
+    string collection_id = 3;
+    // one project
+    string project_id = 4; 
+}
+
+message GetResourceHierarchyResponse {
+    // Returns a list of hierarchies
+    // for collections n will be 1 
+    // for objects this might contain more than one hierarchy
+    // starting with the object_id but different collections / objectgroups
+    repeated Hierarchy hierarchies = 1; 
+}
