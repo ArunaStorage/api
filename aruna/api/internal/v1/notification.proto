@@ -29,17 +29,20 @@ service InternalEventService {
 
 // ------------ InternalEventEmitterService -------------------------
 
-message Relations {
+message ObjectGroupRelation {
+    string shared_object_group_id = 1;
+    repeated string object_group_ids = 2;
+}
+
+message Relation {
     // The shared revision id of an object
     string shared_object = 1;
-    // The associated objectgroup
-    string object_group = 2;
-    // The shared revision id of the object_group
-    string shared_object_group = 3;
+    // The associated objectgroup(s)
+    repeated ObjectGroupRelation object_groups = 2;
     // Collection ID
-    string collection = 4;
+    string collection = 3;
     // Project ID
-    string project = 5;
+    string project = 4;
 }
 
 message EmitEventRequest{
