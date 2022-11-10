@@ -104,6 +104,8 @@ message CreateNewCollectionRequest {
   string name = 1;
   // Description
   string description = 2;
+  // Project id
+  string project_id = 3;
   // List of associated labels
   repeated storage.models.v1.KeyValue labels = 4;
   // List of associated hooks
