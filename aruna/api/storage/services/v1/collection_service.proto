@@ -104,8 +104,6 @@ message CreateNewCollectionRequest {
   string name = 1;
   // Description
   string description = 2;
-  // Project id
-  string project_id = 3;
   // List of associated labels
   repeated storage.models.v1.KeyValue labels = 4;
   // List of associated hooks
@@ -124,8 +122,6 @@ message CreateNewCollectionResponse {
 message GetCollectionByIDRequest {
   // Requested id
   string collection_id = 1;
-  // Project id
-  string project_id = 2;
 }
 
 message GetCollectionByIDResponse {
@@ -150,8 +146,6 @@ message GetCollectionsResponse {
 // This updates the collection
 // Updating a pinned collection will require a new version to be created
 message UpdateCollectionRequest {
-  // Project id
-  string project_id = 1;
   // Old collection_id
   string collection_id = 2;
   // New name
@@ -188,8 +182,6 @@ message PinCollectionVersionRequest {
   string collection_id = 1;
   // New version
   storage.models.v1.Version version = 2;
-  // Project id
-  string project_id = 3;
 }
 
 message PinCollectionVersionResponse {
@@ -200,8 +192,6 @@ message PinCollectionVersionResponse {
 message DeleteCollectionRequest {
   // Collection id
   string collection_id = 1;
-  // Project id
-  string project_id = 2;
   // Force delete
   bool force = 3;
 }
