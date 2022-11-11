@@ -148,8 +148,6 @@ message GetCollectionsResponse {
 // This updates the collection
 // Updating a pinned collection will require a new version to be created
 message UpdateCollectionRequest {
-  // Project id
-  string project_id = 1;
   // Old collection_id
   string collection_id = 2;
   // New name
@@ -196,8 +194,6 @@ message PinCollectionVersionResponse {
 message DeleteCollectionRequest {
   // Collection id
   string collection_id = 1;
-  // Project id
-  string project_id = 2;
   // Force delete
   bool force = 3;
 }

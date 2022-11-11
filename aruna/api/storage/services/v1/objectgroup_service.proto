@@ -106,6 +106,19 @@ service ObjectGroupService {
       delete : "/v1/collection/{collection_id}/group/{group_id}"
     };
   }
+  // AddLabelsToObjectGroup 
+  //
+  // This is a specific request to add new label(s)
+  // to an existing object_group, in contrast to UpdateObjectGroup
+  // this will not create a new revision for the specific object_group
+  // Instead it will directly add the specified label(s) to the object_group
+  rpc AddLabelsToObjectGroup(AddLabelsToObjectGroupRequest)
+      returns (AddLabelsToObjectGroupResponse) {
+    option (google.api.http) = {
+      patch : "/v1/collection/{collection_id}/group/{group_id}/add_labels"
+      body : "*"
+    };
+  }
 }
 // Models
 // This section contains the models for each individual Request and
@@ -245,4 +258,18 @@ message ObjectGroupObject {
 message GetObjectGroupObjectsResponse {
   // List of associated object group objects
   repeated ObjectGroupObject object_group_objects = 1;
+}
+
+message AddLabelsToObjectGroupRequest {
+  // Collection id
+  string collection_id = 1;
+  // ObjectGroup id 
+  string group_id = 2;
+  // List of labels that should be added to the list of labels
+  repeated storage.models.v1.KeyValue labels_to_add = 3;
+}
+
+message AddLabelsToObjectGroupResponse {
+  // Returns the updated ObjectGroup
+  storage.models.v1.ObjectGroupOverview object_group = 1;
 }
