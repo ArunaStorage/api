@@ -11,12 +11,12 @@ import "aruna/api/storage/models/v1/models.proto";
 import "google/api/annotations.proto";
 
 
-// InfoService
+// ResourceInfoService
 //
 // This is a generic service that contains utility functions 
 // these functions are used to query additional meta-information
 // about resources
-service InfoService {
+service ResourceInfoService {
 
   // GetResourceHierarchy
   //
@@ -25,10 +25,39 @@ service InfoService {
   // Needs projects level read access.
   rpc GetResourceHierarchy(GetResourceHierarchyRequest) returns (GetResourceHierarchyResponse) {
     option (google.api.http) = {
-      get : "/v1/info/hierarchy"
+      get : "/v1/info/resource/hierarchy"
     };
   }
 }
+
+
+// StorageInfoService
+//
+// This is a generic service that contains utility functions 
+// these functions are used to query additional meta-information
+// about the status of the overall storage architecture
+service StorageInfoService {
+
+  // GetStorageVersion
+  //
+  // A request to get the current version of the server application
+  // String representation and https://semver.org/
+  rpc GetStorageVersion(GetStorageVersionRequest) returns (GetStorageVersionResponse) {
+    option (google.api.http) = {
+      get : "/v1/info/version"
+    };
+  }
+
+  // GetStorageStatus
+  //
+  // A request to get the current status of the storage components by location(s)
+  rpc GetStorageStatus(GetStorageStatusRequest) returns (GetStorageStatusResponse) {
+    option (google.api.http) = {
+      get : "/v1/info/status"
+    };
+  }
+}
+
 
 
 message GetResourceHierarchyRequest {
@@ -55,4 +84,65 @@ message GetResourceHierarchyResponse {
     // for objects this might contain more than one hierarchy
     // starting with the object_id but different collections / objectgroups
     repeated Hierarchy hierarchies = 1; 
+}
+
+
+message GetStorageVersionRequest {}
+
+
+message SemanticVersion {
+  // Complete version string
+  string version_string = 1;
+  // Semver according to https://semver.org/
+  int32 major = 2;
+  int32 minor = 3;
+  int32 patch = 4;
+  string labels = 5;
+}
+
+
+message LocationVersion {
+  // Status of a specific Location e.g Gießen / 0.5.0-beta.1
+  string location = 1;
+  SemanticVersion version = 2;
+}
+
+message ComponentVersion {
+  // Name of a specific component e.g. server, dataproxy etc. and their status by location
+  string component_name = 1;
+  repeated LocationVersion location_version = 2;
+}
+
+
+message GetStorageVersionResponse {
+  repeated ComponentVersion component_version = 1;
+}
+
+
+message GetStorageStatusRequest {}
+
+enum Status {
+  // Status of a specific component at a specific location
+  STATUS_UNSPECIFIED = 0;
+  STATUS_AVAILABLE = 1;
+  STATUS_UNAVAILABLE = 2;
+  STATUS_DEGRADED = 3;
+  STATUS_UNKNOWN = 4;
+}
+
+message LocationStatus {
+  // Status of a specific Location e.g Gießen / AVAILABLE
+  string location = 1;
+  Status status = 2;
+}
+
+message ComponentStatus {
+  // Name of a specific component e.g. server, dataproxy etc. and their status by location
+  string component_name = 1;
+  repeated LocationStatus location_status = 2;
+}
+
+message GetStorageStatusResponse {
+  // List of all components and their status
+  repeated ComponentStatus component_status = 1;
 }
