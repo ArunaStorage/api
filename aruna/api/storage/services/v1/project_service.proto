@@ -14,7 +14,7 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 	info: {
 		title: "Aruna Object Storage (AOS) REST API";
-		version: "0.5.0-beta.8"
+		version: "0.5.0-beta.9"
 	};
 	// Overwriting host entry breaks tests, so this is not done here.
 	schemes: HTTPS;
