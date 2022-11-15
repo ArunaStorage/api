@@ -78,6 +78,7 @@ message ProjectPermission {
   string user_id = 1;
   string project_id = 2;
   Permission permission = 3;
+  bool service_account = 4;
 }
 
 message ProjectPermissionDisplayName {
