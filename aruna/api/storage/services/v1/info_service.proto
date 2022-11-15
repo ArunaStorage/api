@@ -61,9 +61,8 @@ service StorageInfoService {
 
 
 message GetResourceHierarchyRequest {
-    string project_id = 1;
-    string resource_id = 2;
-    storage.models.v1.ResourceType resource_type = 3;
+    string resource_id = 1;
+    storage.models.v1.ResourceType resource_type = 2;
 }
 
 message Hierarchy {
