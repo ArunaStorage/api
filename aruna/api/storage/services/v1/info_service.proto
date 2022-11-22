@@ -42,6 +42,8 @@ service StorageInfoService {
 
   // GetStorageVersion
   //
+  // Status: ALPHA
+  //
   // A request to get the current version of the server application
   // String representation and https://semver.org/
   rpc GetStorageVersion(GetStorageVersionRequest) returns (GetStorageVersionResponse) {
@@ -51,6 +53,8 @@ service StorageInfoService {
   }
 
   // GetStorageStatus
+  //
+  // Status: ALPHA
   //
   // A request to get the current status of the storage components by location(s)
   rpc GetStorageStatus(GetStorageStatusRequest) returns (GetStorageStatusResponse) {

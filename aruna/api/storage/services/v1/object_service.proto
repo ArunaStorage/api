@@ -18,6 +18,8 @@ service ObjectService {
 
   // InitializeNewObject
   //
+  // Status: STABLE
+  //
   // This initializes a new object
   // Initializing an object will put it in a staging area.
   // Staged objects will get a separate staging id and need to be finished
@@ -32,6 +34,8 @@ service ObjectService {
 
   // GetUploadURL
   //
+  // Status: STABLE
+  //
   // This method will return a (multi-part) url that can be used to upload a
   // file to S3. Part is a optional query parameter that can be used to upload a
   // part of the file / multipart upload.
@@ -43,6 +47,8 @@ service ObjectService {
   }
 
   // GetDownloadUrl
+  //
+  // Status: STABLE
   // 
   // This method will return a url that can be used to download a file from S3.
   rpc GetDownloadURL(GetDownloadURLRequest) returns (GetDownloadURLResponse) {
@@ -52,6 +58,8 @@ service ObjectService {
   }
 
   // GetDownloadLinksBatch
+  //
+  // Status: BETA
   //
   // This method can be used to get download urls for multiple objects.
   // The order of the returned urls will be the same as the order of the object
@@ -64,6 +72,8 @@ service ObjectService {
   }
 
   // CreateDownloadLinksStream
+  //
+  // Status: BETA
   //
   // Creates a stream of objects and presigned links based on the provided query
   // This can be used retrieve a large number of Objects as a stream that would
@@ -78,6 +88,8 @@ service ObjectService {
 
   // FinishObjectStaging
   //
+  // Status: STABLE
+  //
   // This method completes the staging of an object.
   rpc FinishObjectStaging(FinishObjectStagingRequest)
       returns (FinishObjectStagingResponse) {
@@ -89,6 +101,8 @@ service ObjectService {
   }
 
   // UpdateObject
+  //
+  // Status: STABLE
   //
   // Objects are immutable!
   // Updating an object will create a new revision for the object
@@ -104,6 +118,8 @@ service ObjectService {
 
   // CreateObjectReference
   //
+  // Status: STABLE
+  //
   // Creates a new reference of this object in another collection
   rpc CreateObjectReference(CreateObjectReferenceRequest)
       returns (CreateObjectReferenceResponse) {
@@ -115,6 +131,8 @@ service ObjectService {
   }
 
   // CloneObject 
+  //
+  // Status: STABLE
   //
   // This method clones an object and creates a copy in the same collection.
   // This copy has a new id and revision and will not receive any updates from
@@ -128,6 +146,8 @@ service ObjectService {
 
   // DeleteObject 
   //
+  // Status: STABLE
+  //
   // Deletes the object with the complete revision history.
   rpc DeleteObject(DeleteObjectRequest) returns (DeleteObjectResponse) {
     option (google.api.http) = {
@@ -139,6 +159,8 @@ service ObjectService {
 
   // DeleteObjects
   //
+  // Status: STABLE
+  //
   // Deletes multiple objects at once.
   rpc DeleteObjects(DeleteObjectsRequest) returns (DeleteObjectsResponse) {
     option (google.api.http) = {
@@ -148,6 +170,8 @@ service ObjectService {
   }
  
   // GetObjectByID 
+  //
+  // Status: STABLE
   // 
   // gets a specific Object by ID that is associated to the
   // current collection By default only the latest revision of an object will be
@@ -160,6 +184,8 @@ service ObjectService {
   }
 
   // GetObjects
+  //
+  // Status: STABLE
   //
   // GetObjects returns a (paginated) list of objects in a specific collection
   // By default only the latest revisions of all objects will be shown
@@ -175,6 +201,8 @@ service ObjectService {
 
   // GetObjectRevisions
   //
+  // Status: STABLE
+  //
   // This returns the full list of revisions of a specified object
   // With the optional with_url boolean a download link can automatically be
   // requested for each Object This is by default a paginated request
@@ -185,6 +213,8 @@ service ObjectService {
     };
   }
   // GetLatestObjectRevision
+  //
+  // Status: STABLE
   //
   // This returns the latest revision of a specific object
   // The returned `latest` object will have a different id if the current
@@ -197,7 +227,9 @@ service ObjectService {
   }
 
   // GetObjectEndpoints
-  // 
+  //
+  // Status: BETA
+  //
   // This returns a list of endpoints
   // One endpoint will be the "default" endpoint
   rpc GetObjectEndpoints(GetObjectEndpointsRequest)
@@ -207,6 +239,8 @@ service ObjectService {
     };
   }
   // AddLabelsToObject 
+  //
+  // Status: STABLE
   //
   // This is a specific request to add new label(s)
   // to an existing object, in contrast to UpdateObject
@@ -220,6 +254,8 @@ service ObjectService {
     };
   }
   // SetHooksOfObject
+  //
+  // Status: BETA
   // 
   // This is a specific request to update the complete list
   // of hooks for a specific object. This will not update the object
@@ -234,6 +270,8 @@ service ObjectService {
   }
 
   // GetReferences
+  //
+  // Status: STABLE
   //
   // Get a list of references for this object (optional) including all revisions
   rpc GetReferences(GetReferencesRequest) returns (GetReferencesResponse) {

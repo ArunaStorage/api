@@ -47,6 +47,8 @@ service ProjectService {
 
   // CreateProject
   //
+  // Status: STABLE
+  //
   // Creates a new project all users and collections are bundled in a project.
   rpc CreateProject(CreateProjectRequest) returns (CreateProjectResponse) {
     option (google.api.http) = {
@@ -56,6 +58,8 @@ service ProjectService {
   }
 
   // AddUserToProject
+  //
+  // Status: STABLE
   // 
   // Adds a new user to a given project by its id
   rpc AddUserToProject(AddUserToProjectRequest)
@@ -67,6 +71,8 @@ service ProjectService {
   }
 
   // GetProject
+  //
+  // Status: STABLE
   // 
   // Requests a project by id
   rpc GetProject(GetProjectRequest) returns (GetProjectResponse) {
@@ -75,7 +81,9 @@ service ProjectService {
     };
   }
 
-  // GetProject
+  // GetProjects
+  //
+  // Status: STABLE
   // 
   // Admin request to get all projects
   rpc GetProjects(GetProjectsRequest) returns (GetProjectsResponse) {
@@ -85,6 +93,8 @@ service ProjectService {
   }
 
   // DestroyProject
+  //
+  // Status: STABLE
   //
   // Destroys the project and all its associated data. Must be empty
   // (cannot contain any collections).
@@ -96,6 +106,8 @@ service ProjectService {
 
   // UpdateProject
   //
+  // Status: STABLE
+  //
   // Updates the project. All (meta) data will be overwritten.
   rpc UpdateProject(UpdateProjectRequest) returns (UpdateProjectResponse) {
     option (google.api.http) = {
@@ -104,6 +116,8 @@ service ProjectService {
   }
 
   // RemoveUserFromProject
+  //
+  // Status: STABLE
   //
   // Removes a specified user from the project.
   rpc RemoveUserFromProject(RemoveUserFromProjectRequest)
@@ -114,6 +128,8 @@ service ProjectService {
   }
 
   // GetUserPermissionsForProject
+  //
+  // Status: STABLE
   // 
   // Get the user_permission of a specific user for the project.
   rpc GetUserPermissionsForProject(GetUserPermissionsForProjectRequest)
@@ -124,6 +140,8 @@ service ProjectService {
   }
 
   // EditUserPermissionsForProject
+  //
+  // Status: STABLE
   //
   // Modifies the user_permission of a specific user for the project.
   rpc EditUserPermissionsForProject(EditUserPermissionsForProjectRequest)

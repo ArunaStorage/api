@@ -21,6 +21,8 @@ service UserService {
 
   // RegisterUser
   //
+  // Status: STABLE
+  //
   // This request should be called when a new user logs in for the first time
   rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse) {
     option (google.api.http) = {
@@ -30,6 +32,8 @@ service UserService {
   }
 
   // ActivateUser 
+  //
+  // Status: STABLE
   //
   // This activates a specific user (Admin request)
   rpc ActivateUser(ActivateUserRequest) returns (ActivateUserResponse) {
@@ -41,6 +45,8 @@ service UserService {
 
   // CreateAPIToken
   //
+  // Status: STABLE
+  //
   // Creates an API token to authenticate
   rpc CreateAPIToken(CreateAPITokenRequest) returns (CreateAPITokenResponse) {
     option (google.api.http) = {
@@ -51,6 +57,8 @@ service UserService {
 
   // GetAPIToken
   //
+  // Status: STABLE
+  //
   // Returns one API token by id
   rpc GetAPIToken(GetAPITokenRequest) returns (GetAPITokenResponse) {
     option (google.api.http) = {
@@ -59,6 +67,8 @@ service UserService {
   }
 
   // GetAPITokens
+  //
+  // Status: STABLE
   //
   // Returns a list of API tokens for a specific user
   rpc GetAPITokens(GetAPITokensRequest) returns (GetAPITokensResponse) {
@@ -69,6 +79,8 @@ service UserService {
 
   // DeleteAPIToken
   //
+  // Status: STABLE
+  //
   // Deletes the specified API Token
   rpc DeleteAPIToken(DeleteAPITokenRequest) returns (DeleteAPITokenResponse) {
     option (google.api.http) = {
@@ -77,6 +89,8 @@ service UserService {
   }
 
   // DeleteAPITokens
+  //
+  // Status: STABLE
   //
   // Deletes the specified API Token
   rpc DeleteAPITokens(DeleteAPITokensRequest)
@@ -88,6 +102,8 @@ service UserService {
 
   // GetUserRequest
   //
+  // Status: STABLE
+  //
   // This is a request that returns the user information of the
   // current user or if invoked by an admin from another user
   rpc GetUser(GetUserRequest) returns (GetUserResponse) {
@@ -97,6 +113,8 @@ service UserService {
   }
 
   // UpdateUserDisplayName
+  //
+  // Status: STABLE
   //
   // Updates the Displayname for the user (Personal only)
   rpc UpdateUserDisplayName(UpdateUserDisplayNameRequest)
@@ -109,6 +127,8 @@ service UserService {
 
   // GetUserProjects
   //
+  // Status: STABLE
+  //
   // Gets all project_ids a user is member of
   rpc GetUserProjects(GetUserProjectsRequest)
       returns (GetUserProjectsResponse) {
@@ -118,6 +138,8 @@ service UserService {
   }
 
   // GetNotActivatedUsers
+  //
+  // Status: STABLE
   //
   // Get all not activated users (Admin only)
   rpc GetNotActivatedUsers(GetNotActivatedUsersRequest)
