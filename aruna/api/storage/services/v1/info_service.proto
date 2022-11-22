@@ -8,6 +8,7 @@ option java_outer_classname = "InfoService";
 
 import "aruna/api/storage/models/v1/models.proto";
 
+import "google/api/visibility.proto";
 import "google/api/annotations.proto";
 
 
@@ -18,6 +19,7 @@ import "google/api/annotations.proto";
 // about resources
 service ResourceInfoService {
 
+  option (google.api.api_visibility).restriction = "UNFINISHED";
   // GetResourceHierarchy
   //
   // This requests a hierarchy based on one resource (object / objectgroup or collection)
