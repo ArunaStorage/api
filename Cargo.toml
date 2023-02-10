@@ -3,7 +3,7 @@ authors = ["Marius <mariusdieckmann90@gmail.com>", "Sebastian Beyvers <sebastian
 description = "Tests building the Rust grpc stubs for ArunaAPI"
 edition = "2018"
 name = "aruna_api_buildtests"
-version = "0.1.0"
+version = "1.0.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
