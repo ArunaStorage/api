@@ -456,6 +456,8 @@ message UpdateObjectRequest {
   // force == true enforces will allow multiple concurrent updates
   // at once
   bool force = 8;
+  // (optional) Hash 
+  storage.models.v1.Hash hash = 9;
 }
 
 message UpdateObjectResponse {
