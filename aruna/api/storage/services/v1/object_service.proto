@@ -279,6 +279,69 @@ service ObjectService {
       get : "/v1/collection/{collection_id}/object/{object_id}/references"
     };
   }
+
+  // GetObjectPath
+  //
+  // Status: BETA
+  //
+  // Get all object_paths for this object in a specific collection
+  // !! Paths are collection specific !!
+  rpc GetObjectPath(GetObjectPathRequest) returns (GetObjectPathResponse) {
+    option (google.api.http) = {
+      get : "/v1/collection/{collection_id}/object/{object_id}/path"
+    };
+  }
+  
+  // GetObjectPaths
+  //
+  // Status: BETA
+  //
+  // Get all object_paths for a specific collection
+  // !! Paths are collection specific !!
+  rpc GetObjectPaths(GetObjectPathsRequest) returns (GetObjectPathsResponse) {
+    option (google.api.http) = {
+      get : "/v1/collection/{collection_id}/paths"
+    };
+  }
+  
+  // CreateObjectPath
+  //
+  // Status: BETA
+  //
+  // Create collection_specific object_paths for an object
+  // !! Paths are collection specific !!
+  rpc CreateObjectPath(CreateObjectPathRequest) returns (CreateObjectPathResponse) {
+    option (google.api.http) = {
+      post : "/v1/collection/{collection_id}/object/{object_id}/path"
+      body: "*"
+    };
+  }
+
+  // SetObjectPathVisibility
+  //
+  // Status: BETA
+  //
+  // Updates the visibility setting for an object_path (hide/unhide)
+  // !! Paths are collection specific !!
+  rpc SetObjectPathVisibility(SetObjectPathVisibilityRequest) returns (SetObjectPathVisibilityResponse) {
+    option (google.api.http) = {
+      patch : "/v1/collection/{collection_id}/object/{object_id}/path/{path}/visibility"
+      body: "*"
+    };
+  }
+
+  // GetObjectsByPath
+  //
+  // Status: BETA
+  //
+  // Gets a specific object by object_path
+  // !! Paths are collection specific !!
+  rpc GetObjectsByPath(GetObjectsByPathRequest) returns (GetObjectsByPathResponse) {
+    option (google.api.http) = {
+      get : "/v1/collection/{collection_id}/path/{path}"
+    };
+  }
+
 }
 
 // Models
@@ -292,12 +355,16 @@ message URL {
 }
 
 message StageObject {
+  
+  reserved 2, 3;
+  
   // Filename
   string filename = 1;
-  // File description
-  string description = 2;
-  // Collection Id
-  string collection_id = 3;
+
+  // Removed fields:
+  // string description = 2;
+  // string collection_id = 3;
+
   // Content length
   int64 content_len = 4;
   // Source of the object (e.g. wikipedia)
@@ -308,6 +375,10 @@ message StageObject {
   repeated storage.models.v1.KeyValue labels = 7;
   // List of hook key-values
   repeated storage.models.v1.KeyValue hooks = 8;
+  // (collection specific) sub_path for file
+  // does not include file-, collection- or projectname
+  // final fully-qualified schema: /<projectname>/<collectionname>/<path>/<filename>
+  string sub_path = 9;
 }
 
 message InitializeNewObjectRequest {
@@ -448,6 +519,8 @@ message UpdateObjectRequest {
   // force == true enforces will allow multiple concurrent updates
   // at once
   bool force = 8;
+  // (optional) Hash 
+  storage.models.v1.Hash hash = 9;
 }
 
 message UpdateObjectResponse {
@@ -471,6 +544,10 @@ message CreateObjectReferenceRequest {
   bool writeable = 4;
   // Should the borrowed ressource be automatically updated ?
   bool auto_update = 5;
+  // (collection specific) sub_path for file
+  // does not include file-, collection- or projectname
+  // final schema: /<projectname>/<collectionname>/<path>/<filename>
+  string sub_path = 6;
 }
 
 message CreateObjectReferenceResponse {}
@@ -521,6 +598,8 @@ message ObjectWithURL {
   // This is a associated download URL
   // Will be empty if request does not contain the associated with_url flag
   string url = 2;
+  // collection specific paths of object
+  repeated string paths = 3;
 }
 
 message GetObjectByIDRequest {
@@ -571,11 +650,13 @@ message GetLatestObjectRevisionRequest {
   string collection_id = 1;
   // Object id
   string object_id = 2;
+  // Should the response include download urls ?
+  bool with_url = 3;
 }
 
 message GetLatestObjectRevisionResponse {
   // The object with the latest revision
-  storage.models.v1.Object object = 1;
+  ObjectWithURL object = 1;
 }
 
 message GetObjectEndpointsRequest {
@@ -643,3 +724,59 @@ message GetReferencesResponse {
   // List of object references
   repeated ObjectReference references = 1;
 }
+
+message Path {
+  string path = 1;
+  bool visibility = 2;
+}
+
+message GetObjectPathRequest {
+  string collection_id = 1;
+  string object_id = 2;
+  bool include_inactive = 3;
+}
+
+message GetObjectPathResponse {
+  repeated Path object_paths = 1;
+}
+
+message GetObjectPathsRequest {
+  string collection_id = 1;
+  bool include_inactive = 2;
+}
+
+message GetObjectPathsResponse {
+  repeated Path object_paths = 1;
+}
+
+message CreateObjectPathRequest {
+  string collection_id = 1;
+  string object_id = 2;
+  string sub_path = 3; // Subpath not full path
+}
+
+message CreateObjectPathResponse {
+  Path path = 1;
+}
+
+message SetObjectPathVisibilityRequest {
+  string collection_id = 1;
+  string object_id = 2;
+  string path = 3;
+  bool visibility = 4;
+}
+
+message SetObjectPathVisibilityResponse {
+  Path path = 1;
+}
+
+message GetObjectsByPathRequest {
+  string collection_id = 1;
+  string path = 2;
+  bool with_revisions = 3;
+}
+
+message GetObjectsByPathResponse {
+  repeated storage.models.v1.Object object = 1;
+}
+
