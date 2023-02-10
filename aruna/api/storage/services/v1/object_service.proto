@@ -756,7 +756,7 @@ message CreateObjectPathRequest {
 }
 
 message CreateObjectPathResponse {
-  string Path = 1;
+  Path path = 1;
 }
 
 message SetObjectPathVisibilityRequest {

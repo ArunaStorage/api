@@ -4,6 +4,8 @@ jobs:
   lint: 
     runs-on: ubuntu-latest
     steps:
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v1
       - name: Checkout without submodules
         uses: actions/checkout@v2
       - name: Setup buf
