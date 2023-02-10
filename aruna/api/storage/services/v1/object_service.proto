@@ -292,12 +292,16 @@ message URL {
 }
 
 message StageObject {
+  
+  reserved 2, 3;
+  
   // Filename
   string filename = 1;
-  // File description
-  string description = 2;
-  // Collection Id
-  string collection_id = 3;
+
+  // Removed fields:
+  // string description = 2;
+  // string collection_id = 3;
+
   // Content length
   int64 content_len = 4;
   // Source of the object (e.g. wikipedia)
@@ -308,6 +312,10 @@ message StageObject {
   repeated storage.models.v1.KeyValue labels = 7;
   // List of hook key-values
   repeated storage.models.v1.KeyValue hooks = 8;
+  // (collection specific) path for file
+  // does not include file-, collection- or projectname
+  // final schema: /<projectname>/<collectionname>/<path>/<filename>
+  string path = 9;
 }
 
 message InitializeNewObjectRequest {
