@@ -481,6 +481,10 @@ message CreateObjectReferenceRequest {
   bool writeable = 4;
   // Should the borrowed ressource be automatically updated ?
   bool auto_update = 5;
+  // (collection specific) path for file
+  // does not include file-, collection- or projectname
+  // final schema: /<projectname>/<collectionname>/<path>/<filename>
+  string path = 6;
 }
 
 message CreateObjectReferenceResponse {}
@@ -531,6 +535,8 @@ message ObjectWithURL {
   // This is a associated download URL
   // Will be empty if request does not contain the associated with_url flag
   string url = 2;
+  // collection specific paths of object
+  repeated string paths = 3;
 }
 
 message GetObjectByIDRequest {
@@ -581,11 +587,13 @@ message GetLatestObjectRevisionRequest {
   string collection_id = 1;
   // Object id
   string object_id = 2;
+  // Should the response include download urls ?
+  bool with_url = 3;
 }
 
 message GetLatestObjectRevisionResponse {
   // The object with the latest revision
-  storage.models.v1.Object object = 1;
+  ObjectWithURL object = 1;
 }
 
 message GetObjectEndpointsRequest {
