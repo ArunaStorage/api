@@ -96,15 +96,16 @@ message Hash {
 }
 
 // Specifies the Origin of the object
-enum OriginType {
-  ORIGIN_TYPE_UNSPECIFIED = 0;
-  ORIGIN_TYPE_USER = 1;     // User uploaded the object
-  ORIGIN_TYPE_OBJCLONE = 2; // Object was cloned from another object
-}
+//enum OriginType {
+//  ORIGIN_TYPE_UNSPECIFIED = 0;
+//  ORIGIN_TYPE_USER = 1;     // User uploaded the object
+//  ORIGIN_TYPE_OBJCLONE = 2; // Object was cloned from another object
+//}
 
 // Origin of the object -> To be GDPA compliant
 message Origin {
-  OriginType type = 1;
+  reserved 1;
+  //OriginType type = 1;
   string id = 2;
 }
 
