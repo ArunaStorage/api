@@ -396,6 +396,8 @@ message InitializeNewObjectRequest {
   // Is specification ?
   // Should this object contain a specification for the collection ?
   bool is_specification = 6;
+  // (optional) Hash 
+  storage.models.v1.Hash hash = 7;
 }
 
 message InitializeNewObjectResponse {
