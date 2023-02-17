@@ -548,7 +548,7 @@ message CreateObjectReferenceRequest {
   bool auto_update = 5;
   // (collection specific) sub_path for file
   // does not include file-, collection- or projectname
-  // final schema: /<projectname>/<collectionname>/<path>/<filename>
+  // final schema: /<projectname>/<collectionname>/<version>/<path>/<filename>
   string sub_path = 6;
 }
 
@@ -763,9 +763,8 @@ message CreateObjectPathResponse {
 
 message SetObjectPathVisibilityRequest {
   string collection_id = 1;
-  string object_id = 2;
-  string path = 3;
-  bool visibility = 4;
+  string path = 2;
+  bool visibility = 3;
 }
 
 message SetObjectPathVisibilityResponse {

@@ -221,6 +221,8 @@ message DeleteObjectGroupRequest {
   string group_id = 1;
   // Collection id
   string collection_id = 2;
+  // with revisions
+  bool with_revisions = 3;
 }
 
 message DeleteObjectGroupResponse {}
