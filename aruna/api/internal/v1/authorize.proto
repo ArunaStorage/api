@@ -20,11 +20,22 @@ message Authorization {
     bool is_token = 3;
 }
 
+enum IdType {
+    ID_TYPE_UNSPECIFIED = 0;
+    ID_TYPE_OBJECT = 1;
+    ID_TYPE_PATH = 2;
+}
+
+message Identifier {
+    string name = 1;
+    IdType idtype = 2;
+}
+
 message AuthorizeRequest{
     // The resource type
     aruna.api.storage.models.v1.ResourceType resource = 1;
-    // Id of the resource
-    string resource_id = 2;
+    // Id of the resource (PATH / OBJECT UUID)
+    Identifier identifier = 2; 
     // Which action should be performed (CRUD)
     aruna.api.storage.models.v1.ResourceAction resource_action = 3;
 }
