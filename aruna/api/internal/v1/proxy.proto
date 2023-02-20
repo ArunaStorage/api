@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package aruna.api.internal.v1;
 option go_package = "github.com/ArunaStorage/go-api/aruna/api/internal/v1";
+import "aruna/api/storage/models/v1/models.proto";
+import "aruna/api/internal/v1/authorize.proto";
 import "google/api/visibility.proto";
 
 // Definition for the internal API that is used to communicate with all internal
@@ -30,13 +32,12 @@ service InternalProxyService {
   rpc MoveObject(MoveObjectRequest) returns (MoveObjectResponse) {}
 }
 
-
 // This service enables a "return" channel for dataproxy to aruna server communication
 // Mainly used to notify the backend of validation / move events after the upload of new files
 service InternalProxyNotifierService {
   option (google.api.api_visibility).restriction = "INTERNAL";
-  rpc ValidatedObject(ValidatedObjectRequest) returns (ValidatedObjectResponse) {}
-
+  rpc FinalizeObject(FinalizeObjectRequest) returns (FinalizeObjectResponse) {}
+  rpc GetEncryptionKey(GetEncryptionKeyRequest) returns (GetEncryptionKeyResponse) {}
 }
 
 // Enum to support multiple target Locations.
@@ -128,3 +129,19 @@ message MoveObjectRequest {
 }
 
 message MoveObjectResponse {}
+
+message FinalizeObjectRequest {
+  string object_id = 1;
+  Location final_location = 2;
+  repeated aruna.api.storage.models.v1.Hash hashes = 3;
+}
+
+message FinalizeObjectResponse {}
+
+message GetEncryptionKeyRequest {
+  Identifier identifier = 1;
+}
+
+message GetEncryptionKeyResponse {
+  string encryption_key = 1;
+}

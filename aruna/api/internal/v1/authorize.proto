@@ -22,7 +22,7 @@ message Authorization {
 
 enum IdType {
     ID_TYPE_UNSPECIFIED = 0;
-    ID_TYPE_OBJECT = 1;
+    ID_TYPE_UUID = 1;
     ID_TYPE_PATH = 2;
 }
 
@@ -38,6 +38,8 @@ message AuthorizeRequest{
     Identifier identifier = 2; 
     // Which action should be performed (CRUD)
     aruna.api.storage.models.v1.ResourceAction resource_action = 3;
+    // Authorization
+    Authorization authorization = 4;
 }
 
 message AuthorizeResponse {
