@@ -131,8 +131,9 @@ message MoveObjectRequest {
 message MoveObjectResponse {}
 
 message FinalizeObjectRequest {
-  Location final_location = 1;
-  repeated aruna.api.storage.models.v1.Hash hashes = 2;
+  Location before_location = 1;
+  Location final_location = 2;
+  repeated aruna.api.storage.models.v1.Hash hashes = 3;
 }
 
 message FinalizeObjectResponse {}
