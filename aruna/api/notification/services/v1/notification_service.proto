@@ -11,10 +11,10 @@ import "google/protobuf/timestamp.proto";
 import "aruna/api/storage/models/v1/models.proto";
 
 
-// UpdateNotificationService
+// EventNotificationService
 //
-// A service to update streaminggroups in nats.io
-service UpdateNotificationService {
+// A service to receive events in the AOS storage
+service EventNotificationService {
 
   option (google.api.api_visibility).restriction = "UNFINISHED";
   // CreateEventStreamingGroup

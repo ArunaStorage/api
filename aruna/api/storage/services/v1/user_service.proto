@@ -188,6 +188,10 @@ message CreateAPITokenResponse {
   // Attention, this can not be recreated and needs to be stored securely
   // New tokens will always contain a new secret
   string token_secret = 2;
+  // S3 Access Key
+  string s3_access_key = 3;
+  // S3 Secret Key
+  string s3_secret_key = 4;
 }
 
 message GetAPITokenRequest {
