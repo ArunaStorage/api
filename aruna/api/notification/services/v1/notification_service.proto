@@ -23,17 +23,34 @@ service UpdateNotificationService {
   rpc CreateEventStreamingGroup(CreateEventStreamingGroupRequest)
       returns (CreateEventStreamingGroupResponse) {}
 
+  // GetEventMessageBatch
+  //
+  // Reads a set of messages from a given stream group
+  // Each message contains a separate acknowledgement message that is protected by a salt and an hmac for verification
+  // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message
+  rpc GetEventMessageBatch(GetEventMessageBatchRequest) 
+      returns (GetEventMessageBatchResponse) {}
+
+  // GetEventMessageBatch
+  //
+  // Reads a set of messages from a given stream group
+  // Each message contains a separate acknowledgement message that is protected by a salt and an hmac for verification
+  // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message
+  rpc GetEventMessageBatchStream(GetEventMessageBatchStreamRequest) 
+      returns (stream GetEventMessageBatchStreamResponse) {}
+
+  // AcknowledgeMessageBatch
+  //
+  // List of messages to acknowledge
+  // Each reply is protected by a salt and and hmac that verifies the message
+  rpc AcknowledgeMessageBatch(AcknowledgeMessageBatchRequest) 
+      returns (AcknowledgeMessageBatchResponse) {}
+
   // DeleteEventStreamingGroup
   //
   // Deletes a existing EventStreamingGroup by ID
   rpc DeleteEventStreamingGroup(DeleteEventStreamingGroupRequest)
       returns (DeleteEventStreamingGroupResponse) {}
-
-  // ReadStreamGroupMessages
-  //
-  // Reads a stream of messages for a specific StreamGroup
-  rpc ReadStreamGroupMessages(stream ReadStreamGroupMessagesRequest)
-      returns (stream ReadStreamGroupMessagesResponse) {}
 }
 
 message CreateEventStreamingGroupRequest {
@@ -45,20 +62,33 @@ message CreateEventStreamingGroupRequest {
     StreamFromDate stream_from_date = 5;
     StreamFromSequence stream_from_sequence = 6;
   };
-
-  string stream_group_id = 7;
 }
 
 message CreateEventStreamingGroupResponse { string stream_group_id = 1; }
 
-message ReadStreamGroupMessagesRequest {
-  oneof stream_action {
-    NotificationStreamInit init = 1;
-    NotficationStreamAck ack = 2;
-  }
-
-  bool close = 3;
+message GetEventMessageBatchRequest {
+  string stream_group_id = 1;
+  uint32 batch_size = 2;
 }
+
+message GetEventMessageBatchResponse {
+  repeated EventNotificationMessage messages = 1;
+}
+
+message GetEventMessageBatchStreamRequest {
+  string stream_group_id = 1;
+  uint32 batch_size = 2;
+}
+
+message GetEventMessageBatchStreamResponse {
+  repeated EventNotificationMessage messages = 1;
+}
+
+message AcknowledgeMessageBatchRequest {
+  repeated Reply replies = 1;
+}
+
+message AcknowledgeMessageBatchResponse {}
 
 
 message DeleteEventStreamingGroupRequest {
@@ -67,31 +97,23 @@ message DeleteEventStreamingGroupRequest {
 
 message DeleteEventStreamingGroupResponse {}
 
-message NotificationStreamInit { string stream_group_id = 1; }
-
-message NotficationStreamAck { repeated string ack_chunk_id = 1; }
-
-message ReadStreamGroupMessagesResponse {
-  repeated NotificationStreamResponse notification = 1;
-  string ack_chunk_id = 2;
-}
-
 message StreamFromSequence { uint64 sequence = 1; }
 
 message StreamFromDate { google.protobuf.Timestamp timestamp = 1; }
 
 message StreamAll {}
 
-message NotificationStreamResponse {
-  EventNotificationMessage message = 1;
-  uint64 sequence = 2;
-  google.protobuf.Timestamp timestamp = 3;
-}
-
 message EventNotificationMessage {
   aruna.api.storage.models.v1.ResourceType resource = 1;
   string resource_id = 2;
   EventType updated_type = 3;
+  Reply reply = 4;
+}
+
+message Reply {
+  string reply = 1;
+  string salt = 2;
+  string hmac = 3;
 }
 
 enum EventType {
