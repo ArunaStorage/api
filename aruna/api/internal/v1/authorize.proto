@@ -9,15 +9,14 @@ import "aruna/api/storage/models/v1/models.proto";
 service InternalAuthorizeService {
     option (google.api.api_visibility).restriction = "INTERNAL";
     rpc Authorize(AuthorizeRequest) returns (AuthorizeResponse) {}
+    rpc GetSecret(GetSecretRequest) returns (GetSecretResponse) {}
 }
 
 message Authorization {
     // Should include the APItoken
     string secretkey = 1;
-    // Can be empty for now
+    // Is the API-Token ID
     string accesskey = 2;
-    // If the secret is an APIToken (or S3-style access / secretkey)
-    bool is_token = 3;
 }
 
 enum IdType {
@@ -46,3 +45,12 @@ message AuthorizeResponse {
     // Ok -> Authorization granted, empty or not ok -> dismiss
     bool ok = 1;
 }
+
+message GetSecretRequest {
+    string accesskey = 1;
+}
+
+message GetSecretResponse {
+    Authorization authorization = 1;
+}
+
