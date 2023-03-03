@@ -336,9 +336,9 @@ service ObjectService {
   //
   // Gets a specific object by object_path
   // !! Paths are collection specific !!
-  rpc GetObjectsByPath(GetObjectsByPathRequest) returns (GetObjectsByPathResponse) {
+  rpc GetIDsByPath(GetIDsByPathRequest) returns (GetIDsByPathResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/path/{path}"
+      get : "/v1/path/{path}"
     };
   }
 
@@ -771,13 +771,13 @@ message SetObjectPathVisibilityResponse {
   Path path = 1;
 }
 
-message GetObjectsByPathRequest {
-  string collection_id = 1;
+message GetIDsByPathRequest {
   string path = 2;
-  bool with_revisions = 3;
 }
 
-message GetObjectsByPathResponse {
-  repeated storage.models.v1.Object object = 1;
+message GetIDsByPathResponse {
+  string project_id = 1;
+  string collection_id = 2;
+  repeated storage.models.v1.Object object = 3;
 }
 
