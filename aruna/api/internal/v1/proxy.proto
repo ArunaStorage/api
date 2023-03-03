@@ -21,15 +21,9 @@ service InternalProxyService {
   option (google.api.api_visibility).restriction = "INTERNAL";
   rpc InitPresignedUpload(InitPresignedUploadRequest)
       returns (InitPresignedUploadResponse) {}
-  rpc CreatePresignedUploadUrl(CreatePresignedUploadUrlRequest)
-      returns (CreatePresignedUploadUrlResponse) {}
   rpc FinishPresignedUpload(FinishPresignedUploadRequest)
       returns (FinishPresignedUploadResponse) {}
-  rpc CreatePresignedDownload(CreatePresignedDownloadRequest)
-      returns (CreatePresignedDownloadResponse) {}
-  rpc CreateBucket(CreateBucketRequest) returns (CreateBucketResponse) {}
   rpc DeleteObject(DeleteObjectRequest) returns (DeleteObjectResponse) {}
-  rpc MoveObject(MoveObjectRequest) returns (MoveObjectResponse) {}
 }
 
 // This service enables a "return" channel for dataproxy to aruna server communication
@@ -69,18 +63,6 @@ message InitPresignedUploadRequest {
 
 message InitPresignedUploadResponse { string upload_id = 1; }
 
-message CreatePresignedUploadUrlRequest {
-  Location location = 1;
-  string upload_id = 2;
-  int64 part_number = 3;
-  bool multipart = 4;
-}
-
-message CreatePresignedUploadUrlResponse {
-  // The presigned URL to upload the file to.
-  string url = 1;
-}
-
 message FinishPresignedUploadRequest {
   string upload_id = 1;
   repeated PartETag part_etags = 2;
@@ -94,45 +76,15 @@ message FinishPresignedUploadResponse {
   bool ok = 1;
 }
 
-message Range {
-  int64 start = 1;
-  int64 end = 2;
-}
-
-message CreatePresignedDownloadRequest {
-  Location location = 1;
-  bool is_public = 2;
-  // optional Range
-  Range range = 3;
-  // filename
-  string filename = 4;
-}
-
-message CreatePresignedDownloadResponse {
-  // The presigned URL to download the file to.
-  string url = 1;
-}
-
-message CreateBucketRequest { string bucket_name = 1; }
-
-message CreateBucketResponse {}
-
 message DeleteObjectRequest {
   Location location = 1;
 }
 
 message DeleteObjectResponse {}
 
-message MoveObjectRequest {
-  Location from = 1;
-  Location to = 2;
-}
-
-message MoveObjectResponse {}
-
 message FinalizeObjectRequest {
-  Location before_location = 1;
-  Location final_location = 2;
+  Location external_location = 1; // This will be the "Path"
+  Location internal_location = 2; // This will be the "Internal Path"
   repeated aruna.api.storage.models.v1.Hash hashes = 3;
 }
 
