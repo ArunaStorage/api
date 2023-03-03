@@ -3,7 +3,6 @@ syntax = "proto3";
 package aruna.api.internal.v1;
 option go_package = "github.com/ArunaStorage/go-api/aruna/api/internal/v1";
 import "aruna/api/storage/models/v1/models.proto";
-import "aruna/api/internal/v1/authorize.proto";
 import "google/api/visibility.proto";
 
 // Definition for the internal API that is used to communicate with all internal
