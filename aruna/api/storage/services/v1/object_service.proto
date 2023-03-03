@@ -325,7 +325,7 @@ service ObjectService {
   // !! Paths are collection specific !!
   rpc SetObjectPathVisibility(SetObjectPathVisibilityRequest) returns (SetObjectPathVisibilityResponse) {
     option (google.api.http) = {
-      patch : "/v1/collection/{collection_id}/path/{path}/visibility"
+      patch : "/v1/collection/{collection_id}/path/{path=**}/visibility"
       body: "*"
     };
   }
@@ -338,7 +338,7 @@ service ObjectService {
   // !! Paths are collection specific !!
   rpc GetObjectsByPath(GetObjectsByPathRequest) returns (GetObjectsByPathResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/path/{path}"
+      get : "/v1/collection/{collection_id}/path/{path=**}"
     };
   }
 
@@ -350,7 +350,7 @@ service ObjectService {
   // !! Paths are collection specific !!
   rpc GetProjectCollectionIDsByPath(GetProjectCollectionIDsByPathRequest) returns (GetProjectCollectionIDsByPathResponse) {
     option (google.api.http) = {
-      get : "/v1/path/{path}"
+      get : "/v1/path/{path=**}"
     };
   }
 
