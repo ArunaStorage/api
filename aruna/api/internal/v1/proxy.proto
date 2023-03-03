@@ -31,7 +31,7 @@ service InternalProxyService {
 service InternalProxyNotifierService {
   option (google.api.api_visibility).restriction = "INTERNAL";
   rpc FinalizeObject(FinalizeObjectRequest) returns (FinalizeObjectResponse) {}
-  rpc GetEncryptionKey(GetEncryptionKeyRequest) returns (GetEncryptionKeyResponse) {}
+  rpc GetOrCreateEncryptionKey(GetOrCreateEncryptionKeyRequest) returns (GetOrCreateEncryptionKeyResponse) {}
 }
 
 // Enum to support multiple target Locations.
@@ -86,14 +86,17 @@ message FinalizeObjectRequest {
   Location external_location = 1; // This will be the "Path"
   Location internal_location = 2; // This will be the "Internal Path"
   repeated aruna.api.storage.models.v1.Hash hashes = 3;
+
 }
 
 message FinalizeObjectResponse {}
 
-message GetEncryptionKeyRequest {
-  Identifier identifier = 1;
+message GetOrCreateEncryptionKeyRequest {
+  string path = 1;
+  string hash = 2;
+  string enpoint_id = 3;
 }
 
-message GetEncryptionKeyResponse {
+message GetOrCreateEncryptionKeyResponse {
   string encryption_key = 1;
 }
