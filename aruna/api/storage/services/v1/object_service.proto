@@ -336,7 +336,19 @@ service ObjectService {
   //
   // Gets a specific object by object_path
   // !! Paths are collection specific !!
-  rpc GetIDsByPath(GetIDsByPathRequest) returns (GetIDsByPathResponse) {
+  rpc GetObjectsByPath(GetObjectsByPathRequest) returns (GetObjectsByPathResponse) {
+    option (google.api.http) = {
+      get : "/v1/collection/{collection_id}/path/{path}"
+    };
+  }
+
+    // GetObjectsByPath
+  //
+  // Status: BETA
+  //
+  // Gets a specific object by object_path
+  // !! Paths are collection specific !!
+  rpc GetProjectCollectionIDsByPath(GetProjectCollectionIDsByPathRequest) returns (GetProjectCollectionIDsByPathResponse) {
     option (google.api.http) = {
       get : "/v1/path/{path}"
     };
@@ -771,13 +783,21 @@ message SetObjectPathVisibilityResponse {
   Path path = 1;
 }
 
-message GetIDsByPathRequest {
-  string path = 2;
+message GetObjectsByPathRequest {
+  string path = 1;
+  bool with_revisions = 2;
 }
 
-message GetIDsByPathResponse {
+message GetProjectCollectionIDsByPathRequest {
+  string path = 1;
+}
+
+message GetProjectCollectionIDsByPathResponse {
   string project_id = 1;
   string collection_id = 2;
+}
+
+message GetObjectsByPathResponse {
   repeated storage.models.v1.Object object = 3;
 }
 
