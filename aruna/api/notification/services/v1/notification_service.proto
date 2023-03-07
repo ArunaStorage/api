@@ -11,6 +11,7 @@ import "google/protobuf/timestamp.proto";
 import "aruna/api/storage/models/v1/models.proto";
 
 
+
 // EventNotificationService
 //
 // A service to receive events in the AOS storage
@@ -62,6 +63,14 @@ message CreateEventStreamingGroupRequest {
     StreamFromDate stream_from_date = 5;
     StreamFromSequence stream_from_sequence = 6;
   };
+  EventStreamingGroupHierarchy hierarchy =  7;
+}
+
+message  EventStreamingGroupHierarchy {
+  string project_id = 1;
+  string collection_id = 2;
+  string object_id = 3;
+  string object_group_id = 4;
 }
 
 message CreateEventStreamingGroupResponse { string stream_group_id = 1; }
