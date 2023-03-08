@@ -165,6 +165,8 @@ message Endpoint {
 // the owner collection
 
 message Object {
+  reserved 11;
+
   string id = 1;       // ObjectID
   string filename = 2; // Filename: Name of the original file e.g.: mydata.json
   repeated KeyValue labels = 4; // Labels to additionally describe the object
@@ -174,7 +176,7 @@ message Object {
   Status status = 8;
   Origin origin = 9;         // Origin of the object
   DataClass data_class = 10; // Confidentiality of the object
-  Hash hash = 11;            // MD5 hash of the data
+  repeated Hash hashes = 16;            // MD5 and SHA256 hash of the data
   int64 rev_number = 12;     // Increasing revion number for each update
   Source source = 13;        // External source where this data originates from
 

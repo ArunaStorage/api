@@ -342,7 +342,7 @@ service ObjectService {
     };
   }
 
-    // GetObjectsByPath
+  // GetObjectsByPath
   //
   // Status: BETA
   //
