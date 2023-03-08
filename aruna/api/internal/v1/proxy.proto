@@ -34,6 +34,7 @@ service InternalProxyNotifierService {
   rpc FinalizeObject(FinalizeObjectRequest) returns (FinalizeObjectResponse) {}
   rpc GetEncryptionKey(GetEncryptionKeyRequest) returns (GetEncryptionKeyResponse) {}
   rpc GetObjectLocation(GetObjectLocationRequest) returns (GetObjectLocationRequest) {}
+  rpc GetCollectionByBucket(GetCollectionByBucketRequest) returns (GetCollectionByBucketResponse) {}
 }
 
 // Enum to support multiple target Locations.
@@ -125,5 +126,15 @@ message GetObjectLocationRequest {
 message GetObjectLocationResponse {
   aruna.api.storage.models.v1.Object object = 1;
   Location location = 2;
+}
+
+message GetCollectionByBucketRequest {
+  string bucket = 1;
+  string access_key = 2;
+}
+
+message GetCollectionByBucketResponse {
+  string project_id = 1;
+  string collection_id = 2;
 }
 
