@@ -29,20 +29,36 @@ service InternalEventService {
 
 // ------------ InternalEventEmitterService -------------------------
 
-message ObjectGroupRelation {
-    string shared_object_group_id = 1;
-    repeated string object_group_ids = 2;
+message EmittedResource {
+    oneof resource {
+        ProjectResource project = 1;
+        CollectionResource collection = 2;
+        ObjectResource object = 3;
+        ObjectGroupResource object_group = 4;
+    }
 }
 
-message Relation {
-    // The shared revision id of an object
-    string shared_object = 1;
-    // The associated objectgroup(s)
-    repeated ObjectGroupRelation object_groups = 2;
-    // Collection ID
-    string collection = 3;
-    // Project ID
-    string project = 4;
+message ProjectResource {
+    string project_id = 1;
+}
+
+message CollectionResource {
+    string project_id = 1;
+    string collection_id = 2;
+}
+
+message ObjectResource {
+    string project_id = 1;
+    string collection_id = 2;
+    string shared_object_id = 3;
+    string object_id = 4;
+}
+
+message ObjectGroupResource {
+    string project_id = 1;
+    string collection_id = 2;
+    string shared_object_group_id = 3;
+    string object_group_id = 4;
 }
 
 message EmitEventRequest{
@@ -53,7 +69,7 @@ message EmitEventRequest{
     // Event type (CRUD)
     notification.services.v1.EventType event_type = 3;
     // All relations of the resource, only parents are shown
-    repeated Relation relations = 4;
+    repeated EmittedResource relations = 4;
 }
 
 message EmitEventResponse{}
