@@ -69,7 +69,7 @@ message EmitEventRequest{
     // Event type (CRUD)
     notification.services.v1.EventType event_type = 3;
     // All relations of the resource, only parents are shown
-    repeated EmittedResource relations = 4;
+    repeated EmittedResource resources = 4;
 }
 
 message EmitEventResponse{}
