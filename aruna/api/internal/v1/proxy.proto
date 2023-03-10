@@ -33,7 +33,7 @@ service InternalProxyNotifierService {
   rpc GetOrCreateObjectByPath(GetOrCreateObjectByPathRequest) returns (GetOrCreateObjectByPathResponse) {}
   rpc FinalizeObject(FinalizeObjectRequest) returns (FinalizeObjectResponse) {}
   rpc GetEncryptionKey(GetEncryptionKeyRequest) returns (GetEncryptionKeyResponse) {}
-  rpc GetObjectLocation(GetObjectLocationRequest) returns (GetObjectLocationRequest) {}
+  rpc GetObjectLocation(GetObjectLocationRequest) returns (GetObjectLocationResponse) {}
   rpc GetCollectionByBucket(GetCollectionByBucketRequest) returns (GetCollectionByBucketResponse) {}
 }
 
