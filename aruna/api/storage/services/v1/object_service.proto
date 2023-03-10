@@ -785,7 +785,8 @@ message SetObjectPathVisibilityResponse {
 
 message GetObjectsByPathRequest {
   string path = 1;
-  bool with_revisions = 2;
+  string collection_id = 2;
+  bool with_revisions = 3;
 }
 
 message GetProjectCollectionIDsByPathRequest {
