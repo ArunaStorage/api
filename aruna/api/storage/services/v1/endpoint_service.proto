@@ -91,11 +91,14 @@ message AddEndpointRequest {
   string documentation_path = 5;
   // Is this endpoint public
   bool is_public = 6;
+  // (optional) ED25519 Pubkey -> Pubkey to validate endpoint authenticated tokens
+  string pubkey = 7;
 }
 
 message AddEndpointResponse {
   // Overview of the requested endpoint
   storage.models.v1.Endpoint endpoint = 1;
+  int64 pubkey_serial = 2;
 }
 
 message GetEndpointRequest {

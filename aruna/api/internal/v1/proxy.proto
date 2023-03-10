@@ -3,7 +3,7 @@ syntax = "proto3";
 package aruna.api.internal.v1;
 option go_package = "github.com/ArunaStorage/go-api/aruna/api/internal/v1";
 import "aruna/api/storage/models/v1/models.proto";
-import "aruna/api/internal/v1/authorize.proto";
+import "aruna/api/storage/services/v1/object_service.proto";
 import "google/api/visibility.proto";
 
 // Definition for the internal API that is used to communicate with all internal
@@ -19,25 +19,22 @@ import "google/api/visibility.proto";
 
 service InternalProxyService {
   option (google.api.api_visibility).restriction = "INTERNAL";
-  rpc InitPresignedUpload(InitPresignedUploadRequest)
-      returns (InitPresignedUploadResponse) {}
-  rpc CreatePresignedUploadUrl(CreatePresignedUploadUrlRequest)
-      returns (CreatePresignedUploadUrlResponse) {}
-  rpc FinishPresignedUpload(FinishPresignedUploadRequest)
-      returns (FinishPresignedUploadResponse) {}
-  rpc CreatePresignedDownload(CreatePresignedDownloadRequest)
-      returns (CreatePresignedDownloadResponse) {}
-  rpc CreateBucket(CreateBucketRequest) returns (CreateBucketResponse) {}
+  rpc InitMultipartUpload(InitMultipartUploadRequest)
+      returns (InitMultipartUploadResponse) {}
+  rpc FinishMultipartUpload(FinishMultipartUploadRequest)
+      returns (FinishMultipartUploadResponse) {}
   rpc DeleteObject(DeleteObjectRequest) returns (DeleteObjectResponse) {}
-  rpc MoveObject(MoveObjectRequest) returns (MoveObjectResponse) {}
 }
 
 // This service enables a "return" channel for dataproxy to aruna server communication
 // Mainly used to notify the backend of validation / move events after the upload of new files
 service InternalProxyNotifierService {
   option (google.api.api_visibility).restriction = "INTERNAL";
+  rpc GetOrCreateObjectByPath(GetOrCreateObjectByPathRequest) returns (GetOrCreateObjectByPathResponse) {}
   rpc FinalizeObject(FinalizeObjectRequest) returns (FinalizeObjectResponse) {}
   rpc GetEncryptionKey(GetEncryptionKeyRequest) returns (GetEncryptionKeyResponse) {}
+  rpc GetObjectLocation(GetObjectLocationRequest) returns (GetObjectLocationResponse) {}
+  rpc GetCollectionByBucket(GetCollectionByBucketRequest) returns (GetCollectionByBucketResponse) {}
 }
 
 // Enum to support multiple target Locations.
@@ -54,6 +51,10 @@ message Location {
                      // for local file.
   string path =
       3; // This is the key name for S3. This is the file name for local file.
+  string endpoint_id = 4;
+  bool is_compressed = 5;
+  bool is_encrypted = 6;
+  string encryption_key = 7; 
 }
 
 // Etag / Part combination to finish a presigned multipart upload.
@@ -62,60 +63,19 @@ message PartETag {
   string etag = 2;
 }
 
-message InitPresignedUploadRequest {
-  Location location = 1;
-  bool multipart = 2; // True if multipart upload is requested.
+message InitMultipartUploadRequest {
+  string path = 1;
 }
 
-message InitPresignedUploadResponse { string upload_id = 1; }
+message InitMultipartUploadResponse { string upload_id = 1; }
 
-message CreatePresignedUploadUrlRequest {
-  Location location = 1;
-  string upload_id = 2;
-  int64 part_number = 3;
-  bool multipart = 4;
-}
-
-message CreatePresignedUploadUrlResponse {
-  // The presigned URL to upload the file to.
-  string url = 1;
-}
-
-message FinishPresignedUploadRequest {
+message FinishMultipartUploadRequest {
   string upload_id = 1;
-  repeated PartETag part_etags = 2;
-  string bucket = 3;
-  string key = 4;
-  bool multipart = 5;
+  string path = 2;
+  repeated PartETag part_etags = 3;
 }
 
-message FinishPresignedUploadResponse {
-  // If the upload finished successfully.
-  bool ok = 1;
-}
-
-message Range {
-  int64 start = 1;
-  int64 end = 2;
-}
-
-message CreatePresignedDownloadRequest {
-  Location location = 1;
-  bool is_public = 2;
-  // optional Range
-  Range range = 3;
-  // filename
-  string filename = 4;
-}
-
-message CreatePresignedDownloadResponse {
-  // The presigned URL to download the file to.
-  string url = 1;
-}
-
-message CreateBucketRequest { string bucket_name = 1; }
-
-message CreateBucketResponse {}
+message FinishMultipartUploadResponse {}
 
 message DeleteObjectRequest {
   Location location = 1;
@@ -123,25 +83,58 @@ message DeleteObjectRequest {
 
 message DeleteObjectResponse {}
 
-message MoveObjectRequest {
-  Location from = 1;
-  Location to = 2;
-}
-
-message MoveObjectResponse {}
-
 message FinalizeObjectRequest {
-  Location before_location = 1;
-  Location final_location = 2;
-  repeated aruna.api.storage.models.v1.Hash hashes = 3;
+  string object_id = 1; // This should be stored temporarily
+  string collection_id = 2; // This should be stored temporarily
+  Location location = 3; // This will be the final location of the object
+  repeated aruna.api.storage.models.v1.Hash hashes = 4;
 }
 
 message FinalizeObjectResponse {}
 
 message GetEncryptionKeyRequest {
-  Identifier identifier = 1;
+  string path = 1;
+  string hash = 2;
+  string endpoint_id = 3;
 }
 
 message GetEncryptionKeyResponse {
   string encryption_key = 1;
 }
+
+message GetOrCreateObjectByPathRequest {
+  string path = 1;
+  string access_key = 2;  // Validate if the user has correct permissions
+  aruna.api.storage.services.v1.StageObject object = 3; // Will only be used if no staging object exists
+}
+
+message GetOrCreateObjectByPathResponse {
+  string object_id = 1;
+  string collection_id = 2;
+  aruna.api.storage.models.v1.DataClass dataclass = 3;
+  aruna.api.storage.models.v1.Hash hash = 4;
+}
+
+
+message GetObjectLocationRequest {
+  string path = 1;
+  string revision_id = 2;
+  string access_key = 3;
+  string endpoint_id = 4;
+}
+
+message GetObjectLocationResponse {
+  aruna.api.storage.models.v1.Object object = 1;
+  Location location = 2;
+}
+
+message GetCollectionByBucketRequest {
+  string bucket = 1;
+  string access_key = 2;
+}
+
+message GetCollectionByBucketResponse {
+  string project_id = 1;
+  string collection_id = 2;
+}
+
