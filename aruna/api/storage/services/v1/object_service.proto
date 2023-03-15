@@ -338,7 +338,7 @@ service ObjectService {
   // !! Paths are collection specific !!
   rpc GetObjectsByPath(GetObjectsByPathRequest) returns (GetObjectsByPathResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/path/{path=**}"
+      get : "/v1/path/object/{path=**}"
     };
   }
 
@@ -348,9 +348,9 @@ service ObjectService {
   //
   // Gets a specific object by object_path
   // !! Paths are collection specific !!
-  rpc GetProjectCollectionIDsByPath(GetProjectCollectionIDsByPathRequest) returns (GetProjectCollectionIDsByPathResponse) {
+  rpc GetProjectCollectionIdsByPath(GetProjectCollectionIdsByPathRequest) returns (GetProjectCollectionIdsByPathResponse) {
     option (google.api.http) = {
-      get : "/v1/path/{path=**}"
+      get : "/v1/path/collection/{path=**}"
     };
   }
 
@@ -785,15 +785,14 @@ message SetObjectPathVisibilityResponse {
 
 message GetObjectsByPathRequest {
   string path = 1;
-  string collection_id = 2;
-  bool with_revisions = 3;
+  bool with_revisions = 2;
 }
 
-message GetProjectCollectionIDsByPathRequest {
+message GetProjectCollectionIdsByPathRequest {
   string path = 1;
 }
 
-message GetProjectCollectionIDsByPathResponse {
+message GetProjectCollectionIdsByPathResponse {
   string project_id = 1;
   string collection_id = 2;
 }
