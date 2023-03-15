@@ -112,7 +112,7 @@ message GetOrCreateObjectByPathResponse {
   string object_id = 1;
   string collection_id = 2;
   aruna.api.storage.models.v1.DataClass dataclass = 3;
-  aruna.api.storage.models.v1.Hash hash = 4;
+  repeated aruna.api.storage.models.v1.Hash hashes = 4;
 }
 
 
