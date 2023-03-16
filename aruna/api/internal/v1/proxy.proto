@@ -88,6 +88,7 @@ message FinalizeObjectRequest {
   string collection_id = 2; // This should be stored temporarily
   Location location = 3; // This will be the final location of the object
   repeated aruna.api.storage.models.v1.Hash hashes = 4;
+  int64 content_length = 5;
 }
 
 message FinalizeObjectResponse {}
@@ -114,6 +115,8 @@ message GetOrCreateObjectByPathResponse {
   string collection_id = 2;
   aruna.api.storage.models.v1.DataClass dataclass = 3;
   repeated aruna.api.storage.models.v1.Hash hashes = 4;
+  int64 revision_number = 5;
+  bool created = 6;
 }
 
 
