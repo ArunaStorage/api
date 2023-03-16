@@ -108,6 +108,7 @@ message GetOrCreateObjectByPathRequest {
   string path = 1;
   string access_key = 2;  // Validate if the user has correct permissions
   aruna.api.storage.services.v1.StageObject object = 3; // Will only be used if no staging object exists
+  bool get_only = 4; // Should this only get the object NOT create -> fail
 }
 
 message GetOrCreateObjectByPathResponse {
