@@ -32,7 +32,7 @@ service InternalProxyNotifierService {
   option (google.api.api_visibility).restriction = "INTERNAL";
   rpc GetOrCreateObjectByPath(GetOrCreateObjectByPathRequest) returns (GetOrCreateObjectByPathResponse) {}
   rpc FinalizeObject(FinalizeObjectRequest) returns (FinalizeObjectResponse) {}
-  rpc GetEncryptionKey(GetEncryptionKeyRequest) returns (GetEncryptionKeyResponse) {}
+  rpc GetOrCreateEncryptionKey(GetOrCreateEncryptionKeyRequest) returns (GetOrCreateEncryptionKeyResponse) {}
   rpc GetObjectLocation(GetObjectLocationRequest) returns (GetObjectLocationResponse) {}
   rpc GetCollectionByBucket(GetCollectionByBucketRequest) returns (GetCollectionByBucketResponse) {}
 }
@@ -92,14 +92,15 @@ message FinalizeObjectRequest {
 
 message FinalizeObjectResponse {}
 
-message GetEncryptionKeyRequest {
+message GetOrCreateEncryptionKeyRequest {
   string path = 1;
   string hash = 2;
   string endpoint_id = 3;
 }
 
-message GetEncryptionKeyResponse {
+message GetOrCreateEncryptionKeyResponse {
   string encryption_key = 1;
+  bool created = 2;
 }
 
 message GetOrCreateObjectByPathRequest {
