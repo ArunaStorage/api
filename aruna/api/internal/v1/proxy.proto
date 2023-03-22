@@ -65,6 +65,8 @@ message PartETag {
 
 message InitMultipartUploadRequest {
   string path = 1;
+  string object_id = 2;
+  string collection_id = 3;
 }
 
 message InitMultipartUploadResponse { string upload_id = 1; }
@@ -72,7 +74,9 @@ message InitMultipartUploadResponse { string upload_id = 1; }
 message FinishMultipartUploadRequest {
   string upload_id = 1;
   string path = 2;
-  repeated PartETag part_etags = 3;
+  string object_id = 3;
+  string collection_id = 4;
+  repeated PartETag part_etags = 5;
 }
 
 message FinishMultipartUploadResponse {}
