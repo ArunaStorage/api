@@ -46,6 +46,7 @@ enum Status {
   STATUS_UNAVAILABLE = 3;
   STATUS_ERROR = 4;
   STATUS_TRASH = 5;
+  STATUS_FINALIZING = 6;
 }
 
 // Stats for a set of objects
