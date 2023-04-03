@@ -35,6 +35,8 @@ message User {
   bool active = 4;
   // Is the user admin ?
   bool is_admin = 5;
+  // Is service account
+  bool is_service_account = 6;
 }
 
 enum Permission {
@@ -72,6 +74,8 @@ message Token {
   string collection_id = 7;
   string project_id = 8;
   Permission permission = 9;
+  bool is_session = 10;
+  google.protobuf.Timestamp used_at = 11;
 }
 
 message ProjectPermission {
