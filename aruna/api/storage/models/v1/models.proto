@@ -49,6 +49,15 @@ enum Status {
   STATUS_FINALIZING = 6;
 }
 
+enum EndpointStatus {
+  ENDPOINT_STATUS_UNSPECIFIED = 0;
+  ENDPOINT_STATUS_INITIALIZING = 1;
+  ENDPOINT_STATUS_AVAILABLE = 2;
+  ENDPOINT_STATUS_DEGRADED = 3;
+  ENDPOINT_STATUS_UNAVAILABLE = 4;
+  ENDPOINT_STATUS_MAINTENANCE = 5;
+}
+
 // Stats for a set of objects
 message Stats {
   int64 count = 1;
@@ -147,6 +156,7 @@ message Endpoint {
   string documentation_path = 6;
   bool is_public = 7;
   bool is_default = 8;
+  EndpointStatus status = 9;
 }
 
 // RULES for Objects:
