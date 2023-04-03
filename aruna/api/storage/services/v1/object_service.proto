@@ -510,6 +510,7 @@ message FinishObjectStagingResponse {
 }
 
 message UpdateObjectRequest {
+  reserved 8;
   // Existing object ID
   string object_id = 1;
   // collection ID
@@ -526,13 +527,6 @@ message UpdateObjectRequest {
   // Is specification ?
   // Should this object contain a specification for the collection ?
   bool is_specification = 7;
-  // When force == false the update will fail if another staging
-  // object of the same shared_revision_id already exists
-  // This prevents race conditions when two parties update the
-  // same object simultaneously
-  // force == true enforces will allow multiple concurrent updates
-  // at once
-  bool force = 8;
   // (optional) Hash 
   storage.models.v1.Hash hash = 9;
 }
