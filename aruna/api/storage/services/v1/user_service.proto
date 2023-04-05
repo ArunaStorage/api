@@ -148,6 +148,18 @@ service UserService {
       get : "/v1/user/not_activated"
     };
   }
+
+  // GetAllUsers
+  //
+  // Status: ALPHA
+  //
+  // Get all users inkluding permissions (Admin only)
+  rpc GetAllUsers(GetAllUsersRequest)
+      returns (GetAllUsersResponse) {
+    option (google.api.http) = {
+      get : "/v1/user/all"
+    };
+  }
 }
 
 message ExpiresAt {
@@ -287,4 +299,17 @@ message GetNotActivatedUsersRequest {}
 message GetNotActivatedUsersResponse {
   // List of users that are not yet activated
   repeated storage.models.v1.User users = 1;
+}
+
+message GetAllUsersRequest {
+  bool include_permissions = 1;
+}
+
+message UserWithPerms {
+  storage.models.v1.User user = 1;
+  repeated storage.models.v1.ProjectPermission project_perms = 2;
+}
+
+message GetAllUsersResponse {
+  repeated UserWithPerms user_with_perms = 1;
 }
