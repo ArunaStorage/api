@@ -31,7 +31,19 @@ service UserService {
     };
   }
 
-  // ActivateUser 
+  // DeActivateUser 
+  //
+  // Status: ALPHA
+  //
+  // This deactivates a specific user (Admin request)
+  rpc DeactivateUser(DeactivateUserRequest) returns (DeactivateUserResponse) {
+    option (google.api.http) = {
+      patch : "/v1/user/{user_id}/deactivate"
+      body : "*"
+    };
+  }
+
+    // ActivateUser 
   //
   // Status: STABLE
   //
@@ -313,3 +325,11 @@ message UserWithPerms {
 message GetAllUsersResponse {
   repeated UserWithPerms user_with_perms = 1;
 }
+
+
+message DeactivateUserRequest {
+  // User to activate
+  string user_id = 1;
+}
+
+message DeactivateUserResponse {}
