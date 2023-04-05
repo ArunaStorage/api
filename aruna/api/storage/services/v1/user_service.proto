@@ -156,8 +156,12 @@ message ExpiresAt {
 }
 
 message RegisterUserRequest {
-  // Optional user_displayname
+  // user_displayname
   string display_name = 1;
+  // Mail address
+  string email = 2;
+  // Project description string (optional)
+  string project = 3;
 }
 
 message RegisterUserResponse {
@@ -179,6 +183,8 @@ message CreateAPITokenRequest {
   ExpiresAt expires_at = 4;
   // Token permissions
   storage.models.v1.Permission permission = 5;
+  // Session token
+  bool is_session = 6;
 }
 
 message CreateAPITokenResponse {
