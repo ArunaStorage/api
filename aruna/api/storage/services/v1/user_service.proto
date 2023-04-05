@@ -276,6 +276,8 @@ message GetUserProjectsResponse {
 message ActivateUserRequest {
   // User to activate
   string user_id = 1;
+  // (optional) add user to project
+  storage.models.v1.ProjectPermission project_perms = 2;
 }
 
 message ActivateUserResponse {}
