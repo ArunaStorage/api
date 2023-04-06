@@ -148,7 +148,7 @@ service ProjectService {
   rpc GetAllUserPermissionsForProject(GetAllUserPermissionsForProjectRequest)
       returns (GetAllUserPermissionsForProjectResponse) {
     option (google.api.http) = {
-      get : "/v1/project/{project_id}/users"
+      get : "/v1/project/{project_id}/get_users"
     };
   }
 
