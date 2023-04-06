@@ -31,7 +31,19 @@ service UserService {
     };
   }
 
-  // ActivateUser 
+  // DeActivateUser 
+  //
+  // Status: ALPHA
+  //
+  // This deactivates a specific user (Admin request)
+  rpc DeactivateUser(DeactivateUserRequest) returns (DeactivateUserResponse) {
+    option (google.api.http) = {
+      patch : "/v1/user/{user_id}/deactivate"
+      body : "*"
+    };
+  }
+
+    // ActivateUser 
   //
   // Status: STABLE
   //
@@ -148,6 +160,18 @@ service UserService {
       get : "/v1/user/not_activated"
     };
   }
+
+  // GetAllUsers
+  //
+  // Status: ALPHA
+  //
+  // Get all users inkluding permissions (Admin only)
+  rpc GetAllUsers(GetAllUsersRequest)
+      returns (GetAllUsersResponse) {
+    option (google.api.http) = {
+      get : "/v1/user/all"
+    };
+  }
 }
 
 message ExpiresAt {
@@ -156,8 +180,12 @@ message ExpiresAt {
 }
 
 message RegisterUserRequest {
-  // Optional user_displayname
+  // user_displayname
   string display_name = 1;
+  // Mail address
+  string email = 2;
+  // Project description string (optional)
+  string project = 3;
 }
 
 message RegisterUserResponse {
@@ -179,6 +207,8 @@ message CreateAPITokenRequest {
   ExpiresAt expires_at = 4;
   // Token permissions
   storage.models.v1.Permission permission = 5;
+  // Session token
+  bool is_session = 6;
 }
 
 message CreateAPITokenResponse {
@@ -270,6 +300,8 @@ message GetUserProjectsResponse {
 message ActivateUserRequest {
   // User to activate
   string user_id = 1;
+  // (optional) add user to project
+  storage.models.v1.ProjectPermission project_perms = 2;
 }
 
 message ActivateUserResponse {}
@@ -280,3 +312,24 @@ message GetNotActivatedUsersResponse {
   // List of users that are not yet activated
   repeated storage.models.v1.User users = 1;
 }
+
+message GetAllUsersRequest {
+  bool include_permissions = 1;
+}
+
+message UserWithPerms {
+  storage.models.v1.User user = 1;
+  repeated storage.models.v1.ProjectPermission project_perms = 2;
+}
+
+message GetAllUsersResponse {
+  repeated UserWithPerms user_with_perms = 1;
+}
+
+
+message DeactivateUserRequest {
+  // User to activate
+  string user_id = 1;
+}
+
+message DeactivateUserResponse {}
