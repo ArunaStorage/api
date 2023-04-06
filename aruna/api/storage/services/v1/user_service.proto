@@ -137,6 +137,19 @@ service UserService {
     };
   }
 
+  // UpdateUserDisplayName
+  //
+  // Status: ALPHA
+  //
+  // Updates the email for the user (Personal only)
+  rpc UpdateUserEmail(UpdateUserEmailRequest)
+      returns (UpdateUserEmailResponse) {
+    option (google.api.http) = {
+      patch : "/v1/user/email"
+      body : "*"
+    };
+  }
+
   // GetUserProjects
   //
   // Status: STABLE
@@ -333,3 +346,14 @@ message DeactivateUserRequest {
 }
 
 message DeactivateUserResponse {}
+
+
+message UpdateUserEmailRequest {
+  string user_id = 1;
+  // If new email is empty == unsubscribe
+  string new_email = 2;
+}
+
+message UpdateUserEmailResponse {
+  storage.models.v1.User user = 1;
+}

@@ -139,6 +139,20 @@ service ProjectService {
     };
   }
 
+
+  // GetAllUserPermissionsForProject
+  //
+  // Status: ALPHA
+  // 
+  // Get the user_permission of a specific user for the project.
+  rpc GetAllUserPermissionsForProject(GetAllUserPermissionsForProjectRequest)
+      returns (GetAllUserPermissionsForProjectResponse) {
+    option (google.api.http) = {
+      get : "/v1/project/{project_id}/get_users"
+    };
+  }
+
+
   // EditUserPermissionsForProject
   //
   // Status: STABLE
@@ -242,3 +256,17 @@ message EditUserPermissionsForProjectRequest {
 }
 
 message EditUserPermissionsForProjectResponse {}
+
+message UserWithProjectPermissions {
+  storage.models.v1.User user = 1;
+  storage.models.v1.ProjectPermission user_permissions = 2;
+}
+
+message GetAllUserPermissionsForProjectRequest {
+    // Project id
+    string project_id = 1;
+}
+
+message GetAllUserPermissionsForProjectResponse {
+    repeated UserWithProjectPermissions users = 1;
+}

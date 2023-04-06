@@ -37,6 +37,8 @@ message User {
   bool is_admin = 5;
   // Is service account
   bool is_service_account = 6;
+  // User email (empty if service account)
+  string email = 7;
 }
 
 enum Permission {
