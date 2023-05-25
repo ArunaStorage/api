@@ -76,3 +76,10 @@ jobs:
           repository: ArunaStorage/python-api
           event-type: publish
           client-payload: '{"version": "${{ inputs.tag }}", "message": "${{ inputs.message }}"}'
+      + name: Repository Dispatch (java)
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.ARUNA_ACCESS_TOKEN }}
+          repository: ArunaStorage/java-api
+          event-type: publish
+          client-payload: '{"version": "${{ inputs.tag }}", "message": "${{ inputs.message }}"}'
