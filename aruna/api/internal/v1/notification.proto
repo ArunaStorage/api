@@ -101,6 +101,8 @@ message CreateStreamGroupRequest {
     string resource_id = 4;
     // Should all "sub" resources be included
     bool notify_on_sub_resource = 5; 
+    // Subject derived from a resource hierarchy
+    string subject = 6;
 } 
 
 message CreateStreamGroupResponse {
