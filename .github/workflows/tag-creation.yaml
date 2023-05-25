@@ -1,4 +1,4 @@
-name: create-publish-release
+name: create_publish_release
 on: 
   workflow_dispatch:
     inputs:
