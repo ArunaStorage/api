@@ -8,7 +8,7 @@ import "aruna/api/storage/models/v1/models.proto";
 
 service InternalBundlerService {
     option (google.api.api_visibility).restriction = "INTERNAL";
-    rpc PrepareBundle(PrepareBundlesRequest) returns (PrepareBundlesResponse) {}
+    rpc PrepareBundle(PrepareBundleRequest) returns (PrepareBundleResponse) {}
     rpc EnableBundle(EnableBundleRequest) returns (EnableBundleResponse) {}
     rpc InvalidateBundle(InvalidateBundleRequest) returns (InvalidateBundleResponse) {}
 }
@@ -49,3 +49,9 @@ message GetBundlesRequest {}
 message GetBundlesResponse {
     repeated Bundle bundles = 1;
 }
+
+message InvalidateBundleRequest {
+    string bundle_id = 1;
+}
+
+message InvalidateBundleResponse {}

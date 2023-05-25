@@ -16,6 +16,7 @@ import "google/protobuf/timestamp.proto";
 // A service that enables bundled downloads
 service BundlerService {
   rpc CreateBundle(CreateBundleRequest) returns (CreateBundleResponse) {}
+  rpc DeleteBundle(DeleteBundleRequest) returns (DeleteBundleResponse) {}
 }
 
 // An resourcetype used to identify generic authorizations
@@ -36,3 +37,9 @@ message CreateBundleRequest {
 message CreateBundleResponse {
   string url = 1;
 }
+
+message DeleteBundleRequest {
+  string bundle_id = 1;
+}
+
+message DeleteBundleResponse {}
