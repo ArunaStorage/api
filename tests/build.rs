@@ -46,8 +46,7 @@ fn compile_services() -> Result<(), Box<dyn std::error::Error>> {
         protos.push(rel_path);
     }
 
-    tonic_build
-        ::configure()
+    tonic_build::configure()
         .build_server(true)
         .out_dir("./tests")
         .compile(
@@ -56,7 +55,7 @@ fn compile_services() -> Result<(), Box<dyn std::error::Error>> {
                 "./".to_string(),
                 "aruna/api/google".to_string(),
                 "aruna/api/protoc-gen-openapiv2".to_string(),
-            ]
+            ],
         )
         .unwrap();
     Ok(())
