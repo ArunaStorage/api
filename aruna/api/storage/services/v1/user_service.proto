@@ -21,6 +21,8 @@ service UserService {
 
   // RegisterUser
   //
+  // Status: STABLE
+  //
   // This request should be called when a new user logs in for the first time
   rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse) {
     option (google.api.http) = {
@@ -29,7 +31,21 @@ service UserService {
     };
   }
 
-  // ActivateUser 
+  // DeActivateUser 
+  //
+  // Status: ALPHA
+  //
+  // This deactivates a specific user (Admin request)
+  rpc DeactivateUser(DeactivateUserRequest) returns (DeactivateUserResponse) {
+    option (google.api.http) = {
+      patch : "/v1/user/{user_id}/deactivate"
+      body : "*"
+    };
+  }
+
+    // ActivateUser 
+  //
+  // Status: STABLE
   //
   // This activates a specific user (Admin request)
   rpc ActivateUser(ActivateUserRequest) returns (ActivateUserResponse) {
@@ -41,6 +57,8 @@ service UserService {
 
   // CreateAPIToken
   //
+  // Status: STABLE
+  //
   // Creates an API token to authenticate
   rpc CreateAPIToken(CreateAPITokenRequest) returns (CreateAPITokenResponse) {
     option (google.api.http) = {
@@ -51,6 +69,8 @@ service UserService {
 
   // GetAPIToken
   //
+  // Status: STABLE
+  //
   // Returns one API token by id
   rpc GetAPIToken(GetAPITokenRequest) returns (GetAPITokenResponse) {
     option (google.api.http) = {
@@ -59,6 +79,8 @@ service UserService {
   }
 
   // GetAPITokens
+  //
+  // Status: STABLE
   //
   // Returns a list of API tokens for a specific user
   rpc GetAPITokens(GetAPITokensRequest) returns (GetAPITokensResponse) {
@@ -69,6 +91,8 @@ service UserService {
 
   // DeleteAPIToken
   //
+  // Status: STABLE
+  //
   // Deletes the specified API Token
   rpc DeleteAPIToken(DeleteAPITokenRequest) returns (DeleteAPITokenResponse) {
     option (google.api.http) = {
@@ -77,6 +101,8 @@ service UserService {
   }
 
   // DeleteAPITokens
+  //
+  // Status: STABLE
   //
   // Deletes the specified API Token
   rpc DeleteAPITokens(DeleteAPITokensRequest)
@@ -88,6 +114,8 @@ service UserService {
 
   // GetUserRequest
   //
+  // Status: STABLE
+  //
   // This is a request that returns the user information of the
   // current user or if invoked by an admin from another user
   rpc GetUser(GetUserRequest) returns (GetUserResponse) {
@@ -98,6 +126,8 @@ service UserService {
 
   // UpdateUserDisplayName
   //
+  // Status: STABLE
+  //
   // Updates the Displayname for the user (Personal only)
   rpc UpdateUserDisplayName(UpdateUserDisplayNameRequest)
       returns (UpdateUserDisplayNameResponse) {
@@ -107,7 +137,22 @@ service UserService {
     };
   }
 
+  // UpdateUserDisplayName
+  //
+  // Status: ALPHA
+  //
+  // Updates the email for the user (Personal only)
+  rpc UpdateUserEmail(UpdateUserEmailRequest)
+      returns (UpdateUserEmailResponse) {
+    option (google.api.http) = {
+      patch : "/v1/user/email"
+      body : "*"
+    };
+  }
+
   // GetUserProjects
+  //
+  // Status: STABLE
   //
   // Gets all project_ids a user is member of
   rpc GetUserProjects(GetUserProjectsRequest)
@@ -119,11 +164,25 @@ service UserService {
 
   // GetNotActivatedUsers
   //
+  // Status: STABLE
+  //
   // Get all not activated users (Admin only)
   rpc GetNotActivatedUsers(GetNotActivatedUsersRequest)
       returns (GetNotActivatedUsersResponse) {
     option (google.api.http) = {
       get : "/v1/user/not_activated"
+    };
+  }
+
+  // GetAllUsers
+  //
+  // Status: ALPHA
+  //
+  // Get all users inkluding permissions (Admin only)
+  rpc GetAllUsers(GetAllUsersRequest)
+      returns (GetAllUsersResponse) {
+    option (google.api.http) = {
+      get : "/v1/user/all"
     };
   }
 }
@@ -134,8 +193,12 @@ message ExpiresAt {
 }
 
 message RegisterUserRequest {
-  // Optional user_displayname
+  // user_displayname
   string display_name = 1;
+  // Mail address
+  string email = 2;
+  // Project description string (optional)
+  string project = 3;
 }
 
 message RegisterUserResponse {
@@ -157,6 +220,8 @@ message CreateAPITokenRequest {
   ExpiresAt expires_at = 4;
   // Token permissions
   storage.models.v1.Permission permission = 5;
+  // Session token
+  bool is_session = 6;
 }
 
 message CreateAPITokenResponse {
@@ -166,6 +231,10 @@ message CreateAPITokenResponse {
   // Attention, this can not be recreated and needs to be stored securely
   // New tokens will always contain a new secret
   string token_secret = 2;
+  // S3 Access Key
+  string s3_access_key = 3;
+  // S3 Secret Key
+  string s3_secret_key = 4;
 }
 
 message GetAPITokenRequest {
@@ -244,6 +313,8 @@ message GetUserProjectsResponse {
 message ActivateUserRequest {
   // User to activate
   string user_id = 1;
+  // (optional) add user to project
+  storage.models.v1.ProjectPermission project_perms = 2;
 }
 
 message ActivateUserResponse {}
@@ -253,4 +324,36 @@ message GetNotActivatedUsersRequest {}
 message GetNotActivatedUsersResponse {
   // List of users that are not yet activated
   repeated storage.models.v1.User users = 1;
+}
+
+message GetAllUsersRequest {
+  bool include_permissions = 1;
+}
+
+message UserWithPerms {
+  storage.models.v1.User user = 1;
+  repeated storage.models.v1.ProjectPermission project_perms = 2;
+}
+
+message GetAllUsersResponse {
+  repeated UserWithPerms user_with_perms = 1;
+}
+
+
+message DeactivateUserRequest {
+  // User to activate
+  string user_id = 1;
+}
+
+message DeactivateUserResponse {}
+
+
+message UpdateUserEmailRequest {
+  string user_id = 1;
+  // If new email is empty == unsubscribe
+  string new_email = 2;
+}
+
+message UpdateUserEmailResponse {
+  storage.models.v1.User user = 1;
 }

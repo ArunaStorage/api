@@ -17,6 +17,27 @@ message LabelOntology {
   repeated string required_label_keys = 1;
 }
 
+// An resourcetype used to identify generic authorizations
+enum ResourceType {
+  RESOURCE_TYPE_UNSPECIFIED = 0;
+  RESOURCE_TYPE_PROJECT = 1;
+  RESOURCE_TYPE_COLLECTION = 2;
+  RESOURCE_TYPE_OBJECT_GROUP = 3;
+  RESOURCE_TYPE_OBJECT = 4;
+  RESOURCE_TYPE_ALL = 5;
+}
+
+// Used for the internal associated services to validate permissions
+// Actions are similar to HTTP verbs
+enum ResourceAction {
+  RESOURCE_ACTION_UNSPECIFIED = 0;
+  RESOURCE_ACTION_CREATE = 1;
+  RESOURCE_ACTION_APPEND = 2;
+  RESOURCE_ACTION_UPDATE = 3;
+  RESOURCE_ACTION_READ = 4;
+  RESOURCE_ACTION_DELETE = 5;
+}
+
 // An arbitrary status for Objects
 enum Status {
   STATUS_UNSPECIFIED = 0;
@@ -25,6 +46,16 @@ enum Status {
   STATUS_UNAVAILABLE = 3;
   STATUS_ERROR = 4;
   STATUS_TRASH = 5;
+  STATUS_FINALIZING = 6;
+}
+
+enum EndpointStatus {
+  ENDPOINT_STATUS_UNSPECIFIED = 0;
+  ENDPOINT_STATUS_INITIALIZING = 1;
+  ENDPOINT_STATUS_AVAILABLE = 2;
+  ENDPOINT_STATUS_DEGRADED = 3;
+  ENDPOINT_STATUS_UNAVAILABLE = 4;
+  ENDPOINT_STATUS_MAINTENANCE = 5;
 }
 
 // Stats for a set of objects
@@ -55,13 +86,18 @@ message Version {
 }
 
 enum Hashalgorithm {
+
+  reserved 2, 4 to 7;
+
   HASHALGORITHM_UNSPECIFIED = 0;
+
   HASHALGORITHM_MD5 = 1;
-  HASHALGORITHM_SHA1 = 2;
+  //HASHALGORITHM_SHA1 = 2;
   HASHALGORITHM_SHA256 = 3;
-  HASHALGORITHM_SHA512 = 4;
-  HASHALGORITHM_MURMUR3A32 = 5;
-  HASHALGORITHM_XXHASH32 = 6;
+  //HASHALGORITHM_SHA512 = 4;
+  //HASHALGORITHM_MURMUR3A32 = 5;
+  //HASHALGORITHM_XXHASH32 = 6;
+  //HASHALGORITHM_SHA224 = 7;
 }
 
 message Hash {
@@ -70,15 +106,16 @@ message Hash {
 }
 
 // Specifies the Origin of the object
-enum OriginType {
-  ORIGIN_TYPE_UNSPECIFIED = 0;
-  ORIGIN_TYPE_USER = 1;     // User uploaded the object
-  ORIGIN_TYPE_OBJCLONE = 2; // Object was cloned from another object
-}
+//enum OriginType {
+//  ORIGIN_TYPE_UNSPECIFIED = 0;
+//  ORIGIN_TYPE_USER = 1;     // User uploaded the object
+//  ORIGIN_TYPE_OBJCLONE = 2; // Object was cloned from another object
+//}
 
 // Origin of the object -> To be GDPA compliant
 message Origin {
-  OriginType type = 1;
+  reserved 1;
+  //OriginType type = 1;
   string id = 2;
 }
 
@@ -119,6 +156,7 @@ message Endpoint {
   string documentation_path = 6;
   bool is_public = 7;
   bool is_default = 8;
+  EndpointStatus status = 9;
 }
 
 // RULES for Objects:
@@ -138,6 +176,8 @@ message Endpoint {
 // the owner collection
 
 message Object {
+  reserved 11;
+
   string id = 1;       // ObjectID
   string filename = 2; // Filename: Name of the original file e.g.: mydata.json
   repeated KeyValue labels = 4; // Labels to additionally describe the object
@@ -147,7 +187,7 @@ message Object {
   Status status = 8;
   Origin origin = 9;         // Origin of the object
   DataClass data_class = 10; // Confidentiality of the object
-  Hash hash = 11;            // MD5 hash of the data
+  repeated Hash hashes = 16;            // MD5 and SHA256 hash of the data
   int64 rev_number = 12;     // Increasing revion number for each update
   Source source = 13;        // External source where this data originates from
 

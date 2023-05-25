@@ -18,6 +18,8 @@ import "google/api/annotations.proto";
 service ObjectGroupService {
 
   // CreateObjectGroup
+  //
+  // Status: STABLE
   // 
   // This creates a new ObjectGroup in the collection
   rpc CreateObjectGroup(CreateObjectGroupRequest)
@@ -29,6 +31,8 @@ service ObjectGroupService {
   }
 
   // UpdateObjectGroup
+  //
+  // Status: STABLE
   //
   // This creates an updated ObjectGroup
   // ObjectGroups are immutable
@@ -42,6 +46,8 @@ service ObjectGroupService {
   }
 
   // GetObjectGroupById
+  //
+  // Status: STABLE
   // 
   // This gets a specific ObjectGroup by ID
   // By default the latest revision is always returned, older revisions need to
@@ -54,7 +60,9 @@ service ObjectGroupService {
   }
 
   // GetObjectGroupsFromObject
-  // 
+  //
+  // Status: STABLE
+  //
   // This gets all ObjectGroups associated to a specific
   // Object Objects can be part of multiple ObjectGroups at once
   rpc GetObjectGroupsFromObject(GetObjectGroupsFromObjectRequest)
@@ -66,16 +74,20 @@ service ObjectGroupService {
 
   // GetObjectGroups
   //
+  // Status: STABLE
+  //
   // This is a request that returns a (paginated) list of
   // ObjectGroups that contain a specific set of labels.
   rpc GetObjectGroups(GetObjectGroupsRequest)
       returns (GetObjectGroupsResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/group"
+      get : "/v1/collection/{collection_id}/groups"
     };
   }
 
   // GetObjectGroupHistory
+  //
+  // Status: BETA
   //
   // This requests a full history with all objectgroups
   // that are part of this objectgroups history
@@ -88,6 +100,8 @@ service ObjectGroupService {
 
   // GetObjectGroupObjects
   //
+  // Status: STABLE
+  //
   // Requests a list of paginated objects associated with this
   // specific objectgroup
   rpc GetObjectGroupObjects(GetObjectGroupObjectsRequest)
@@ -97,6 +111,8 @@ service ObjectGroupService {
     };
   }
   // DeleteObjectGroup
+  //
+  // Status: STABLE
   // 
   // This is a request that deletes a specified ObjectGroup
   // This does not delete the associated Objects
@@ -104,6 +120,21 @@ service ObjectGroupService {
       returns (DeleteObjectGroupResponse) {
     option (google.api.http) = {
       delete : "/v1/collection/{collection_id}/group/{group_id}"
+    };
+  }
+  // AddLabelsToObjectGroup 
+  //
+  // Status: STABLE
+  //
+  // This is a specific request to add new label(s)
+  // to an existing object_group, in contrast to UpdateObjectGroup
+  // this will not create a new revision for the specific object_group
+  // Instead it will directly add the specified label(s) to the object_group
+  rpc AddLabelsToObjectGroup(AddLabelsToObjectGroupRequest)
+      returns (AddLabelsToObjectGroupResponse) {
+    option (google.api.http) = {
+      patch : "/v1/collection/{collection_id}/group/{group_id}/add_labels"
+      body : "*"
     };
   }
 }
@@ -190,6 +221,8 @@ message DeleteObjectGroupRequest {
   string group_id = 1;
   // Collection id
   string collection_id = 2;
+  // with revisions
+  bool with_revisions = 3;
 }
 
 message DeleteObjectGroupResponse {}
@@ -245,4 +278,18 @@ message ObjectGroupObject {
 message GetObjectGroupObjectsResponse {
   // List of associated object group objects
   repeated ObjectGroupObject object_group_objects = 1;
+}
+
+message AddLabelsToObjectGroupRequest {
+  // Collection id
+  string collection_id = 1;
+  // ObjectGroup id 
+  string group_id = 2;
+  // List of labels that should be added to the list of labels
+  repeated storage.models.v1.KeyValue labels_to_add = 3;
+}
+
+message AddLabelsToObjectGroupResponse {
+  // Returns the updated ObjectGroup
+  storage.models.v1.ObjectGroupOverview object_group = 1;
 }

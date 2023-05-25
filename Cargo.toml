@@ -3,7 +3,7 @@ authors = ["Marius <mariusdieckmann90@gmail.com>", "Sebastian Beyvers <sebastian
 description = "Tests building the Rust grpc stubs for ArunaAPI"
 edition = "2018"
 name = "aruna_api_buildtests"
-version = "0.1.0"
+version = "1.0.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -12,8 +12,8 @@ name = "aruna_api_buildtests"
 path = "./tests/build.rs"
 
 [dependencies]
-bytes = "0"
-tonic = "0"
-prost = "0"
-tonic-build = "0"
-uuid = "1.1.2"
+bytes = "1.4.0"
+tonic = "0.9.1"
+prost = "0.11.8"
+tonic-build = "0.9.1"
+uuid = "1.3.0"

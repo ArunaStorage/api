@@ -13,6 +13,8 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v1
       - name: Checkout without submodules
         uses: actions/checkout@v3
       - name: Setup buf
@@ -65,5 +67,12 @@ jobs:
         with:
           token: ${{ secrets.ARUNA_ACCESS_TOKEN }}
           repository: ArunaStorage/rust-api
+          event-type: publish
+          client-payload: '{"version": "${{ inputs.tag }}", "message": "${{ inputs.message }}"}'
+      - name: Repository Dispatch (python)
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.ARUNA_ACCESS_TOKEN }}
+          repository: ArunaStorage/python-api
           event-type: publish
           client-payload: '{"version": "${{ inputs.tag }}", "message": "${{ inputs.message }}"}'

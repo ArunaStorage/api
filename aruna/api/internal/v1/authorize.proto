@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package aruna.api.internal.v1;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/internal/v1";
+
+import "google/api/visibility.proto";
+import "aruna/api/storage/models/v1/models.proto";
+
+service InternalAuthorizeService {
+    option (google.api.api_visibility).restriction = "INTERNAL";
+    rpc Authorize(AuthorizeRequest) returns (AuthorizeResponse) {}
+    rpc GetSecret(GetSecretRequest) returns (GetSecretResponse) {}
+}
+
+message Authorization {
+    // Should include the APItoken
+    string secretkey = 1;
+    // Is the API-Token ID
+    string accesskey = 2;
+}
+
+enum IdType {
+    ID_TYPE_UNSPECIFIED = 0;
+    ID_TYPE_UUID = 1;
+    ID_TYPE_PATH = 2;
+}
+
+message Identifier {
+    string name = 1;
+    IdType idtype = 2;
+}
+
+message AuthorizeRequest{
+    // The resource type
+    aruna.api.storage.models.v1.ResourceType resource = 1;
+    // Id of the resource (PATH / OBJECT UUID)
+    Identifier identifier = 2; 
+    // Which action should be performed (CRUD)
+    aruna.api.storage.models.v1.ResourceAction resource_action = 3;
+    // Authorization
+    Authorization authorization = 4;
+}
+
+message AuthorizeResponse {
+    // Ok -> Authorization granted, empty or not ok -> dismiss
+    bool ok = 1;
+}
+
+message GetSecretRequest {
+    string accesskey = 1;
+}
+
+message GetSecretResponse {
+    Authorization authorization = 1;
+}
+

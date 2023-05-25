@@ -14,7 +14,7 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 	info: {
 		title: "Aruna Object Storage (AOS) REST API";
-		version: "0.5.0-alpha.4"
+		version: "1.0.0"
 	};
 	// Overwriting host entry breaks tests, so this is not done here.
 	schemes: HTTPS;
@@ -47,6 +47,8 @@ service ProjectService {
 
   // CreateProject
   //
+  // Status: STABLE
+  //
   // Creates a new project all users and collections are bundled in a project.
   rpc CreateProject(CreateProjectRequest) returns (CreateProjectResponse) {
     option (google.api.http) = {
@@ -56,6 +58,8 @@ service ProjectService {
   }
 
   // AddUserToProject
+  //
+  // Status: STABLE
   // 
   // Adds a new user to a given project by its id
   rpc AddUserToProject(AddUserToProjectRequest)
@@ -67,6 +71,8 @@ service ProjectService {
   }
 
   // GetProject
+  //
+  // Status: STABLE
   // 
   // Requests a project by id
   rpc GetProject(GetProjectRequest) returns (GetProjectResponse) {
@@ -75,7 +81,9 @@ service ProjectService {
     };
   }
 
-  // GetProject
+  // GetProjects
+  //
+  // Status: STABLE
   // 
   // Admin request to get all projects
   rpc GetProjects(GetProjectsRequest) returns (GetProjectsResponse) {
@@ -85,6 +93,8 @@ service ProjectService {
   }
 
   // DestroyProject
+  //
+  // Status: STABLE
   //
   // Destroys the project and all its associated data. Must be empty
   // (cannot contain any collections).
@@ -96,6 +106,8 @@ service ProjectService {
 
   // UpdateProject
   //
+  // Status: STABLE
+  //
   // Updates the project. All (meta) data will be overwritten.
   rpc UpdateProject(UpdateProjectRequest) returns (UpdateProjectResponse) {
     option (google.api.http) = {
@@ -104,6 +116,8 @@ service ProjectService {
   }
 
   // RemoveUserFromProject
+  //
+  // Status: STABLE
   //
   // Removes a specified user from the project.
   rpc RemoveUserFromProject(RemoveUserFromProjectRequest)
@@ -114,6 +128,8 @@ service ProjectService {
   }
 
   // GetUserPermissionsForProject
+  //
+  // Status: STABLE
   // 
   // Get the user_permission of a specific user for the project.
   rpc GetUserPermissionsForProject(GetUserPermissionsForProjectRequest)
@@ -123,7 +139,23 @@ service ProjectService {
     };
   }
 
+
+  // GetAllUserPermissionsForProject
+  //
+  // Status: ALPHA
+  // 
+  // Get the user_permission of a specific user for the project.
+  rpc GetAllUserPermissionsForProject(GetAllUserPermissionsForProjectRequest)
+      returns (GetAllUserPermissionsForProjectResponse) {
+    option (google.api.http) = {
+      get : "/v1/project/{project_id}/get_users"
+    };
+  }
+
+
   // EditUserPermissionsForProject
+  //
+  // Status: STABLE
   //
   // Modifies the user_permission of a specific user for the project.
   rpc EditUserPermissionsForProject(EditUserPermissionsForProjectRequest)
@@ -213,7 +245,7 @@ message GetUserPermissionsForProjectRequest {
 
 message GetUserPermissionsForProjectResponse {
   // Userpermission for a specific user
-  storage.models.v1.ProjectPermission user_permission = 1;
+  storage.models.v1.ProjectPermissionDisplayName user_permission = 1;
 }
 
 message EditUserPermissionsForProjectRequest {
@@ -224,3 +256,17 @@ message EditUserPermissionsForProjectRequest {
 }
 
 message EditUserPermissionsForProjectResponse {}
+
+message UserWithProjectPermissions {
+  storage.models.v1.User user = 1;
+  storage.models.v1.ProjectPermission user_permissions = 2;
+}
+
+message GetAllUserPermissionsForProjectRequest {
+    // Project id
+    string project_id = 1;
+}
+
+message GetAllUserPermissionsForProjectResponse {
+    repeated UserWithProjectPermissions users = 1;
+}

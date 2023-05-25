@@ -19,6 +19,8 @@ service EndpointService {
 
   // AddEndpoint
   //
+  // Status: BETA
+  //
   // Registers a new Endpoint (Aruna DataProxy) to the server
   // Needs admin permissions
   rpc AddEndpoint(AddEndpointRequest) returns (AddEndpointResponse) {
@@ -30,6 +32,8 @@ service EndpointService {
 
   // GetEndpoint
   //
+  // Status: BETA
+  //
   // Gets an specific endpoint by ID or Name
   rpc GetEndpoint(GetEndpointRequest) returns (GetEndpointResponse) {
     option (google.api.http) = {
@@ -39,6 +43,8 @@ service EndpointService {
 
   // GetEndpoints
   // 
+  // Status: BETA
+  //
   // Gets all available endpoints
   rpc GetEndpoints(GetEndpointsRequest) returns (GetEndpointsResponse) {
     option (google.api.http) = {
@@ -47,7 +53,9 @@ service EndpointService {
   }
 
   // DeleteEndpoint
-  // 
+  //
+  // Status: BETA
+  //
   // Deletes a specific endpoint by id
   // This needs admin permissions
   rpc DeleteEndpoint(DeleteEndpointRequest) returns (DeleteEndpointResponse) {
@@ -57,6 +65,8 @@ service EndpointService {
   }
 
   // GetDefaultEndpoint
+  //
+  // Status: BETA
   //
   // This request returns the default endpoint for the current aruna_server
   // It may produce different results depending on the used server
@@ -81,11 +91,14 @@ message AddEndpointRequest {
   string documentation_path = 5;
   // Is this endpoint public
   bool is_public = 6;
+  // (optional) ED25519 Pubkey -> Pubkey to validate endpoint authenticated tokens
+  string pubkey = 7;
 }
 
 message AddEndpointResponse {
   // Overview of the requested endpoint
   storage.models.v1.Endpoint endpoint = 1;
+  int64 pubkey_serial = 2;
 }
 
 message GetEndpointRequest {
