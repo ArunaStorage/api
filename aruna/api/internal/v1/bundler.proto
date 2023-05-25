@@ -4,7 +4,6 @@ package aruna.api.internal.v1;
 option go_package = "github.com/ArunaStorage/go-api/aruna/api/internal/v1";
 
 import "google/api/visibility.proto";
-import "aruna/api/storage/models/v1/models.proto";
 import "google/protobuf/timestamp.proto";
 
 service InternalBundlerService {
@@ -14,7 +13,7 @@ service InternalBundlerService {
     rpc InvalidateBundle(InvalidateBundleRequest) returns (InvalidateBundleResponse) {}
 }
 
-service InternalBundlerServiceBackchannel {
+service InternalBundlerBackchannelService {
     option (google.api.api_visibility).restriction = "INTERNAL";
     rpc GetBundles(GetBundlesRequest) returns (GetBundlesResponse) {}
 }
