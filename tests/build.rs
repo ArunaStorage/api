@@ -34,6 +34,18 @@ fn compile_services() -> Result<(), Box<dyn std::error::Error>> {
         protos.push(rel_path);
     }
 
+    let service_entries = fs::read_dir("aruna/api/bundler/services/v1/")?;
+
+    for entry in service_entries {
+        let dir = entry?;
+        let rel_path = format!(
+            "{}{}",
+            "aruna/api/bundler/services/v1/",
+            dir.file_name().to_str().unwrap().to_string()
+        );
+        protos.push(rel_path);
+    }
+
     let service_entries = fs::read_dir("aruna/api/internal/v1/")?;
 
     for entry in service_entries {
