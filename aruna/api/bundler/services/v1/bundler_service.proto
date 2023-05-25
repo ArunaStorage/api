@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package aruna.api.bundler.services.v1;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v1";
+option java_outer_classname = "BundlerService";
+
+import "google/protobuf/timestamp.proto";
+
+// BundlerService
+//
+// Status: ALPHA
+//
+// A service that enables bundled downloads
+service BundlerService {
+  rpc CreateBundle(CreateBundleRequest) returns (CreateBundleResponse) {}
+  rpc DeleteBundle(DeleteBundleRequest) returns (DeleteBundleResponse) {}
+}
+
+// An resourcetype used to identify generic authorizations
+enum ArchiveType {
+  ARCHIVE_TYPE_UNSPECIFIED = 0;
+  ARCHIVE_TYPE_TAR_GZ = 1;
+  ARCHIVE_TYPE_ZIP = 2;
+  ARCHIVE_TYPE_TAR_ZST = 3;
+}
+
+message CreateBundleRequest {
+  repeated string object_ids = 1;
+  string filename = 2;
+  ArchiveType archive_type = 3;
+  google.protobuf.Timestamp expires_at = 4;
+}
+
+message CreateBundleResponse {
+  string url = 1;
+}
+
+message DeleteBundleRequest {
+  string bundle_id = 1;
+}
+
+message DeleteBundleResponse {}

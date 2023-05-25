@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package aruna.api.internal.v1;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/internal/v1";
+
+import "google/api/visibility.proto";
+import "google/protobuf/timestamp.proto";
+
+service InternalBundlerService {
+    option (google.api.api_visibility).restriction = "INTERNAL";
+    rpc PrepareBundle(PrepareBundleRequest) returns (PrepareBundleResponse) {}
+    rpc EnableBundle(EnableBundleRequest) returns (EnableBundleResponse) {}
+    rpc InvalidateBundle(InvalidateBundleRequest) returns (InvalidateBundleResponse) {}
+}
+
+service InternalBundlerBackchannelService {
+    option (google.api.api_visibility).restriction = "INTERNAL";
+    rpc GetBundles(GetBundlesRequest) returns (GetBundlesResponse) {}
+}
+
+
+message PrepareBundleRequest {
+    string bundle_id = 1;
+}
+
+message PrepareBundleResponse {}
+
+
+message ObjectRef {
+    string object_location = 1;
+    string encryption_key = 2;
+    string object_path = 3; // Path + filename foo/bar/baz/test.txt
+}
+
+message Bundle {
+    string bundle_id = 1;
+    repeated ObjectRef object_refs = 2;
+    google.protobuf.Timestamp expires_at = 3;
+}
+
+message EnableBundleRequest{
+    Bundle bundle = 1;
+}
+
+message EnableBundleResponse{}
+
+message GetBundlesRequest {}
+
+message GetBundlesResponse {
+    repeated Bundle bundles = 1;
+}
+
+message InvalidateBundleRequest {
+    string bundle_id = 1;
+}
+
+message InvalidateBundleResponse {}
