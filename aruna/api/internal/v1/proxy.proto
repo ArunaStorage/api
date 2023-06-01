@@ -133,9 +133,16 @@ message GetObjectLocationRequest {
   string endpoint_id = 4;
 }
 
+message CORSConfig {
+  repeated string allowed_methods = 1;
+  repeated string allowed_origins = 2;
+  repeated string allowed_headers = 3;
+}
+
 message GetObjectLocationResponse {
   aruna.api.storage.models.v1.Object object = 1;
   Location location = 2;
+  repeated CORSConfig cors_configurations = 3;
 }
 
 message GetCollectionByBucketRequest {
