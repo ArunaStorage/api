@@ -170,7 +170,9 @@ service WorkspaceService {
 
 // Models:
 
-message CreateWorkspaceRequest {}
+message CreateWorkspaceRequest {
+  string project_name = 1;
+}
 
 message CreateWorkspaceResponse{
   string workspace_id = 1;
