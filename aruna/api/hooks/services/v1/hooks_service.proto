@@ -68,7 +68,7 @@ message Credentials {
 message CreateHookRequest {
     Trigger trigger = 1;
     Hook hook = 2;
-    string collection_id = 3;
+    string project_id = 3;
 }
 message CreateHookResponse {
     string hook_id = 1;
@@ -89,7 +89,7 @@ message HookCallbackRequest {
 message HookCallbackResponse{}
 
 message ListHookRequest{
-    string collection_id = 1;
+    string project_id = 1;
 }
 
 
