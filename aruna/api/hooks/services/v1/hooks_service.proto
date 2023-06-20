@@ -68,7 +68,8 @@ message Credentials {
 message CreateHookRequest {
     Trigger trigger = 1;
     Hook hook = 2;
-    string project_id = 3;
+    uint64 timeout = 3;
+    string project_id = 4;
 }
 message CreateHookResponse {
     string hook_id = 1;
@@ -96,6 +97,8 @@ message ListHookRequest{
 message HookInfo {
     string hook_id = 1;
     Hook hook_info = 2;
+    Trigger trigger = 3;
+    uint64 timeout = 4;
 }
 
 message ListHookResponse{
