@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package aruna.api.hooks.services.v1;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v1";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v1";
+option java_outer_classname = "HooksService";
+
+import "aruna/api/storage/models/v1/models.proto";
+
+// HooksService
+//
+// Status: ALPHA
+//
+// A service that enables automatic Hook scheduling
+service HooksService {
+    rpc CreateHook(CreateHookRequest) returns (CreateHookResponse) {}
+    rpc DeleteHook(DeleteHookRequest) returns (DeleteHookResponse) {}
+    rpc HookCallback(HookCallbackRequest) returns (HookCallbackResponse) {}
+}
+
+enum TriggerType {
+    TRIGGER_TYPE_UNSPECIFIED = 0;
+    TRIGGER_TYPE_OBJECT_CREATED = 1;
+}
+
+message Trigger {
+    TriggerType trigger_type = 1;
+    string value = 2;
+}
+
+message Target {
+    string url = 1;
+    Credentials credentials = 2; 
+}
+
+// Will be updated with additional credential types
+message Credentials {
+    string token = 1;
+}
+
+message CreateHookRequest {
+    Trigger trigger = 1;
+    Target target = 2;
+    string json_template = 3;
+}
+message CreateHookResponse {
+    string hook_id = 1;
+}
+
+message DeleteHookRequest {
+    string hook_id = 1;
+}
+
+message DeleteHookResponse {}
+
+enum KeyValueType {
+    KEY_VALUE_TYPE_UNSPECIFIED = 0;
+    KEY_VALUE_TYPE_HOOK = 1;
+    KEY_VALUE_TYPE_LABEL = 2;
+}
+
+message HookCallbackRequest {
+    bool success = 1;
+    repeated aruna.api.storage.models.v1.KeyValue labels = 2;
+    repeated aruna.api.storage.models.v1.KeyValue hooks = 3;
+}
+
+message HookCallbackResponse{}
