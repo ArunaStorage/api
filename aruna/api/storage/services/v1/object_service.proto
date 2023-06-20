@@ -342,11 +342,11 @@ service ObjectService {
     };
   }
 
-  // GetObjectsByPath
+  // GetProjectCollectionIdsByPath
   //
   // Status: BETA
   //
-  // Gets a specific object by object_path
+  // Gets a specific project and collection_id by object_path
   // !! Paths are collection specific !!
   rpc GetProjectCollectionIdsByPath(GetProjectCollectionIdsByPathRequest) returns (GetProjectCollectionIdsByPathResponse) {
     option (google.api.http) = {
