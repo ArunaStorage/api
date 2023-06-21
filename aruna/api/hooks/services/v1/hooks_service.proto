@@ -89,7 +89,7 @@ message HookCallbackRequest {
 
 message HookCallbackResponse{}
 
-message ListHookRequest{
+message ListHooksRequest{
     string project_id = 1;
 }
 
