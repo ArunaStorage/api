@@ -320,8 +320,9 @@ message DeleteCollectionResponse {}
 
 
 message AddKeyValuesToCollectionRequest {
-  repeated storage.models.v1.KeyValue labels = 1;
-  repeated storage.models.v1.KeyValue hooks = 2;
+  string collection_id = 1;
+  repeated storage.models.v1.KeyValue labels = 2;
+  repeated storage.models.v1.KeyValue hooks = 3;
 }
 
 message AddKeyValuesToCollectionResponse {
