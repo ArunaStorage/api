@@ -96,7 +96,7 @@ message ListHooksRequest{
 
 message HookInfo {
     string hook_id = 1;
-    Hook hook_info = 2;
+    Hook hook = 2;
     Trigger trigger = 3;
     uint64 timeout = 4;
 }
