@@ -323,3 +323,8 @@ message AddKeyValueToCollectionRequest {
   repeated storage.models.v1.KeyValue labels = 1;
   repeated storage.models.v1.KeyValue hooks = 2;
 }
+
+message AddKeyValueToCollectionResponse {
+  // New collection overview
+  storage.models.v1.CollectionOverview collection = 1;
+}
