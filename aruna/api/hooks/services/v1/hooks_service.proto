@@ -15,7 +15,7 @@ import "aruna/api/storage/models/v1/models.proto";
 // A service that enables automatic Hook scheduling
 service HooksService {
     rpc CreateHook(CreateHookRequest) returns (CreateHookResponse) {}
-    rpc ListHook(ListHookRequest) returns (ListHookResponse) {}
+    rpc ListHooks(ListHooksRequest) returns (ListHooksResponse) {}
     rpc DeleteHook(DeleteHookRequest) returns (DeleteHookResponse) {}
     rpc HookCallback(HookCallbackRequest) returns (HookCallbackResponse) {}
 }
