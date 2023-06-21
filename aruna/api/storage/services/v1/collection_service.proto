@@ -87,7 +87,7 @@ service CollectionService {
   rpc PinCollectionVersion(PinCollectionVersionRequest)
       returns (PinCollectionVersionResponse) {
     option (google.api.http) = {
-      post : "/v1/workspace/"
+      post : "/v1/collection/{collection_id}/pin"
       body : "*"
     };
   }
