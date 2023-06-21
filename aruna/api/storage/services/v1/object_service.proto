@@ -342,17 +342,30 @@ service ObjectService {
     };
   }
 
-  // GetObjectsByPath
+  // GetProjectCollectionIdsByPath
   //
   // Status: BETA
   //
-  // Gets a specific object by object_path
+  // Gets a specific project and collection_id by object_path
   // !! Paths are collection specific !!
   rpc GetProjectCollectionIdsByPath(GetProjectCollectionIdsByPathRequest) returns (GetProjectCollectionIdsByPathResponse) {
     option (google.api.http) = {
       get : "/v1/path/collection/{path=**}"
     };
   }
+
+  // GetObjectsAsListV2
+  //
+  // Status: ALPHA
+  //
+  // Gets a list of objects represented similar to a S3 ListObjectsV2 request
+  // !! Paths are collection specific !!
+  rpc GetObjectsAsListV2(GetObjectsAsListV2Request) returns (GetObjectsAsListV2Response) {
+    option (google.api.http) = {
+      get : "/v1/path/objects/listv2"
+    };
+  }
+
 
 }
 
@@ -794,4 +807,31 @@ message GetProjectCollectionIdsByPathResponse {
 message GetObjectsByPathResponse {
   repeated storage.models.v1.Object object = 3;
 }
+
+
+message GetObjectsAsListV2Request {
+  // Required 
+  string bucket = 1;
+  optional string continuation_token = 2;
+  optional string delimiter = 3;
+  optional uint32 max_keys = 4;
+  optional string prefix = 5;
+  optional string start_after = 6;
+}
+
+message CommonPrefix {
+  string prefix = 1;
+}
+
+message GetObjectsAsListV2Response {
+  string name = 1;
+  bool is_truncated = 2;
+  uint32 max_keys = 4;
+  uint32 key_count = 5;
+  repeated storage.models.v1.Object contents = 6;
+  repeated CommonPrefix prefixes = 7;
+  optional string next_continuation_token = 8;
+}
+
+
 

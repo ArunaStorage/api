@@ -109,7 +109,100 @@ service CollectionService {
   }
 }
 
+
+// WorkspaceService
+//
+// Service to manage "special" anonymous collections / workspaces 
+service WorkspaceService {
+  // CreateWorkspace
+  //
+  // Status: ALPHA
+  //
+  // A new request to create a personal anonymous workspace
+  rpc CreateWorkspace(CreateWorkspaceRequest)
+      returns (CreateWorkspaceResponse) {
+    option (google.api.http) = {
+      post : "/v1/workspace"
+      body : "*"
+    };
+  }
+
+
+  // DeleteWorkspace
+  //
+  // Status: ALPHA
+  //
+  // Delete a workspace
+  rpc DeleteWorkspace(DeleteWorkspaceRequest)
+      returns (DeleteWorkspaceResponse) {
+    option (google.api.http) = {
+      delete : "/v1/workspace/{workspace_id}"
+      body : "*"
+    };
+  }
+
+  // DeleteWorkspace
+  //
+  // Status: ALPHA
+  //
+  // Claims an anonymous workspace, and transfers the owner to a regular user account.
+  rpc ClaimWorkspace(ClaimWorkspaceRequest)
+      returns (ClaimWorkspaceResponse) {
+    option (google.api.http) = {
+      post : "/v1/workspace/{workspace_id}/claim"
+      body : "*"
+    };
+  }
+
+  // MoveWorkspaceData
+  //
+  // Status: ALPHA
+  //
+  // Claims an anonymous workspace
+  rpc MoveWorkspaceData(MoveWorkspaceDataRequest)
+      returns (MoveWorkspaceDataResponse) {
+    option (google.api.http) = {
+      post : "/v1/workspace/{workspace_id}/move/{collection_id}"
+      body : "*"
+    };
+  }
+}
+
 // Models:
+
+message CreateWorkspaceRequest {
+  string project_name = 1;
+}
+
+message CreateWorkspaceResponse{
+  string workspace_id = 1;
+  string token = 2;
+  string access_key = 3;
+  string secret_key = 4;
+}
+
+message DeleteWorkspaceRequest {
+  string workspace_id = 1;
+}
+
+message DeleteWorkspaceResponse {}
+
+message ClaimWorkspaceRequest {
+  // This can only be called by an registered user,
+  // that is in possesion of the workspace_id and workspace token
+  // It will remove the service account and claim all references "as" the user.
+  string workspace_id = 1;
+  string token = 2;
+}
+
+message ClaimWorkspaceResponse {}
+
+message MoveWorkspaceDataRequest {
+  string workspace_id = 1;
+  string collection_id = 2;
+}
+
+message MoveWorkspaceDataResponse {}
 
 message CreateNewCollectionRequest {
   // Collection name
