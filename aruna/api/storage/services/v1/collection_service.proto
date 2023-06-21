@@ -113,8 +113,8 @@ service CollectionService {
   // Status: BETA
   //
   // Adds key values (labels / hooks) to a collection
-  rpc AddKeyValueToCollection(AddKeyValueToCollectionRequest)
-      returns (AddKeyValueToCollectionResponse) {
+  rpc AddKeyValuesToCollection(AddKeyValuesToCollectionRequest)
+      returns (AddKeyValuesToCollectionResponse) {
     option (google.api.http) = {
       patch : "/v1/collection/{collection_id}/add_key_value"
       body : "*"
@@ -319,12 +319,12 @@ message DeleteCollectionRequest {
 message DeleteCollectionResponse {}
 
 
-message AddKeyValueToCollectionRequest {
+message AddKeyValuesToCollectionRequest {
   repeated storage.models.v1.KeyValue labels = 1;
   repeated storage.models.v1.KeyValue hooks = 2;
 }
 
-message AddKeyValueToCollectionResponse {
+message AddKeyValuesToCollectionResponse {
   // New collection overview
   storage.models.v1.CollectionOverview collection = 1;
 }
