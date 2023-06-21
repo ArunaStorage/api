@@ -5,6 +5,10 @@ option go_package = "github.com/ArunaStorage/go-api/aruna/api/internal/v1";
 
 import "google/api/visibility.proto";
 import "google/protobuf/timestamp.proto";
+import "aruna/api/storage/models/v1/models.proto";
+import "aruna/api/internal/v1/proxy.proto";
+
+
 
 service InternalBundlerService {
     option (google.api.api_visibility).restriction = "INTERNAL";
@@ -27,9 +31,9 @@ message PrepareBundleResponse {}
 
 
 message ObjectRef {
-    string object_location = 1;
-    string encryption_key = 2;
-    string object_path = 3; // Path + filename foo/bar/baz/test.txt
+    aruna.api.internal.v1.Location object_location = 1;
+    aruna.api.storage.models.v1.Object object_info = 2;
+    string sub_path = 3;
 }
 
 message Bundle {
