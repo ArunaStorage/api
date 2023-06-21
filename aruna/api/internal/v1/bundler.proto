@@ -6,6 +6,8 @@ option go_package = "github.com/ArunaStorage/go-api/aruna/api/internal/v1";
 import "google/api/visibility.proto";
 import "google/protobuf/timestamp.proto";
 import "aruna/api/storage/models/v1/models.proto";
+import "aruna/api/internal/v1/proxy.proto";
+
 
 
 service InternalBundlerService {
