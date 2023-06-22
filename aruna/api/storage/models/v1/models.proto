@@ -158,6 +158,7 @@ message Endpoint {
   bool is_default = 8;
   EndpointStatus status = 9;
   bool is_bundler = 10;
+  bool ssl = 11;
 }
 
 // RULES for Objects:
