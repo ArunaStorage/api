@@ -147,18 +147,30 @@ enum EndpointType {
   ENDPOINT_TYPE_FILE = 2;
 }
 
+enum EndpointHostType {
+  ENDPOINT_HOST_TYPE_UNSPECIFIED = 0;
+  ENDPOINT_HOST_TYPE_PROXY = 1;
+  ENDPOINT_HOST_TYPE_INTERNAL = 2;
+  ENDPOINT_HOST_TYPE_BUNDLER = 3;
+}
+
+message EndpointHostConfig {
+  string url = 1;
+  bool is_primary = 2;
+  bool ssl = 3;
+  EndpointHostType host_type = 4;
+}
+
 message Endpoint {
   string id = 1;
   EndpointType ep_type = 2;
   string name = 3;
-  string proxy_hostname = 4;
-  string internal_hostname = 5;
   string documentation_path = 6;
   bool is_public = 7;
   bool is_default = 8;
   EndpointStatus status = 9;
   bool is_bundler = 10;
-  bool ssl = 11;
+  repeated EndpointHostConfig host_configs = 11;
 }
 
 // RULES for Objects:

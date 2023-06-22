@@ -83,10 +83,6 @@ message AddEndpointRequest {
   string name = 1;
   // Endpoint type
   storage.models.v1.EndpointType ep_type = 2;
-  // Public hostname of the proxy
-  string proxy_hostname = 3;
-  // Internal hostname for the proxy
-  string internal_hostname = 4;
   // (optional) URL to a offsite documentation 
   string documentation_path = 5;
   // Is this endpoint public
@@ -95,8 +91,8 @@ message AddEndpointRequest {
   string pubkey = 7;
   // Added option to make a Dataproxy a bundler
   bool is_bundler = 8;
-  // Is ssl / https enabled ?
-  bool ssl_enabled = 9;
+  // List of EndpointHostConfigs
+  repeated storage.models.v1.EndpointHostConfig host_configs = 9;
 }
 
 message AddEndpointResponse {
