@@ -157,6 +157,7 @@ message Endpoint {
   bool is_public = 7;
   bool is_default = 8;
   EndpointStatus status = 9;
+  bool is_bundler = 10;
 }
 
 // RULES for Objects:
