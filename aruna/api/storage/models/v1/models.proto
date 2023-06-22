@@ -158,7 +158,8 @@ message EndpointHostConfig {
   string url = 1;
   bool is_primary = 2;
   bool ssl = 3;
-  EndpointHostType host_type = 4;
+  bool public = 4;
+  EndpointHostType host_type = 5;
 }
 
 message Endpoint {
