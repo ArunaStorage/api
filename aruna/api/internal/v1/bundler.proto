@@ -48,7 +48,9 @@ message EnableBundleRequest{
 
 message EnableBundleResponse{}
 
-message GetBundlesRequest {}
+message GetBundlesRequest {
+    string endpoint_id = 1;
+}
 
 message GetBundlesResponse {
     repeated Bundle bundles = 1;
