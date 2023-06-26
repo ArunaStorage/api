@@ -358,7 +358,7 @@ service ObjectService {
   //
   // Status: ALPHA
   //
-  // Gets a list of objects represented similar to a S3 ListObjectsV2 request
+  // Gets a list of ObjectWithURLs represented similar to a S3 ListObjectsV2 request
   // !! Paths are collection specific !!
   rpc GetObjectsAsListV2(GetObjectsAsListV2Request) returns (GetObjectsAsListV2Response) {
     option (google.api.http) = {
@@ -828,7 +828,8 @@ message GetObjectsAsListV2Response {
   bool is_truncated = 2;
   uint32 max_keys = 4;
   uint32 key_count = 5;
-  repeated storage.models.v1.Object contents = 6;
+  // Does not contain URLs, only paths
+  repeated ObjectWithURL contents = 6;
   repeated CommonPrefix prefixes = 7;
   optional string next_continuation_token = 8;
 }
