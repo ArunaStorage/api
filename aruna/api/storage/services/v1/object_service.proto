@@ -828,7 +828,7 @@ message GetObjectsAsListV2Response {
   bool is_truncated = 2;
   uint32 max_keys = 4;
   uint32 key_count = 5;
-  repeated storage.models.v1.Object contents = 6;
+  repeated ObjectWithURL contents = 6;
   repeated CommonPrefix prefixes = 7;
   optional string next_continuation_token = 8;
 }
