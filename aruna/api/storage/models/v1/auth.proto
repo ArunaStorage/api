@@ -14,6 +14,8 @@ message Project {
   repeated ProjectPermission user_permissions = 3;
   repeated string collection_ids = 4;
   string description = 5;
+  // Project binary flag(s)
+  int64 flags = 6;
 }
 
 message ProjectOverview {
@@ -22,6 +24,8 @@ message ProjectOverview {
   string description = 3;
   repeated string collection_ids = 4;
   repeated string user_ids = 5;
+  // Project binary flag(s)
+  int64 flags = 6;
 }
 
 message User {
