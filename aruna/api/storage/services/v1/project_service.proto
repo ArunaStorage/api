@@ -172,6 +172,8 @@ message CreateProjectRequest {
   string name = 1;
   // Description for the project
   string description = 2;
+  // Project binary flag(s)
+  int64 flag = 3;
 }
 
 message CreateProjectResponse {
@@ -220,6 +222,8 @@ message UpdateProjectRequest {
   string name = 2;
   // Update description
   string description = 3;
+  // Project binary flag(s)
+  int64 flag = 4;
 }
 
 message UpdateProjectResponse {
