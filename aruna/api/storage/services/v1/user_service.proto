@@ -43,7 +43,7 @@ service UserService {
     };
   }
 
-    // ActivateUser 
+  // ActivateUser 
   //
   // Status: STABLE
   //

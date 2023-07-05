@@ -71,12 +71,6 @@ message CollectionStats {
   google.protobuf.Timestamp last_updated = 3;
 }
 
-// Stats for an object group
-message ObjectGroupStats {
-  Stats object_stats = 1;
-  google.protobuf.Timestamp last_updated = 2;
-}
-
 // Semver version -> Alpha Beta release are not supported -> Use "latest" for
 // mutable collections that are in development
 message Version {
@@ -215,60 +209,6 @@ message Object {
 // Multiple Objects
 message Objects { repeated Object objects = 1; }
 
-// ObjectGroups are optional and can be used to group objects in a collection
-// together They need to refer to objects in the same collection Objectgroups
-// can be changed if the collection is mutable
-message ObjectGroup {
-  string id = 1;
-  string name = 2;
-  string description = 3;
-  repeated KeyValue labels = 6;
-  repeated KeyValue hooks = 7;
-  repeated Object objects = 8;      // Must be in collection objects
-  repeated Object meta_objects = 9; // Must be in collection objects
-  ObjectGroupStats stats = 10;
-  int64 rev_number = 11;
-}
-
-// Multiple ObjectGroups
-message ObjectGroups { repeated ObjectGroup object_groups = 1; }
-
-// This is a representation of the ObjectGroup without the recursive nature of
-// object references
-message ObjectGroupOverview {
-  string id = 1;
-  string name = 2;
-  string description = 3;
-  repeated KeyValue labels = 6;
-  repeated KeyValue hooks = 7;
-  ObjectGroupStats stats = 8;
-  int64 rev_number = 9;
-}
-
-// Multiple ObjectGroupOverviews
-message ObjectGroupOverviews {
-  repeated ObjectGroupOverview object_group_overviews = 1;
-}
-
-// This is a representation of the ObjectGroup with only ObjectIDs instead of
-// full objects
-message ObjectGroupWithID {
-  string id = 1;
-  string name = 2;
-  string description = 3;
-  repeated KeyValue labels = 6;
-  repeated KeyValue hooks = 7;
-  repeated string object_ids = 8;      // Must be in collection objects
-  repeated string meta_object_ids = 9; // Must be in collection objects
-  ObjectGroupStats stats = 10;
-  int64 rev_number = 11;
-}
-
-// Multiple ObjectGroupWithIDs
-message ObjectGroupWithIDs {
-  repeated ObjectGroupWithID object_group_with_ids = 1;
-}
-
 // RULES for Collections:
 // 1. Each object is "owned" by one/or more collections
 // 2. Objects can be in multiple collections and must be in the owner collection
@@ -290,7 +230,6 @@ message Collection {
   google.protobuf.Timestamp created = 7;
   repeated Object objects = 8;
   repeated Object specifications = 9;
-  repeated ObjectGroup object_groups = 10;
   oneof version {
     Version semantic_version = 12;
     bool latest = 13;

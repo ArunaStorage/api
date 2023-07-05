@@ -50,9 +50,8 @@ enum Permission {
   PERMISSION_NONE = 1; // No permissions granted, used for users that are in the
                        // project but have no default permissions
   PERMISSION_READ = 2; // Read only
-  PERMISSION_APPEND =
-      3; // Append objects to the collection cannot modify existing objects
-  PERMISSION_MODIFY = 4; // Can Read/Append/Modify objects in the collection
+  PERMISSION_APPEND = 3; // Append objects to the collection cannot modify existing objects
+  PERMISSION_WRITE = 4; // Can Read/Append/Modify objects in the collection
                          // that owns the object / Create new collections
   PERMISSION_ADMIN = 5;  // Can modify the collections itself and permanently
                          // delete owned objects / move ownership of objects
@@ -74,14 +73,16 @@ enum TokenType {
 message Token {
   string id = 1;
   string name = 2;
-  TokenType token_type = 4;
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp expires_at = 6;
-  string collection_id = 7;
-  string project_id = 8;
-  Permission permission = 9;
-  bool is_session = 10;
-  google.protobuf.Timestamp used_at = 11;
+  oneof resource_id {
+    string collection_id = 7;
+    string project_id = 8;
+    bool personal = 9;
+  }
+  Permission permission = 10;
+  bool is_session = 11;
+  google.protobuf.Timestamp used_at = 12;
 }
 
 message ProjectPermission {
