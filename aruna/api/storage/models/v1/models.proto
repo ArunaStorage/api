@@ -89,19 +89,6 @@ enum DataClass {
   DATA_CLASS_CONFIDENTIAL = 3;
 }
 
-message Source {
-  // This is a URL / DOI
-  string identifier = 1;
-  // Either URL oder DOI
-  SourceType source_type = 2;
-}
-
-enum SourceType {
-  SOURCE_TYPE_UNSPECIFIED = 0;
-  SOURCE_TYPE_URL = 1;
-  SOURCE_TYPE_DOI = 2;
-}
-
 enum EndpointType {
   ENDPOINT_TYPE_UNSPECIFIED = 0;
   ENDPOINT_TYPE_S3 = 1;
@@ -135,6 +122,45 @@ message Endpoint {
   repeated EndpointHostConfig host_configs = 11;
 }
 
+
+// A first draft for possible relation types
+// That should be introduced by us
+enum RelationType {
+  RELATION_TYPE_UNSPECIFIED = 0; // DO NOT USE
+  RELATION_TYPE_CROSSREF = 1; // Crossref -> URL
+  RELATION_TYPE_ORIGIN = 2; // Crossref -> Objectid
+  RELATION_TYPE_METADATA = 3; // Data -> Metadata link
+  RELATION_TYPE_SPECIFICATION = 4; // Specification for metadata etc.
+  RELATION_TYPE_DATASET = 5; // Part of Dataset -> To "bundle", dataset objects
+}
+
+// A Link is a connection to other data,
+// this can either be 
+// A: An URL (DOI, crossref, etc.)
+// B: Another Object 
+message Link {
+  oneof identifier {
+    string object_id = 1;
+    string url = 2;
+  }
+  string relation_type = 3;
+}
+
+message Relation {
+  // A relation can be outbound or inbound
+  // Most of the time relations are updated bidirectional
+  oneof relation {
+    Link describes = 1;
+    Link described_by = 2; 
+  }
+  // Relation is either a custom string type, or a predefined type
+  oneof relationtype { 
+    RelationType relation_type = 3; 
+    string custom_relation = 4;
+  }
+  string relation_id = 5; // Relations are revisioned and share a common ID to track whats changed
+}
+
 // RULES for Objects:
 // 1.  Each object is "owned" by one/or more collections
 // 2.  Objects can be "borrowed" to multiple other collections
@@ -152,29 +178,32 @@ message Endpoint {
 // the owner collection
 
 message Object {
-  reserved 11;
-
-  string id = 1;       // ObjectID
-  string filename = 2; // Filename: Name of the original file e.g.: mydata.json
-  repeated KeyValue labels = 4; // Labels to additionally describe the object
-  repeated KeyValue hooks = 5;  // Hooks to be executed on the object
-  google.protobuf.Timestamp created = 6;
-  int64 content_len = 7; // Lenght of the stored dataset
-  Status status = 8;
-  Origin origin = 9;         // Origin of the object
-  DataClass data_class = 10; // Confidentiality of the object
-  repeated Hash hashes = 16;            // MD5 and SHA256 hash of the data
-  int64 rev_number = 12;     // Increasing revion number for each update
-  Source source = 13;        // External source where this data originates from
-
-  bool latest = 14; // Is this the latest version of the object?
-  // This is a collection specific attribute
-  // Must be false if collection is immutable
-  bool auto_update = 15; // If true, the object will be updated automatically
+  string id = 1;                    // ObjectID
+  string filename = 2;              // Filename: Name of the original file e.g.: mydata.json
+  repeated KeyValue labels = 3;     // Labels to additionally describe the object
+  repeated KeyValue hooks = 4;      // Hooks to be executed on the object
+  google.protobuf.Timestamp created = 5;
+  int64 content_len = 6;            // Length of the stored dataset
+  Status status = 7;
+  repeated Relation relations = 8;  // Relations to other objects / external URLs -> Replaces Objectgroups
+  DataClass data_class = 9;         // Confidentiality of the object
+  repeated Hash hashes = 10;        // MD5 and SHA256 hash of the data
+  int64 rev_number = 11;            // Increasing revion number for each update
+  bool latest = 12;                 // Is this the latest version of the object?
 }
 
 // Multiple Objects
 message Objects { repeated Object objects = 1; }
+
+message FullObjectReference {
+  Object object = 1;
+  bool auto_update = 2;
+}
+
+message ObjectIdReference {
+  string object_id = 1;
+  bool auto_update = 2;
+}
 
 // RULES for Collections:
 // 1. Each object is "owned" by one/or more collections
@@ -189,20 +218,20 @@ message Objects { repeated Object objects = 1; }
 
 message Collection {
   string id = 1;
-  string name = 2; // Should be unique in authgroup
+  string name = 2;                            // Should be unique in authgroup
   string description = 3;
   repeated KeyValue labels = 4;
   repeated KeyValue hooks = 5;
-  LabelOntology label_ontology = 6; // Ontology for labels
+  FullObjectReference label_policy = 6;                    // Policy file for label ontology
   google.protobuf.Timestamp created = 7;
-  repeated Object objects = 8;
-  repeated Object specifications = 9;
+  repeated FullObjectReference objects = 8;
+  repeated FullObjectReference specifications = 9;
   oneof version {
     Version semantic_version = 12;
     bool latest = 13;
   }
   CollectionStats stats = 14;
-  bool is_public = 15;
+  DataClass dataclass = 15;
 }
 
 // Multiple Collections
@@ -216,14 +245,14 @@ message CollectionOverview {
   string description = 3;
   repeated KeyValue labels = 4;
   repeated KeyValue hooks = 5;
-  LabelOntology label_ontology = 6; // Ontology for labels
+  Object label_policy = 6;                    // Policy file for label ontology
   google.protobuf.Timestamp created = 7;
   oneof version {
     Version semantic_version = 12;
     bool latest = 13;
   }
   CollectionStats stats = 14;
-  bool is_public = 15;
+  DataClass dataclass = 15;
 }
 
 // Multiple CollectionOverviews
@@ -233,24 +262,22 @@ message CollectionOverviews {
 
 // This is a representation of the Collection with only Resource RevisionIDs
 // instead of full objects
-message CollectionWithID {
+message CollectionWithId {
   string id = 1;
-  string name = 2;
+  string name = 2;                            // Should be unique in authgroup
   string description = 3;
   repeated KeyValue labels = 4;
   repeated KeyValue hooks = 5;
-  LabelOntology label_ontology = 6; // Ontology for labels
+  ObjectIdReference label_policy = 6;                    // Policy file for label ontology
   google.protobuf.Timestamp created = 7;
-  repeated string objects = 8;
-  repeated string specifications = 9;
-  repeated string object_groups = 10;
+  repeated ObjectIdReference objects = 8;
+  repeated ObjectIdReference specifications = 9;
   oneof version {
     Version semantic_version = 12;
     bool latest = 13;
   }
   CollectionStats stats = 14;
-  bool is_public = 15;
+  DataClass dataclass = 15;
 }
-
 // Multiple CollectionWithIDs
-message CollectionWithIDs { repeated CollectionWithID collection_with_ids = 1; }
+message CollectionWithIDs { repeated CollectionWithId collection_with_ids = 1; }
