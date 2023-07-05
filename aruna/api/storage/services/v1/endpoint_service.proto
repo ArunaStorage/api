@@ -94,9 +94,8 @@ message AddEndpointRequest {
 }
 
 message AddEndpointResponse {
-  // Overview of the requested endpoint
+  // Overview of the created endpoint
   storage.models.v1.Endpoint endpoint = 1;
-  int64 pubkey_serial = 2;
 }
 
 message GetEndpointRequest {

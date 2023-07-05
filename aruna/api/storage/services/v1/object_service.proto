@@ -8,7 +8,6 @@ option java_outer_classname = "ObjectService";
 
 import "aruna/api/storage/models/v1/models.proto";
 import "aruna/api/storage/models/v1/query.proto";
-
 import "google/api/annotations.proto";
 
 // ObjectService
@@ -238,6 +237,7 @@ service ObjectService {
       get : "/v1/collection/{collection_id}/object/{object_id}/endpoints"
     };
   }
+
   // AddLabelsToObject 
   //
   // Status: STABLE
@@ -279,53 +279,16 @@ service ObjectService {
       get : "/v1/collection/{collection_id}/object/{object_id}/references"
     };
   }
-
-  // GetObjectPath
-  //
-  // Status: BETA
-  //
-  // Get all object_paths for this object in a specific collection
-  // !! Paths are collection specific !!
-  rpc GetObjectPath(GetObjectPathRequest) returns (GetObjectPathResponse) {
-    option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/object/{object_id}/path"
-    };
-  }
   
-  // GetObjectPaths
-  //
-  // Status: BETA
-  //
-  // Get all object_paths for a specific collection
-  // !! Paths are collection specific !!
-  rpc GetObjectPaths(GetObjectPathsRequest) returns (GetObjectPathsResponse) {
-    option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/paths"
-    };
-  }
-  
-  // CreateObjectPath
+  // UpdateObjectPath
   //
   // Status: BETA
   //
   // Create collection_specific object_paths for an object
   // !! Paths are collection specific !!
-  rpc CreateObjectPath(CreateObjectPathRequest) returns (CreateObjectPathResponse) {
+  rpc UpdateObjectPath(UpdateObjectPathRequest) returns (UpdateObjectPathResponse) {
     option (google.api.http) = {
       post : "/v1/collection/{collection_id}/object/{object_id}/path"
-      body: "*"
-    };
-  }
-
-  // SetObjectPathVisibility
-  //
-  // Status: BETA
-  //
-  // Updates the visibility setting for an object_path (hide/unhide)
-  // !! Paths are collection specific !!
-  rpc SetObjectPathVisibility(SetObjectPathVisibilityRequest) returns (SetObjectPathVisibilityResponse) {
-    option (google.api.http) = {
-      patch : "/v1/collection/{collection_id}/path/{path=**}/visibility"
       body: "*"
     };
   }
@@ -380,30 +343,22 @@ message URL {
 }
 
 message StageObject {
-  
-  reserved 2, 3;
-  
   // Filename
   string filename = 1;
-
-  // Removed fields:
-  // string description = 2;
-  // string collection_id = 3;
-
   // Content length
-  int64 content_len = 4;
+  int64 content_len = 2;
   // Source of the object (e.g. wikipedia)
-  storage.models.v1.Source source = 5;
+  repeated storage.models.v1.Relation relations = 3;
   // Dataclass public / private
-  storage.models.v1.DataClass dataclass = 6;
+  storage.models.v1.DataClass dataclass = 4;
   // List of label key-values
-  repeated storage.models.v1.KeyValue labels = 7;
+  repeated storage.models.v1.KeyValue labels = 5;
   // List of hook key-values
-  repeated storage.models.v1.KeyValue hooks = 8;
+  repeated storage.models.v1.KeyValue hooks = 6;
   // (collection specific) sub_path for file
   // does not include file-, collection- or projectname
   // final fully-qualified schema: /<projectname>/<collectionname>/<path>/<filename>
-  string sub_path = 9;
+  string sub_path = 7;
 }
 
 message InitializeNewObjectRequest {
@@ -415,36 +370,25 @@ message InitializeNewObjectRequest {
   // this can be used to specify which endpoint this object should use
   // only needed if it is not the default endpoint for the current server
   // instance
-  string preferred_endpoint_id = 4;
-  // Should the object be uploaded via multipart?
-  bool multipart = 5;
-  // Is specification ?
-  // Should this object contain a specification for the collection ?
-  bool is_specification = 6;
+  string preferred_endpoint_id = 3;
   // (optional) Hash 
-  storage.models.v1.Hash hash = 7;
+  storage.models.v1.Hash hash = 4;
 }
 
 message InitializeNewObjectResponse {
   // ObjectId
   string object_id = 1;
-  // Upload ID, a ID used to identify the upload / staging object
-  string upload_id = 2;
-  // CollectionID
-  string collection_id = 3;
 }
 
 message GetUploadURLRequest {
   // ObjectId
   string object_id = 1;
-  // Upload ID, a ID used to identify the upload / staging object
-  string upload_id = 2;
   // CollectionID
-  string collection_id = 3;
+  string collection_id = 2;
   // Is this a multipart upload?
-  bool multipart = 4;
+  bool multipart = 3;
   // (optional) if multi was initialized
-  int32 part_number = 5;
+  int32 part_number = 4;
 }
 
 message GetUploadURLResponse {
@@ -495,26 +439,19 @@ message CreateDownloadLinksStreamResponse { URL url = 1; }
 message FinishObjectStagingRequest {
   // ObjectId
   string object_id = 1;
-  // Always the S3 upload_id
-  string upload_id = 2;
   // CollectionID
-  string collection_id = 3;
+  string collection_id = 2;
   // Hash of the uploaded data - used to verify the data integrity.
   // This supports multiple hashing algorithms.
-  storage.models.v1.Hash hash = 4;
-
-  // If the staging object had no uploads
-  // Use this argument to skip the finish upload request
-  bool no_upload = 5;
+  storage.models.v1.Hash hash = 3;
 
   // If the upload was multipart, this is the list of parts that were uploaded.
   // Should be empty if the upload was not multipart.
   // (optional)
-  repeated CompletedParts completed_parts = 6;
-
+  repeated CompletedParts completed_parts = 4;
   // Should the object be auto-updated in the collection?
   // default: false
-  bool auto_update = 7;
+  bool auto_update = 5;
 }
 
 message FinishObjectStagingResponse {
@@ -523,35 +460,24 @@ message FinishObjectStagingResponse {
 }
 
 message UpdateObjectRequest {
-  reserved 8;
   // Existing object ID
   string object_id = 1;
   // collection ID
   string collection_id = 2;
   // New object data
   StageObject object = 3;
-  // Should new data be uploaded ?
-  bool reupload = 4;
   // If this is an reupload a preferred endpoint
   // can be specified by id
-  string preferred_endpoint_id = 5;
-  // Should a multipart upload be used?
-  bool multi_part = 6;
-  // Is specification ?
-  // Should this object contain a specification for the collection ?
-  bool is_specification = 7;
+  string preferred_endpoint_id = 4;
   // (optional) Hash 
-  storage.models.v1.Hash hash = 9;
+  storage.models.v1.Hash hash = 5;
 }
 
 message UpdateObjectResponse {
-  // ObjectId
+  // NEW ! ObjectId
   string object_id = 1;
-  // Staging ID, a generic ID when multipart is not enabled, otherwise the
-  // multipart upload ID.
-  string staging_id = 2;
   // CollectionID
-  string collection_id = 3;
+  string collection_id = 2;
 }
 
 message CreateObjectReferenceRequest {
@@ -615,12 +541,9 @@ message DeleteObjectsResponse {}
 
 message ObjectWithURL {
   // Description of a specified object
-  storage.models.v1.Object object = 1;
-  // This is a associated download URL
-  // Will be empty if request does not contain the associated with_url flag
+  storage.models.v1.FullObjectReference object = 1;
+  // Download S3 urls
   string url = 2;
-  // collection specific paths of object
-  repeated string paths = 3;
 }
 
 message GetObjectByIDRequest {
@@ -628,8 +551,8 @@ message GetObjectByIDRequest {
   string collection_id = 1;
   // Object Id
   string object_id = 2;
-  // With URL: Include URL in response ?
-  bool with_url = 4;
+  // Try to get URL for preferred endpoint
+  string preferred_endpoint = 3;
 }
 
 message GetObjectByIDResponse { ObjectWithURL object = 1; }
@@ -637,12 +560,8 @@ message GetObjectByIDResponse { ObjectWithURL object = 1; }
 message GetObjectsRequest {
   // Collection id
   string collection_id = 1;
-  // Paginate the results: Default is 20
-  storage.models.v1.PageRequest page_request = 2;
-  // Filter by Labels (optional) OR request a specific list of Objects
-  storage.models.v1.LabelOrIDQuery label_id_filter = 3;
-  // With URL: Include URL in response ?
-  bool with_url = 4;
+  // Object start after
+  storage.models.v1.PageRequest page_request = 3;
 }
 
 message GetObjectsResponse {
@@ -655,10 +574,8 @@ message GetObjectRevisionsRequest {
   string collection_id = 1;
   // Object id
   string object_id = 2;
-  // Pagination info
+  // Object start after
   storage.models.v1.PageRequest page_request = 3;
-  // Should the response include download urls ?
-  bool with_url = 4;
 }
 
 message GetObjectRevisionsResponse {
@@ -671,8 +588,6 @@ message GetLatestObjectRevisionRequest {
   string collection_id = 1;
   // Object id
   string object_id = 2;
-  // Should the response include download urls ?
-  bool with_url = 3;
 }
 
 message GetLatestObjectRevisionResponse {
@@ -739,6 +654,8 @@ message ObjectReference {
   int64 revision_number = 3;
   // Is the writeable?
   bool is_writeable = 4;
+  // Path of object_ref
+  string path = 5;
 }
 
 message GetReferencesResponse {
@@ -746,49 +663,16 @@ message GetReferencesResponse {
   repeated ObjectReference references = 1;
 }
 
-message Path {
-  string path = 1;
-  bool visibility = 2;
+message UpdateObjectPathRequest {
+  string object_id = 1;
+  string collection_id = 2;
+  string new_subpath = 3;
 }
 
-message GetObjectPathRequest {
-  string collection_id = 1;
-  string object_id = 2;
-  bool include_inactive = 3;
+message UpdateObjectPathResponse {
+  ObjectReference reference = 1;
 }
 
-message GetObjectPathResponse {
-  repeated Path object_paths = 1;
-}
-
-message GetObjectPathsRequest {
-  string collection_id = 1;
-  bool include_inactive = 2;
-}
-
-message GetObjectPathsResponse {
-  repeated Path object_paths = 1;
-}
-
-message CreateObjectPathRequest {
-  string collection_id = 1;
-  string object_id = 2;
-  string sub_path = 3; // Subpath not full path
-}
-
-message CreateObjectPathResponse {
-  Path path = 1;
-}
-
-message SetObjectPathVisibilityRequest {
-  string collection_id = 1;
-  string path = 2;
-  bool visibility = 3;
-}
-
-message SetObjectPathVisibilityResponse {
-  Path path = 1;
-}
 
 message GetObjectsByPathRequest {
   string path = 1;
@@ -805,9 +689,8 @@ message GetProjectCollectionIdsByPathResponse {
 }
 
 message GetObjectsByPathResponse {
-  repeated storage.models.v1.Object object = 3;
+  repeated storage.models.v1.FullObjectReference object = 3;
 }
-
 
 message GetObjectsAsListV2Request {
   // Required 
@@ -828,8 +711,7 @@ message GetObjectsAsListV2Response {
   bool is_truncated = 2;
   uint32 max_keys = 4;
   uint32 key_count = 5;
-  // Does not contain URLs, only paths
-  repeated ObjectWithURL contents = 6;
+  repeated storage.models.v1.FullObjectReference contents = 6;
   repeated CommonPrefix prefixes = 7;
   optional string next_continuation_token = 8;
 }
