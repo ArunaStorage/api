@@ -228,10 +228,8 @@ message CreateNewCollectionRequest {
   repeated storage.models.v1.KeyValue labels = 4;
   // List of associated hooks
   repeated storage.models.v1.KeyValue hooks = 5;
-  // Optional LabelOntology with required labels
-  storage.models.v1.LabelOntology label_ontology = 6;
   // Optional Dataclass
-  storage.models.v1.DataClass dataclass = 7;
+  storage.models.v1.DataClass dataclass = 6;
 }
 
 message CreateNewCollectionResponse {
@@ -252,15 +250,15 @@ message GetCollectionByIDResponse {
 message GetCollectionsRequest {
   // Project id
   string project_id = 1;
-  // (optional) Filter, label or ids
-  storage.models.v1.LabelOrIDQuery label_or_id_filter = 2;
-  // (optional) Pagerequest
-  storage.models.v1.PageRequest page_request = 3;
+  // Pagination default 50
+  string continuation_token = 2;
 }
 
 message GetCollectionsResponse {
   // List of collection overviews
   storage.models.v1.CollectionOverviews collections = 1;
+  // Only included if more than 50 collections will be returned
+  string continuation_token = 2;
 }
 
 // This updates the collection
@@ -277,8 +275,8 @@ message UpdateCollectionRequest {
   // New list of hooks
   repeated storage.models.v1.KeyValue hooks = 6;
 
-  // (optional) LabelOntology
-  storage.models.v1.LabelOntology label_ontology = 7;
+  // (optional) Policy (rego) file for label ontology -> must be valid object_id
+  string label_policy_object = 7;
 
   // Optional update Dataclass, this will not overwrite
   // the dataclass of all existing associated objects
@@ -313,7 +311,7 @@ message DeleteCollectionRequest {
   // Collection id
   string collection_id = 1;
   // Force delete
-  bool force = 3;
+  bool force = 2;
 }
 
 message DeleteCollectionResponse {}
