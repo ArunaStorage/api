@@ -10,21 +10,13 @@ message KeyValue {
   string value = 2;
 }
 
-message LabelOntology {
-  // These are the keys for labels that are required for the collection
-  // Adding an Object without these keys will result in an error
-  // Defaults to empty string if not specified
-  repeated string required_label_keys = 1;
-}
-
 // An resourcetype used to identify generic authorizations
 enum ResourceType {
   RESOURCE_TYPE_UNSPECIFIED = 0;
   RESOURCE_TYPE_PROJECT = 1;
   RESOURCE_TYPE_COLLECTION = 2;
-  RESOURCE_TYPE_OBJECT_GROUP = 3;
-  RESOURCE_TYPE_OBJECT = 4;
-  RESOURCE_TYPE_ALL = 5;
+  RESOURCE_TYPE_OBJECT = 3;
+  RESOURCE_TYPE_ALL = 4;
 }
 
 // Used for the internal associated services to validate permissions
@@ -45,7 +37,7 @@ enum Status {
   STATUS_AVAILABLE = 2;
   STATUS_UNAVAILABLE = 3;
   STATUS_ERROR = 4;
-  STATUS_TRASH = 5;
+  STATUS_DELETED = 5;
   STATUS_FINALIZING = 6;
 }
 
@@ -67,7 +59,6 @@ message Stats {
 // Stats for a collection
 message CollectionStats {
   Stats object_stats = 1;
-  int64 object_group_count = 2;
   google.protobuf.Timestamp last_updated = 3;
 }
 
@@ -80,37 +71,14 @@ message Version {
 }
 
 enum Hashalgorithm {
-
-  reserved 2, 4 to 7;
-
   HASHALGORITHM_UNSPECIFIED = 0;
-
   HASHALGORITHM_MD5 = 1;
-  //HASHALGORITHM_SHA1 = 2;
-  HASHALGORITHM_SHA256 = 3;
-  //HASHALGORITHM_SHA512 = 4;
-  //HASHALGORITHM_MURMUR3A32 = 5;
-  //HASHALGORITHM_XXHASH32 = 6;
-  //HASHALGORITHM_SHA224 = 7;
+  HASHALGORITHM_SHA256 = 2;
 }
 
 message Hash {
   Hashalgorithm alg = 1;
   string hash = 2;
-}
-
-// Specifies the Origin of the object
-//enum OriginType {
-//  ORIGIN_TYPE_UNSPECIFIED = 0;
-//  ORIGIN_TYPE_USER = 1;     // User uploaded the object
-//  ORIGIN_TYPE_OBJCLONE = 2; // Object was cloned from another object
-//}
-
-// Origin of the object -> To be GDPA compliant
-message Origin {
-  reserved 1;
-  //OriginType type = 1;
-  string id = 2;
 }
 
 // Dataclass defines the confidentiality of the object
@@ -119,7 +87,6 @@ enum DataClass {
   DATA_CLASS_PUBLIC = 1;
   DATA_CLASS_PRIVATE = 2;
   DATA_CLASS_CONFIDENTIAL = 3;
-  DATA_CLASS_PROTECTED = 4;
 }
 
 message Source {
