@@ -218,12 +218,10 @@ message DestroyProjectResponse {}
 message UpdateProjectRequest {
   // Project id to update
   string project_id = 1;
-  // Updated name
-  string name = 2;
   // Update description
-  string description = 3;
+  string description = 2;
   // Project binary flag(s)
-  int64 flag = 4;
+  int64 flag = 3;
 }
 
 message UpdateProjectResponse {

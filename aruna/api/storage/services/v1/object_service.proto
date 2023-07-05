@@ -330,6 +330,18 @@ service ObjectService {
   }
 
 
+  // CreateCrossRelation
+  //
+  // Status: ALPHA
+  //
+  // Adds a relation to an object
+  rpc CreateCrossRelations(CreateCrossRelationsRequest) returns (CreateCrossRelationsResponse) {
+    option (google.api.http) = {
+      post : "/v1/relation"
+    };
+  }
+
+
 }
 
 // Models
