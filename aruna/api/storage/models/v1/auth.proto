@@ -81,8 +81,7 @@ message Token {
     bool personal = 9;
   }
   Permission permission = 10;
-  bool is_session = 11;
-  google.protobuf.Timestamp used_at = 12;
+  google.protobuf.Timestamp used_at = 11;
 }
 
 message ProjectPermission {
