@@ -132,6 +132,17 @@ service ProjectService {
       patch : "/v2/project/{project_id}/data_class"
     };
   }
+
+  // ArchiveProjectRequest
+  //
+  // Status: BETA
+  //
+  // Archives the full project, rendering all downstream relations immutable
+  rpc ArchiveProject(ArchiveProjectRequest) returns (ArchiveProjectResponse) {
+    option (google.api.http) = {
+      patch : "/v2/project/{project_id}/archive"
+    };
+  }
 }
 
 message CreateProjectRequest {
@@ -214,5 +225,14 @@ message UpdateProjectDataClassRequest {
 }
 
 message UpdateProjectDataClassResponse {
+  storage.models.v2.Project project = 1;
+}
+
+message ArchiveProjectRequest {
+  string project_id = 1;
+}
+
+message ArchiveProjectResponse {
+  // This project will be returned via an Persistent Identifier! Updates will be impossible
   storage.models.v2.Project project = 1;
 }
