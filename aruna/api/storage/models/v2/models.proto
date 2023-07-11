@@ -5,6 +5,22 @@ option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/models/v2"
 package aruna.api.storage.models.v2;
 
 
+
+
+
+// ------------- USERS & PERMISSIONS -----------------------
+
+
+enum PermissionLevel {
+  PERMISSION_LEVEL_UNSPECIFIED = 0;
+  PERMISSION_LEVEL_DENY = 1;
+  PERMISSION_LEVEL_NONE = 2; 
+  PERMISSION_LEVEL_READ = 3; 
+  PERMISSION_LEVEL_APPEND = 4;
+  PERMISSION_LEVEL_WRITE = 5; 
+  PERMISSION_LEVEL_ADMIN = 6;  
+}
+
 message User {
   // Internal Aruna UserID
   string id = 1;
@@ -21,15 +37,14 @@ message User {
 }
 
 
-message ResourcePermission {
+message Permission {
   oneof resource_id {
     string project_id = 1;
     string collection_id = 2;
     string dataset_id = 3;
     string object_id = 4;
-    bool personal = 5;
   }
-  Permission permission = 6;
+  PermissionLevel permission_level = 6;
 }
 
 
@@ -38,8 +53,12 @@ message Token {
   string name = 2;
   google.protobuf.Timestamp created_at = 3;
   google.protobuf.Timestamp expires_at = 4;
-  ResourcePermission permission = 5;
-  google.protobuf.Timestamp used_at = 6;
+  // Tokens can either be personal or resource "specific"
+  oneof variant {
+    Permission permission = 5;
+    bool personal = 6; 
+  }
+  google.protobuf.Timestamp used_at = 7;
 }
 
 
@@ -56,23 +75,10 @@ message GlobalAttributes {
 
 message UserAttributes {
   GlobalAttributes attributes = 1;
-  PersonalPermissions personal_perms = 2;
+  repeated Permission personal_permissions = 2;
 }
 
-// Storage resource specific userpermissions
-// Evaluated in Order -> 1: object_deny > 4: collection_permissions etc.
-message PersonalPermissions {
-  repeated ResourcePermission deny = 1;
-  repeated ResourcePermission allow = 2;
-}
-
-message ProjectPermission {
-  string user_id = 1;
-  string project_id = 2;
-  ResourcePermission permission = 3;
-  bool service_account = 4;
-}
-
+// --------------- RELATION / KEYVALUES -------------------
 
 enum KeyValueVariant {
   KEY_VALUE_VARIANT_UNSPECIFIED = 0;
@@ -102,6 +108,48 @@ message ExternalRelation {
 }
 
 
+enum InternalRelationVariant {
+  INTERNAL_RELATION_VARIANT_UNSPECIFIED = 0;
+  INTERNAL_RELATION_VARIANT_BELONGS_TO = 1;
+  INTERNAL_RELATION_VARIANT_ORIGIN = 2;
+  INTERNAL_RELATION_VARIANT_DERIVED = 3;
+  INTERNAL_RELATION_VARIANT_META = 4;
+}
+
+enum RelationDirection {
+  RELATION_DIRECTION_UNSPECIFIED = 0;
+  RELATION_DIRECTION_INBOUND = 1;
+  RELATION_DIRECTION_OUTBOUND = 2;
+  RELATION_DIRECTION_BIDIRECTIONAL = 3;
+} 
+
+message InternalRelation {
+  string resource_id = 1;
+  oneof variant {
+    InternalRelationVariant fixed_variant = 2;
+    string custom_variant = 3;
+  }
+  RelationDirection direction = 4;
+}
+
+
+// A Project is a list of collections with associated users
+// This is used to manage access to multiple collections at the same time
+// Each Collection can only be in one Project at a time
+message Project {
+  string id = 1;
+  string name = 2;
+  // Project specific labels / hooks
+  repeated KeyValue key_values = 3;
+  // External relations (URLs / IDs from external sources)
+  repeated ExternalRelation external_relations = 4;
+  // Internal relations
+  repeated InternalRelation internal_relation = 5;
+  int64 size = 6;
+  DataClass data_class = 7;
+  google.protobuf.Timestamp created_at = 8;
+  string created_by = 9; 
+}
 
 message PageRequest {
   string start_after = 1; // This is the last ID of the previous returned request
@@ -381,34 +429,4 @@ message CollectionWithId {
 }
 // Multiple CollectionWithIDs
 message CollectionWithIDs { repeated CollectionWithId collection_with_ids = 1; }
-
-
-// A Project is a list of collections with associated users
-// This is used to manage access to multiple collections at the same time
-// Each Collection can only be in one Project at a time
-message Project {
-  string id = 1;
-  string name = 2;
-  // Project specific labels / hooks
-  repeated storage.models.v2.KeyValue key_values = 3;
-  // External relations (URLs / IDs from external sources)
-  repeated storage.models.v2.ExternalRelation external_relations = 4;
-  int64 size = 5;
-  storage.models.v2.DataClass data_class = 6;
-  google.protobuf.Timestamp created_at = 7;
-  string created_by = 8; 
-}
-
-enum Permission {
-  PERMISSION_UNSPECIFIED = 0;
-  PERMISSION_NONE = 1; // No permissions granted, used for users that are in the
-                       // project but have no default permissions
-  PERMISSION_READ = 2; // Read only
-  PERMISSION_APPEND = 3; // Append objects to the collection cannot modify existing objects
-  PERMISSION_WRITE = 4; // Can Read/Append/Modify objects in the collection
-                         // that owns the object / Create new collections
-  PERMISSION_ADMIN = 5;  // Can modify the collections itself and permanently
-                         // delete owned objects / move ownership of objects
-}
-
 
