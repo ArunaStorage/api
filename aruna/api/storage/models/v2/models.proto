@@ -1,8 +1,8 @@
 syntax = "proto3";
 import "google/protobuf/timestamp.proto";
-option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/models/v1";
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/models/v2";
 
-package aruna.api.storage.models.v1;
+package aruna.api.storage.models.v2;
 
 
 message User {
@@ -390,11 +390,11 @@ message Project {
   string id = 1;
   string name = 2;
   // Project specific labels / hooks
-  repeated storage.models.v1.KeyValue key_values = 3;
+  repeated storage.models.v2.KeyValue key_values = 3;
   // External relations (URLs / IDs from external sources)
-  repeated storage.models.v1.ExternalRelation external_relations = 4;
+  repeated storage.models.v2.ExternalRelation external_relations = 4;
   int64 size = 5;
-  storage.models.v1.DataClass data_class = 6;
+  storage.models.v2.DataClass data_class = 6;
   google.protobuf.Timestamp created_at = 7;
   string created_by = 8; 
 }

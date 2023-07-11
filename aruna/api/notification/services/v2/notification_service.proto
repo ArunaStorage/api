@@ -1,14 +1,14 @@
 syntax = "proto3";
 
-package aruna.api.notification.services.v1;
-option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v1";
+package aruna.api.notification.services.v2;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v2";
 option java_multiple_files = true;
-option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v1";
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
 option java_outer_classname = "UpdateNotificationServices";
 
 import "google/api/visibility.proto";
 import "google/protobuf/timestamp.proto";
-import "aruna/api/storage/models/v1/models.proto";
+import "aruna/api/storage/models/v2/models.proto";
 
 
 
@@ -55,7 +55,7 @@ service EventNotificationService {
 }
 
 message CreateEventStreamingGroupRequest {
-  aruna.api.storage.models.v1.ResourceType resource = 1;
+  aruna.api.storage.models.v2.ResourceType resource = 1;
   string resource_id = 2;
   bool include_subresource = 3;
   oneof stream_type {
@@ -113,7 +113,7 @@ message StreamFromDate { google.protobuf.Timestamp timestamp = 1; }
 message StreamAll {}
 
 message EventNotificationMessage {
-  aruna.api.storage.models.v1.ResourceType resource = 1;
+  aruna.api.storage.models.v2.ResourceType resource = 1;
   string resource_id = 2;
   EventType updated_type = 3;
   Reply reply = 4;
