@@ -6,7 +6,7 @@ option java_multiple_files = true;
 option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v1";
 option java_outer_classname = "ProjectService";
 
-import "aruna/api/storage/models/v1/auth.proto";
+import "aruna/api/storage/models/v1/models.proto";
 
 import "google/api/annotations.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
@@ -92,28 +92,61 @@ service ProjectService {
     };
   }
 
-  // DestroyProject
+  // DeleteProject
   //
   // Status: STABLE
   //
-  // Destroys the project and all its associated data. Must be empty
-  // (cannot contain any collections).
-  rpc DestroyProject(DestroyProjectRequest) returns (DestroyProjectResponse) {
+  // Deletes the project and all its associated data. Must be empty!
+  rpc DeleteProject(DeleteProjectRequest) returns (DeleteProjectResponse) {
     option (google.api.http) = {
       delete : "/v1/project/{project_id}"
     };
   }
 
-  // UpdateProject
+  // UpdateProjectName
   //
-  // Status: STABLE
+  // Status: BETA
   //
-  // Updates the project. All (meta) data will be overwritten.
-  rpc UpdateProject(UpdateProjectRequest) returns (UpdateProjectResponse) {
+  // Updates the project name. All (meta) data will be overwritten.
+  rpc UpdateProjectName(UpdateProjectNameRequest) returns (UpdateProjectNameResponse) {
     option (google.api.http) = {
-      put : "/v1/project/{project_id}"
+      patch : "/v2/project/{project_id}/name"
     };
   }
+
+  // UpdateProjectKeyValues
+  //
+  // Status: BETA
+  //
+  // Updates the project name. All (meta) data will be overwritten.
+  rpc UpdateProjectKeyValues(UpdateProjectKeyValuesRequest) returns (UpdateProjectKeyValueResponse) {
+    option (google.api.http) = {
+      patch : "/v2/project/{project_id}/key_values"
+    };
+  }
+  
+  // UpdateProjectExternalRelations
+  //
+  // Status: BETA
+  //
+  // Updates the project name. All (meta) data will be overwritten.
+  rpc UpdateProjectExternalRelations(UpdateProjectExternalRelationsRequest) returns (UpdateProjectExternalRelationsResponse) {
+    option (google.api.http) = {
+      patch : "/v2/project/{project_id}/external_relations"
+    };
+  }
+
+  // UpdateProjectDataClass
+  //
+  // Status: BETA
+  //
+  // Updates the project name. All (meta) data will be overwritten.
+  rpc UpdateProjectDataClass(UpdateProjectDataClassRequest) returns (UpdateProjectDataClassResponse) {
+    option (google.api.http) = {
+      patch : "/v2/project/{project_id}/data_class"
+    };
+  }
+
 
   // RemoveUserFromProject
   //
@@ -170,10 +203,12 @@ service ProjectService {
 message CreateProjectRequest {
   // Project name
   string name = 1;
-  // Description for the project
-  string description = 2;
-  // Project binary flag(s)
-  int64 flag = 3;
+  // Project specific labels / hooks
+  repeated storage.models.v1.KeyValue key_values = 2;
+  // External relations (URLs / IDs from external sources)
+  repeated storage.models.v1.ExternalRelation external_relations = 3;
+  // DataClass
+  storage.models.v1.DataClass data_class = 4;
 }
 
 message CreateProjectResponse {
@@ -182,13 +217,14 @@ message CreateProjectResponse {
 }
 
 message AddUserToProjectRequest {
-  // The id of the project to add the user to
   string project_id = 1;
-  // Permissions for the user
-  storage.models.v1.ProjectPermission user_permission = 3;
+  string user_id = 2;
+  storage.models.v1.Permission permission = 3;
 }
 
-message AddUserToProjectResponse {}
+message AddUserToProjectResponse {
+  storage.models.v1.ProjectPermission permission = 4;
+}
 
 message GetProjectRequest {
   // The id of the project to get
@@ -197,23 +233,26 @@ message GetProjectRequest {
 
 message GetProjectResponse {
   // Overview of the projectroject
-  storage.models.v1.ProjectOverview project = 1;
+  storage.models.v1.Project project = 1;
 }
 
 message GetProjectsRequest {}
 
 message GetProjectsResponse {
   // Overview of the projects
-  repeated storage.models.v1.ProjectOverview projects = 1;
+  repeated storage.models.v1.Project projects = 1;
 }
 
 
-message DestroyProjectRequest {
+message DeleteProjectRequest {
   // The id of the project to destroy
   string project_id = 1;
 }
 
-message DestroyProjectResponse {}
+message DeleteProjectResponse {}
+
+
+
 
 message UpdateProjectRequest {
   // Project id to update
