@@ -4,12 +4,28 @@ option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/models/v2"
 
 package aruna.api.storage.models.v2;
 
+// --------------- ENUMS ------------------------
 
+// Dataclass defines the confidentiality of the object
+enum DataClass {
+  DATA_CLASS_UNSPECIFIED = 0;
+  DATA_CLASS_PUBLIC = 1;
+  DATA_CLASS_PRIVATE = 2;
+  DATA_CLASS_CONFIDENTIAL = 3;
+}
 
+enum EndpointType {
+  ENDPOINT_TYPE_UNSPECIFIED = 0;
+  ENDPOINT_TYPE_S3 = 1;
+  ENDPOINT_TYPE_FILE = 2;
+}
 
-
-// ------------- USERS & PERMISSIONS -----------------------
-
+enum EndpointHostType {
+  ENDPOINT_HOST_TYPE_UNSPECIFIED = 0;
+  ENDPOINT_HOST_TYPE_PROXY = 1;
+  ENDPOINT_HOST_TYPE_INTERNAL = 2;
+  ENDPOINT_HOST_TYPE_BUNDLER = 3;
+}
 
 enum PermissionLevel {
   PERMISSION_LEVEL_UNSPECIFIED = 0;
@@ -20,6 +36,83 @@ enum PermissionLevel {
   PERMISSION_LEVEL_WRITE = 5; 
   PERMISSION_LEVEL_ADMIN = 6;  
 }
+
+enum KeyValueVariant {
+  KEY_VALUE_VARIANT_UNSPECIFIED = 0;
+  KEY_VALUE_VARIANT_LABEL = 1;
+  KEY_VALUE_VARIANT_STATIC_LABEL = 2;
+  KEY_VALUE_VARIANT_HOOK = 3;
+}
+
+enum ExternalRelationVariant {
+  EXTERNAL_RELATION_VARIANT_UNSPECIFIED = 0;
+  EXTERNAL_RELATION_VARIANT_URL = 1;
+  EXTERNAL_RELATION_VARIANT_IDENTIFIER = 2;
+}
+
+enum InternalRelationVariant {
+  INTERNAL_RELATION_VARIANT_UNSPECIFIED = 0;
+  INTERNAL_RELATION_VARIANT_BELONGS_TO = 1;
+  INTERNAL_RELATION_VARIANT_ORIGIN = 2;
+  INTERNAL_RELATION_VARIANT_DERIVED = 3;
+  INTERNAL_RELATION_VARIANT_METADATA = 4;
+  INTERNAL_RELATION_VARIANT_POLICY = 5;
+}
+
+enum RelationDirection {
+  RELATION_DIRECTION_UNSPECIFIED = 0;
+  RELATION_DIRECTION_INBOUND = 1;
+  RELATION_DIRECTION_OUTBOUND = 2;
+  RELATION_DIRECTION_BIDIRECTIONAL = 3;
+}
+
+// An resourcetype used to identify generic authorizations
+enum ResourceType {
+  RESOURCE_TYPE_UNSPECIFIED = 0;
+  RESOURCE_TYPE_PROJECT = 1;
+  RESOURCE_TYPE_COLLECTION = 2;
+  RESOURCE_TYPE_DATASET = 3;
+  RESOURCE_TYPE_OBJECT = 4;
+}
+
+// Used for the internal associated services to validate permissions
+// Actions are similar to HTTP verbs
+enum ResourceAction {
+  RESOURCE_ACTION_UNSPECIFIED = 0;
+  RESOURCE_ACTION_CREATE = 1;
+  RESOURCE_ACTION_APPEND = 2;
+  RESOURCE_ACTION_UPDATE = 3;
+  RESOURCE_ACTION_READ = 4;
+  RESOURCE_ACTION_DELETE = 5;
+}
+
+// An arbitrary status for Objects
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_INITIALIZING = 1;
+  STATUS_AVAILABLE = 2;
+  STATUS_UNAVAILABLE = 3;
+  STATUS_ERROR = 4;
+  STATUS_DELETED = 5;
+  STATUS_VALIDATING = 6;
+}
+
+enum EndpointStatus {
+  ENDPOINT_STATUS_UNSPECIFIED = 0;
+  ENDPOINT_STATUS_INITIALIZING = 1;
+  ENDPOINT_STATUS_AVAILABLE = 2;
+  ENDPOINT_STATUS_DEGRADED = 3;
+  ENDPOINT_STATUS_UNAVAILABLE = 4;
+  ENDPOINT_STATUS_MAINTENANCE = 5;
+}
+
+enum Hashalgorithm {
+  HASHALGORITHM_UNSPECIFIED = 0;
+  HASHALGORITHM_MD5 = 1;
+  HASHALGORITHM_SHA256 = 2;
+}
+
+// ------------- USERS & PERMISSIONS -----------------------
 
 message User {
   // Internal Aruna UserID
@@ -36,7 +129,6 @@ message User {
   UserAttributes attributes = 6;
 }
 
-
 message Permission {
   oneof resource_id {
     string project_id = 1;
@@ -46,7 +138,6 @@ message Permission {
   }
   PermissionLevel permission_level = 6;
 }
-
 
 message Token {
   string id = 1;
@@ -80,13 +171,6 @@ message UserAttributes {
 
 // --------------- RELATION / KEYVALUES -------------------
 
-enum KeyValueVariant {
-  KEY_VALUE_VARIANT_UNSPECIFIED = 0;
-  KEY_VALUE_VARIANT_LABEL = 1;
-  KEY_VALUE_VARIANT_STATIC_LABEL = 2;
-  KEY_VALUE_VARIANT_HOOK = 3;
-}
-
 // A key value pair for hooks and labels
 message KeyValue {
   string key = 1;
@@ -95,60 +179,28 @@ message KeyValue {
   bool indexed = 4;
 }
 
-enum RelationVariant {
-  RELATION_VARIANT_UNSPECIFIED = 0;
-  RELATION_VARIANT_URL = 1;
-  RELATION_VARIANT_IDENTIFIER = 2;
+message Relation {
+  oneof relation {
+    ExternalRelation external = 1;
+    InternalRelation internal = 2;
+  }
 }
 
 message ExternalRelation {
-  string name = 1;
-  string identifier = 2;
-  RelationVariant variant = 3;
+  string identifier = 1;
+  oneof variant {
+    ExternalRelationVariant defined_variant = 2;
+    string custom_variant = 3;
+  }
 }
-
-
-enum InternalRelationVariant {
-  INTERNAL_RELATION_VARIANT_UNSPECIFIED = 0;
-  INTERNAL_RELATION_VARIANT_BELONGS_TO = 1;
-  INTERNAL_RELATION_VARIANT_ORIGIN = 2;
-  INTERNAL_RELATION_VARIANT_DERIVED = 3;
-  INTERNAL_RELATION_VARIANT_META = 4;
-}
-
-enum RelationDirection {
-  RELATION_DIRECTION_UNSPECIFIED = 0;
-  RELATION_DIRECTION_INBOUND = 1;
-  RELATION_DIRECTION_OUTBOUND = 2;
-  RELATION_DIRECTION_BIDIRECTIONAL = 3;
-} 
 
 message InternalRelation {
   string resource_id = 1;
   oneof variant {
-    InternalRelationVariant fixed_variant = 2;
+    InternalRelationVariant defined_variant = 2;
     string custom_variant = 3;
   }
   RelationDirection direction = 4;
-}
-
-
-// A Project is a list of collections with associated users
-// This is used to manage access to multiple collections at the same time
-// Each Collection can only be in one Project at a time
-message Project {
-  string id = 1;
-  string name = 2;
-  // Project specific labels / hooks
-  repeated KeyValue key_values = 3;
-  // External relations (URLs / IDs from external sources)
-  repeated ExternalRelation external_relations = 4;
-  // Internal relations
-  repeated InternalRelation internal_relation = 5;
-  int64 size = 6;
-  DataClass data_class = 7;
-  google.protobuf.Timestamp created_at = 8;
-  string created_by = 9; 
 }
 
 message PageRequest {
@@ -156,96 +208,16 @@ message PageRequest {
   int64 page_size = 2;  // Default to 20, -1 for all
 }
 
-// An resourcetype used to identify generic authorizations
-enum ResourceType {
-  RESOURCE_TYPE_UNSPECIFIED = 0;
-  RESOURCE_TYPE_PROJECT = 1;
-  RESOURCE_TYPE_COLLECTION = 2;
-  RESOURCE_TYPE_OBJECT = 3;
-  RESOURCE_TYPE_ALL = 4;
-}
-
-// Used for the internal associated services to validate permissions
-// Actions are similar to HTTP verbs
-enum ResourceAction {
-  RESOURCE_ACTION_UNSPECIFIED = 0;
-  RESOURCE_ACTION_CREATE = 1;
-  RESOURCE_ACTION_APPEND = 2;
-  RESOURCE_ACTION_UPDATE = 3;
-  RESOURCE_ACTION_READ = 4;
-  RESOURCE_ACTION_DELETE = 5;
-}
-
-// An arbitrary status for Objects
-enum Status {
-  STATUS_UNSPECIFIED = 0;
-  STATUS_INITIALIZING = 1;
-  STATUS_AVAILABLE = 2;
-  STATUS_UNAVAILABLE = 3;
-  STATUS_ERROR = 4;
-  STATUS_DELETED = 5;
-  STATUS_FINALIZING = 6;
-}
-
-enum EndpointStatus {
-  ENDPOINT_STATUS_UNSPECIFIED = 0;
-  ENDPOINT_STATUS_INITIALIZING = 1;
-  ENDPOINT_STATUS_AVAILABLE = 2;
-  ENDPOINT_STATUS_DEGRADED = 3;
-  ENDPOINT_STATUS_UNAVAILABLE = 4;
-  ENDPOINT_STATUS_MAINTENANCE = 5;
-}
-
 // Stats for a set of objects
 message Stats {
   int64 count = 1;
-  int64 acc_size = 2;
-}
-
-// Stats for a collection
-message CollectionStats {
-  Stats object_stats = 1;
+  int64 size = 2;
   google.protobuf.Timestamp last_updated = 3;
-}
-
-// Semver version -> Alpha Beta release are not supported -> Use "latest" for
-// mutable collections that are in development
-message Version {
-  int32 major = 1;
-  int32 minor = 2;
-  int32 patch = 3;
-}
-
-enum Hashalgorithm {
-  HASHALGORITHM_UNSPECIFIED = 0;
-  HASHALGORITHM_MD5 = 1;
-  HASHALGORITHM_SHA256 = 2;
 }
 
 message Hash {
   Hashalgorithm alg = 1;
   string hash = 2;
-}
-
-// Dataclass defines the confidentiality of the object
-enum DataClass {
-  DATA_CLASS_UNSPECIFIED = 0;
-  DATA_CLASS_PUBLIC = 1;
-  DATA_CLASS_PRIVATE = 2;
-  DATA_CLASS_CONFIDENTIAL = 3;
-}
-
-enum EndpointType {
-  ENDPOINT_TYPE_UNSPECIFIED = 0;
-  ENDPOINT_TYPE_S3 = 1;
-  ENDPOINT_TYPE_FILE = 2;
-}
-
-enum EndpointHostType {
-  ENDPOINT_HOST_TYPE_UNSPECIFIED = 0;
-  ENDPOINT_HOST_TYPE_PROXY = 1;
-  ENDPOINT_HOST_TYPE_INTERNAL = 2;
-  ENDPOINT_HOST_TYPE_BUNDLER = 3;
 }
 
 message EndpointHostConfig {
@@ -268,165 +240,64 @@ message Endpoint {
   repeated EndpointHostConfig host_configs = 11;
 }
 
+// ------ Resources ----------
 
-// A first draft for possible relation types
-// That should be introduced by us
-enum RelationType {
-  RELATION_TYPE_UNSPECIFIED = 0; // DO NOT USE
-  RELATION_TYPE_CROSSREF = 1; // Crossref -> URL
-  RELATION_TYPE_ORIGIN = 2; // Crossref -> Objectid
-  RELATION_TYPE_METADATA = 3; // Data -> Metadata link
-  RELATION_TYPE_SPECIFICATION = 4; // Specification for metadata etc.
-  RELATION_TYPE_DATASET = 5; // Part of Dataset -> To "bundle", dataset objects
+message Project {
+  string id = 1;
+  string name = 2; // Short name according to BucketNamingRules
+  string description = 3; // Long name
+  // Project specific labels / hooks
+  repeated KeyValue key_values = 4;
+  // Relations to internal and external sources
+  repeated Relation relations = 5;
+  Stats stats = 6;
+  DataClass data_class = 7;
+  google.protobuf.Timestamp created_at = 8;
+  string created_by = 9; 
 }
 
-// A Link is a connection to other data,
-// this can either be 
-// A: An URL (DOI, crossref, etc.)
-// B: Another Object 
-message Link {
-  oneof identifier {
-    string object_id = 1;
-    string url = 2;
-    string custom_identifier = 3;
-  }
-}
-
-message Relation {
-  // A relation can be outbound or inbound
-  // Most of the time relations are updated bidirectional
-  oneof relation {
-    Link describes = 1;
-    Link described_by = 2; 
-  }
-  // Relation is either a custom string type, or a predefined type
-  oneof relationtype { 
-    RelationType relation_type = 3; 
-    string custom_relation = 4;
-  }
-  string relation_id = 5; // Relations are revisioned and share a common ID to track whats changed
-}
-
-// RULES for Objects:
-// 1.  Each object is "owned" by one/or more collections
-// 2.  Objects can be "borrowed" to multiple other collections
-// 3.  Objects are immutable, updating an object will create a new object with
-// increased revision number
-//     only people with modify permissions in the owner collection can update an
-//     object
-// 3.1 Special cases:
-//     Hooks: Can be added/removed and modified without changing the object
-//     revision number Labels: Can be added without changing the object revision
-//     number, removing or modifying labels WILL change the object revision
-//     number (append only) auto_update: Can be added/removed without changing
-//     the object revision number and is collection specific
-// 4.  Objects can only be permanently deleted by a person with admin rights on
-// the owner collection
-
-message Object {
-  string id = 1;                    // ObjectID
-  string filename = 2;              // Filename: Name of the original file e.g.: mydata.json
-  repeated KeyValue labels = 3;     // Labels to additionally describe the object
-  repeated KeyValue hooks = 4;      // Hooks to be executed on the object
-  google.protobuf.Timestamp created = 5;
-  int64 content_len = 6;            // Length of the stored dataset
-  Status status = 7;
-  repeated Relation relations = 8;  // Relations to other objects / external URLs -> Replaces Objectgroups
-  DataClass data_class = 9;         // Confidentiality of the object
-  repeated Hash hashes = 10;        // MD5 and SHA256 hash of the data
-  int64 rev_number = 11;            // Increasing revion number for each update
-  bool latest = 12;                 // Is this the latest version of the object?
-}
-
-// Multiple Objects
-message Objects { repeated Object objects = 1; }
-
-message FullObjectReference {
-  Object object = 1;
-  bool auto_update = 2;
-  string path = 3;
-}
-
-message ObjectIdReference {
-  string object_id = 1;
-  bool auto_update = 2;
-  string path = 3;
-}
-
-// RULES for Collections:
-// 1. Each object is "owned" by one/or more collections
-// 2. Objects can be in multiple collections and must be in the owner collection
-// 3. Collections are either mutable with Version.latest == true or immutable
-// with a fixed version number 3.1 If a collection gets a fixed version a copy
-// is created with all "latest" objects dereferenced to their respective
-// revisions 3.2 Modifying an immutable collection will create a new copy of the
-// collection with a new version number
-// 4. Collections can be created by any user, but only the owner can modify or
-// delete them
 
 message Collection {
   string id = 1;
-  string name = 2;                            // Should be unique in authgroup
+  string name = 2; 
   string description = 3;
-  repeated KeyValue labels = 4;
-  repeated KeyValue hooks = 5;
-  FullObjectReference label_policy = 6;                    // Policy file for label ontology
-  google.protobuf.Timestamp created = 7;
-  repeated FullObjectReference objects = 8;
-  repeated FullObjectReference specifications = 9;
-  oneof version {
-    Version semantic_version = 12;
-    bool latest = 13;
-  }
-  CollectionStats stats = 14;
-  DataClass dataclass = 15;
+  // Collection specific labels / hooks
+  repeated KeyValue key_values = 4;
+  // Relations to internal and external sources
+  repeated Relation relations = 5;
+  Stats stats = 6;
+  DataClass data_class = 7;
+  google.protobuf.Timestamp created_at = 8;
+  string created_by = 9; 
 }
 
-// Multiple Collections
-message Collections { repeated Collection collections = 1; }
-
-// This is a representation of the Collection without the recursive nature of
-// objectreferences
-message CollectionOverview {
+message Dataset {
   string id = 1;
   string name = 2;
   string description = 3;
-  repeated KeyValue labels = 4;
-  repeated KeyValue hooks = 5;
-  Object label_policy = 6;                    // Policy file for label ontology
-  google.protobuf.Timestamp created = 7;
-  oneof version {
-    Version semantic_version = 12;
-    bool latest = 13;
-  }
-  CollectionStats stats = 14;
-  DataClass dataclass = 15;
+  // Dataset specific labels / hooks
+  repeated KeyValue key_values = 4;
+  // Relations to internal and external sources
+  repeated Relation relations = 5;
+  Stats stats = 6;
+  DataClass data_class = 7;
+  google.protobuf.Timestamp created_at = 8;
+  string created_by = 9; 
 }
 
-// Multiple CollectionOverviews
-message CollectionOverviews {
-  repeated CollectionOverview collection_overviews = 1;
-}
-
-// This is a representation of the Collection with only Resource RevisionIDs
-// instead of full objects
-message CollectionWithId {
-  string id = 1;
-  string name = 2;                            // Should be unique in authgroup
+message Object {
+  string id = 1;                    
+  string name = 2;
   string description = 3;
-  repeated KeyValue labels = 4;
-  repeated KeyValue hooks = 5;
-  ObjectIdReference label_policy = 6;                    // Policy file for label ontology
-  google.protobuf.Timestamp created = 7;
-  repeated ObjectIdReference objects = 8;
-  repeated ObjectIdReference specifications = 9;
-  oneof version {
-    Version semantic_version = 12;
-    bool latest = 13;
-  }
-  CollectionStats stats = 14;
-  DataClass dataclass = 15;
+  // Collection specific labels / hooks
+  repeated KeyValue key_values = 4;
+  // Relations to internal and external sources
+  repeated Relation relations = 5;
+  int64 content_len = 6; // Object only
+  DataClass data_class = 7;
+  google.protobuf.Timestamp created_at = 8;
+  string created_by = 9;
+  // Object specific attributes
+  Status status = 10;
+  repeated Hash hashes = 11;  
 }
-// Multiple CollectionWithIDs
-message CollectionWithIDs { repeated CollectionWithId collection_with_ids = 1; }
-

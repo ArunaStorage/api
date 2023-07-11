@@ -49,47 +49,11 @@ service CollectionService {
     };
   }
 
-  // UpdateCollection
-  //
-  // Status: BETA
-  //
-  // Updates the current collection
-  // This will update the collection in place if it is unversioned / latest
-  // A versioned (pinned) collection requires a new semantic version after the
-  // update This can be used to pin a collection to a specific version similar
-  // to the PinCollectionVersion request
-  rpc UpdateCollection(UpdateCollectionRequest)
-      returns (UpdateCollectionResponse) {
-    option (google.api.http) = {
-      put : "/v1/collection/{collection_id}"
-      body : "*"
-    };
-  }
-
-  // PinCollectionVersion
-  //
-  // Status: STABLE
-  //
-  // This pins the current status of the version to a
-  // specific version. Effectively creating a copy of the collection with a
-  // stable version All objects will be pinned to an explicit revision number
-  // Pinned collections can not be updated in place
-  rpc PinCollectionVersion(PinCollectionVersionRequest)
-      returns (PinCollectionVersionResponse) {
-    option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/pin"
-      body : "*"
-    };
-  }
-
   // DeleteCollection
   //
   // Status: STABLE
   //
   // This request deletes the collection.
-  // If with_version is true, it deletes the collection and all its versions.
-  // If cascade is true, all objects that are owned by the collection will also
-  // deleted. This should be avoided
   rpc DeleteCollection(DeleteCollectionRequest)
       returns (DeleteCollectionResponse) {
     option (google.api.http) = {
@@ -98,131 +62,83 @@ service CollectionService {
     };
   }
 
-  // AddKeyValueToCollection
+  // UpdateCollectionName
   //
   // Status: BETA
   //
-  // Adds key values (labels / hooks) to a collection
-  rpc AddKeyValuesToCollection(AddKeyValuesToCollectionRequest)
-      returns (AddKeyValuesToCollectionResponse) {
+  // Updates the collection name. Caveat! Will rename the "s3 bucket" for data proxies! 
+  rpc UpdateCollectionName(UpdateCollectionNameRequest) returns (UpdateCollectionNameResponse) {
     option (google.api.http) = {
-      patch : "/v1/collection/{collection_id}/add_key_value"
+      patch : "/v2/collection/{collection_id}/name"
+      body : "*"
+    };
+  }
+
+  // UpdateCollectionKeyValues
+  //
+  // Status: BETA
+  //
+  // Updates the collection key values.
+  rpc UpdateProjectKeyValues(UpdateCollectionKeyValuesRequest) returns (UpdateCollectionKeyValueResponse) {
+    option (google.api.http) = {
+      patch : "/v2/collection/{collection_id}/key_values"
+      body : "*"
+    };
+  }
+  
+  // UpdateCollectionExternalRelations
+  //
+  // Status: BETA
+  //
+  // Updates the collection name. All (meta) data will be overwritten.
+  rpc UpdateCollectionExternalRelations(UpdateCollectionExternalRelationsRequest) returns (UpdateProjectExternalRelationsResponse) {
+    option (google.api.http) = {
+      patch : "/v2/collection/{collection_id}/external_relations"
+      body : "*"
+    };
+  }
+
+  // UpdateCollectionDataClass
+  //
+  // Status: BETA
+  //
+  // Updates the collection name. All (meta) data will be overwritten.
+  rpc UpdateCollectionDataClass(UpdateCollectionDataClassRequest) returns (UpdateCollectionDataClassResponse) {
+    option (google.api.http) = {
+      patch : "/v2/collection/{collection_id}/data_class"
+      body : "*"
+    };
+  }
+
+  // SnapshotCollectionRequest
+  //
+  // Status: BETA
+  //
+  // Archives the full project, rendering all downstream relations immutable
+  rpc SnapshotCollection(SnapshotCollectionRequest) returns (SnapshotCollectionResponse) {
+    option (google.api.http) = {
+      post : "/v2/collection/{collection_id}/snapshot"
       body : "*"
     };
   }
 }
 
-
-// WorkspaceService
-//
-// Service to manage "special" anonymous collections / workspaces 
-service WorkspaceService {
-  // CreateWorkspace
-  //
-  // Status: ALPHA
-  //
-  // A new request to create a personal anonymous workspace
-  rpc CreateWorkspace(CreateWorkspaceRequest)
-      returns (CreateWorkspaceResponse) {
-    option (google.api.http) = {
-      post : "/v1/workspace"
-      body : "*"
-    };
-  }
-
-
-  // DeleteWorkspace
-  //
-  // Status: ALPHA
-  //
-  // Delete a workspace
-  rpc DeleteWorkspace(DeleteWorkspaceRequest)
-      returns (DeleteWorkspaceResponse) {
-    option (google.api.http) = {
-      delete : "/v1/workspace/{workspace_id}"
-      body : "*"
-    };
-  }
-
-  // DeleteWorkspace
-  //
-  // Status: ALPHA
-  //
-  // Claims an anonymous workspace, and transfers the owner to a regular user account.
-  rpc ClaimWorkspace(ClaimWorkspaceRequest)
-      returns (ClaimWorkspaceResponse) {
-    option (google.api.http) = {
-      post : "/v1/workspace/{workspace_id}/claim"
-      body : "*"
-    };
-  }
-
-  // MoveWorkspaceData
-  //
-  // Status: ALPHA
-  //
-  // Claims an anonymous workspace
-  rpc MoveWorkspaceData(MoveWorkspaceDataRequest)
-      returns (MoveWorkspaceDataResponse) {
-    option (google.api.http) = {
-      post : "/v1/workspace/{workspace_id}/move/{collection_id}"
-      body : "*"
-    };
-  }
-}
-
-// Models:
-
-message CreateWorkspaceRequest {
-  string project_name = 1;
-}
-
-message CreateWorkspaceResponse{
-  string workspace_id = 1;
-  string token = 2;
-  string access_key = 3;
-  string secret_key = 4;
-}
-
-message DeleteWorkspaceRequest {
-  string workspace_id = 1;
-}
-
-message DeleteWorkspaceResponse {}
-
-message ClaimWorkspaceRequest {
-  // This can only be called by an registered user,
-  // that is in possesion of the workspace_id and workspace token
-  // It will remove the service account and claim all references "as" the user.
-  string workspace_id = 1;
-  string token = 2;
-}
-
-message ClaimWorkspaceResponse {}
-
-message MoveWorkspaceDataRequest {
-  string workspace_id = 1;
-  string collection_id = 2;
-}
-
-message MoveWorkspaceDataResponse {}
-
-message CreateNewCollectionRequest {
-  // Collection name
+message CreateCollectionRequest {
+  // Project name
   string name = 1;
-  // Description
-  string description = 2;
-  // Project id
-  string project_id = 3;
-  // List of associated labels
-  repeated storage.models.v1.KeyValue labels = 4;
-  // List of associated hooks
-  repeated storage.models.v1.KeyValue hooks = 5;
-  // Optional Dataclass
-  storage.models.v1.DataClass dataclass = 6;
+  // Project specific labels / hooks
+  repeated storage.models.v2.KeyValue key_values = 2;
+  // External relations (URLs / IDs from external sources)
+  repeated storage.models.v2.ExternalRelation external_relations = 3;
+  // DataClass
+  storage.models.v2.DataClass data_class = 4;
+  // Parent_id MUST be Project
+  oneof parent {
+    string project_id = 5;
+  }
 }
 
-message CreateNewCollectionResponse {
+message CreateCollectionResponse {
   // The new collection_id
   string collection_id = 1;
 }

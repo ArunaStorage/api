@@ -97,6 +97,19 @@ service ProjectService {
   rpc UpdateProjectName(UpdateProjectNameRequest) returns (UpdateProjectNameResponse) {
     option (google.api.http) = {
       patch : "/v2/project/{project_id}/name"
+      body : "*"
+    };
+  }
+
+  // UpdateProjectDescription
+  //
+  // Status: BETA
+  //
+  // Updates the project name.
+  rpc UpdateProjectDescription(UpdateProjectDescriptionRequest) returns (UpdateProjectDescriptionResponse) {
+    option (google.api.http) = {
+      patch : "/v2/project/{project_id}/description"
+      body : "*"
     };
   }
 
@@ -108,6 +121,7 @@ service ProjectService {
   rpc UpdateProjectKeyValues(UpdateProjectKeyValuesRequest) returns (UpdateProjectKeyValueResponse) {
     option (google.api.http) = {
       patch : "/v2/project/{project_id}/key_values"
+      body : "*"
     };
   }
   
@@ -119,6 +133,7 @@ service ProjectService {
   rpc UpdateProjectExternalRelations(UpdateProjectExternalRelationsRequest) returns (UpdateProjectExternalRelationsResponse) {
     option (google.api.http) = {
       patch : "/v2/project/{project_id}/external_relations"
+      body : "*"
     };
   }
 
@@ -130,6 +145,7 @@ service ProjectService {
   rpc UpdateProjectDataClass(UpdateProjectDataClassRequest) returns (UpdateProjectDataClassResponse) {
     option (google.api.http) = {
       patch : "/v2/project/{project_id}/data_class"
+      body : "*"
     };
   }
 
@@ -140,7 +156,8 @@ service ProjectService {
   // Archives the full project, rendering all downstream relations immutable
   rpc ArchiveProject(ArchiveProjectRequest) returns (ArchiveProjectResponse) {
     option (google.api.http) = {
-      patch : "/v2/project/{project_id}/archive"
+      post : "/v2/project/{project_id}/archive"
+      body : "*"
     };
   }
 }
@@ -148,12 +165,14 @@ service ProjectService {
 message CreateProjectRequest {
   // Project name
   string name = 1;
+  // Description
+  string description = 2;
   // Project specific labels / hooks
-  repeated storage.models.v2.KeyValue key_values = 2;
+  repeated storage.models.v2.KeyValue key_values = 3;
   // External relations (URLs / IDs from external sources)
-  repeated storage.models.v2.ExternalRelation external_relations = 3;
+  repeated storage.models.v2.ExternalRelation external_relations = 4;
   // DataClass
-  storage.models.v2.DataClass data_class = 4;
+  storage.models.v2.DataClass data_class = 5;
 }
 
 message CreateProjectResponse {
@@ -196,6 +215,15 @@ message UpdateProjectNameRequest {
 }
 
 message UpdateProjectNameResponse {
+  storage.models.v2.Project project = 1;
+}
+
+message UpdateProjectDescriptionRequest {
+  string project_id = 1;
+  string description = 2;
+}
+
+message UpdateProjectDescriptionResponse {
   storage.models.v2.Project project = 1;
 }
 
