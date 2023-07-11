@@ -1,0 +1,237 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v2;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v2";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
+option java_outer_classname = "DatasetService";
+import "aruna/api/storage/models/v2/models.proto";
+import "google/api/annotations.proto";
+
+// DatasetService
+//
+// Contains all methods that get/create or update Dataset and associated resources
+service DatasetService {
+
+  // CreateNewDataset
+  //
+  // Status: BETA
+  //
+  // creates a new Dataset
+  rpc CreateDataset(CreateDatasetRequest)
+      returns (CreateDatasetResponse) {
+    option (google.api.http) = {
+      post : "/v2/dataset"
+      body : "*"
+    };
+  }
+
+  // GetDataset
+  //
+  // Status: BETA
+  //
+  // Request a specific dataset by ID
+  rpc GetDataset(GetDatasetRequest)
+      returns (GetDatasetResponse) {
+    option (google.api.http) = {
+      get : "/v2/dataset/{dataset_id}"
+    };
+  }
+
+  // GetDatasets
+  //
+  // Status: BETA
+  //
+  // Queries multiple datasets by ID
+  rpc GetDatasets(GetDatasetsRequest) returns (GetDatasetsResponse) {
+    option (google.api.http) = {
+      get : "/v2/datasets/"
+    };
+  }
+
+  // DeleteDataset
+  //
+  // Status: STABLE
+  //
+  // This request deletes the dataset.
+  rpc DeleteDataset(DeleteDatasetRequest)
+      returns (DeleteDatasetResponse) {
+    option (google.api.http) = {
+      delete : "/v1/dataset/{dataset_id}"
+    };
+  }
+
+  // UpdateDatasetName
+  //
+  // Status: BETA
+  //
+  // Updates the dataset name. Caveat! Will rename the "s3 bucket" for data proxies! 
+  rpc UpdateDatasetName(UpdateDatasetNameRequest) returns (UpdateDatasetNameResponse) {
+    option (google.api.http) = {
+      patch : "/v2/dataset/{dataset_id}/name"
+      body : "*"
+    };
+  }
+
+  // UpdateDatasetDescription
+  //
+  // Status: BETA
+  //
+  // Updates the dataset description.
+  rpc UpdateDatasetDescription(UpdateDatasetDescriptionRequest) returns (UpdateDatasetDescriptionResponse) {
+    option (google.api.http) = {
+      patch : "/v2/dataset/{dataset_id}/description"
+      body : "*"
+    };
+  }
+
+  // UpdateDatasetKeyValues
+  //
+  // Status: BETA
+  //
+  // Updates the dataset key values.
+  rpc UpdateProjectKeyValues(UpdateDatasetKeyValuesRequest) returns (UpdateDatasetKeyValueResponse) {
+    option (google.api.http) = {
+      patch : "/v2/dataset/{dataset_id}/key_values"
+      body : "*"
+    };
+  }
+  
+  // UpdateDatasetExternalRelations
+  //
+  // Status: BETA
+  //
+  // Updates the dataset name. All (meta) data will be overwritten.
+  rpc UpdateDatasetExternalRelations(UpdateDatasetExternalRelationsRequest) returns (UpdateDatasetExternalRelationsResponse) {
+    option (google.api.http) = {
+      patch : "/v2/dataset/{dataset_id}/external_relations"
+      body : "*"
+    };
+  }
+
+  // UpdateDatasetDataClass
+  //
+  // Status: BETA
+  //
+  // Updates the dataset name. All (meta) data will be overwritten.
+  rpc UpdateDatasetDataClass(UpdateDatasetDataClassRequest) returns (UpdateDatasetDataClassResponse) {
+    option (google.api.http) = {
+      patch : "/v2/dataset/{dataset_id}/data_class"
+      body : "*"
+    };
+  }
+
+  // SnapshotDatasetRequest
+  //
+  // Status: BETA
+  //
+  // Archives the full dataset, rendering all downstream relations immutable
+  rpc SnapshotDataset(SnapshotDatasetRequest) returns (SnapshotDatasetResponse) {
+    option (google.api.http) = {
+      post : "/v2/dataset/{dataset_id}/snapshot"
+      body : "*"
+    };
+  }
+}
+
+message CreateDatasetRequest {
+  // Project name
+  string name = 1;
+  // Project specific labels / hooks
+  repeated storage.models.v2.KeyValue key_values = 2;
+  // External relations (URLs / IDs from external sources)
+  repeated storage.models.v2.ExternalRelation external_relations = 3;
+  // DataClass
+  storage.models.v2.DataClass data_class = 4;
+  // Parent_id MUST be Project
+  oneof parent {
+    string project_id = 5;
+    string collection_id = 6;
+  }
+}
+
+message CreateDatasetResponse {
+  // The new dataset_id
+  storage.models.v2.Dataset dataset = 1;
+}
+
+message GetDatasetRequest {
+  // Requested id
+  string dataset_id = 1;
+}
+
+message GetDatasetResponse {
+  // Overview of the requested dataset
+  storage.models.v2.Dataset dataset = 1;
+}
+
+message GetDatasetsRequest {
+  repeated string dataset_ids = 1;
+}
+
+message GetDatasetsResponse {
+  // List of dataset overviews
+  repeated storage.models.v2.Dataset datasets = 1;
+}
+
+message DeleteDatasetRequest {
+  string dataset_id = 1;
+}
+
+message DeleteDatasetResponse {}
+
+message UpdateDatasetNameRequest {
+  string dataset_id = 1;
+  string name = 2;
+}
+
+message UpdateDatasetNameResponse {
+  storage.models.v2.Dataset dataset = 1;
+}
+
+message UpdateDatasetDescriptionRequest {
+  string dataset_id = 1;
+  string description = 2;
+}
+
+message UpdateDatasetDescriptionResponse {
+  storage.models.v2.Dataset dataset = 1;
+}
+
+message UpdateDatasetKeyValuesRequest {
+  string dataset_id = 1;
+  repeated storage.models.v2.KeyValue add_key_values = 2;
+  repeated storage.models.v2.KeyValue remove_key_values = 3;
+}
+
+message UpdateDatasetKeyValueResponse {
+  storage.models.v2.Dataset dataset = 1;
+}
+
+message UpdateDatasetExternalRelationsRequest {
+  string dataset_id = 1;
+  repeated storage.models.v2.ExternalRelation add_relations = 2;
+  repeated storage.models.v2.ExternalRelation remove_relations = 3;
+}
+
+message UpdateDatasetExternalRelationsResponse {
+  storage.models.v2.Dataset dataset = 1;
+}
+
+message UpdateDatasetDataClassRequest {
+  string dataset_id = 1;
+  storage.models.v2.DataClass data_class = 2;
+}
+
+message UpdateDatasetDataClassResponse {
+  storage.models.v2.Dataset dataset = 1;
+}
+
+message SnapshotDatasetRequest {
+  string dataset_id = 1;
+}
+
+message SnapshotDatasetResponse {
+  // This dataset will be returned via an Persistent Identifier! Updates will be impossible
+  storage.models.v2.Dataset dataset = 1;
+}

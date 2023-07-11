@@ -90,7 +90,7 @@ service CollectionService {
   // Status: BETA
   //
   // Updates the collection key values.
-  rpc UpdateProjectKeyValues(UpdateCollectionKeyValuesRequest) returns (UpdateCollectionKeyValueResponse) {
+  rpc UpdatecollectionKeyValues(UpdateCollectionKeyValuesRequest) returns (UpdateCollectionKeyValueResponse) {
     option (google.api.http) = {
       patch : "/v2/collection/{collection_id}/key_values"
       body : "*"
@@ -125,7 +125,7 @@ service CollectionService {
   //
   // Status: BETA
   //
-  // Archives the full project, rendering all downstream relations immutable
+  // Archives the full collection, rendering all downstream relations immutable
   rpc SnapshotCollection(SnapshotCollectionRequest) returns (SnapshotCollectionResponse) {
     option (google.api.http) = {
       post : "/v2/collection/{collection_id}/snapshot"
@@ -135,15 +135,15 @@ service CollectionService {
 }
 
 message CreateCollectionRequest {
-  // Project name
+  // collection name
   string name = 1;
-  // Project specific labels / hooks
+  // collection specific labels / hooks
   repeated storage.models.v2.KeyValue key_values = 2;
   // External relations (URLs / IDs from external sources)
   repeated storage.models.v2.ExternalRelation external_relations = 3;
   // DataClass
   storage.models.v2.DataClass data_class = 4;
-  // Parent_id MUST be Project
+  // Parent_id MUST be collection
   oneof parent {
     string project_id = 5;
   }
