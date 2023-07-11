@@ -192,7 +192,7 @@ message GetProjectResponse {
 
 message GetProjectsRequest {
   // optional filter for specific ids
-  repeated string ids = 1;
+  repeated string project_ids = 1;
 }
 
 message GetProjectsResponse {
