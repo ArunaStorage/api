@@ -4,6 +4,75 @@ option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/models/v1"
 
 package aruna.api.storage.models.v1;
 
+
+message User {
+  // Internal Aruna UserID
+  string id = 1;
+  // Oidc subject ID
+  repeated string external_id = 2;
+  // (optional) User display_name
+  string display_name = 3;
+  // Is the user activated
+  bool active = 4;
+  // User email (empty if service account)
+  string email = 5;
+  // User attributes
+  UserAttributes attributes = 6;
+}
+
+
+message ResourcePermission {
+  oneof resource_id {
+    string project_id = 1;
+    string collection_id = 2;
+    string dataset_id = 3;
+    string object_id = 4;
+    bool personal = 5;
+  }
+  Permission permission = 6;
+}
+
+
+message Token {
+  string id = 1;
+  string name = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp expires_at = 4;
+  ResourcePermission permission = 5;
+  google.protobuf.Timestamp used_at = 6;
+}
+
+
+message CustomAttributes {
+  string attribute_name = 1;
+  string attribute_value = 2;
+}
+
+message GlobalAttributes {
+  bool global_admin = 1;
+  bool service_account = 2;
+  repeated CustomAttributes custom_attributes = 3; // This is a placeholder for future additional attributes
+}
+
+message UserAttributes {
+  GlobalAttributes attributes = 1;
+  PersonalPermissions personal_perms = 2;
+}
+
+// Storage resource specific userpermissions
+// Evaluated in Order -> 1: object_deny > 4: collection_permissions etc.
+message PersonalPermissions {
+  repeated ResourcePermission deny = 1;
+  repeated ResourcePermission allow = 2;
+}
+
+message ProjectPermission {
+  string user_id = 1;
+  string project_id = 2;
+  ResourcePermission permission = 3;
+  bool service_account = 4;
+}
+
 // A key value pair for hooks and labels
 message KeyValue {
   string key = 1;
@@ -147,8 +216,8 @@ message Link {
   oneof identifier {
     string object_id = 1;
     string url = 2;
+    string custom_identifier = 3;
   }
-  string relation_type = 3;
 }
 
 message Relation {
@@ -288,3 +357,43 @@ message CollectionWithId {
 }
 // Multiple CollectionWithIDs
 message CollectionWithIDs { repeated CollectionWithId collection_with_ids = 1; }
+
+
+// A Project is a list of collections with associated users
+// This is used to manage access to multiple collections at the same time
+// Each Collection can only be in one Project at a time
+message Project {
+  string id = 1;
+  string name = 2;
+  repeated ProjectPermission user_permissions = 3;
+  repeated string collection_ids = 4;
+  string description = 5;
+  // Project binary flag(s)
+  int64 flags = 6;
+}
+
+message ProjectOverview {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  repeated string collection_ids = 4;
+  repeated string user_ids = 5;
+  // Project binary flag(s)
+  int64 flags = 6;
+}
+
+
+
+enum Permission {
+  PERMISSION_UNSPECIFIED = 0;
+  PERMISSION_NONE = 1; // No permissions granted, used for users that are in the
+                       // project but have no default permissions
+  PERMISSION_READ = 2; // Read only
+  PERMISSION_APPEND = 3; // Append objects to the collection cannot modify existing objects
+  PERMISSION_WRITE = 4; // Can Read/Append/Modify objects in the collection
+                         // that owns the object / Create new collections
+  PERMISSION_ADMIN = 5;  // Can modify the collections itself and permanently
+                         // delete owned objects / move ownership of objects
+}
+
+
