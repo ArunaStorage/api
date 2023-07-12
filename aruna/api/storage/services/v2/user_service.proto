@@ -265,8 +265,6 @@ message UpdateUserDisplayNameResponse {
 message ActivateUserRequest {
   // User to activate
   string user_id = 1;
-  // (optional) add user to project
-  storage.models.v2.ProjectPermission project_perms = 2;
 }
 
 message ActivateUserResponse {}

@@ -13,12 +13,19 @@ import "aruna/api/storage/models/v2/models.proto";
 
 
 service DataproxyService {
-    // InitReplication
+    
+    // RequestReplication
     //
     // Status: BETA
     //
     // Creates a replication request
     rpc RequestReplication(RequestReplicationRequest) returns (RequestReplicationResponse) {}
+    
+    // InitReplication
+    //
+    // Status: BETA
+    //
+    // Creates a replication request
     rpc InitReplication(InitReplicationRequest) returns (InitReplicationResponse) {}
 }
 

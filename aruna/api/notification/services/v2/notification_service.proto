@@ -111,11 +111,67 @@ message StreamFromDate { google.protobuf.Timestamp timestamp = 1; }
 
 message StreamAll {}
 
-message EventNotificationMessage {
+enum ResourceEventType {
+  RESOURCE_EVENT_TYPE_UNSPECIFIED = 0;
+  RESOURCE_EVENT_TYPE_CREATED = 1;
+  RESOURCE_EVENT_TYPE_AVAILABLE = 2;
+  RESOURCE_EVENT_TYPE_UPDATED = 3;
+  RESOURCE_EVENT_TYPE_DELETED = 4;
+}
+
+message RelationUpdate {
+  repeated storage.models.v2.Relation add_relations = 2;
+  repeated storage.models.v2.Relation remove_relations = 3;
+}
+
+message Fields {
+  repeated string updated_fields = 1;
+}
+
+message ResourceEventContext {
+  oneof event {
+    Fields updated_fields = 1;
+    RelationUpdate relation_updates = 2;
+    string custom_context = 3;
+  }
+}
+
+message ResourceEvent {
   aruna.api.storage.models.v2.ResourceType resource = 1;
   string resource_id = 2;
-  EventType updated_type = 3;
-  Reply reply = 4;
+  string resource_name = 3;
+  ResourceEventType event_type = 4;
+  optional ResourceEventContext context = 5;
+  Reply reply = 6;
+}
+
+enum UserEventType {
+  USER_EVENT_TYPE_UNSPECIFIED = 0;
+  USER_EVENT_TYPE_CREATED = 1;
+  USER_EVENT_TYPE_UPDATED = 2;
+  USER_EVENT_TYPE_DELETED = 3;
+}
+
+message Token {
+  string id = 1;
+  optional aruna.api.storage.models.v2.Permission permission = 2;
+}
+
+message UserEventContext {
+  oneof event {
+    string updated_field = 1;
+    bool admin = 2;
+    Token token = 3;
+    aruna.api.storage.models.v2.Permission permission = 4;
+  }
+}
+
+message UserEvent {
+  string user_id = 1;
+  string user_name = 2;
+  UserEventType event_type = 3;
+  optional UserEventContext context = 4;
+  Reply reply = 5;
 }
 
 message Reply {
@@ -124,16 +180,11 @@ message Reply {
   string hmac = 3;
 }
 
-enum EventType {
-  EVENT_TYPE_UNSPECIFIED = 0;
-  EVENT_TYPE_CREATED = 1;
-  EVENT_TYPE_AVAILABLE = 2;
-  EVENT_TYPE_UPDATED = 3;
-  EVENT_TYPE_METADATA_UPDATED = 4;
-  EVENT_TYPE_DELETED = 5;
-  EVENT_TYPE_ALL = 6;
+message AnouncementEvent {
+  // New dataproxy
+  // Removed dataproxy
+  // Updated dataproxy
+  // Scheduled downtime (location + component)
+  // New version (component)
+  // ...
 }
-
-
-PROJECT > COLLECTION > DATASET > OBJECT
-PROJECT > OBJECT
