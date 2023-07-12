@@ -263,7 +263,6 @@ message UpdateObjectRequest {
     string project_id = 8;
     string collection_id = 9;
     string dataset_id = 10;
-    bool none = 11;
   }
   optional storage.models.v2.Hash md5 = 12;
   optional storage.models.v2.Hash sha256 = 13;
