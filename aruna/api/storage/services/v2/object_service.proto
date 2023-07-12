@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package aruna.api.storage.services.v1;
-option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v1";
+package aruna.api.storage.services.v2;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v2";
 option java_multiple_files = true;
-option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v1";
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
 option java_outer_classname = "ObjectService";
 
-import "aruna/api/storage/models/v1/models.proto";
+import "aruna/api/storage/models/v2/models.proto";
 import "google/api/annotations.proto";
 
 // ObjectService
@@ -14,93 +14,64 @@ import "google/api/annotations.proto";
 // Contains all methods that get/create or update Objects and associated resources
 service ObjectService {
 
-  // InitializeNewObject
+  // InitializeObject
   //
-  // Status: STABLE
+  // Status: BETA
   //
   // This initializes a new object
   // Initializing an object will put it in a staging area.
   // Staged objects will get a separate staging id and need to be finished
   // before they can be used.
-  rpc InitializeNewObject(InitializeNewObjectRequest)
-      returns (InitializeNewObjectResponse) {
+  rpc InitializeObject(InitializeObjectRequest)
+      returns (InitializeObjectResponse) {
     option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/object"
+      post : "/v2/object"
       body : "*"
     };
   }
 
   // GetUploadURL
   //
-  // Status: STABLE
+  // Status: BETA
   //
+  // This is a proxy method that will call the apropriate method at dataproxy level
   // This method will return a (multi-part) url that can be used to upload a
   // file to S3. Part is a optional query parameter that can be used to upload a
   // part of the file / multipart upload.
   rpc GetUploadURL(GetUploadURLRequest) returns (GetUploadURLResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/object/{object_id}/staging/"
-            "{upload_id}/upload"
+      get : "/v2/object/{object_id}/staging/{upload_id}/upload"
     };
   }
 
   // GetDownloadUrl
   //
-  // Status: STABLE
+  // Status: BETA
   // 
-  // This method will return a url that can be used to download a file from S3.
+  // This is a proxy method that will call the apropriate method at dataproxy level
+  // will return a url that can be used to download a file from S3.
   rpc GetDownloadURL(GetDownloadURLRequest) returns (GetDownloadURLResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/object/{object_id}/download"
-    };
-  }
-
-  // GetDownloadLinksBatch
-  //
-  // Status: BETA
-  //
-  // This method can be used to get download urls for multiple objects.
-  // The order of the returned urls will be the same as the order of the object
-  // ids in the request.
-  rpc GetDownloadLinksBatch(GetDownloadLinksBatchRequest)
-      returns (GetDownloadLinksBatchResponse) {
-    option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/objects/batch"
-    };
-  }
-
-  // CreateDownloadLinksStream
-  //
-  // Status: BETA
-  //
-  // Creates a stream of objects and presigned links based on the provided query
-  // This can be used retrieve a large number of Objects as a stream that would
-  // otherwise cause issues with the connection
-  rpc CreateDownloadLinksStream(CreateDownloadLinksStreamRequest)
-      returns (stream CreateDownloadLinksStreamResponse) {
-    option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/objects/stream"
-      body : "*"
+      get : "/v2/object/{object_id}/download"
     };
   }
 
   // FinishObjectStaging
   //
-  // Status: STABLE
+  // Status: BETA
   //
   // This method completes the staging of an object.
   rpc FinishObjectStaging(FinishObjectStagingRequest)
       returns (FinishObjectStagingResponse) {
     option (google.api.http) = {
-      patch : "/v1/collection/{collection_id}/object/{object_id}/staging/"
-             "{upload_id}/finish"
+      patch : "/v2/object/{object_id}/finish"
       body : "*"
     };
   }
 
   // UpdateObject
   //
-  // Status: STABLE
+  // Status: BETA
   //
   // Objects are immutable!
   // Updating an object will create a new revision for the object
@@ -109,97 +80,65 @@ service ObjectService {
   // before they can be used.
   rpc UpdateObject(UpdateObjectRequest) returns (UpdateObjectResponse) {
     option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/object/{object_id}/update"
-      body : "*"
-    };
-  }
-
-  // CreateObjectReference
-  //
-  // Status: STABLE
-  //
-  // Creates a new reference of this object in another collection
-  rpc CreateObjectReference(CreateObjectReferenceRequest)
-      returns (CreateObjectReferenceResponse) {
-    option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/object/{object_id}/reference/"
-             "{target_collection_id}"
+      post : "/v2/object/{object_id}"
       body : "*"
     };
   }
 
   // CloneObject 
   //
-  // Status: STABLE
+  // Status: BETA
   //
   // This method clones an object and creates a copy in the same collection.
   // This copy has a new id and revision and will not receive any updates from
   // the original object.
   rpc CloneObject(CloneObjectRequest) returns (CloneObjectResponse) {
     option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/object/{object_id}/clone"
+      post : "/v2/{object_id}/clone"
       body : "*"
     };
   }
 
   // DeleteObject 
   //
-  // Status: STABLE
+  // Status: BETA
   //
   // Deletes the object with the complete revision history.
   rpc DeleteObject(DeleteObjectRequest) returns (DeleteObjectResponse) {
     option (google.api.http) = {
-      delete : "/v1/collection/{collection_id}/object/{object_id}"
-      body : "*"
-    };
-  }
-
-
-  // DeleteObjects
-  //
-  // Status: STABLE
-  //
-  // Deletes multiple objects at once.
-  rpc DeleteObjects(DeleteObjectsRequest) returns (DeleteObjectsResponse) {
-    option (google.api.http) = {
-      delete : "/v1/collection/{collection_id}/objects"
+      delete : "/v2/object/{object_id}"
       body : "*"
     };
   }
  
-  // GetObjectByID 
+  // GetObject 
   //
-  // Status: STABLE
+  // Status: BETA
   // 
   // gets a specific Object by ID that is associated to the
   // current collection By default only the latest revision of an object will be
   // returned Specify a revision_number to select an older revision With the
   // optional with_url boolean a download link can automatically be requested
-  rpc GetObjectByID(GetObjectByIDRequest) returns (GetObjectByIDResponse) {
+  rpc GetObject(GetObjectRequest) returns (GetObjectResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/object/{object_id}"
+      get : "/v2/object/{object_id}"
     };
   }
 
   // GetObjects
   //
-  // Status: STABLE
+  // Status: BETA
   //
-  // GetObjects returns a (paginated) list of objects in a specific collection
-  // By default only the latest revisions of all objects will be shown
-  // This behaviour can be changed with the include_history flag
-  // With the optional with_url boolean a download link can automatically be
-  // requested for each Object This request contains a LabelOrIDQuery message,
-  // this is either a list of request ObjectIDs or a query filtered by Labels
+  // Get multiple objects by ID at once
   rpc GetObjects(GetObjectsRequest) returns (GetObjectsResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/objects"
+      get : "/v2/objects"
     };
   }
 
   // GetObjectRevisions
   //
-  // Status: STABLE
+  // Status: BETA
   //
   // This returns the full list of revisions of a specified object
   // With the optional with_url boolean a download link can automatically be
@@ -207,12 +146,13 @@ service ObjectService {
   rpc GetObjectRevisions(GetObjectRevisionsRequest)
       returns (GetObjectRevisionsResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/object/{object_id}/revisions"
+      get : "/v2/object/{object_id}/revisions"
     };
   }
+
   // GetLatestObjectRevision
   //
-  // Status: STABLE
+  // Status: BETA
   //
   // This returns the latest revision of a specific object
   // The returned `latest` object will have a different id if the current
@@ -220,126 +160,9 @@ service ObjectService {
   rpc GetLatestObjectRevision(GetLatestObjectRevisionRequest)
       returns (GetLatestObjectRevisionResponse) {
     option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/object/{object_id}/latest"
+      get : "/v2/object/{object_id}/latest"
     };
   }
-
-  // GetObjectEndpoints
-  //
-  // Status: BETA
-  //
-  // This returns a list of endpoints
-  // One endpoint will be the "default" endpoint
-  rpc GetObjectEndpoints(GetObjectEndpointsRequest)
-      returns (GetObjectEndpointsResponse) {
-    option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/object/{object_id}/endpoints"
-    };
-  }
-
-  // AddLabelsToObject 
-  //
-  // Status: STABLE
-  //
-  // This is a specific request to add new label(s)
-  // to an existing object, in contrast to UpdateObject
-  // this will not create a new object in the staging area
-  // Instead it will directly add the specified label(s) to the object
-  rpc AddLabelsToObject(AddLabelsToObjectRequest)
-      returns (AddLabelsToObjectResponse) {
-    option (google.api.http) = {
-      patch : "/v1/collection/{collection_id}/object/{object_id}/add_labels"
-      body : "*"
-    };
-  }
-  // SetHooksOfObject
-  //
-  // Status: BETA
-  // 
-  // This is a specific request to update the complete list
-  // of hooks for a specific object. This will not update the object
-  // and create a new id, instead it will overwrite all hooks of the existing
-  // object.
-  rpc SetHooksOfObject(SetHooksOfObjectRequest)
-      returns (SetHooksOfObjectResponse) {
-    option (google.api.http) = {
-      patch : "/v1/collection/{collection_id}/object/{object_id}/set_hooks"
-      body : "*"
-    };
-  }
-
-  // GetReferences
-  //
-  // Status: STABLE
-  //
-  // Get a list of references for this object (optional) including all revisions
-  rpc GetReferences(GetReferencesRequest) returns (GetReferencesResponse) {
-    option (google.api.http) = {
-      get : "/v1/collection/{collection_id}/object/{object_id}/references"
-    };
-  }
-  
-  // UpdateObjectPath
-  //
-  // Status: BETA
-  //
-  // Create collection_specific object_paths for an object
-  // !! Paths are collection specific !!
-  rpc UpdateObjectPath(UpdateObjectPathRequest) returns (UpdateObjectPathResponse) {
-    option (google.api.http) = {
-      post : "/v1/collection/{collection_id}/object/{object_id}/path"
-      body: "*"
-    };
-  }
-
-  // GetObjectsByPath
-  //
-  // Status: BETA
-  //
-  // Gets a specific object by object_path
-  // !! Paths are collection specific !!
-  rpc GetObjectsByPath(GetObjectsByPathRequest) returns (GetObjectsByPathResponse) {
-    option (google.api.http) = {
-      get : "/v1/path/object/{path=**}"
-    };
-  }
-
-  // GetProjectCollectionIdsByPath
-  //
-  // Status: BETA
-  //
-  // Gets a specific project and collection_id by object_path
-  // !! Paths are collection specific !!
-  rpc GetProjectCollectionIdsByPath(GetProjectCollectionIdsByPathRequest) returns (GetProjectCollectionIdsByPathResponse) {
-    option (google.api.http) = {
-      get : "/v1/path/collection/{path=**}"
-    };
-  }
-
-  // GetObjectsAsListV2
-  //
-  // Status: ALPHA
-  //
-  // Gets a list of ObjectWithURLs represented similar to a S3 ListObjectsV2 request
-  // !! Paths are collection specific !!
-  rpc GetObjectsAsListV2(GetObjectsAsListV2Request) returns (GetObjectsAsListV2Response) {
-    option (google.api.http) = {
-      get : "/v1/path/objects/listv2"
-    };
-  }
-
-
-  // CreateCrossRelation
-  //
-  // Status: ALPHA
-  //
-  // Adds a relation to an object
-  rpc CreateCrossRelations(CreateCrossRelationsRequest) returns (CreateCrossRelationsResponse) {
-    option (google.api.http) = {
-      post : "/v1/relation"
-    };
-  }
-
 
 }
 
@@ -348,63 +171,49 @@ service ObjectService {
 // gRPC best practises advice each Request and Response message in a RPC to be
 // called {rpc_name}Request and {rpc_name}Response.
 
-message URL {
-  // URL response
-  string url = 1;
+message InitializeObjectRequest {
+  // collection name
+  string name = 1;
+  // collection specific labels / hooks
+  repeated storage.models.v2.KeyValue key_values = 2;
+  // External relations (URLs / IDs from external sources)
+  repeated storage.models.v2.ExternalRelation external_relations = 3;
+  // DataClass
+  storage.models.v2.DataClass data_class = 4;
+  // Parent can be one of all other resources
+  oneof parent {
+    string project_id = 5;
+    string collection_id = 6;
+    string dataset_id = 7;
+  }
+  repeated storage.models.v2.Hash md5 = 8; 
 }
 
-message StageObject {
-  // Filename
-  string filename = 1;
-  // Content length
-  int64 content_len = 2;
-  // Source of the object (e.g. wikipedia)
-  repeated storage.models.v1.Relation relations = 3;
-  // Dataclass public / private
-  storage.models.v1.DataClass dataclass = 4;
-  // List of label key-values
-  repeated storage.models.v1.KeyValue labels = 5;
-  // List of hook key-values
-  repeated storage.models.v1.KeyValue hooks = 6;
-  // (collection specific) sub_path for file
-  // does not include file-, collection- or projectname
-  // final fully-qualified schema: /<projectname>/<collectionname>/<path>/<filename>
-  string sub_path = 7;
-}
-
-message InitializeNewObjectRequest {
-  // This describes the object to be initialized.
-  StageObject object = 1;
-  // Collection id of the collection to which the object will be added.
-  string collection_id = 2;
-  // (optional) Used to specify a preferred endpoint by id
-  // this can be used to specify which endpoint this object should use
-  // only needed if it is not the default endpoint for the current server
-  // instance
-  string preferred_endpoint_id = 3;
-  // (optional) Hash 
-  storage.models.v1.Hash hash = 4;
-}
-
-message InitializeNewObjectResponse {
-  // ObjectId
-  string object_id = 1;
+message InitializeObjectResponse {
+  storage.models.v2.Object object = 1;
 }
 
 message GetUploadURLRequest {
   // ObjectId
   string object_id = 1;
-  // CollectionID
-  string collection_id = 2;
   // Is this a multipart upload?
-  bool multipart = 3;
+  bool multipart = 2;
   // (optional) if multi was initialized
-  int32 part_number = 4;
+  int32 part_number = 3;
 }
 
 message GetUploadURLResponse {
   // URL
-  URL url = 1;
+  string url = 1;
+}
+
+message GetDownloadURLRequest {
+  string object_id = 1;
+}
+
+message GetDownloadURLResponse {
+  // URL
+  string url = 1;
 }
 
 message CompletedParts {
@@ -414,98 +223,56 @@ message CompletedParts {
   int64 part = 2;
 }
 
-message GetDownloadURLRequest {
-  // Collection id
-  string collection_id = 1;
-  // Object id
-  string object_id = 2;
-}
-
-message GetDownloadURLResponse {
-  // URL
-  URL url = 1;
-}
-
-message GetDownloadLinksBatchRequest {
-  // CollectionID
-  string collection_id = 1;
-  // ObjectIds
-  repeated string objects = 2;
-}
-
-message GetDownloadLinksBatchResponse {
-  // List of URLs
-  repeated URL urls = 1;
-}
-
-message CreateDownloadLinksStreamRequest {
-  // CollectionID
-  string collection_id = 1;
-  // ObjectIds
-  repeated string objects = 2;
-}
-
-message CreateDownloadLinksStreamResponse { URL url = 1; }
-
 message FinishObjectStagingRequest {
   // ObjectId
   string object_id = 1;
-  // CollectionID
-  string collection_id = 2;
   // Hash of the uploaded data - used to verify the data integrity.
   // This supports multiple hashing algorithms.
-  storage.models.v1.Hash hash = 3;
+  repeated storage.models.v2.Hash hashes = 2;
 
   // If the upload was multipart, this is the list of parts that were uploaded.
   // Should be empty if the upload was not multipart.
   // (optional)
   repeated CompletedParts completed_parts = 4;
-  // Should the object be auto-updated in the collection?
-  // default: false
-  bool auto_update = 5;
 }
 
 message FinishObjectStagingResponse {
   // (new) Object overview
-  storage.models.v1.Object object = 1;
+  storage.models.v2.Object object = 1;
 }
 
 message UpdateObjectRequest {
   // Existing object ID
   string object_id = 1;
-  // collection ID
-  string collection_id = 2;
-  // New object data
-  StageObject object = 3;
-  // If this is an reupload a preferred endpoint
-  // can be specified by id
-  string preferred_endpoint_id = 4;
-  // (optional) Hash 
-  storage.models.v1.Hash hash = 5;
+  // object name
+  optional string name = 2;
+  // 
+  optional string description = 3;
+  // key_values to add
+  repeated storage.models.v2.KeyValue add_key_values = 4;
+  // key_values to remove
+  repeated storage.models.v2.KeyValue remove_key_values = 5;
+  // External relations (URLs / IDs from external sources) to add
+  repeated storage.models.v2.ExternalRelation add_external_relations = 6;
+  // External relations to remove
+
+  // New DataClass
+  optional storage.models.v2.DataClass data_class = 7;
+  // Parent can be one of all other resources
+  oneof parent {
+    string project_id = 8;
+    string collection_id = 9;
+    string dataset_id = 10;
+    bool none = 11;
+  }
+  optional storage.models.v2.Hash md5 = 12;
+  optional storage.models.v2.Hash sha256 = 13;
+  optional string preferred_endpoint_id = 14;
 }
 
 message UpdateObjectResponse {
-  // NEW ! ObjectId
-  string object_id = 1;
-  // CollectionID
-  string collection_id = 2;
-}
-
-message CreateObjectReferenceRequest {
-  // ObjectId
-  string object_id = 1;
-  // OwnerCollectionID
-  string collection_id = 2;
-  // BorrowerCollectionID
-  string target_collection_id = 3;
-  // Should the other collection have permissions to edit the ressource
-  bool writeable = 4;
-  // Should the borrowed ressource be automatically updated ?
-  bool auto_update = 5;
-  // (collection specific) sub_path for file
-  // does not include file-, collection- or projectname
-  // final schema: /<projectname>/<collectionname>/<version>/<path>/<filename>
-  string sub_path = 6;
+  storage.models.v2.Object object = 1;
+  bool copied = 2;
 }
 
 message CreateObjectReferenceResponse {}
@@ -513,97 +280,63 @@ message CreateObjectReferenceResponse {}
 message CloneObjectRequest {
   // ObjectId
   string object_id = 1;
-  // From CollectionID
-  string collection_id = 2;
-  // Target CollectionID
-  string target_collection_id = 3;
+  //
+  oneof parent {
+    string project_id = 2;
+    string collection_id = 3;
+    string dataset_id = 4;
+  }
 }
 
 message CloneObjectResponse {
   // This describes the new object.
-  storage.models.v1.Object object = 1;
+  storage.models.v2.Object object = 1;
 }
 
 message DeleteObjectRequest {
   // ObjectId
   string object_id = 1;
-  // CollectionID
-  string collection_id = 2;
   // Delete including revisions
-  bool with_revisions = 3;
-  // Force delete including revisions
-  bool force = 4;
+  bool with_revisions = 2;
 }
 
 message DeleteObjectResponse {}
 
-message DeleteObjectsRequest {
-  // Multiple ObjectIds
-  repeated string object_ids = 1;
-  // CollectionID
-  string collection_id = 2;
-  // Delete including revisions
-  bool with_revisions = 3;
-  // Force delete including revisions
-  bool force = 4;
-}
-
-message DeleteObjectsResponse {}
-
-message ObjectWithURL {
-  // Description of a specified object
-  storage.models.v1.FullObjectReference object = 1;
-  // Download S3 urls
-  string url = 2;
-}
-
-message GetObjectByIDRequest {
-  // Collection Id
-  string collection_id = 1;
+message GetObjectRequest {
   // Object Id
-  string object_id = 2;
-  // Try to get URL for preferred endpoint
-  string preferred_endpoint = 3;
+  string object_id = 1;
 }
 
-message GetObjectByIDResponse { ObjectWithURL object = 1; }
+message GetObjectResponse { storage.models.v2.Object object = 1; }
 
 message GetObjectsRequest {
-  // Collection id
-  string collection_id = 1;
-  // Object start after
-  storage.models.v1.PageRequest page_request = 3;
+  // Object ids
+  repeated string object_ids = 1;
 }
 
 message GetObjectsResponse {
-  // A List of objects with (optional) associated URLs
-  repeated ObjectWithURL objects = 1;
+  // A List of objects
+  repeated storage.models.v2.Object objects = 1;
 }
 
 message GetObjectRevisionsRequest {
-  // Collection id
-  string collection_id = 1;
   // Object id
   string object_id = 2;
-  // Object start after
-  storage.models.v1.PageRequest page_request = 3;
 }
 
 message GetObjectRevisionsResponse {
-  // List of objects with (optional) URLs
-  repeated ObjectWithURL objects = 1;
+  // List of objects
+  repeated storage.models.v2.Object objects = 1;
 }
 
 message GetLatestObjectRevisionRequest {
-  // Collection id
-  string collection_id = 1;
   // Object id
-  string object_id = 2;
+  string object_id = 1;
 }
 
 message GetLatestObjectRevisionResponse {
   // The object with the latest revision
-  ObjectWithURL object = 1;
+  storage.models.v2.Object object = 1;
 }
 
 message GetObjectEndpointsRequest {
@@ -612,120 +345,3 @@ message GetObjectEndpointsRequest {
   // Object id
   string object_id = 2;
 }
-
-message GetObjectEndpointsResponse {
-  // List of endpoints
-  repeated storage.models.v1.Endpoint endpoints = 1;
-}
-
-message AddLabelsToObjectRequest {
-  // Collection id
-  string collection_id = 1;
-  // Object id 
-  string object_id = 2;
-  // List of labels that should be added to the list of labels
-  repeated storage.models.v1.KeyValue labels_to_add = 3;
-}
-
-message AddLabelsToObjectResponse {
-  // Returns the updated Object
-  storage.models.v1.Object object = 1;
-}
-
-message SetHooksOfObjectRequest {
-  // Collection id
-  string collection_id = 1;
-  // Object id
-  string object_id = 2;
-  // This will overwrite all existing hooks
-  // Can be empty to remove all hooks
-  repeated storage.models.v1.KeyValue hooks = 3;
-}
-
-message SetHooksOfObjectResponse {
-  // Returns the updated Object
-  storage.models.v1.Object object = 1;
-}
-
-message GetReferencesRequest {
-  // Collection id
-  string collection_id = 1;
-  // Object id
-  string object_id = 2;
-  // Should all revisions be included?
-  bool with_revisions = 3;
-}
-
-message ObjectReference {
-  // Object id
-  string object_id = 1;
-  // Collection id
-  string collection_id = 2;
-  // Specific revision number
-  int64 revision_number = 3;
-  // Is the writeable?
-  bool is_writeable = 4;
-  // Path of object_ref
-  string path = 5;
-}
-
-message GetReferencesResponse {
-  // List of object references
-  repeated ObjectReference references = 1;
-}
-
-message UpdateObjectPathRequest {
-  string object_id = 1;
-  string collection_id = 2;
-  string new_subpath = 3;
-}
-
-message UpdateObjectPathResponse {
-  ObjectReference reference = 1;
-}
-
-
-message GetObjectsByPathRequest {
-  string path = 1;
-  bool with_revisions = 2;
-}
-
-message GetProjectCollectionIdsByPathRequest {
-  string path = 1;
-}
-
-message GetProjectCollectionIdsByPathResponse {
-  string project_id = 1;
-  string collection_id = 2;
-}
-
-message GetObjectsByPathResponse {
-  repeated storage.models.v1.FullObjectReference object = 3;
-}
-
-message GetObjectsAsListV2Request {
-  // Required 
-  string bucket = 1;
-  optional string continuation_token = 2;
-  optional string delimiter = 3;
-  optional uint32 max_keys = 4;
-  optional string prefix = 5;
-  optional string start_after = 6;
-}
-
-message CommonPrefix {
-  string prefix = 1;
-}
-
-message GetObjectsAsListV2Response {
-  string name = 1;
-  bool is_truncated = 2;
-  uint32 max_keys = 4;
-  uint32 key_count = 5;
-  repeated storage.models.v1.FullObjectReference contents = 6;
-  repeated CommonPrefix prefixes = 7;
-  optional string next_continuation_token = 8;
-}
-
-
-

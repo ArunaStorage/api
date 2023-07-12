@@ -90,7 +90,7 @@ service DatasetService {
   // Status: BETA
   //
   // Updates the dataset key values.
-  rpc UpdateProjectKeyValues(UpdateDatasetKeyValuesRequest) returns (UpdateDatasetKeyValueResponse) {
+  rpc UpdateDatasetKeyValues(UpdateDatasetKeyValuesRequest) returns (UpdateDatasetKeyValueResponse) {
     option (google.api.http) = {
       patch : "/v2/dataset/{dataset_id}/key_values"
       body : "*"
@@ -135,15 +135,15 @@ service DatasetService {
 }
 
 message CreateDatasetRequest {
-  // Project name
+  // dataset name
   string name = 1;
-  // Project specific labels / hooks
+  // dataset specific labels / hooks
   repeated storage.models.v2.KeyValue key_values = 2;
   // External relations (URLs / IDs from external sources)
   repeated storage.models.v2.ExternalRelation external_relations = 3;
   // DataClass
   storage.models.v2.DataClass data_class = 4;
-  // Parent_id MUST be Project
+  // Parent_id MUST be dataset
   oneof parent {
     string project_id = 5;
     string collection_id = 6;
