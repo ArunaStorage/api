@@ -126,10 +126,7 @@ message DeleteEndpointRequest {
 
 message DeleteEndpointResponse {}
 
-message GetDefaultEndpointRequest {
-  // (optional identifier)
-  string server_identifier = 1;
-}
+message GetDefaultEndpointRequest {}
 
 message GetDefaultEndpointResponse {
   // Default endpoint of the server instance

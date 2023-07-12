@@ -96,18 +96,6 @@ service CollectionService {
       body : "*"
     };
   }
-  
-  // UpdateCollectionExternalRelations
-  //
-  // Status: BETA
-  //
-  // Updates the collection name. All (meta) data will be overwritten.
-  rpc UpdateCollectionExternalRelations(UpdateCollectionExternalRelationsRequest) returns (UpdateCollectionExternalRelationsResponse) {
-    option (google.api.http) = {
-      patch : "/v2/collection/{collection_id}/external_relations"
-      body : "*"
-    };
-  }
 
   // UpdateCollectionDataClass
   //
@@ -137,15 +125,17 @@ service CollectionService {
 message CreateCollectionRequest {
   // collection name
   string name = 1;
+  // description
+  string description = 2;
   // collection specific labels / hooks
-  repeated storage.models.v2.KeyValue key_values = 2;
+  repeated storage.models.v2.KeyValue key_values = 3;
   // External relations (URLs / IDs from external sources)
-  repeated storage.models.v2.ExternalRelation external_relations = 3;
+  repeated storage.models.v2.ExternalRelation external_relations = 4;
   // DataClass
-  storage.models.v2.DataClass data_class = 4;
+  storage.models.v2.DataClass data_class = 5;
   // Parent_id MUST be collection
   oneof parent {
-    string project_id = 5;
+    string project_id = 6;
   }
 }
 
@@ -204,16 +194,6 @@ message UpdateCollectionKeyValuesRequest {
 }
 
 message UpdateCollectionKeyValueResponse {
-  storage.models.v2.Collection collection = 1;
-}
-
-message UpdateCollectionExternalRelationsRequest {
-  string collection_id = 1;
-  repeated storage.models.v2.ExternalRelation add_relations = 2;
-  repeated storage.models.v2.ExternalRelation remove_relations = 3;
-}
-
-message UpdateCollectionExternalRelationsResponse {
   storage.models.v2.Collection collection = 1;
 }
 

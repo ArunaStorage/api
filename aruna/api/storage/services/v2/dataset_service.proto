@@ -96,18 +96,6 @@ service DatasetService {
       body : "*"
     };
   }
-  
-  // UpdateDatasetExternalRelations
-  //
-  // Status: BETA
-  //
-  // Updates the dataset name. All (meta) data will be overwritten.
-  rpc UpdateDatasetExternalRelations(UpdateDatasetExternalRelationsRequest) returns (UpdateDatasetExternalRelationsResponse) {
-    option (google.api.http) = {
-      patch : "/v2/dataset/{dataset_id}/external_relations"
-      body : "*"
-    };
-  }
 
   // UpdateDatasetDataClass
   //
@@ -137,16 +125,18 @@ service DatasetService {
 message CreateDatasetRequest {
   // dataset name
   string name = 1;
+  // Description
+  string description = 2;
   // dataset specific labels / hooks
-  repeated storage.models.v2.KeyValue key_values = 2;
+  repeated storage.models.v2.KeyValue key_values = 3;
   // External relations (URLs / IDs from external sources)
-  repeated storage.models.v2.ExternalRelation external_relations = 3;
+  repeated storage.models.v2.ExternalRelation external_relations = 4;
   // DataClass
-  storage.models.v2.DataClass data_class = 4;
+  storage.models.v2.DataClass data_class = 5;
   // Parent_id MUST be dataset
   oneof parent {
-    string project_id = 5;
-    string collection_id = 6;
+    string project_id = 6;
+    string collection_id = 7;
   }
 }
 
@@ -205,16 +195,6 @@ message UpdateDatasetKeyValuesRequest {
 }
 
 message UpdateDatasetKeyValueResponse {
-  storage.models.v2.Dataset dataset = 1;
-}
-
-message UpdateDatasetExternalRelationsRequest {
-  string dataset_id = 1;
-  repeated storage.models.v2.ExternalRelation add_relations = 2;
-  repeated storage.models.v2.ExternalRelation remove_relations = 3;
-}
-
-message UpdateDatasetExternalRelationsResponse {
   storage.models.v2.Dataset dataset = 1;
 }
 

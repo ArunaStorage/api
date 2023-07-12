@@ -66,7 +66,7 @@ message CreateEventStreamingGroupRequest {
   EventStreamingGroupHierarchy hierarchy =  7;
 }
 
-message  EventStreamingGroupHierarchy {
+message EventStreamingGroupHierarchy {
   string project_id = 1;
   string collection_id = 2;
   string object_id = 3;
@@ -134,3 +134,7 @@ enum EventType {
   EVENT_TYPE_DELETED = 5;
   EVENT_TYPE_ALL = 6;
 }
+
+
+PROJECT > COLLECTION > DATASET > OBJECT
+PROJECT > OBJECT

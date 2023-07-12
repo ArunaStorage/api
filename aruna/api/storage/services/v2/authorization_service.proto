@@ -87,15 +87,16 @@ message CreateAuthorizationRequest {
 }
 
 message CreateAuthorizationResponse {
-  UserPermission user_permission = 1;
+  string resource_id = 1;
+  string user_id = 2;
+  string user_name = 3;
+  storage.models.v2.PermissionLevel permission_level = 4;
 }
 
 message GetAuthorizationsRequest {
   string resource_id = 1;
   bool recursive = 2; 
 }
-
-
 
 message GetAuthorizationsResponse {
   repeated ResourceAuthorization authorizations = 1;

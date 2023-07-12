@@ -32,7 +32,6 @@ enum EndpointHostType {
 // Permission Levels
 enum PermissionLevel {
   PERMISSION_LEVEL_UNSPECIFIED = 0;
-  PERMISSION_LEVEL_DENY = 1;
   PERMISSION_LEVEL_NONE = 2; 
   PERMISSION_LEVEL_READ = 3; 
   PERMISSION_LEVEL_APPEND = 4;
@@ -70,7 +69,6 @@ enum RelationDirection {
   RELATION_DIRECTION_UNSPECIFIED = 0;
   RELATION_DIRECTION_INBOUND = 1;
   RELATION_DIRECTION_OUTBOUND = 2;
-  RELATION_DIRECTION_BIDIRECTIONAL = 3;
 }
 
 // resourcetype
@@ -150,13 +148,11 @@ message Permission {
 message Token {
   string id = 1;
   string name = 2;
-  google.protobuf.Timestamp created_at = 3;
-  google.protobuf.Timestamp expires_at = 4;
+  string user_id = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp expires_at = 5;
   // Tokens can either be personal or resource "specific"
-  oneof variant {
-    Permission permission = 5;
-    bool personal = 6; 
-  }
+  optional  Permission permission = 6;
   google.protobuf.Timestamp used_at = 7;
 }
 
@@ -166,15 +162,11 @@ message CustomAttributes {
   string attribute_value = 2;
 }
 
-message GlobalAttributes {
+message UserAttributes {
   bool global_admin = 1;
   bool service_account = 2;
-  repeated CustomAttributes custom_attributes = 3; // This is a placeholder for future additional attributes
-}
-
-message UserAttributes {
-  GlobalAttributes attributes = 1;
-  repeated Permission personal_permissions = 2;
+  repeated CustomAttributes custom_attributes = 3; 
+  repeated Permission personal_permissions = 4;
 }
 
 // --------------- RELATION / KEYVALUES -------------------
@@ -269,13 +261,14 @@ message Project {
   DataClass data_class = 7;
   google.protobuf.Timestamp created_at = 8;
   string created_by = 9;
-  Status status = 10; 
+  Status status = 10;
+  bool dynamic = 11;
 }
 
 
 message Collection {
   string id = 1;
-  string name = 2; 
+  string name = 2;
   string description = 3;
   // Collection specific labels / hooks
   repeated KeyValue key_values = 4;
@@ -285,7 +278,8 @@ message Collection {
   DataClass data_class = 7;
   google.protobuf.Timestamp created_at = 8;
   string created_by = 9;
-  Status status = 10; 
+  Status status = 10;
+  bool dynamic = 11;
 }
 
 message Dataset {
@@ -300,7 +294,8 @@ message Dataset {
   DataClass data_class = 7;
   google.protobuf.Timestamp created_at = 8;
   string created_by = 9;
-  Status status = 10; 
+  Status status = 10;
+  bool dynamic = 11;
 }
 
 message Object {
@@ -316,6 +311,7 @@ message Object {
   google.protobuf.Timestamp created_at = 8;
   string created_by = 9;
   Status status = 10;
+  bool dynamic = 11;
   // Object specific attributes
-  repeated Hash hashes = 11;  
+  repeated Hash hashes = 12;  
 }

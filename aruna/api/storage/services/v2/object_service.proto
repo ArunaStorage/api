@@ -14,16 +14,14 @@ import "google/api/annotations.proto";
 // Contains all methods that get/create or update Objects and associated resources
 service ObjectService {
 
-  // InitializeObject
+  // CreateObject
   //
   // Status: BETA
   //
-  // This initializes a new object
+  // This creates a new object
   // Initializing an object will put it in a staging area.
-  // Staged objects will get a separate staging id and need to be finished
-  // before they can be used.
-  rpc InitializeObject(InitializeObjectRequest)
-      returns (InitializeObjectResponse) {
+  rpc CreateObject(CreateObjectRequest)
+      returns (CreateObjectResponse) {
     option (google.api.http) = {
       post : "/v2/object"
       body : "*"
@@ -40,7 +38,7 @@ service ObjectService {
   // part of the file / multipart upload.
   rpc GetUploadURL(GetUploadURLRequest) returns (GetUploadURLResponse) {
     option (google.api.http) = {
-      get : "/v2/object/{object_id}/staging/{upload_id}/upload"
+      get : "/v2/object/{object_id}/upload"
     };
   }
 
@@ -135,35 +133,6 @@ service ObjectService {
       get : "/v2/objects"
     };
   }
-
-  // GetObjectRevisions
-  //
-  // Status: BETA
-  //
-  // This returns the full list of revisions of a specified object
-  // With the optional with_url boolean a download link can automatically be
-  // requested for each Object This is by default a paginated request
-  rpc GetObjectRevisions(GetObjectRevisionsRequest)
-      returns (GetObjectRevisionsResponse) {
-    option (google.api.http) = {
-      get : "/v2/object/{object_id}/revisions"
-    };
-  }
-
-  // GetLatestObjectRevision
-  //
-  // Status: BETA
-  //
-  // This returns the latest revision of a specific object
-  // The returned `latest` object will have a different id if the current
-  // object is not the latest revision
-  rpc GetLatestObjectRevision(GetLatestObjectRevisionRequest)
-      returns (GetLatestObjectRevisionResponse) {
-    option (google.api.http) = {
-      get : "/v2/object/{object_id}/latest"
-    };
-  }
-
 }
 
 // Models
@@ -171,25 +140,28 @@ service ObjectService {
 // gRPC best practises advice each Request and Response message in a RPC to be
 // called {rpc_name}Request and {rpc_name}Response.
 
-message InitializeObjectRequest {
+message CreateObjectRequest {
   // collection name
   string name = 1;
+  // description
+  string description = 2;
   // collection specific labels / hooks
-  repeated storage.models.v2.KeyValue key_values = 2;
+  repeated storage.models.v2.KeyValue key_values = 3;
   // External relations (URLs / IDs from external sources)
-  repeated storage.models.v2.ExternalRelation external_relations = 3;
+  repeated storage.models.v2.ExternalRelation external_relations = 4;
   // DataClass
-  storage.models.v2.DataClass data_class = 4;
+  storage.models.v2.DataClass data_class = 5;
   // Parent can be one of all other resources
   oneof parent {
-    string project_id = 5;
-    string collection_id = 6;
-    string dataset_id = 7;
+    string project_id = 6;
+    string collection_id = 7;
+    string dataset_id = 8;
   }
-  repeated storage.models.v2.Hash md5 = 8; 
+  repeated storage.models.v2.Hash hashes = 9;
+  optional string preferred_endpoint_id = 10;
 }
 
-message InitializeObjectResponse {
+message CreateObjectResponse {
   storage.models.v2.Object object = 1;
 }
 
@@ -233,7 +205,7 @@ message FinishObjectStagingRequest {
   // If the upload was multipart, this is the list of parts that were uploaded.
   // Should be empty if the upload was not multipart.
   // (optional)
-  repeated CompletedParts completed_parts = 4;
+  repeated CompletedParts completed_parts = 3;
 }
 
 message FinishObjectStagingResponse {
@@ -252,10 +224,6 @@ message UpdateObjectRequest {
   repeated storage.models.v2.KeyValue add_key_values = 4;
   // key_values to remove
   repeated storage.models.v2.KeyValue remove_key_values = 5;
-  // External relations (URLs / IDs from external sources) to add
-  repeated storage.models.v2.ExternalRelation add_external_relations = 6;
-  // External relations to remove
-
   // New DataClass
   optional storage.models.v2.DataClass data_class = 7;
   // Parent can be one of all other resources
@@ -264,17 +232,13 @@ message UpdateObjectRequest {
     string collection_id = 9;
     string dataset_id = 10;
   }
-  optional storage.models.v2.Hash md5 = 12;
-  optional storage.models.v2.Hash sha256 = 13;
-  optional string preferred_endpoint_id = 14;
+  repeated storage.models.v2.Hash hashes = 12;
 }
 
 message UpdateObjectResponse {
   storage.models.v2.Object object = 1;
-  bool copied = 2;
+  bool new_revision = 2;
 }
-
-message CreateObjectReferenceResponse {}
 
 message CloneObjectRequest {
   // ObjectId

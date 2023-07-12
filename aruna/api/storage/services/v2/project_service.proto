@@ -124,18 +124,6 @@ service ProjectService {
       body : "*"
     };
   }
-  
-  // UpdateProjectExternalRelations
-  //
-  // Status: BETA
-  //
-  // Updates the project name. All (meta) data will be overwritten.
-  rpc UpdateProjectExternalRelations(UpdateProjectExternalRelationsRequest) returns (UpdateProjectExternalRelationsResponse) {
-    option (google.api.http) = {
-      patch : "/v2/project/{project_id}/external_relations"
-      body : "*"
-    };
-  }
 
   // UpdateProjectDataClass
   //
@@ -234,16 +222,6 @@ message UpdateProjectKeyValuesRequest {
 }
 
 message UpdateProjectKeyValueResponse {
-  storage.models.v2.Project project = 1;
-}
-
-message UpdateProjectExternalRelationsRequest {
-  string project_id = 1;
-  repeated storage.models.v2.ExternalRelation add_relations = 2;
-  repeated storage.models.v2.ExternalRelation remove_relations = 3;
-}
-
-message UpdateProjectExternalRelationsResponse {
   storage.models.v2.Project project = 1;
 }
 

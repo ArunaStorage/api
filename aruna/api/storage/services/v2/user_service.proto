@@ -165,7 +165,7 @@ service UserService {
   //
   // Status: ALPHA
   //
-  // Get all users inkluding permissions (Admin only)
+  // Get all users including permissions (Admin only)
   rpc GetAllUsers(GetAllUsersRequest)
       returns (GetAllUsersResponse) {
     option (google.api.http) = {

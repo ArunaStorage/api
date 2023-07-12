@@ -23,6 +23,7 @@ service HooksService {
 enum TriggerType {
     TRIGGER_TYPE_UNSPECIFIED = 0;
     TRIGGER_TYPE_HOOK_ADDED = 1;
+    TRIGGER_TYPE_OBJECT_CREATED = 2;
 }
 
 message Trigger {
@@ -41,8 +42,7 @@ enum InternalAction {
     INTERNAL_ACTION_UNSPECIFIED = 0;
     INTERNAL_ACTION_ADD_LABEL = 1;
     INTERNAL_ACTION_ADD_HOOK = 2;
-    INTERNAL_ACTION_CREATE_READ_REFERENCE = 3;
-    INTERNAL_ACTION_CREATE_WRITE_REFERENCE = 4;
+    INTERNAL_ACTION_CREATE_RELATION = 3;
 }
 
 message InternalHook {
@@ -60,7 +60,7 @@ message Hook {
     }
 }
 
-// Will be updated with additional credential types
+// Will be expanded with additional credential types
 message Credentials {
     string token = 1;
 }
