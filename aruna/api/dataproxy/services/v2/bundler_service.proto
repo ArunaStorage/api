@@ -9,3 +9,36 @@ option java_outer_classname = "BundlerService";
 import "google/api/visibility.proto";
 import "google/protobuf/timestamp.proto";
 import "aruna/api/storage/models/v2/models.proto";
+
+
+service BundlerService {
+    rpc CreateBundle(CreateBundleRequest) returns (CreateBundleResponse) {
+        option (google.api.http) = {
+            post : "/v2/bundle"
+            body : "*"
+        };
+    }
+    rpc DeleteBundle(DeleteBundleRequest) returns (DeleteBundleResponse) {
+        option (google.api.http) = {
+            delete : "/v2/bundle"
+            body : "*"
+        };
+    }
+}
+
+
+message CreateBundleRequest {
+    repeated string resource_id = 1;
+    string filename = 2; // .tar.gz / .zip
+    google.protobuf.Timestamp expires_at = 3; // Default 1 Month
+}
+
+message CreateBundleResponse {
+    string bundle_url = 1;
+}
+
+message DeleteBundleRequest{
+    string bundle_id = 1;
+}
+
+message DeleteBundleResponse {}
