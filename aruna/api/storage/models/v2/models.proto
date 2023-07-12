@@ -14,19 +14,22 @@ enum DataClass {
   DATA_CLASS_CONFIDENTIAL = 3;
 }
 
+// Which kind of endpoint 
 enum EndpointType {
   ENDPOINT_TYPE_UNSPECIFIED = 0;
   ENDPOINT_TYPE_S3 = 1;
   ENDPOINT_TYPE_FILE = 2;
+  ENDPOINT_TYPE_MEMCACHED = 3;
 }
 
+// Which features does the endpoint have
 enum EndpointHostType {
   ENDPOINT_HOST_TYPE_UNSPECIFIED = 0;
   ENDPOINT_HOST_TYPE_PROXY = 1;
-  ENDPOINT_HOST_TYPE_INTERNAL = 2;
-  ENDPOINT_HOST_TYPE_BUNDLER = 3;
+  ENDPOINT_HOST_TYPE_BUNDLER = 2;
 }
 
+// Permission Levels
 enum PermissionLevel {
   PERMISSION_LEVEL_UNSPECIFIED = 0;
   PERMISSION_LEVEL_DENY = 1;
@@ -37,19 +40,22 @@ enum PermissionLevel {
   PERMISSION_LEVEL_ADMIN = 6;  
 }
 
+// KeyValueVariants
 enum KeyValueVariant {
   KEY_VALUE_VARIANT_UNSPECIFIED = 0;
   KEY_VALUE_VARIANT_LABEL = 1;
-  KEY_VALUE_VARIANT_STATIC_LABEL = 2;
+  KEY_VALUE_VARIANT_STATIC_LABEL = 2; // A Label that only admins can remove
   KEY_VALUE_VARIANT_HOOK = 3;
 }
 
+// External Relations
 enum ExternalRelationVariant {
   EXTERNAL_RELATION_VARIANT_UNSPECIFIED = 0;
   EXTERNAL_RELATION_VARIANT_URL = 1;
   EXTERNAL_RELATION_VARIANT_IDENTIFIER = 2;
 }
 
+// InternalRelations
 enum InternalRelationVariant {
   INTERNAL_RELATION_VARIANT_UNSPECIFIED = 0;
   INTERNAL_RELATION_VARIANT_BELONGS_TO = 1;
@@ -59,6 +65,7 @@ enum InternalRelationVariant {
   INTERNAL_RELATION_VARIANT_POLICY = 5;
 }
 
+// internal object relation type (direction)
 enum RelationDirection {
   RELATION_DIRECTION_UNSPECIFIED = 0;
   RELATION_DIRECTION_INBOUND = 1;
@@ -66,7 +73,7 @@ enum RelationDirection {
   RELATION_DIRECTION_BIDIRECTIONAL = 3;
 }
 
-// An resourcetype used to identify generic authorizations
+// resourcetype
 enum ResourceType {
   RESOURCE_TYPE_UNSPECIFIED = 0;
   RESOURCE_TYPE_PROJECT = 1;
@@ -88,22 +95,23 @@ enum ResourceAction {
 
 // An arbitrary status for Objects
 enum Status {
-  STATUS_UNSPECIFIED = 0;
-  STATUS_INITIALIZING = 1;
-  STATUS_AVAILABLE = 2;
-  STATUS_UNAVAILABLE = 3;
-  STATUS_ERROR = 4;
-  STATUS_DELETED = 5;
-  STATUS_VALIDATING = 6;
+  STATUS_UNSPECIFIED = 0;  // Unspecified
+  STATUS_INITIALIZING = 1; // This object is initializing -> Staging
+  STATUS_VALIDATING = 2; // Data got uploaded and a validating hook got triggered
+  STATUS_AVAILABLE = 3; // Data is available
+  STATUS_UNAVAILABLE = 4; // Data is temporarily not available
+  STATUS_ERROR = 5; // Validating failed or fatal error in data proxy
+  STATUS_DELETED = 6; // Object got deleted
 }
 
-enum EndpointStatus {
-  ENDPOINT_STATUS_UNSPECIFIED = 0;
-  ENDPOINT_STATUS_INITIALIZING = 1;
-  ENDPOINT_STATUS_AVAILABLE = 2;
-  ENDPOINT_STATUS_DEGRADED = 3;
-  ENDPOINT_STATUS_UNAVAILABLE = 4;
-  ENDPOINT_STATUS_MAINTENANCE = 5;
+// Status for endpoints
+enum ComponentStatus {
+  COMPONENT_STATUS_UNSPECIFIED = 0;
+  COMPONENT_STATUS_INITIALIZING = 1;
+  COMPONENT_STATUS_AVAILABLE = 2;
+  COMPONENT_STATUS_DEGRADED = 3;
+  COMPONENT_STATUS_UNAVAILABLE = 4;
+  COMPONENT_STATUS_MAINTENANCE = 5;
 }
 
 enum Hashalgorithm {
@@ -176,7 +184,6 @@ message KeyValue {
   string key = 1;
   string value = 2;
   KeyValueVariant variant = 3;
-  bool indexed = 4;
 }
 
 message Relation {
@@ -232,15 +239,23 @@ message Endpoint {
   string id = 1;
   EndpointType ep_type = 2;
   string name = 3;
-  string documentation_path = 6;
-  bool is_public = 7;
-  bool is_default = 8;
-  EndpointStatus status = 9;
-  bool is_bundler = 10;
-  repeated EndpointHostConfig host_configs = 11;
+  bool is_public = 4;
+  repeated string default_for = 5; // Aruna Servers that this endpoint is default for 
+  ComponentStatus status = 6;
+  bool is_bundler = 7;
+  repeated EndpointHostConfig host_configs = 8;
 }
 
 // ------ Resources ----------
+
+message GenericResource {
+  oneof resource {
+    Project project = 1;
+    Collection collection = 2;
+    Dataset dataset = 3;
+    Object object = 4;
+  }
+}
 
 message Project {
   string id = 1;
@@ -253,7 +268,8 @@ message Project {
   Stats stats = 6;
   DataClass data_class = 7;
   google.protobuf.Timestamp created_at = 8;
-  string created_by = 9; 
+  string created_by = 9;
+  Status status = 10; 
 }
 
 
@@ -268,7 +284,8 @@ message Collection {
   Stats stats = 6;
   DataClass data_class = 7;
   google.protobuf.Timestamp created_at = 8;
-  string created_by = 9; 
+  string created_by = 9;
+  Status status = 10; 
 }
 
 message Dataset {
@@ -282,7 +299,8 @@ message Dataset {
   Stats stats = 6;
   DataClass data_class = 7;
   google.protobuf.Timestamp created_at = 8;
-  string created_by = 9; 
+  string created_by = 9;
+  Status status = 10; 
 }
 
 message Object {
@@ -297,7 +315,7 @@ message Object {
   DataClass data_class = 7;
   google.protobuf.Timestamp created_at = 8;
   string created_by = 9;
-  // Object specific attributes
   Status status = 10;
+  // Object specific attributes
   repeated Hash hashes = 11;  
 }
