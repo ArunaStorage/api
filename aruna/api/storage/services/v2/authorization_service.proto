@@ -45,10 +45,11 @@ service AuthorizationService {
   //
   // This creates a user-specific attribute that handles permission for a
   // specific resource 
-  rpc DeleteAuthorizations(DeleteAuthorizationsRequest)
-      returns (DeleteAuthorizationsResponse) {
+  rpc DeleteAuthorization(DeleteAuthorizationRequest)
+      returns (DeleteAuthorizationResponse) {
     option (google.api.http) = {
-      get : "/v2/auths"
+      delete : "/v2/auth"
+      body : "*"
     };
   }
 
@@ -61,7 +62,7 @@ service AuthorizationService {
   rpc UpdateAuthorizations(UpdateAuthorizationsRequest)
       returns (UpdateAuthorizationsResponse) {
     option (google.api.http) = {
-      patch : "/v2/auths"
+      patch : "/v2/auth"
       body : "*"
     };
   }
@@ -105,7 +106,7 @@ message DeleteAuthorizationRequest {
   string user_id = 2;
 }
 
-message DeleteAuthorizationsResponse {}
+message DeleteAuthorizationResponse {}
 
 message UpdateAuthorizationsRequest {
   string resource_id = 1;
