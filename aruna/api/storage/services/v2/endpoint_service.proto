@@ -94,7 +94,7 @@ message CreateEndpointRequest {
   // Endpoint name
   string name = 1;
   // Endpoint type
-  storage.models.v2.EndpointType ep_type = 2;
+  storage.models.v2.EndpointVariant ep_variant = 2;
   // Is this endpoint public
   bool is_public = 3;
   // required public_key
