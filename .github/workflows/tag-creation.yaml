@@ -32,7 +32,7 @@ jobs:
           git submodule update --remote --recursive
       - name: Update tag in swaggerdoc
         run: | 
-          sed -i -e 's/version: .*/version: "${{ inputs.tag }}"/' ./aruna/api/storage/services/v1/project_service.proto 
+          sed -i -e 's/version: .*/version: "${{ inputs.tag }}"/' ./aruna/api/storage/services/v2/project_service.proto 
       - name: Commit files
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
