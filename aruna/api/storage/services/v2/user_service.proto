@@ -172,6 +172,18 @@ service UserService {
       get : "/v2/user/all"
     };
   }
+
+  // MergeUserAccount
+  //
+  // Status: ALPHA
+  //
+  // Get all users including permissions (Admin only)
+  rpc MergeUserAccount(MergeUserAccountRequest)
+      returns (MergeUserAccountResponse) {
+    option (google.api.http) = {
+      get : "/v2/user/{user_id}/merge/{from_user_id}"
+    };
+  }
 }
 
 message RegisterUserRequest {
@@ -298,5 +310,14 @@ message UpdateUserEmailRequest {
 }
 
 message UpdateUserEmailResponse {
+  storage.models.v2.User user = 1;
+}
+
+message MergeUserAccountRequest {
+  string user_id = 1;
+  string from_user_id = 2;
+}
+
+message MergeUserAccountResponse {
   storage.models.v2.User user = 1;
 }
