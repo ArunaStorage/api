@@ -16,17 +16,17 @@ enum DataClass {
 }
 
 // Which kind of endpoint 
-enum EndpointType {
-  ENDPOINT_TYPE_UNSPECIFIED = 0;
-  ENDPOINT_TYPE_PERSISTENT = 1;
-  ENDPOINT_TYPE_VOLATILE = 2;
+enum EndpointVariant {
+  ENDPOINT_VARIANT_UNSPECIFIED = 0;
+  ENDPOINT_VARIANT_PERSISTENT = 1;
+  ENDPOINT_VARIANT_VOLATILE = 2;
 }
 
 // Which features does the endpoint have
-enum EndpointHostType {
-  ENDPOINT_HOST_TYPE_UNSPECIFIED = 0;
-  ENDPOINT_HOST_TYPE_PROXY = 1;
-  ENDPOINT_HOST_TYPE_BUNDLER = 2;
+enum EndpointHostVariant {
+  ENDPOINT_HOST_VARIANT_UNSPECIFIED = 0;
+  ENDPOINT_HOST_VARIANT_PROXY = 1;
+  ENDPOINT_HOST_VARIANT_BUNDLER = 2;
 }
 
 // Permission Levels
@@ -215,18 +215,16 @@ message EndpointHostConfig {
   bool is_primary = 2;
   bool ssl = 3;
   bool public = 4;
-  EndpointHostType host_type = 5;
+  EndpointHostVariant host_variant = 5;
 }
 
 message Endpoint {
   string id = 1;
-  EndpointType ep_type = 2;
+  EndpointVariant ep_variant = 2;
   string name = 3;
   bool is_public = 4;
-  repeated string default_for = 5; // Aruna Servers that this endpoint is default for 
-  ComponentStatus status = 6;
-  bool is_bundler = 7;
-  repeated EndpointHostConfig host_configs = 8;
+  ComponentStatus status = 5;
+  repeated EndpointHostConfig host_configs = 6;
 }
 
 // ------ Resources ----------
