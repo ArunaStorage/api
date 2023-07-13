@@ -40,7 +40,7 @@ fn compile_services() -> Result<(), Box<dyn std::error::Error>> {
         let dir = entry?;
         let rel_path = format!(
             "{}{}",
-            "aruna/api/notification_service/services/v2/",
+            "aruna/api/notification/services/v2/",
             dir.file_name().to_str().unwrap().to_string()
         );
         protos.push(rel_path);
