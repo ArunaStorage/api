@@ -57,7 +57,7 @@ service CollectionService {
   rpc DeleteCollection(DeleteCollectionRequest)
       returns (DeleteCollectionResponse) {
     option (google.api.http) = {
-      delete : "/v1/collection/{collection_id}"
+      delete : "/v2/collection/{collection_id}"
     };
   }
 

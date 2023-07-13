@@ -57,7 +57,7 @@ service DatasetService {
   rpc DeleteDataset(DeleteDatasetRequest)
       returns (DeleteDatasetResponse) {
     option (google.api.http) = {
-      delete : "/v1/dataset/{dataset_id}"
+      delete : "/v2/dataset/{dataset_id}"
     };
   }
 
