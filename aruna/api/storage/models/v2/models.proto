@@ -11,7 +11,8 @@ enum DataClass {
   DATA_CLASS_UNSPECIFIED = 0;
   DATA_CLASS_PUBLIC = 1;
   DATA_CLASS_PRIVATE = 2;
-  DATA_CLASS_CONFIDENTIAL = 3;
+  DATA_CLASS_WORKSPACE = 4; 
+  DATA_CLASS_CONFIDENTIAL = 5;
 }
 
 // Which kind of endpoint 
@@ -152,7 +153,7 @@ message Token {
   google.protobuf.Timestamp created_at = 4;
   google.protobuf.Timestamp expires_at = 5;
   // Tokens can either be personal or resource "specific"
-  optional  Permission permission = 6;
+  optional Permission permission = 6;
   google.protobuf.Timestamp used_at = 7;
 }
 
@@ -267,9 +268,9 @@ message Project {
 
 
 message Collection {
-  string id = 1;
-  string name = 2;
-  string description = 3;
+  string id = 1; // ASDASDASDOPASKIDPO
+  string name = 2; // my_mags
+  string description = 3; // ENA asda234928349028 MAG 1293819203819028i V1
   // Collection specific labels / hooks
   repeated KeyValue key_values = 4;
   // Relations to internal and external sources
