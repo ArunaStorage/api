@@ -35,7 +35,7 @@ message SearchResourcesRequest {
 
 message SearchResourcesResponse {
     // Json list for each found resource
-    repeated string resource_info = 1;
+    repeated storage.models.v2.GenericResource resources = 1;
     // How many results are expected to be found ?
     int64 estimated_total = 2;
 }
