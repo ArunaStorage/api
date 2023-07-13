@@ -194,7 +194,7 @@ message CreateAPITokenRequest {
   // Token name
   string name = 1;
   // Personal or resource specific
-  storage.models.v2.ResourcePermission permission = 2;
+  storage.models.v2.Permission permission = 2;
   // Token expiry
   google.protobuf.Timestamp expires_at = 3;
 }
@@ -276,17 +276,10 @@ message GetNotActivatedUsersResponse {
   repeated storage.models.v2.User users = 1;
 }
 
-message GetAllUsersRequest {
-  bool include_permissions = 1;
-}
-
-message UserWithPerms {
-  storage.models.v2.User user = 1;
-  repeated storage.models.v2.ProjectPermission project_perms = 2;
-}
+message GetAllUsersRequest {}
 
 message GetAllUsersResponse {
-  repeated UserWithPerms user_with_perms = 1;
+  repeated storage.models.v2.User user = 1;
 }
 
 

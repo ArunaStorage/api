@@ -29,7 +29,7 @@ service SearchService {
 message SearchResourcesRequest {
     string query = 1;
     string filter = 2;
-    string start_after = 3;
+    int64 offset = 3;
 }
 
 
@@ -38,4 +38,6 @@ message SearchResourcesResponse {
     repeated storage.models.v2.GenericResource resources = 1;
     // How many results are expected to be found ?
     int64 estimated_total = 2;
+    // The last index returned
+    int64 last_index = 3;
 }

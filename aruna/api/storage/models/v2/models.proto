@@ -18,9 +18,8 @@ enum DataClass {
 // Which kind of endpoint 
 enum EndpointType {
   ENDPOINT_TYPE_UNSPECIFIED = 0;
-  ENDPOINT_TYPE_S3 = 1;
-  ENDPOINT_TYPE_FILE = 2;
-  ENDPOINT_TYPE_MEMCACHED = 3;
+  ENDPOINT_TYPE_PERSISTENT = 1;
+  ENDPOINT_TYPE_VOLATILE = 2;
 }
 
 // Which features does the endpoint have
