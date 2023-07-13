@@ -5,6 +5,7 @@ option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v
 option java_multiple_files = true;
 option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
 option java_outer_classname = "HooksService";
+import "google/api/annotations.proto";
 
 import "aruna/api/storage/models/v2/models.proto";
 
@@ -14,10 +15,27 @@ import "aruna/api/storage/models/v2/models.proto";
 //
 // A service that enables automatic Hook scheduling
 service HooksService {
-    rpc CreateHook(CreateHookRequest) returns (CreateHookResponse) {}
-    rpc ListHooks(ListHooksRequest) returns (ListHooksResponse) {}
-    rpc DeleteHook(DeleteHookRequest) returns (DeleteHookResponse) {}
-    rpc HookCallback(HookCallbackRequest) returns (HookCallbackResponse) {}
+    rpc CreateHook(CreateHookRequest) returns (CreateHookResponse) {
+        option (google.api.http) = {
+            post : "/v2/hook"
+            body : "*"
+          };
+    }
+    rpc ListHooks(ListHooksRequest) returns (ListHooksResponse) {
+        option (google.api.http) = {
+            get : "/v2/hooks/project/{project_id}"
+        };
+    }
+    rpc DeleteHook(DeleteHookRequest) returns (DeleteHookResponse) {
+        option (google.api.http) = {
+            delete : "/v2/hook/{hook_id}"
+        };
+    }
+    rpc HookCallback(HookCallbackRequest) returns (HookCallbackResponse) {
+        option (google.api.http) = {
+            delete : "/v2/hook/callback"
+        };
+    }
 }
 
 enum TriggerType {
@@ -83,8 +101,8 @@ message DeleteHookResponse {}
 
 message HookCallbackRequest {
     bool success = 1;
-    repeated aruna.api.storage.models.v2.KeyValue labels = 2;
-    repeated aruna.api.storage.models.v2.KeyValue hooks = 3;
+    repeated aruna.api.storage.models.v2.KeyValue add_key_values = 2;
+    repeated aruna.api.storage.models.v2.KeyValue remove_key_values = 3;
 }
 
 message HookCallbackResponse{}
@@ -92,7 +110,6 @@ message HookCallbackResponse{}
 message ListHooksRequest{
     string project_id = 1;
 }
-
 
 message HookInfo {
     string hook_id = 1;
