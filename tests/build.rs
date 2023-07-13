@@ -34,7 +34,7 @@ fn compile_services() -> Result<(), Box<dyn std::error::Error>> {
         protos.push(rel_path);
     }
 
-    let service_entries = fs::read_dir("aruna/api/notification_service/services/v2/")?;
+    let service_entries = fs::read_dir("aruna/api/notification/services/v2/")?;
 
     for entry in service_entries {
         let dir = entry?;
