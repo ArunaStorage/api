@@ -158,7 +158,6 @@ message CreateObjectRequest {
     string dataset_id = 8;
   }
   repeated storage.models.v2.Hash hashes = 9;
-  optional string preferred_endpoint_id = 10;
 }
 
 message CreateObjectResponse {
