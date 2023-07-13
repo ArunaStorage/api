@@ -53,20 +53,33 @@ service EventNotificationService {
       returns (DeleteEventStreamingGroupResponse) {}
 }
 
-message StreamResource {
-  oneof resource {
-    string project_id = 1;
-    string collection_id = 2;
-    string dataset_id = 3;
-    string object_id = 4;
-    bool user = 5;
-    bool anouncements = 6;
-    bool all = 7;
+
+enum ResourceVariant {
+  RESOURCE_VARIANT_UNSPECIFIED = 0;
+  RESOURCE_VARIANT_PROJECT = 1;
+  RESOURCE_VARIANT_COLLECTION = 2;
+  RESOURCE_VARIANT_DATASET = 3;
+  RESOURCE_VARIANT_OBJECT = 4;
+}
+
+
+message Resource{
+  string resource_id = 1;
+  string resource_name = 2;
+  ResourceVariant resource_variant = 3;
+}
+
+message StreamTarget {
+  oneof target {
+    Resource resource = 1;
+    bool user = 2;
+    bool anouncements = 3;
+    bool all = 4;
   }
 }
 
 message CreateStreamConsumerRequest {
-  StreamResource resource = 1;
+  StreamTarget target = 1;
   bool include_subresources = 2;
   oneof stream_type {
     StreamAll stream_all = 3;
@@ -168,12 +181,10 @@ message EventMessage {
 }
 
 message ResourceEvent {
-  aruna.api.storage.models.v2.ResourceType resource = 1;
-  string resource_id = 2;
-  string resource_name = 3;
-  ResourceEventType event_type = 4;
-  optional ResourceEventContext context = 5;
-  Reply reply = 6;
+  Resource resource = 1;
+  ResourceEventType event_type = 2;
+  optional ResourceEventContext context = 3;
+  Reply reply = 4;
 }
 
 message UserEvent {
@@ -227,4 +238,5 @@ message AnouncementEvent {
     ScheduledDowntime downtime = 4;
     NewVersion version = 5;
   }
+  Reply reply = 6;
 }
