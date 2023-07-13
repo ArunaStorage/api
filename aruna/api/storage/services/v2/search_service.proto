@@ -7,8 +7,6 @@ option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.servic
 option java_outer_classname = "SearchService";
 import "aruna/api/storage/models/v2/models.proto";
 import "google/api/annotations.proto";
-import "google/protobuf/timestamp.proto";
-
 
 service SearchService {
 

@@ -118,7 +118,7 @@ service ProjectService {
   // Status: BETA
   //
   // Updates the project key values.
-  rpc UpdateProjectKeyValues(UpdateProjectKeyValuesRequest) returns (UpdateProjectKeyValueResponse) {
+  rpc UpdateProjectKeyValues(UpdateProjectKeyValuesRequest) returns (UpdateProjectKeyValuesResponse) {
     option (google.api.http) = {
       patch : "/v2/project/{project_id}/key_values"
       body : "*"
@@ -221,7 +221,7 @@ message UpdateProjectKeyValuesRequest {
   repeated storage.models.v2.KeyValue remove_key_values = 3;
 }
 
-message UpdateProjectKeyValueResponse {
+message UpdateProjectKeyValuesResponse {
   storage.models.v2.Project project = 1;
 }
 

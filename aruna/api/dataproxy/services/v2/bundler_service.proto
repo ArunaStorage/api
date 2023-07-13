@@ -7,7 +7,6 @@ option java_package = "com.github.ArunaStorage.java_api.aruna.api.dataproxy.serv
 option java_outer_classname = "BundlerService";
 
 import "google/protobuf/timestamp.proto";
-import "aruna/api/storage/models/v2/models.proto";
 import "google/api/annotations.proto";
 
 

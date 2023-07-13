@@ -90,7 +90,7 @@ service CollectionService {
   // Status: BETA
   //
   // Updates the collection key values.
-  rpc UpdatecollectionKeyValues(UpdateCollectionKeyValuesRequest) returns (UpdateCollectionKeyValueResponse) {
+  rpc UpdateCollectionKeyValues(UpdateCollectionKeyValuesRequest) returns (UpdateCollectionKeyValuesResponse) {
     option (google.api.http) = {
       patch : "/v2/collection/{collection_id}/key_values"
       body : "*"
@@ -193,7 +193,7 @@ message UpdateCollectionKeyValuesRequest {
   repeated storage.models.v2.KeyValue remove_key_values = 3;
 }
 
-message UpdateCollectionKeyValueResponse {
+message UpdateCollectionKeyValuesResponse {
   storage.models.v2.Collection collection = 1;
 }
 

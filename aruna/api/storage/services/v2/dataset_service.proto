@@ -90,7 +90,7 @@ service DatasetService {
   // Status: BETA
   //
   // Updates the dataset key values.
-  rpc UpdateDatasetKeyValues(UpdateDatasetKeyValuesRequest) returns (UpdateDatasetKeyValueResponse) {
+  rpc UpdateDatasetKeyValues(UpdateDatasetKeyValuesRequest) returns (UpdateDatasetKeyValuesResponse) {
     option (google.api.http) = {
       patch : "/v2/dataset/{dataset_id}/key_values"
       body : "*"
@@ -194,7 +194,7 @@ message UpdateDatasetKeyValuesRequest {
   repeated storage.models.v2.KeyValue remove_key_values = 3;
 }
 
-message UpdateDatasetKeyValueResponse {
+message UpdateDatasetKeyValuesResponse {
   storage.models.v2.Dataset dataset = 1;
 }
 
