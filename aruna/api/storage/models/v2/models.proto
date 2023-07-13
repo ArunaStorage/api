@@ -71,15 +71,6 @@ enum RelationDirection {
   RELATION_DIRECTION_OUTBOUND = 2;
 }
 
-// resourcetype
-enum ResourceType {
-  RESOURCE_TYPE_UNSPECIFIED = 0;
-  RESOURCE_TYPE_PROJECT = 1;
-  RESOURCE_TYPE_COLLECTION = 2;
-  RESOURCE_TYPE_DATASET = 3;
-  RESOURCE_TYPE_OBJECT = 4;
-}
-
 // Used for the internal associated services to validate permissions
 // Actions are similar to HTTP verbs
 enum ResourceAction {

@@ -20,8 +20,8 @@ service EventNotificationService {
   // CreateEventStreamingGroup
   //
   // Creates a new EventStreamingGroup
-  rpc CreateEventStreamingGroup(CreateEventStreamingGroupRequest)
-      returns (CreateEventStreamingGroupResponse) {}
+  rpc CreateStreamConsumer(CreateStreamConsumerRequest)
+      returns (CreateStreamConsumerResponse) {}
 
   // GetEventMessageBatch
   //
@@ -53,26 +53,29 @@ service EventNotificationService {
       returns (DeleteEventStreamingGroupResponse) {}
 }
 
-message CreateEventStreamingGroupRequest {
-  aruna.api.storage.models.v2.ResourceType resource = 1;
-  string resource_id = 2;
-  bool include_subresource = 3;
+message StreamResource {
+  oneof resource {
+    string project_id = 1;
+    string collection_id = 2;
+    string dataset_id = 3;
+    string object_id = 4;
+    bool user = 5;
+    bool anouncements = 6;
+    bool all = 7;
+  }
+}
+
+message CreateStreamConsumerRequest {
+  StreamResource resource = 1;
+  bool include_subresources = 2;
   oneof stream_type {
-    StreamAll stream_all = 4;
-    StreamFromDate stream_from_date = 5;
-    StreamFromSequence stream_from_sequence = 6;
+    StreamAll stream_all = 3;
+    StreamFromDate stream_from_date = 4;
+    StreamFromSequence stream_from_sequence = 5;
   };
-  EventStreamingGroupHierarchy hierarchy =  7;
 }
 
-message EventStreamingGroupHierarchy {
-  string project_id = 1;
-  string collection_id = 2;
-  string object_id = 3;
-  string object_group_id = 4;
-}
-
-message CreateEventStreamingGroupResponse { string stream_group_id = 1; }
+message CreateStreamConsumerResponse { string stream_group_id = 1; }
 
 message GetEventMessageBatchRequest {
   string stream_group_id = 1;
@@ -80,7 +83,7 @@ message GetEventMessageBatchRequest {
 }
 
 message GetEventMessageBatchResponse {
-  repeated EventNotificationMessage messages = 1;
+  repeated EventMessage messages = 1;
 }
 
 message GetEventMessageBatchStreamRequest {
@@ -89,7 +92,7 @@ message GetEventMessageBatchStreamRequest {
 }
 
 message GetEventMessageBatchStreamResponse {
-  repeated EventNotificationMessage messages = 1;
+  repeated EventMessage messages = 1;
 }
 
 message AcknowledgeMessageBatchRequest {
@@ -135,16 +138,6 @@ message ResourceEventContext {
     string custom_context = 3;
   }
 }
-
-message ResourceEvent {
-  aruna.api.storage.models.v2.ResourceType resource = 1;
-  string resource_id = 2;
-  string resource_name = 3;
-  ResourceEventType event_type = 4;
-  optional ResourceEventContext context = 5;
-  Reply reply = 6;
-}
-
 enum UserEventType {
   USER_EVENT_TYPE_UNSPECIFIED = 0;
   USER_EVENT_TYPE_CREATED = 1;
@@ -166,6 +159,23 @@ message UserEventContext {
   }
 }
 
+message EventMessage {
+  oneof message_variant {
+    ResourceEvent resource_event = 1;
+    UserEvent user_event = 2;
+    AnouncementEvent announcement_event = 3;
+  }
+}
+
+message ResourceEvent {
+  aruna.api.storage.models.v2.ResourceType resource = 1;
+  string resource_id = 2;
+  string resource_name = 3;
+  ResourceEventType event_type = 4;
+  optional ResourceEventContext context = 5;
+  Reply reply = 6;
+}
+
 message UserEvent {
   string user_id = 1;
   string user_name = 2;
@@ -180,11 +190,41 @@ message Reply {
   string hmac = 3;
 }
 
+
+
+message DataproxyInfo {
+    string endpoint_id = 1;
+    // Endpoint name
+    string name = 2;
+    // Endpoint type
+    storage.models.v2.EndpointType ep_type = 3;
+    // Is this endpoint public
+    bool is_public = 4;
+    // required public_key
+    string pubkey = 5;
+    // url
+    string url = 6;
+}
+
+message ScheduledDowntime {
+  string location = 1;
+  string component = 2;
+  google.protobuf.Timestamp from = 3;
+  google.protobuf.Timestamp to = 4;
+}
+
+message NewVersion {
+  string location = 1;
+  string component = 2;
+  string new_version = 3;
+}
+
 message AnouncementEvent {
-  // New dataproxy
-  // Removed dataproxy
-  // Updated dataproxy
-  // Scheduled downtime (location + component)
-  // New version (component)
-  // ...
+  oneof event_variant {
+    DataproxyInfo new_data_proxy = 1;
+    DataproxyInfo remove_data_proxy = 2;
+    DataproxyInfo update_data_proxy = 3;
+    ScheduledDowntime downtime = 4;
+    NewVersion version = 5;
+  }
 }
