@@ -1,0 +1,241 @@
+syntax = "proto3";
+
+package aruna.api.notification.services.v2;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/notification/services/v2";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.notification.services.v2";
+option java_outer_classname = "UpdateNotificationServices";
+
+import "google/protobuf/timestamp.proto";
+import "aruna/api/storage/models/v2/models.proto";
+
+
+
+// EventNotificationService
+//
+// A service to receive events in the AOS storage
+service EventNotificationService {
+
+  // CreateEventStreamingGroup
+  //
+  // Creates a new EventStreamingGroup
+  rpc CreateStreamConsumer(CreateStreamConsumerRequest)
+      returns (CreateStreamConsumerResponse) {}
+
+  // GetEventMessageBatch
+  //
+  // Reads a set of messages from a given stream group
+  // Each message contains a separate acknowledgement message that is protected by a salt and an hmac for verification
+  // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message
+  rpc GetEventMessageBatch(GetEventMessageBatchRequest) 
+      returns (GetEventMessageBatchResponse) {}
+
+  // GetEventMessageBatch
+  //
+  // Reads a set of messages from a given stream group
+  // Each message contains a separate acknowledgement message that is protected by a salt and an hmac for verification
+  // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message
+  rpc GetEventMessageBatchStream(GetEventMessageBatchStreamRequest) 
+      returns (stream GetEventMessageBatchStreamResponse) {}
+
+  // AcknowledgeMessageBatch
+  //
+  // List of messages to acknowledge
+  // Each reply is protected by a salt and and hmac that verifies the message
+  rpc AcknowledgeMessageBatch(AcknowledgeMessageBatchRequest) 
+      returns (AcknowledgeMessageBatchResponse) {}
+
+  // DeleteEventStreamingGroup
+  //
+  // Deletes a existing EventStreamingGroup by ID
+  rpc DeleteEventStreamingGroup(DeleteEventStreamingGroupRequest)
+      returns (DeleteEventStreamingGroupResponse) {}
+}
+
+
+enum ResourceVariant {
+  RESOURCE_VARIANT_UNSPECIFIED = 0;
+  RESOURCE_VARIANT_PROJECT = 1;
+  RESOURCE_VARIANT_COLLECTION = 2;
+  RESOURCE_VARIANT_DATASET = 3;
+  RESOURCE_VARIANT_OBJECT = 4;
+}
+
+
+message Resource{
+  string resource_id = 1;
+  string resource_name = 2;
+  ResourceVariant resource_variant = 3;
+}
+
+message StreamTarget {
+  oneof target {
+    Resource resource = 1;
+    bool user = 2;
+    bool anouncements = 3;
+    bool all = 4;
+  }
+}
+
+message CreateStreamConsumerRequest {
+  StreamTarget target = 1;
+  bool include_subresources = 2;
+  oneof stream_type {
+    StreamAll stream_all = 3;
+    StreamFromDate stream_from_date = 4;
+    StreamFromSequence stream_from_sequence = 5;
+  };
+}
+
+message CreateStreamConsumerResponse { string stream_group_id = 1; }
+
+message GetEventMessageBatchRequest {
+  string stream_group_id = 1;
+  uint32 batch_size = 2;
+}
+
+message GetEventMessageBatchResponse {
+  repeated EventMessage messages = 1;
+}
+
+message GetEventMessageBatchStreamRequest {
+  string stream_group_id = 1;
+  uint32 batch_size = 2;
+}
+
+message GetEventMessageBatchStreamResponse {
+  repeated EventMessage messages = 1;
+}
+
+message AcknowledgeMessageBatchRequest {
+  repeated Reply replies = 1;
+}
+
+message AcknowledgeMessageBatchResponse {}
+
+
+message DeleteEventStreamingGroupRequest {
+    string stream_group_id = 1;
+}
+
+message DeleteEventStreamingGroupResponse {}
+
+message StreamFromSequence { uint64 sequence = 1; }
+
+message StreamFromDate { google.protobuf.Timestamp timestamp = 1; }
+
+message StreamAll {}
+
+enum ResourceEventType {
+  RESOURCE_EVENT_TYPE_UNSPECIFIED = 0;
+  RESOURCE_EVENT_TYPE_CREATED = 1;
+  RESOURCE_EVENT_TYPE_AVAILABLE = 2;
+  RESOURCE_EVENT_TYPE_UPDATED = 3;
+  RESOURCE_EVENT_TYPE_DELETED = 4;
+}
+
+message RelationUpdate {
+  repeated storage.models.v2.Relation add_relations = 2;
+  repeated storage.models.v2.Relation remove_relations = 3;
+}
+
+message Fields {
+  repeated string updated_fields = 1;
+}
+
+message ResourceEventContext {
+  oneof event {
+    Fields updated_fields = 1;
+    RelationUpdate relation_updates = 2;
+    string custom_context = 3;
+  }
+}
+enum UserEventType {
+  USER_EVENT_TYPE_UNSPECIFIED = 0;
+  USER_EVENT_TYPE_CREATED = 1;
+  USER_EVENT_TYPE_UPDATED = 2;
+  USER_EVENT_TYPE_DELETED = 3;
+}
+
+message Token {
+  string id = 1;
+  optional aruna.api.storage.models.v2.Permission permission = 2;
+}
+
+message UserEventContext {
+  oneof event {
+    string updated_field = 1;
+    bool admin = 2;
+    Token token = 3;
+    aruna.api.storage.models.v2.Permission permission = 4;
+  }
+}
+
+message EventMessage {
+  oneof message_variant {
+    ResourceEvent resource_event = 1;
+    UserEvent user_event = 2;
+    AnouncementEvent announcement_event = 3;
+  }
+}
+
+message ResourceEvent {
+  Resource resource = 1;
+  ResourceEventType event_type = 2;
+  optional ResourceEventContext context = 3;
+  Reply reply = 4;
+}
+
+message UserEvent {
+  string user_id = 1;
+  string user_name = 2;
+  UserEventType event_type = 3;
+  optional UserEventContext context = 4;
+  Reply reply = 5;
+}
+
+message Reply {
+  string reply = 1;
+  string salt = 2;
+  string hmac = 3;
+}
+
+
+
+message DataproxyInfo {
+    string endpoint_id = 1;
+    // Endpoint name
+    string name = 2;
+    // Endpoint type
+    storage.models.v2.EndpointType ep_type = 3;
+    // Is this endpoint public
+    bool is_public = 4;
+    // required public_key
+    string pubkey = 5;
+    // url
+    string url = 6;
+}
+
+message ScheduledDowntime {
+  string location = 1;
+  string component = 2;
+  google.protobuf.Timestamp from = 3;
+  google.protobuf.Timestamp to = 4;
+}
+
+message NewVersion {
+  string location = 1;
+  string component = 2;
+  string new_version = 3;
+}
+
+message AnouncementEvent {
+  oneof event_variant {
+    DataproxyInfo new_data_proxy = 1;
+    DataproxyInfo remove_data_proxy = 2;
+    DataproxyInfo update_data_proxy = 3;
+    ScheduledDowntime downtime = 4;
+    NewVersion version = 5;
+  }
+  Reply reply = 6;
+}

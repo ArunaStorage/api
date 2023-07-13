@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v2;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v2";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
+option java_outer_classname = "SearchService";
+import "aruna/api/storage/models/v2/models.proto";
+import "google/api/annotations.proto";
+
+service SearchService {
+
+    // SearchResources
+    //
+    // Status: BETA
+    // 
+    // Searches the index for applicable resources (only public + private can be searched)
+    rpc SearchResources(SearchResourcesRequest) returns (SearchResourcesResponse){
+      option (google.api.http) = {
+        post : "/v2/search"
+        body : "*"
+      };
+    }
+
+}
+
+message SearchResourcesRequest {
+    string query = 1;
+    string filter = 2;
+    int64 offset = 3;
+}
+
+
+message SearchResourcesResponse {
+    // Json list for each found resource
+    repeated storage.models.v2.GenericResource resources = 1;
+    // How many results are expected to be found ?
+    int64 estimated_total = 2;
+    // The last index returned
+    int64 last_index = 3;
+}

@@ -1,0 +1,216 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v2;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v2";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
+option java_outer_classname = "CollectionService";
+import "aruna/api/storage/models/v2/models.proto";
+import "google/api/annotations.proto";
+
+// CollectionService
+//
+// Contains all methods that get/create or update Collection and associated resources
+service CollectionService {
+
+  // CreateNewCollection
+  //
+  // Status: BETA
+  //
+  // creates a new Collection
+  rpc CreateCollection(CreateCollectionRequest)
+      returns (CreateCollectionResponse) {
+    option (google.api.http) = {
+      post : "/v2/collection"
+      body : "*"
+    };
+  }
+
+  // GetCollection
+  //
+  // Status: BETA
+  //
+  // Request a specific collection by ID
+  rpc GetCollection(GetCollectionRequest)
+      returns (GetCollectionResponse) {
+    option (google.api.http) = {
+      get : "/v2/collection/{collection_id}"
+    };
+  }
+
+  // GetCollections
+  //
+  // Status: BETA
+  //
+  // Queries multiple collections by ID
+  rpc GetCollections(GetCollectionsRequest) returns (GetCollectionsResponse) {
+    option (google.api.http) = {
+      get : "/v2/collections/"
+    };
+  }
+
+  // DeleteCollection
+  //
+  // Status: STABLE
+  //
+  // This request deletes the collection.
+  rpc DeleteCollection(DeleteCollectionRequest)
+      returns (DeleteCollectionResponse) {
+    option (google.api.http) = {
+      delete : "/v2/collection/{collection_id}"
+    };
+  }
+
+  // UpdateCollectionName
+  //
+  // Status: BETA
+  //
+  // Updates the collection name. Caveat! Will rename the "s3 bucket" for data proxies! 
+  rpc UpdateCollectionName(UpdateCollectionNameRequest) returns (UpdateCollectionNameResponse) {
+    option (google.api.http) = {
+      patch : "/v2/collection/{collection_id}/name"
+      body : "*"
+    };
+  }
+
+  // UpdateCollectionDescription
+  //
+  // Status: BETA
+  //
+  // Updates the collection description.
+  rpc UpdateCollectionDescription(UpdateCollectionDescriptionRequest) returns (UpdateCollectionDescriptionResponse) {
+    option (google.api.http) = {
+      patch : "/v2/collection/{collection_id}/description"
+      body : "*"
+    };
+  }
+
+  // UpdateCollectionKeyValues
+  //
+  // Status: BETA
+  //
+  // Updates the collection key values.
+  rpc UpdateCollectionKeyValues(UpdateCollectionKeyValuesRequest) returns (UpdateCollectionKeyValuesResponse) {
+    option (google.api.http) = {
+      patch : "/v2/collection/{collection_id}/key_values"
+      body : "*"
+    };
+  }
+
+  // UpdateCollectionDataClass
+  //
+  // Status: BETA
+  //
+  // Updates the collection name. All (meta) data will be overwritten.
+  rpc UpdateCollectionDataClass(UpdateCollectionDataClassRequest) returns (UpdateCollectionDataClassResponse) {
+    option (google.api.http) = {
+      patch : "/v2/collection/{collection_id}/data_class"
+      body : "*"
+    };
+  }
+
+  // SnapshotCollectionRequest
+  //
+  // Status: BETA
+  //
+  // Archives the full collection, rendering all downstream relations immutable
+  rpc SnapshotCollection(SnapshotCollectionRequest) returns (SnapshotCollectionResponse) {
+    option (google.api.http) = {
+      post : "/v2/collection/{collection_id}/snapshot"
+      body : "*"
+    };
+  }
+}
+
+message CreateCollectionRequest {
+  // collection name
+  string name = 1;
+  // description
+  string description = 2;
+  // collection specific labels / hooks
+  repeated storage.models.v2.KeyValue key_values = 3;
+  // External relations (URLs / IDs from external sources)
+  repeated storage.models.v2.ExternalRelation external_relations = 4;
+  // DataClass
+  storage.models.v2.DataClass data_class = 5;
+  // Parent_id MUST be collection
+  oneof parent {
+    string project_id = 6;
+  }
+}
+
+message CreateCollectionResponse {
+  // The new collection_id
+  storage.models.v2.Collection collection = 1;
+}
+
+message GetCollectionRequest {
+  // Requested id
+  string collection_id = 1;
+}
+
+message GetCollectionResponse {
+  // Overview of the requested collection
+  storage.models.v2.Collection collection = 1;
+}
+
+message GetCollectionsRequest {
+  repeated string collection_ids = 1;
+}
+
+message GetCollectionsResponse {
+  // List of collection overviews
+  repeated storage.models.v2.Collection collections = 1;
+}
+
+message DeleteCollectionRequest {
+  string collection_id = 1;
+}
+
+message DeleteCollectionResponse {}
+
+message UpdateCollectionNameRequest {
+  string collection_id = 1;
+  string name = 2;
+}
+
+message UpdateCollectionNameResponse {
+  storage.models.v2.Collection collection = 1;
+}
+
+message UpdateCollectionDescriptionRequest {
+  string collection_id = 1;
+  string description = 2;
+}
+
+message UpdateCollectionDescriptionResponse {
+  storage.models.v2.Collection collection = 1;
+}
+
+message UpdateCollectionKeyValuesRequest {
+  string collection_id = 1;
+  repeated storage.models.v2.KeyValue add_key_values = 2;
+  repeated storage.models.v2.KeyValue remove_key_values = 3;
+}
+
+message UpdateCollectionKeyValuesResponse {
+  storage.models.v2.Collection collection = 1;
+}
+
+message UpdateCollectionDataClassRequest {
+  string collection_id = 1;
+  storage.models.v2.DataClass data_class = 2;
+}
+
+message UpdateCollectionDataClassResponse {
+  storage.models.v2.Collection collection = 1;
+}
+
+message SnapshotCollectionRequest {
+  string collection_id = 1;
+}
+
+message SnapshotCollectionResponse {
+  // This collection will be returned via an Persistent Identifier! Updates will be impossible
+  storage.models.v2.Collection collection = 1;
+}

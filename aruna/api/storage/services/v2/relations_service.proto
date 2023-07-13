@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v2;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v2";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
+option java_outer_classname = "RelationsService";
+import "aruna/api/storage/models/v2/models.proto";
+import "google/api/annotations.proto";
+
+// RelationsService
+//
+// Contains all methods to edit and change resource relations
+service RelationsService {
+  // ModifyRelation
+  //
+  // Status: BETA
+  //
+  // Modifys all relations to / from a resource
+  rpc ModifyRelations(ModifyRelationsRequest)
+    returns (ModifyRelationsResponse) {
+      option (google.api.http) = {
+        post : "/v2/relation"
+        body : "*"
+    };
+  }
+
+  // GetHierachy
+  //
+  // Status: BETA
+  //
+  // Gets all downstream hierarchy relations from a resource
+  rpc GetHierachy(GetHierachyRequest)
+    returns (GetHierachyResponse) {
+      option (google.api.http) = {
+        get : "/v2/relation/hierarchy"
+    };
+  }
+}
+
+message ModifyRelationsRequest {
+    string resource_id = 1;
+    repeated storage.models.v2.Relation add_relations = 2;
+    repeated storage.models.v2.Relation remove_relations = 3;
+}
+
+message ModifyRelationsResponse {}
+
+message GetHierachyRequest {
+    string resource_id = 1;
+}
+
+message DatasetRelations {
+    string origin = 1;
+    repeated string object_children = 2;
+}
+
+message CollectionRelations {
+    string origin = 1;
+    repeated DatasetRelations dataset_children = 2;
+    repeated string object_children = 3;
+}
+
+message ProjectRelations {
+    string origin = 1;
+    repeated CollectionRelations collection_children = 2;
+    repeated DatasetRelations dataset_children = 3;
+    repeated string object_children = 4;
+}
+
+message GetHierachyResponse {
+    oneof graph {
+        ProjectRelations project = 1;
+        CollectionRelations collection = 2;
+        DatasetRelations dataset = 3;
+    }
+}

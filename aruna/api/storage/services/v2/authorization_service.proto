@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v2;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v2";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
+option java_outer_classname = "AuthorizationService";
+import "aruna/api/storage/models/v2/models.proto";
+import "google/api/annotations.proto";
+
+// AuthorizationService
+//
+// Contains all methods to edit and change user authorization
+service AuthorizationService {
+  // CreateAuthorization
+  //
+  // Status: BETA
+  //
+  // This creates a user-specific attribute that handles permission for a
+  // specific resource 
+  rpc CreateAuthorization(CreateAuthorizationRequest)
+      returns (CreateAuthorizationResponse) {
+    option (google.api.http) = {
+      post : "/v2/auth"
+      body : "*"
+    };
+  }
+
+  // GetAuthorization
+  //
+  // Status: BETA
+  //
+  // This gets resource specific user authorizations
+  rpc GetAuthorizations(GetAuthorizationsRequest)
+      returns (GetAuthorizationsResponse) {
+    option (google.api.http) = {
+      get : "/v2/auths"
+    };
+  }
+
+
+  // DeleteAuthorization
+  //
+  // Status: BETA
+  //
+  // This creates a user-specific attribute that handles permission for a
+  // specific resource 
+  rpc DeleteAuthorization(DeleteAuthorizationRequest)
+      returns (DeleteAuthorizationResponse) {
+    option (google.api.http) = {
+      delete : "/v2/auth"
+      body : "*"
+    };
+  }
+
+  // UpdateAuthorization
+  //
+  // Status: BETA
+  //
+  // This creates a user-specific attribute that handles permission for a
+  // specific resource 
+  rpc UpdateAuthorizations(UpdateAuthorizationsRequest)
+      returns (UpdateAuthorizationsResponse) {
+    option (google.api.http) = {
+      patch : "/v2/auth"
+      body : "*"
+    };
+  }
+
+}
+
+message UserPermission {
+  string user_id = 1;
+  string user_name = 2;
+  storage.models.v2.PermissionLevel permission_level = 3;
+}
+
+message ResourceAuthorization {
+  string resource_id = 1;
+  repeated UserPermission user_permission = 2;
+}
+
+message CreateAuthorizationRequest {
+  string resource_id = 1;
+  string user_id = 2;
+  storage.models.v2.PermissionLevel permission_level = 3; // Can also include "deny"
+}
+
+message CreateAuthorizationResponse {
+  string resource_id = 1;
+  string user_id = 2;
+  string user_name = 3;
+  storage.models.v2.PermissionLevel permission_level = 4;
+}
+
+message GetAuthorizationsRequest {
+  string resource_id = 1;
+  bool recursive = 2; 
+}
+
+message GetAuthorizationsResponse {
+  repeated ResourceAuthorization authorizations = 1;
+}
+
+message DeleteAuthorizationRequest {
+  string resource_id = 1;
+  string user_id = 2;
+}
+
+message DeleteAuthorizationResponse {}
+
+message UpdateAuthorizationsRequest {
+  string resource_id = 1;
+  string user_id = 2;
+  storage.models.v2.PermissionLevel permission_level = 3;
+}
+
+message UpdateAuthorizationsResponse {
+  UserPermission user_permission = 1;
+}

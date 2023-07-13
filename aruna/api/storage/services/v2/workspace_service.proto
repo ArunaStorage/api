@@ -1,0 +1,131 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v2;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v2";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
+option java_outer_classname = "WorkspaceService";
+import "aruna/api/storage/models/v2/models.proto";
+import "google/api/annotations.proto";
+
+// Service to manage "special" anonymous collections / workspaces 
+service WorkspaceService {
+
+  // CreatesNewWorkspaceTemplate
+  //
+  // Status: ALPHA
+  //
+  // This will create a new template for workspaces (admin only)
+  rpc CreateWorkspaceTemplate(CreateWorkspaceTemplateRequest)
+      returns (CreateWorkspaceTemplateResponse) {
+    option (google.api.http) = {
+      post : "/v2/workspace/template"
+      body : "*"
+    };
+  }
+
+  // CreateWorkspace
+  //
+  // Status: ALPHA
+  //
+  // A new request to create a personal anonymous workspace
+  rpc CreateWorkspace(CreateWorkspaceRequest)
+      returns (CreateWorkspaceResponse) {
+    option (google.api.http) = {
+      post : "/v2/workspace"
+      body : "*"
+    };
+  }
+
+
+  // DeleteWorkspace
+  //
+  // Status: ALPHA
+  //
+  // Delete a workspace
+  rpc DeleteWorkspace(DeleteWorkspaceRequest)
+      returns (DeleteWorkspaceResponse) {
+    option (google.api.http) = {
+      delete : "/v2/workspace/{workspace_id}"
+      body : "*"
+    };
+  }
+
+  // DeleteWorkspace
+  //
+  // Status: ALPHA
+  //
+  // Claims an anonymous workspace, and transfers the owner to a regular user account.
+  rpc ClaimWorkspace(ClaimWorkspaceRequest)
+      returns (ClaimWorkspaceResponse) {
+    option (google.api.http) = {
+      post : "/v2/workspace/{workspace_id}/claim"
+      body : "*"
+    };
+  }
+
+  // MoveWorkspaceData
+  //
+  // Status: ALPHA
+  //
+  // Claims an anonymous workspace
+  rpc MoveWorkspaceData(MoveWorkspaceDataRequest)
+      returns (MoveWorkspaceDataResponse) {
+    option (google.api.http) = {
+      post : "/v2/workspace/{workspace_id}/move/{project_id}"
+      body : "*"
+    };
+  }
+}
+
+// Models:
+
+message CreateWorkspaceTemplateRequest {
+  // The user id of the template owner (will be automatically added as "admin" to each associated workspace)
+  string owner_id = 1;
+  // Short prefix for each workspace_project (will be prepended by a random id) example: test-i12ashj9g2 
+  string prefix = 2;
+  // The name of the workspace template
+  string name = 3;
+  // Key values / hooks that must be added to each participant of the workspace
+  repeated storage.models.v2.KeyValue key_values = 4;
+}
+
+message CreateWorkspaceTemplateResponse {
+  string template_name = 1;
+}
+
+message CreateWorkspaceRequest {
+  string workspace_template = 1;
+}
+
+message CreateWorkspaceResponse{
+  string workspace_id = 1;
+  string token = 2;
+  string access_key = 3;
+  string secret_key = 4;
+}
+
+message DeleteWorkspaceRequest {
+  string workspace_id = 1;
+}
+
+message DeleteWorkspaceResponse {}
+
+message ClaimWorkspaceRequest {
+  // This can only be called by an registered user,
+  // that is in possesion of the workspace_id and workspace token
+  // It will remove the service account and claim all references "as" the user.
+  string workspace_id = 1;
+  string token = 2;
+}
+
+message ClaimWorkspaceResponse {}
+
+message MoveWorkspaceDataRequest {
+  // This will update all objects as "non_workspace" and move the root to another project
+  string workspace_id = 1;
+  string project_id = 2;
+}
+
+message MoveWorkspaceDataResponse {}

@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v2;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v2";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
+option java_outer_classname = "StorageStatusService";
+import "aruna/api/storage/models/v2/models.proto";
+import "google/api/annotations.proto";
+
+
+// StorageStatusService
+//
+// This is a generic service that contains utility functions 
+// these functions are used to query additional meta-information
+// about the status of the overall storage architecture
+service StorageStatusService {
+
+  // GetStorageVersion
+  //
+  // Status: BETA
+  //
+  // A request to get the current version of the server application
+  // String representation and https://semver.org/
+  rpc GetStorageVersion(GetStorageVersionRequest) returns (GetStorageVersionResponse) {
+    option (google.api.http) = {
+      get : "/v2/info/version"
+    };
+  }
+
+  // GetStorageStatus
+  //
+  // Status: ALPHA
+  //
+  // A request to get the current status of the storage components by location(s)
+  rpc GetStorageStatus(GetStorageStatusRequest) returns (GetStorageStatusResponse) {
+    option (google.api.http) = {
+      get : "/v2/info/status"
+    };
+  }
+}
+
+
+message GetStorageVersionRequest {}
+
+
+message SemanticVersion {
+  // Complete version string
+  string version_string = 1;
+  // Semver according to https://semver.org/
+  int32 major = 2;
+  int32 minor = 3;
+  int32 patch = 4;
+  string labels = 5;
+}
+
+
+message LocationVersion {
+  // Status of a specific Location e.g Gießen / dataproxy / 0.5.0-beta.1
+  string location = 1;
+  repeated ComponentVersion version = 2;
+}
+
+message ComponentVersion {
+  // Name of a specific component e.g. server, dataproxy etc. and their status by location
+  string name = 1;
+  SemanticVersion version = 2;
+}
+
+// Version of each component by location
+message GetStorageVersionResponse {
+  repeated LocationVersion location_version = 1;
+}
+
+message GetStorageStatusRequest {}
+
+message LocationStatus {
+  // Status of a specific Location e.g Gießen / AVAILABLE
+  string location = 1;
+  repeated ComponentStatus component_status = 2;
+}
+
+message ComponentStatus {
+  // Name of a specific component e.g. server, dataproxy etc. and their status by location
+  string name = 1;
+  storage.models.v2.ComponentStatus status = 2;
+}
+
+message GetStorageStatusResponse {
+  // List of all locations and their component / status
+  repeated LocationStatus location_status = 1;
+}

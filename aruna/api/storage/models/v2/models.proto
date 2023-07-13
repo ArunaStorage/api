@@ -1,0 +1,308 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/models/v2";
+
+package aruna.api.storage.models.v2;
+
+// --------------- ENUMS ------------------------
+
+// Dataclass defines the confidentiality of the object
+enum DataClass {
+  DATA_CLASS_UNSPECIFIED = 0;
+  DATA_CLASS_PUBLIC = 1;
+  DATA_CLASS_PRIVATE = 2;
+  DATA_CLASS_WORKSPACE = 4; 
+  DATA_CLASS_CONFIDENTIAL = 5;
+}
+
+// Which kind of endpoint 
+enum EndpointType {
+  ENDPOINT_TYPE_UNSPECIFIED = 0;
+  ENDPOINT_TYPE_PERSISTENT = 1;
+  ENDPOINT_TYPE_VOLATILE = 2;
+}
+
+// Which features does the endpoint have
+enum EndpointHostType {
+  ENDPOINT_HOST_TYPE_UNSPECIFIED = 0;
+  ENDPOINT_HOST_TYPE_PROXY = 1;
+  ENDPOINT_HOST_TYPE_BUNDLER = 2;
+}
+
+// Permission Levels
+enum PermissionLevel {
+  PERMISSION_LEVEL_UNSPECIFIED = 0;
+  PERMISSION_LEVEL_NONE = 2; 
+  PERMISSION_LEVEL_READ = 3; 
+  PERMISSION_LEVEL_APPEND = 4;
+  PERMISSION_LEVEL_WRITE = 5; 
+  PERMISSION_LEVEL_ADMIN = 6;  
+}
+
+// KeyValueVariants
+enum KeyValueVariant {
+  KEY_VALUE_VARIANT_UNSPECIFIED = 0;
+  KEY_VALUE_VARIANT_LABEL = 1;
+  KEY_VALUE_VARIANT_STATIC_LABEL = 2; // A Label that only admins can remove
+  KEY_VALUE_VARIANT_HOOK = 3;
+}
+
+// External Relations
+enum ExternalRelationVariant {
+  EXTERNAL_RELATION_VARIANT_UNSPECIFIED = 0;
+  EXTERNAL_RELATION_VARIANT_URL = 1;
+  EXTERNAL_RELATION_VARIANT_IDENTIFIER = 2;
+}
+
+// InternalRelations
+enum InternalRelationVariant {
+  INTERNAL_RELATION_VARIANT_UNSPECIFIED = 0;
+  INTERNAL_RELATION_VARIANT_BELONGS_TO = 1;
+  INTERNAL_RELATION_VARIANT_ORIGIN = 2;
+  INTERNAL_RELATION_VARIANT_DERIVED = 3;
+  INTERNAL_RELATION_VARIANT_METADATA = 4;
+  INTERNAL_RELATION_VARIANT_POLICY = 5;
+}
+
+// internal object relation type (direction)
+enum RelationDirection {
+  RELATION_DIRECTION_UNSPECIFIED = 0;
+  RELATION_DIRECTION_INBOUND = 1;
+  RELATION_DIRECTION_OUTBOUND = 2;
+}
+
+// Used for the internal associated services to validate permissions
+// Actions are similar to HTTP verbs
+enum ResourceAction {
+  RESOURCE_ACTION_UNSPECIFIED = 0;
+  RESOURCE_ACTION_CREATE = 1;
+  RESOURCE_ACTION_APPEND = 2;
+  RESOURCE_ACTION_UPDATE = 3;
+  RESOURCE_ACTION_READ = 4;
+  RESOURCE_ACTION_DELETE = 5;
+}
+
+// An arbitrary status for Objects
+enum Status {
+  STATUS_UNSPECIFIED = 0;  // Unspecified
+  STATUS_INITIALIZING = 1; // This object is initializing -> Staging
+  STATUS_VALIDATING = 2; // Data got uploaded and a validating hook got triggered
+  STATUS_AVAILABLE = 3; // Data is available
+  STATUS_UNAVAILABLE = 4; // Data is temporarily not available
+  STATUS_ERROR = 5; // Validating failed or fatal error in data proxy
+  STATUS_DELETED = 6; // Object got deleted
+}
+
+// Status for endpoints
+enum ComponentStatus {
+  COMPONENT_STATUS_UNSPECIFIED = 0;
+  COMPONENT_STATUS_INITIALIZING = 1;
+  COMPONENT_STATUS_AVAILABLE = 2;
+  COMPONENT_STATUS_DEGRADED = 3;
+  COMPONENT_STATUS_UNAVAILABLE = 4;
+  COMPONENT_STATUS_MAINTENANCE = 5;
+}
+
+enum Hashalgorithm {
+  HASHALGORITHM_UNSPECIFIED = 0;
+  HASHALGORITHM_MD5 = 1;
+  HASHALGORITHM_SHA256 = 2;
+}
+
+// ------------- USERS & PERMISSIONS -----------------------
+
+message User {
+  // Internal Aruna UserID
+  string id = 1;
+  // Oidc subject ID
+  repeated string external_id = 2;
+  // (optional) User display_name
+  string display_name = 3;
+  // Is the user activated
+  bool active = 4;
+  // User email (empty if service account)
+  string email = 5;
+  // User attributes
+  UserAttributes attributes = 6;
+}
+
+message Permission {
+  oneof resource_id {
+    string project_id = 1;
+    string collection_id = 2;
+    string dataset_id = 3;
+    string object_id = 4;
+  }
+  PermissionLevel permission_level = 6;
+}
+
+message Token {
+  string id = 1;
+  string name = 2;
+  string user_id = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp expires_at = 5;
+  // Tokens can either be personal or resource "specific"
+  optional Permission permission = 6;
+  google.protobuf.Timestamp used_at = 7;
+}
+
+
+message CustomAttributes {
+  string attribute_name = 1;
+  string attribute_value = 2;
+}
+
+message UserAttributes {
+  bool global_admin = 1;
+  bool service_account = 2;
+  repeated CustomAttributes custom_attributes = 3; 
+  repeated Permission personal_permissions = 4;
+}
+
+// --------------- RELATION / KEYVALUES -------------------
+
+// A key value pair for hooks and labels
+message KeyValue {
+  string key = 1;
+  string value = 2;
+  KeyValueVariant variant = 3;
+}
+
+message Relation {
+  oneof relation {
+    ExternalRelation external = 1;
+    InternalRelation internal = 2;
+  }
+}
+
+message ExternalRelation {
+  string identifier = 1;
+  oneof variant {
+    ExternalRelationVariant defined_variant = 2;
+    string custom_variant = 3;
+  }
+}
+
+message InternalRelation {
+  string resource_id = 1;
+  oneof variant {
+    InternalRelationVariant defined_variant = 2;
+    string custom_variant = 3;
+  }
+  RelationDirection direction = 4;
+}
+
+message PageRequest {
+  string start_after = 1; // This is the last ID of the previous returned request
+  int64 page_size = 2;  // Default to 20, -1 for all
+}
+
+// Stats for a set of objects
+message Stats {
+  int64 count = 1;
+  int64 size = 2;
+  google.protobuf.Timestamp last_updated = 3;
+}
+
+message Hash {
+  Hashalgorithm alg = 1;
+  string hash = 2;
+}
+
+message EndpointHostConfig {
+  string url = 1;
+  bool is_primary = 2;
+  bool ssl = 3;
+  bool public = 4;
+  EndpointHostType host_type = 5;
+}
+
+message Endpoint {
+  string id = 1;
+  EndpointType ep_type = 2;
+  string name = 3;
+  bool is_public = 4;
+  repeated string default_for = 5; // Aruna Servers that this endpoint is default for 
+  ComponentStatus status = 6;
+  bool is_bundler = 7;
+  repeated EndpointHostConfig host_configs = 8;
+}
+
+// ------ Resources ----------
+
+message GenericResource {
+  oneof resource {
+    Project project = 1;
+    Collection collection = 2;
+    Dataset dataset = 3;
+    Object object = 4;
+  }
+}
+
+message Project {
+  string id = 1;
+  string name = 2; // Short name according to BucketNamingRules
+  string description = 3; // Long name
+  // Project specific labels / hooks
+  repeated KeyValue key_values = 4;
+  // Relations to internal and external sources
+  repeated Relation relations = 5;
+  Stats stats = 6;
+  DataClass data_class = 7;
+  google.protobuf.Timestamp created_at = 8;
+  string created_by = 9;
+  Status status = 10;
+  bool dynamic = 11;
+}
+
+
+message Collection {
+  string id = 1; // ASDASDASDOPASKIDPO
+  string name = 2; // my_mags
+  string description = 3; // ENA asda234928349028 MAG 1293819203819028i V1
+  // Collection specific labels / hooks
+  repeated KeyValue key_values = 4;
+  // Relations to internal and external sources
+  repeated Relation relations = 5;
+  Stats stats = 6;
+  DataClass data_class = 7;
+  google.protobuf.Timestamp created_at = 8;
+  string created_by = 9;
+  Status status = 10;
+  bool dynamic = 11;
+}
+
+message Dataset {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  // Dataset specific labels / hooks
+  repeated KeyValue key_values = 4;
+  // Relations to internal and external sources
+  repeated Relation relations = 5;
+  Stats stats = 6;
+  DataClass data_class = 7;
+  google.protobuf.Timestamp created_at = 8;
+  string created_by = 9;
+  Status status = 10;
+  bool dynamic = 11;
+}
+
+message Object {
+  string id = 1;                    
+  string name = 2;
+  string description = 3;
+  // Collection specific labels / hooks
+  repeated KeyValue key_values = 4;
+  // Relations to internal and external sources
+  repeated Relation relations = 5;
+  int64 content_len = 6; // Object only
+  DataClass data_class = 7;
+  google.protobuf.Timestamp created_at = 8;
+  string created_by = 9;
+  Status status = 10;
+  bool dynamic = 11;
+  // Object specific attributes
+  repeated Hash hashes = 12;  
+}

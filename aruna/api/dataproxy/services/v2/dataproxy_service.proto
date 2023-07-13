@@ -1,0 +1,163 @@
+syntax = "proto3";
+
+package aruna.api.dataproxy.services.v2;
+option go_package = "github.com/ArunaStorage/go-api/aruna/api/dataproxy/services/v2";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.dataproxy.services.v2";
+option java_outer_classname = "DataProxyService";
+
+import "google/api/annotations.proto";
+
+
+
+service DataproxyService {
+    
+    // RequestReplication
+    //
+    // Status: BETA
+    //
+    // Creates a replication request
+    rpc RequestReplication(RequestReplicationRequest) returns (RequestReplicationResponse) {}
+    
+    // InitReplication
+    //
+    // Status: BETA
+    //
+    // Provides the necessary url to init replication
+    rpc InitReplication(InitReplicationRequest) returns (InitReplicationResponse) {}
+}
+
+service DataproxyUserService {
+    // GetCredentials
+    //
+    // Status: BETA
+    //
+    // Authorized method that needs a aruna-token to exchange for dataproxy
+    // specific S3AccessKey and S3SecretKey
+    rpc GetCredentials(GetCredentialsRequest) returns (GetCredentialsResponse) {
+        option (google.api.http) = {
+            post : "/v2/credentials"
+            body : "*"
+        };
+    }
+    // PushReplica
+    //
+    // Status: BETA
+    //
+    // Manually transfers a replica to another data-proxy
+    rpc PushReplica(PushReplicaRequest) returns (PushReplicaResponse) {
+        option (google.api.http) = {
+            post : "/v2/replica/push"
+            body : "*"
+        };
+    }
+    // PullReplica
+    //
+    // Status: BETA
+    //
+    // Manually request data to be transferred to this data-proxy
+    rpc PullReplica(PullReplicaRequest) returns (PullReplicaResponse) {
+        option (google.api.http) = {
+            post : "/v2/replica/pull"
+            body : "*"
+        };
+    }
+    // PullReplica
+    //
+    // Status: BETA
+    //
+    // Status of the previous replication request
+    rpc ReplicationStatus(ReplicationStatusRequest) returns (ReplicationStatusResponse) {
+        option (google.api.http) = {
+            get : "/v2/replica/status"
+        };
+    }
+}
+
+message DataProxyInfo {
+    string dataproxy_id = 1;
+    int64 available_space = 2;
+}
+
+message RequestReplicationRequest {
+    DataProxyInfo info = 1;
+    bool user_initialized = 2;
+}
+
+message DataInfo {
+    string object_id = 1;
+    string download_url = 2;
+    string encryption_key = 3;
+    bool is_compressed = 4;
+}
+
+message DataInfos {
+    repeated DataInfo data_info = 1;
+}
+
+message RequestReplicationResponse {
+    oneof response {
+        DataInfos data_infos = 1;
+        bool ack = 2; 
+    }
+}
+
+message InitReplicationRequest {
+    DataInfos data_infos = 1;
+}
+
+message InitReplicationResponse {
+    bool ack = 1;
+}
+
+message GetCredentialsRequest {}
+
+message GetCredentialsResponse {
+    string access_key = 1;
+    string secret_key = 2;
+}
+
+message S3Path {
+    string bucket = 1;
+    string key = 2;
+}
+
+message PushReplicaRequest {
+    oneof resource {
+        string resource_id = 1;
+        S3Path s3_path = 2;
+    }
+    string target_location = 3;
+}
+
+message PushReplicaResponse {
+    string replication_id = 1;
+}
+
+message PullReplicaRequest {
+    oneof resource {
+        string resource_id = 1;
+        S3Path s3_path = 2;
+    }
+}
+
+message PullReplicaResponse {
+    string replication_id = 1;
+}
+
+message ReplicationStatusRequest {
+    string replication_id = 1;
+}
+
+enum ReplicationStatus {
+    REPLICATION_STATUS_UNSPECIFIED = 0;
+    REPLICATION_STATUS_PENDING = 1;
+    REPLICATION_STATUS_RUNNING = 2;
+    REPLICATION_STATUS_FINISHED = 3;
+    REPLICATION_STATUS_ERROR = 4;
+}
+
+message ReplicationStatusResponse {
+    ReplicationStatus status = 1;
+    string message = 2;
+}
