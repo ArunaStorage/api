@@ -25,29 +25,50 @@ service DataproxyService {
     //
     // Status: BETA
     //
-    // Creates a replication request
+    // Provides the necessary url to init replication
     rpc InitReplication(InitReplicationRequest) returns (InitReplicationResponse) {}
 }
 
 service DataproxyUserService {
+    // GetCredentials
+    //
+    // Status: BETA
+    //
+    // Authorized method that needs a aruna-token to exchange for dataproxy
+    // specific S3AccessKey and S3SecretKey
     rpc GetCredentials(GetCredentialsRequest) returns (GetCredentialsResponse) {
         option (google.api.http) = {
             post : "/v2/credentials"
             body : "*"
         };
     }
+    // PushReplica
+    //
+    // Status: BETA
+    //
+    // Manually transfers a replica to another data-proxy
     rpc PushReplica(PushReplicaRequest) returns (PushReplicaResponse) {
         option (google.api.http) = {
             post : "/v2/replica/push"
             body : "*"
         };
     }
+    // PullReplica
+    //
+    // Status: BETA
+    //
+    // Manually request data to be transferred to this data-proxy
     rpc PullReplica(PullReplicaRequest) returns (PullReplicaResponse) {
         option (google.api.http) = {
             post : "/v2/replica/pull"
             body : "*"
         };
     }
+    // PullReplica
+    //
+    // Status: BETA
+    //
+    // Status of the previous replication request
     rpc ReplicationStatus(ReplicationStatusRequest) returns (ReplicationStatusResponse) {
         option (google.api.http) = {
             get : "/v2/replica/status"
@@ -65,15 +86,26 @@ message RequestReplicationRequest {
     bool user_initialized = 2;
 }
 
+message DataInfo {
+    string object_id = 1;
+    string download_url = 2;
+    string encryption_key = 3;
+    bool is_compressed = 4;
+}
+
+message DataInfos {
+    repeated DataInfo data_info = 1;
+}
+
 message RequestReplicationResponse {
     oneof response {
-        string download_url = 1;
+        DataInfos data_infos = 1;
         bool ack = 2; 
     }
 }
 
 message InitReplicationRequest {
-    string url = 1;
+    DataInfos data_infos = 1;
 }
 
 message InitReplicationResponse {
