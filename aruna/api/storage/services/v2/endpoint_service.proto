@@ -29,6 +29,19 @@ service EndpointService {
     };
   }
 
+
+  // OnboardEndpoint
+  //
+  // Status: BETA
+  //
+  // Registers a new Endpoint (Aruna DataProxy) to the server
+  // Needs admin permissions
+  rpc OnboardEndpoint(OnboardEndpointRequest) returns (OnboardEndpointResponse) {
+    option (google.api.http) = {
+      get : "/v2/endpoint/onboard"
+    };
+  }
+
   // GetEndpoint
   //
   // Status: BETA
@@ -93,6 +106,12 @@ message CreateEndpointRequest {
 message CreateEndpointResponse {
   // Overview of the created endpoint
   storage.models.v2.Endpoint endpoint = 1;
+}
+
+message OnboardEndpointRequest {}
+
+message OnboardEndpointResponse {
+  string url = 1;
 }
 
 message GetEndpointRequest {
