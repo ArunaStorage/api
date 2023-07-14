@@ -109,6 +109,14 @@ enum Hashalgorithm {
   HASHALGORITHM_SHA256 = 2;
 }
 
+enum ResourceVariant {
+  RESOURCE_VARIANT_UNSPECIFIED = 0;
+  RESOURCE_VARIANT_PROJECT = 1;
+  RESOURCE_VARIANT_COLLECTION = 2;
+  RESOURCE_VARIANT_DATASET = 3;
+  RESOURCE_VARIANT_OBJECT = 4;
+}
+
 // ------------- USERS & PERMISSIONS -----------------------
 
 message User {
@@ -186,11 +194,12 @@ message ExternalRelation {
 
 message InternalRelation {
   string resource_id = 1;
+  ResourceVariant resource_variant = 2;
   oneof variant {
-    InternalRelationVariant defined_variant = 2;
-    string custom_variant = 3;
+    InternalRelationVariant defined_variant = 3;
+    string custom_variant = 4;
   }
-  RelationDirection direction = 4;
+  RelationDirection direction = 5;
 }
 
 message PageRequest {

@@ -53,19 +53,11 @@ service EventNotificationService {
 }
 
 
-enum ResourceVariant {
-  RESOURCE_VARIANT_UNSPECIFIED = 0;
-  RESOURCE_VARIANT_PROJECT = 1;
-  RESOURCE_VARIANT_COLLECTION = 2;
-  RESOURCE_VARIANT_DATASET = 3;
-  RESOURCE_VARIANT_OBJECT = 4;
-}
-
-
 message Resource{
   string resource_id = 1;
   string resource_name = 2;
-  ResourceVariant resource_variant = 3;
+  string associated_id = 3;
+  storage.models.v2.ResourceVariant resource_variant = 4;
 }
 
 message StreamTarget {
