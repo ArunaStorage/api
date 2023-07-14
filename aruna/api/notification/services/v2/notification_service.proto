@@ -53,7 +53,7 @@ service EventNotificationService {
 }
 
 
-message Resource{
+message Resource {
   string resource_id = 1;
   string resource_name = 2;
   string associated_id = 3;
@@ -221,6 +221,10 @@ message NewVersion {
   string new_version = 3;
 }
 
+message NewPubkey {
+  string pubkey = 1;
+}
+
 message AnouncementEvent {
   oneof event_variant {
     DataproxyInfo new_data_proxy = 1;
@@ -228,6 +232,7 @@ message AnouncementEvent {
     DataproxyInfo update_data_proxy = 3;
     ScheduledDowntime downtime = 4;
     NewVersion version = 5;
+    NewPubkey pubkey = 6;
   }
   Reply reply = 6;
 }
