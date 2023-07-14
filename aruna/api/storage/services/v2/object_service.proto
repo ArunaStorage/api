@@ -226,7 +226,7 @@ message UpdateObjectRequest {
   // key_values to remove
   repeated storage.models.v2.KeyValue remove_key_values = 5;
   // New DataClass
-  optional storage.models.v2.DataClass data_class = 7;
+  storage.models.v2.DataClass data_class = 7;
   // Parent can be one of all other resources
   oneof parent {
     string project_id = 8;

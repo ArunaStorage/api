@@ -151,7 +151,7 @@ message Token {
   google.protobuf.Timestamp created_at = 4;
   google.protobuf.Timestamp expires_at = 5;
   // Tokens can either be personal or resource "specific"
-  optional Permission permission = 6;
+  Permission permission = 6;
   google.protobuf.Timestamp used_at = 7;
 }
 
@@ -239,7 +239,7 @@ message Endpoint {
 // ------ Resources ----------
 
 message GenericResource {
-  oneof resource {
+  oneof GenericResource {
     Project project = 1;
     Collection collection = 2;
     Dataset dataset = 3;

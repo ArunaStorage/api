@@ -151,7 +151,7 @@ enum UserEventType {
 
 message Token {
   string id = 1;
-  optional aruna.api.storage.models.v2.Permission permission = 2;
+  aruna.api.storage.models.v2.Permission permission = 2;
 }
 
 message UserEventContext {
@@ -174,7 +174,7 @@ message EventMessage {
 message ResourceEvent {
   Resource resource = 1;
   ResourceEventType event_type = 2;
-  optional ResourceEventContext context = 3;
+  ResourceEventContext context = 3;
   Reply reply = 4;
 }
 
@@ -182,7 +182,7 @@ message UserEvent {
   string user_id = 1;
   string user_name = 2;
   UserEventType event_type = 3;
-  optional UserEventContext context = 4;
+  UserEventContext context = 4;
   Reply reply = 5;
 }
 
