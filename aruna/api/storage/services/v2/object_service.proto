@@ -197,14 +197,16 @@ message CompletedParts {
 message FinishObjectStagingRequest {
   // ObjectId
   string object_id = 1;
+  // Final content len 
+  int64 content_len = 2;
   // Hash of the uploaded data - used to verify the data integrity.
   // This supports multiple hashing algorithms.
-  repeated storage.models.v2.Hash hashes = 2;
+  repeated storage.models.v2.Hash hashes = 3;
 
   // If the upload was multipart, this is the list of parts that were uploaded.
   // Should be empty if the upload was not multipart.
   // (optional)
-  repeated CompletedParts completed_parts = 3;
+  repeated CompletedParts completed_parts = 4;
 }
 
 message FinishObjectStagingResponse {
