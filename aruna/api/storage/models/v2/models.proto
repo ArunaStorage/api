@@ -239,7 +239,7 @@ message Endpoint {
 // ------ Resources ----------
 
 message GenericResource {
-  oneof GenericResource {
+  oneof resource {
     Project project = 1;
     Collection collection = 2;
     Dataset dataset = 3;
