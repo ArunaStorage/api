@@ -234,5 +234,5 @@ message AnouncementEvent {
     NewVersion version = 5;
     NewPubkey pubkey = 6;
   }
-  Reply reply = 6;
+  Reply reply = 7;
 }
