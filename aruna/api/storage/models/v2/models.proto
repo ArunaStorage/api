@@ -119,11 +119,16 @@ enum ResourceVariant {
 
 // ------------- USERS & PERMISSIONS -----------------------
 
+message ExternalId {
+  string external_id = 1;
+  string idp = 2;
+}
+
 message User {
   // Internal Aruna UserID
   string id = 1;
   // Oidc subject ID
-  repeated string external_id = 2;
+  repeated ExternalId external_ids = 2;
   // (optional) User display_name
   string display_name = 3;
   // Is the user activated
@@ -164,8 +169,9 @@ message CustomAttributes {
 message UserAttributes {
   bool global_admin = 1;
   bool service_account = 2;
-  repeated CustomAttributes custom_attributes = 3; 
-  repeated Permission personal_permissions = 4;
+  repeated Token tokens = 3;
+  repeated CustomAttributes custom_attributes = 4; 
+  repeated Permission personal_permissions = 5;
 }
 
 // --------------- RELATION / KEYVALUES -------------------

@@ -38,6 +38,13 @@ service StorageStatusService {
       get : "/v2/info/status"
     };
   }
+
+
+  rpc GetPubkeys(GetPubkeysRequest) returns (GetPubkeysResponse) {
+    option (google.api.http) = {
+      get : "/v2/info/pubkeys"
+    };
+  }
 }
 
 
@@ -89,4 +96,16 @@ message ComponentStatus {
 message GetStorageStatusResponse {
   // List of all locations and their component / status
   repeated LocationStatus location_status = 1;
+}
+
+message GetPubkeysRequest {}
+
+message Pubkey {
+  int32 id = 1;
+  string key = 2;
+  string location = 3;
+}
+
+message GetPubkeysResponse {
+  repeated Pubkey pubkeys = 1;
 }

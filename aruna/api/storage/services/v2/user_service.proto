@@ -123,6 +123,19 @@ service UserService {
     };
   }
 
+  // GetUserRequestRedacted
+  //
+  // Status: STABLE
+  //
+  // This is a request that returns the user information of the
+  // current user or if invoked by an admin from another user
+  // Redacts personal information like name or email
+  rpc GetUserRedacted(GetUserRedactedRequest) returns (GetUserRedactedResponse) {
+    option (google.api.http) = {
+      get : "/v2/user/redacted"
+    };
+  }
+
   // UpdateUserDisplayName
   //
   // Status: STABLE
@@ -260,6 +273,16 @@ message GetUserRequest {
 }
 
 message GetUserResponse {
+  // User info
+  storage.models.v2.User user = 1;
+}
+
+message GetUserRedactedRequest {
+  // Optional user_id
+  string user_id = 1;
+}
+
+message GetUserRedactedResponse {
   // User info
   storage.models.v2.User user = 1;
 }

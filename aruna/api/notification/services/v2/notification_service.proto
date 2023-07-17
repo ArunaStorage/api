@@ -55,8 +55,8 @@ service EventNotificationService {
 
 message Resource {
   string resource_id = 1;
-  string resource_name = 2;
-  string associated_id = 3;
+  string associated_id = 2;
+  bool persistent_resource_id = 3;
   storage.models.v2.ResourceVariant resource_variant = 4;
 }
 
@@ -118,49 +118,12 @@ message StreamFromDate { google.protobuf.Timestamp timestamp = 1; }
 
 message StreamAll {}
 
-enum ResourceEventType {
-  RESOURCE_EVENT_TYPE_UNSPECIFIED = 0;
-  RESOURCE_EVENT_TYPE_CREATED = 1;
-  RESOURCE_EVENT_TYPE_AVAILABLE = 2;
-  RESOURCE_EVENT_TYPE_UPDATED = 3;
-  RESOURCE_EVENT_TYPE_DELETED = 4;
-}
-
-message RelationUpdate {
-  repeated storage.models.v2.Relation add_relations = 2;
-  repeated storage.models.v2.Relation remove_relations = 3;
-}
-
-message Fields {
-  repeated string updated_fields = 1;
-}
-
-message ResourceEventContext {
-  oneof event {
-    Fields updated_fields = 1;
-    RelationUpdate relation_updates = 2;
-    string custom_context = 3;
-  }
-}
-enum UserEventType {
-  USER_EVENT_TYPE_UNSPECIFIED = 0;
-  USER_EVENT_TYPE_CREATED = 1;
-  USER_EVENT_TYPE_UPDATED = 2;
-  USER_EVENT_TYPE_DELETED = 3;
-}
-
-message Token {
-  string id = 1;
-  aruna.api.storage.models.v2.Permission permission = 2;
-}
-
-message UserEventContext {
-  oneof event {
-    string updated_field = 1;
-    bool admin = 2;
-    Token token = 3;
-    aruna.api.storage.models.v2.Permission permission = 4;
-  }
+enum EventVariant {
+  EVENT_VARIANT_UNSPECIFIED = 0;
+  EVENT_VARIANT_CREATED = 1;
+  EVENT_VARIANT_AVAILABLE = 2;
+  EVENT_VARIANT_UPDATED = 3;
+  EVENT_VARIANT_DELETED = 4;
 }
 
 message EventMessage {
@@ -173,39 +136,20 @@ message EventMessage {
 
 message ResourceEvent {
   Resource resource = 1;
-  ResourceEventType event_type = 2;
-  ResourceEventContext context = 3;
-  Reply reply = 4;
+  EventVariant event_variant = 2;
+  Reply reply = 3;
 }
 
 message UserEvent {
   string user_id = 1;
-  string user_name = 2;
-  UserEventType event_type = 3;
-  UserEventContext context = 4;
-  Reply reply = 5;
+  EventVariant event_variant = 2;
+  Reply reply = 3;
 }
 
 message Reply {
   string reply = 1;
   string salt = 2;
   string hmac = 3;
-}
-
-
-
-message DataproxyInfo {
-    string endpoint_id = 1;
-    // Endpoint name
-    string name = 2;
-    // Endpoint type
-    storage.models.v2.EndpointVariant ep_variant = 3;
-    // Is this endpoint public
-    bool is_public = 4;
-    // required public_key
-    string pubkey = 5;
-    // url
-    string url = 6;
 }
 
 message ScheduledDowntime {
@@ -227,12 +171,13 @@ message NewPubkey {
 
 message AnouncementEvent {
   oneof event_variant {
-    DataproxyInfo new_data_proxy = 1;
-    DataproxyInfo remove_data_proxy = 2;
-    DataproxyInfo update_data_proxy = 3;
-    ScheduledDowntime downtime = 4;
-    NewVersion version = 5;
-    NewPubkey pubkey = 6;
+    string new_data_proxy_id = 1;
+    string remove_data_proxy_id = 2;
+    string update_data_proxy_id = 3;
+    bool new_pubkey = 4;
+    bool remove_pubkey = 5;
+    ScheduledDowntime downtime = 6;
+    NewVersion version = 7;
   }
-  Reply reply = 7;
+  Reply reply = 8;
 }
