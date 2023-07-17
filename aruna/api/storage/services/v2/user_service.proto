@@ -123,13 +123,14 @@ service UserService {
     };
   }
 
-  // GetUserRequest
+  // GetUserRequestRedacted
   //
   // Status: STABLE
   //
   // This is a request that returns the user information of the
   // current user or if invoked by an admin from another user
-  rpc GetUser(GetUserRedactedRequest) returns (GetUserRedactedResponse) {
+  // Redacts personal information like name or email
+  rpc GetUserRedacted(GetUserRedactedRequest) returns (GetUserRedactedResponse) {
     option (google.api.http) = {
       get : "/v2/user/redacted"
     };
