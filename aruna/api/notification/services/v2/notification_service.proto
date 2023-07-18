@@ -57,7 +57,8 @@ message Resource {
   string resource_id = 1;
   string associated_id = 2;
   bool persistent_resource_id = 3;
-  storage.models.v2.ResourceVariant resource_variant = 4;
+  string resource_hash = 4;
+  storage.models.v2.ResourceVariant resource_variant = 5;
 }
 
 message StreamTarget {
@@ -79,10 +80,10 @@ message CreateStreamConsumerRequest {
   };
 }
 
-message CreateStreamConsumerResponse { string stream_group_id = 1; }
+message CreateStreamConsumerResponse { string stream_consumer = 1; }
 
 message GetEventMessageBatchRequest {
-  string stream_group_id = 1;
+  string stream_consumer = 1;
   uint32 batch_size = 2;
 }
 
@@ -91,7 +92,7 @@ message GetEventMessageBatchResponse {
 }
 
 message GetEventMessageBatchStreamRequest {
-  string stream_group_id = 1;
+  string stream_consumer = 1;
   uint32 batch_size = 2;
 }
 
@@ -107,7 +108,7 @@ message AcknowledgeMessageBatchResponse {}
 
 
 message DeleteEventStreamingGroupRequest {
-    string stream_group_id = 1;
+    string stream_consumer = 1;
 }
 
 message DeleteEventStreamingGroupResponse {}
