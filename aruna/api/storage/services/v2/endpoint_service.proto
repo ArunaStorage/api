@@ -30,15 +30,14 @@ service EndpointService {
   }
 
 
-  // OnboardEndpoint
+  // FullSyncEndpoint
   //
   // Status: BETA
   //
-  // Registers a new Endpoint (Aruna DataProxy) to the server
-  // Needs admin permissions
-  rpc OnboardEndpoint(OnboardEndpointRequest) returns (OnboardEndpointResponse) {
+  // Requests a full sync of all endpoint related data
+  rpc FullSyncEndpoint(FullSyncRequest) returns (FullSyncResponse) {
     option (google.api.http) = {
-      get : "/v2/endpoint/onboard"
+      get : "/v2/endpoint/sync"
     };
   }
 
@@ -108,9 +107,9 @@ message CreateEndpointResponse {
   storage.models.v2.Endpoint endpoint = 1;
 }
 
-message OnboardEndpointRequest {}
+message FullSyncRequest {}
 
-message OnboardEndpointResponse {
+message FullSyncResponse {
   string url = 1;
 }
 
