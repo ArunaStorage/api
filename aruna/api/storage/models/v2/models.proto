@@ -52,6 +52,7 @@ enum ExternalRelationVariant {
   EXTERNAL_RELATION_VARIANT_UNSPECIFIED = 0;
   EXTERNAL_RELATION_VARIANT_URL = 1;
   EXTERNAL_RELATION_VARIANT_IDENTIFIER = 2;
+  EXTERNAL_RELATION_VARIANT_CUSTOM = 3;
 }
 
 // InternalRelations
@@ -59,9 +60,10 @@ enum InternalRelationVariant {
   INTERNAL_RELATION_VARIANT_UNSPECIFIED = 0;
   INTERNAL_RELATION_VARIANT_BELONGS_TO = 1;
   INTERNAL_RELATION_VARIANT_ORIGIN = 2;
-  INTERNAL_RELATION_VARIANT_DERIVED = 3;
+  INTERNAL_RELATION_VARIANT_VERSION = 3;
   INTERNAL_RELATION_VARIANT_METADATA = 4;
   INTERNAL_RELATION_VARIANT_POLICY = 5;
+  INTERNAL_RELATION_VARIANT_CUSTOM = 6;
 }
 
 // internal object relation type (direction)
@@ -192,19 +194,17 @@ message Relation {
 
 message ExternalRelation {
   string identifier = 1;
-  oneof variant {
-    ExternalRelationVariant defined_variant = 2;
-    string custom_variant = 3;
-  }
+  ExternalRelationVariant defined_variant = 2;
+  // Will only be filled if defined_variant == CUSTOM
+  optional string custom_variant = 3;
 }
 
 message InternalRelation {
   string resource_id = 1;
   ResourceVariant resource_variant = 2;
-  oneof variant {
-    InternalRelationVariant defined_variant = 3;
-    string custom_variant = 4;
-  }
+  InternalRelationVariant defined_variant = 3;
+  // Will only be filled if defined_variant == CUSTOM
+  optional string custom_variant = 4;
   RelationDirection direction = 5;
 }
 
