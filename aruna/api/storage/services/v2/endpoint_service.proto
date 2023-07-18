@@ -35,7 +35,7 @@ service EndpointService {
   // Status: BETA
   //
   // Requests a full sync of all endpoint related data
-  rpc FullSyncEndpoint(FullSyncRequest) returns (FullSyncResponse) {
+  rpc FullSyncEndpoint(FullSyncEndpointRequest) returns (FullSyncEndpointResponse) {
     option (google.api.http) = {
       get : "/v2/endpoint/sync"
     };
@@ -107,9 +107,9 @@ message CreateEndpointResponse {
   storage.models.v2.Endpoint endpoint = 1;
 }
 
-message FullSyncRequest {}
+message FullSyncEndpointRequest {}
 
-message FullSyncResponse {
+message FullSyncEndpointResponse {
   string url = 1;
 }
 
