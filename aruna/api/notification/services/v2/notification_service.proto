@@ -57,32 +57,34 @@ message Resource {
   string resource_id = 1;
   string associated_id = 2;
   bool persistent_resource_id = 3;
-  storage.models.v2.ResourceVariant resource_variant = 4;
+  string checksum = 4;
+  storage.models.v2.ResourceVariant resource_variant = 5;
 }
 
-message StreamTarget {
+message ResourceTarget {
+  string resource_id = 1;
+  storage.models.v2.ResourceVariant resource_variant = 2;
+}
+
+message CreateStreamConsumerRequest {
   oneof target {
-    Resource resource = 1;
+    ResourceTarget resource = 1;
     bool user = 2;
     bool anouncements = 3;
     bool all = 4;
   }
-}
-
-message CreateStreamConsumerRequest {
-  StreamTarget target = 1;
-  bool include_subresources = 2;
+  bool include_subresources = 5;
   oneof stream_type {
-    StreamAll stream_all = 3;
-    StreamFromDate stream_from_date = 4;
-    StreamFromSequence stream_from_sequence = 5;
+    StreamAll stream_all = 6;
+    StreamFromDate stream_from_date = 7;
+    StreamFromSequence stream_from_sequence = 8;
   };
 }
 
-message CreateStreamConsumerResponse { string stream_group_id = 1; }
+message CreateStreamConsumerResponse { string stream_consumer = 1; }
 
 message GetEventMessageBatchRequest {
-  string stream_group_id = 1;
+  string stream_consumer = 1;
   uint32 batch_size = 2;
 }
 
@@ -91,7 +93,7 @@ message GetEventMessageBatchResponse {
 }
 
 message GetEventMessageBatchStreamRequest {
-  string stream_group_id = 1;
+  string stream_consumer = 1;
   uint32 batch_size = 2;
 }
 
@@ -107,7 +109,7 @@ message AcknowledgeMessageBatchResponse {}
 
 
 message DeleteEventStreamingGroupRequest {
-    string stream_group_id = 1;
+    string stream_consumer = 1;
 }
 
 message DeleteEventStreamingGroupResponse {}
@@ -143,7 +145,8 @@ message ResourceEvent {
 message UserEvent {
   string user_id = 1;
   EventVariant event_variant = 2;
-  Reply reply = 3;
+  string checksum = 3;
+  Reply reply = 4;
 }
 
 message Reply {
