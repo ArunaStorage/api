@@ -69,7 +69,7 @@ message ResourceTarget {
 message CreateStreamConsumerRequest {
   oneof target {
     ResourceTarget resource = 1;
-    bool user = 2;
+    string user = 2;
     bool anouncements = 3;
     bool all = 4;
   }
