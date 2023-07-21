@@ -198,6 +198,19 @@ service UserService {
     };
   }
 
+
+  // GetDataproxyToken
+  //
+  // Status: ALPHA
+  //
+  // Gets s3 credentials for a specific user and data_proxy
+  rpc GetDataproxyToken(GetDataproxyTokenRequest)
+      returns (GetDataproxyTokenResponse) {
+    option (google.api.http) = {
+      get : "/v2/user/{user_id}/proxy_token"
+    };
+  }
+
 }
 
 message RegisterUserRequest {
@@ -346,4 +359,14 @@ message GetS3CredentialsResponse {
   string s3_access_key = 1;
   string s3_secret_key = 2;
   string s3_endpoint_url = 3;
+}
+
+
+message GetDataproxyTokenRequest {
+  string user_id = 1;
+  string endpoint_id = 2;
+}
+
+message GetDataproxyTokenResponse {
+  string token = 1;
 }
