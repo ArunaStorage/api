@@ -203,7 +203,7 @@ service UserService {
   //
   // Status: ALPHA
   //
-  // Gets s3 credentials for a specific user and data_proxy
+  // Gets token for a specific user and data_proxy
   rpc GetDataproxyToken(GetDataproxyTokenRequest)
       returns (GetDataproxyTokenResponse) {
     option (google.api.http) = {

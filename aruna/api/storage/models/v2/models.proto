@@ -120,17 +120,11 @@ enum ResourceVariant {
 }
 
 // ------------- USERS & PERMISSIONS -----------------------
-
-message ExternalId {
-  string external_id = 1;
-  string idp = 2;
-}
-
 message User {
   // Internal Aruna UserID
   string id = 1;
   // Oidc subject ID
-  repeated ExternalId external_ids = 2;
+  string external_id = 2;
   // (optional) User display_name
   string display_name = 3;
   // Is the user activated
