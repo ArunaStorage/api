@@ -16,9 +16,9 @@ import "aruna/api/storage/models/v2/models.proto";
 // A service to receive events in the AOS storage
 service EventNotificationService {
 
-  // CreateEventStreamingGroup
+  // CreateStreamConsumer
   //
-  // Creates a new EventStreamingGroup
+  // Creates a new event stream consumer.
   rpc CreateStreamConsumer(CreateStreamConsumerRequest)
       returns (CreateStreamConsumerResponse) {}
 
@@ -47,9 +47,9 @@ service EventNotificationService {
 
   // DeleteEventStreamingGroup
   //
-  // Deletes a existing EventStreamingGroup by ID
-  rpc DeleteEventStreamingGroup(DeleteEventStreamingGroupRequest)
-      returns (DeleteEventStreamingGroupResponse) {}
+  // Deletes an existing event stream consumer by ID.
+  rpc DeleteStreamConsumer(DeleteStreamConsumerRequest)
+      returns (DeleteStreamConsumerResponse) {}
 }
 
 
@@ -108,11 +108,11 @@ message AcknowledgeMessageBatchRequest {
 message AcknowledgeMessageBatchResponse {}
 
 
-message DeleteEventStreamingGroupRequest {
+message DeleteStreamConsumerRequest {
     string stream_consumer = 1;
 }
 
-message DeleteEventStreamingGroupResponse {}
+message DeleteStreamConsumerResponse {}
 
 message StreamFromSequence { uint64 sequence = 1; }
 
