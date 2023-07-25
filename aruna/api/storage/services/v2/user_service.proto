@@ -191,8 +191,8 @@ service UserService {
   // Status: ALPHA
   //
   // Gets s3 credentials for a specific user and data_proxy
-  rpc GetS3Credentials(GetS3CredentialsRequest)
-      returns (GetS3CredentialsResponse) {
+  rpc GetS3CredentialsUser(GetS3CredentialsUserRequest)
+      returns (GetS3CredentialsUserResponse) {
     option (google.api.http) = {
       get : "/v2/user/{user_id}/s3_credentials"
     };
@@ -204,8 +204,8 @@ service UserService {
   // Status: ALPHA
   //
   // Gets token for a specific user and data_proxy
-  rpc GetDataproxyToken(GetDataproxyTokenRequest)
-      returns (GetDataproxyTokenResponse) {
+  rpc GetDataproxyTokenUser(GetDataproxyTokenUserRequest)
+      returns (GetDataproxyTokenUserResponse) {
     option (google.api.http) = {
       get : "/v2/user/{user_id}/proxy_token"
     };
@@ -350,23 +350,23 @@ message UpdateUserEmailResponse {
   storage.models.v2.User user = 1;
 }
 
-message GetS3CredentialsRequest {
+message GetS3CredentialsUserRequest {
   string user_id = 1;
   string endpoint_id = 2;
 }
 
-message GetS3CredentialsResponse {
+message GetS3CredentialsUserResponse {
   string s3_access_key = 1;
   string s3_secret_key = 2;
   string s3_endpoint_url = 3;
 }
 
 
-message GetDataproxyTokenRequest {
+message GetDataproxyTokenUserRequest {
   string user_id = 1;
   string endpoint_id = 2;
 }
 
-message GetDataproxyTokenResponse {
+message GetDataproxyTokenUserResponse {
   string token = 1;
 }
