@@ -151,7 +151,7 @@ message Token {
   google.protobuf.Timestamp created_at = 3;
   google.protobuf.Timestamp expires_at = 4;
   // Tokens can either be personal or resource "specific"
-  Permission permission = 6;
+  Permission permission = 5;
 }
 
 
@@ -162,7 +162,7 @@ message CustomAttributes {
 
 message UserAttributes {
   bool global_admin = 1;
-  string svc_account_project = 2;
+  bool service_account = 2;
   repeated Token tokens = 3;
   repeated CustomAttributes custom_attributes = 4; 
   repeated Permission personal_permissions = 5;
