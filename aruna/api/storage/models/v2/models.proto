@@ -234,6 +234,21 @@ message Endpoint {
   repeated EndpointHostConfig host_configs = 6;
 }
 
+
+message Copy {
+  string resource = 1;
+  string target_endpoint = 2;
+  bool push = 3;
+}
+
+message Context {
+  oneof context {
+    bool s3_credentials = 1;
+    Copy copy = 2;
+  }
+}
+
+
 // ------ Resources ----------
 
 message GenericResource {
