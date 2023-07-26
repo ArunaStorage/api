@@ -361,10 +361,24 @@ message GetS3CredentialsUserResponse {
   string s3_endpoint_url = 3;
 }
 
+message Copy {
+  string resource = 1;
+  string target_endpoint = 2;
+  bool push = 3;
+}
+
+message Context {
+  oneof context {
+    bool s3_credentials = 1;
+    Copy copy = 2;
+  }
+}
+
 
 message GetDataproxyTokenUserRequest {
   string user_id = 1;
   string endpoint_id = 2;
+  Context context = 3;
 }
 
 message GetDataproxyTokenUserResponse {
