@@ -30,8 +30,8 @@ service RelationsService {
   // Status: BETA
   //
   // Gets all downstream hierarchy relations from a resource
-  rpc GetHierachy(GetHierachyRequest)
-    returns (GetHierachyResponse) {
+  rpc GetHierarchy(GetHierarchyRequest)
+    returns (GetHierarchyResponse) {
       option (google.api.http) = {
         get : "/v2/relation/hierarchy"
     };
@@ -46,7 +46,7 @@ message ModifyRelationsRequest {
 
 message ModifyRelationsResponse {}
 
-message GetHierachyRequest {
+message GetHierarchyRequest {
     string resource_id = 1;
 }
 
@@ -68,7 +68,7 @@ message ProjectRelations {
     repeated string object_children = 4;
 }
 
-message GetHierachyResponse {
+message GetHierarchyResponse {
     oneof graph {
         ProjectRelations project = 1;
         CollectionRelations collection = 2;

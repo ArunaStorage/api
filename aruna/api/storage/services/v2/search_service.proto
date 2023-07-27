@@ -22,12 +22,24 @@ service SearchService {
       };
     }
 
+    // GetPublicResource
+    //
+    // Status: BETA
+    //
+    // Retrieves a public resource by its ID.
+    rpc GetPublicResource(GetPublicResourceRequest) returns (GetPublicResourceResponse){
+      option (google.api.http) = {
+        get : "/v2/public/{resource_id}"
+      };
+    }
+
 }
 
 message SearchResourcesRequest {
     string query = 1;
     string filter = 2;
-    int64 offset = 3;
+    int64 limit = 3;
+    int64 offset = 4;
 }
 
 
@@ -38,4 +50,12 @@ message SearchResourcesResponse {
     int64 estimated_total = 2;
     // The last index returned
     int64 last_index = 3;
+}
+
+message GetPublicResourceRequest {
+  string resource_id = 1;
+}
+
+message GetPublicResourceResponse {
+  storage.models.v2.GenericResource resources = 1;
 }

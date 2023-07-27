@@ -186,17 +186,31 @@ service UserService {
     };
   }
 
-  // MergeUserAccount
+  // GetS3Credentials
   //
   // Status: ALPHA
   //
-  // Get all users including permissions (Admin only)
-  rpc MergeUserAccount(MergeUserAccountRequest)
-      returns (MergeUserAccountResponse) {
+  // Gets s3 credentials for a specific user and data_proxy
+  rpc GetS3CredentialsUser(GetS3CredentialsUserRequest)
+      returns (GetS3CredentialsUserResponse) {
     option (google.api.http) = {
-      get : "/v2/user/{user_id}/merge/{from_user_id}"
+      get : "/v2/user/{user_id}/s3_credentials"
     };
   }
+
+
+  // GetDataproxyToken
+  //
+  // Status: ALPHA
+  //
+  // Gets token for a specific user and data_proxy
+  rpc GetDataproxyTokenUser(GetDataproxyTokenUserRequest)
+      returns (GetDataproxyTokenUserResponse) {
+    option (google.api.http) = {
+      get : "/v2/user/{user_id}/proxy_token"
+    };
+  }
+
 }
 
 message RegisterUserRequest {
@@ -336,11 +350,23 @@ message UpdateUserEmailResponse {
   storage.models.v2.User user = 1;
 }
 
-message MergeUserAccountRequest {
+message GetS3CredentialsUserRequest {
   string user_id = 1;
-  string from_user_id = 2;
+  string endpoint_id = 2;
 }
 
-message MergeUserAccountResponse {
-  storage.models.v2.User user = 1;
+message GetS3CredentialsUserResponse {
+  string s3_access_key = 1;
+  string s3_secret_key = 2;
+  string s3_endpoint_url = 3;
+}
+
+message GetDataproxyTokenUserRequest {
+  string user_id = 1;
+  string endpoint_id = 2;
+  storage.models.v2.Context context = 3;
+}
+
+message GetDataproxyTokenUserResponse {
+  string token = 1;
 }

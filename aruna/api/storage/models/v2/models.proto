@@ -120,17 +120,11 @@ enum ResourceVariant {
 }
 
 // ------------- USERS & PERMISSIONS -----------------------
-
-message ExternalId {
-  string external_id = 1;
-  string idp = 2;
-}
-
 message User {
   // Internal Aruna UserID
   string id = 1;
   // Oidc subject ID
-  repeated ExternalId external_ids = 2;
+  string external_id = 2;
   // (optional) User display_name
   string display_name = 3;
   // Is the user activated
@@ -154,12 +148,10 @@ message Permission {
 message Token {
   string id = 1;
   string name = 2;
-  string user_id = 3;
-  google.protobuf.Timestamp created_at = 4;
-  google.protobuf.Timestamp expires_at = 5;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp expires_at = 4;
   // Tokens can either be personal or resource "specific"
-  Permission permission = 6;
-  google.protobuf.Timestamp used_at = 7;
+  Permission permission = 5;
 }
 
 
@@ -241,6 +233,21 @@ message Endpoint {
   ComponentStatus status = 5;
   repeated EndpointHostConfig host_configs = 6;
 }
+
+
+message Copy {
+  string resource = 1;
+  string target_endpoint = 2;
+  bool push = 3;
+}
+
+message Context {
+  oneof context {
+    bool s3_credentials = 1;
+    Copy copy = 2;
+  }
+}
+
 
 // ------ Resources ----------
 
