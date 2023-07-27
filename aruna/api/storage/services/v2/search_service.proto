@@ -38,7 +38,8 @@ service SearchService {
 message SearchResourcesRequest {
     string query = 1;
     string filter = 2;
-    int64 offset = 3;
+    int64 limit = 3;
+    int64 offset = 4;
 }
 
 
