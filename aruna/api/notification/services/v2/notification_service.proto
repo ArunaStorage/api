@@ -55,10 +55,9 @@ service EventNotificationService {
 
 message Resource {
   string resource_id = 1;
-  string associated_id = 2;
-  bool persistent_resource_id = 3;
-  string checksum = 4;
-  storage.models.v2.ResourceVariant resource_variant = 5;
+  bool persistent_resource_id = 2;
+  string checksum = 3;
+  storage.models.v2.ResourceVariant resource_variant = 4;
 }
 
 message ResourceTarget {
