@@ -25,18 +25,18 @@ service EventNotificationService {
   // GetEventMessageBatch
   //
   // Reads a set of messages from a given stream group 
-  // Each message contains a separate acknowledgement message thatis protected by a salt and an hmac for verification
-  // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message
+  // Each message contains a separate acknowledgement message thatis protected by a salt and an hmac for verification.
+  // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message.
   rpc GetEventMessageBatch(GetEventMessageBatchRequest) 
       returns (GetEventMessageBatchResponse) {}
 
   // GetEventMessageBatch
   //
-  // Reads a set of messages from a given stream group
-  // Each message contains a separate acknowledgement message that is protected by a salt and an hmac for verification
-  // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message
-  rpc GetEventMessageBatchStream(GetEventMessageBatchStreamRequest) 
-      returns (stream GetEventMessageBatchStreamResponse) {}
+  // Opens a stream which pushes each received notification individual and just-in-time.
+  // Each message contains a separate acknowledgement message that is protected by a salt and an hmac for verification.
+  // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message.
+  rpc GetEventMessageStream(GetEventMessageStreamRequest) 
+      returns (stream GetEventMessageStreamResponse) {}
 
   // AcknowledgeMessageBatch
   //
@@ -91,13 +91,12 @@ message GetEventMessageBatchResponse {
   repeated EventMessage messages = 1;
 }
 
-message GetEventMessageBatchStreamRequest {
+message GetEventMessageStreamRequest {
   string stream_consumer = 1;
-  uint32 batch_size = 2;
 }
 
-message GetEventMessageBatchStreamResponse {
-  repeated EventMessage messages = 1;
+message GetEventMessageStreamResponse {
+  EventMessage messages = 1;
 }
 
 message AcknowledgeMessageBatchRequest {
