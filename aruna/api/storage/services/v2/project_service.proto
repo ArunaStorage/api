@@ -168,8 +168,6 @@ message CreateProjectRequest {
 message CreateProjectResponse {
   // The freshly created project 
   storage.models.v2.Project project = 1;
-  // Endpoint the project was registered
-  string endpoint_id = 2;
 }
 
 message GetProjectRequest {

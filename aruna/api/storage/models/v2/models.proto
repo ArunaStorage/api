@@ -275,6 +275,7 @@ message Project {
   string created_by = 9;
   Status status = 10;
   bool dynamic = 11;
+  repeated string endpoints = 12;
 }
 
 
@@ -292,6 +293,7 @@ message Collection {
   string created_by = 9;
   Status status = 10;
   bool dynamic = 11;
+  repeated string endpoints = 12;
 }
 
 message Dataset {
@@ -308,6 +310,7 @@ message Dataset {
   string created_by = 9;
   Status status = 10;
   bool dynamic = 11;
+  repeated string endpoints = 12;
 }
 
 message Object {
@@ -324,6 +327,7 @@ message Object {
   string created_by = 9;
   Status status = 10;
   bool dynamic = 11;
+  repeated string endpoints = 12;
   // Object specific attributes
-  repeated Hash hashes = 12;  
+  repeated Hash hashes = 13;  
 }
