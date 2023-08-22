@@ -24,19 +24,19 @@ service EventNotificationService {
 
   // GetEventMessageBatch
   //
-  // Reads a set of messages from a given stream group
-  // Each message contains a separate acknowledgement message that is protected by a salt and an hmac for verification
-  // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message
+  // Reads a set of messages from a given stream group 
+  // Each message contains a separate acknowledgement message thatis protected by a salt and an hmac for verification.
+  // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message.
   rpc GetEventMessageBatch(GetEventMessageBatchRequest) 
       returns (GetEventMessageBatchResponse) {}
 
   // GetEventMessageBatch
   //
-  // Reads a set of messages from a given stream group
-  // Each message contains a separate acknowledgement message that is protected by a salt and an hmac for verification
-  // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message
-  rpc GetEventMessageBatchStream(GetEventMessageBatchStreamRequest) 
-      returns (stream GetEventMessageBatchStreamResponse) {}
+  // Opens a stream which pushes each received notification individual and just-in-time.
+  // Each message contains a separate acknowledgement message that is protected by a salt and an hmac for verification.
+  // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message.
+  rpc GetEventMessageStream(GetEventMessageStreamRequest) 
+      returns (stream GetEventMessageStreamResponse) {}
 
   // AcknowledgeMessageBatch
   //
@@ -55,10 +55,9 @@ service EventNotificationService {
 
 message Resource {
   string resource_id = 1;
-  string associated_id = 2;
-  bool persistent_resource_id = 3;
-  string checksum = 4;
-  storage.models.v2.ResourceVariant resource_variant = 5;
+  bool persistent_resource_id = 2;
+  string checksum = 3;
+  storage.models.v2.ResourceVariant resource_variant = 4;
 }
 
 message ResourceTarget {
@@ -92,13 +91,12 @@ message GetEventMessageBatchResponse {
   repeated EventMessage messages = 1;
 }
 
-message GetEventMessageBatchStreamRequest {
+message GetEventMessageStreamRequest {
   string stream_consumer = 1;
-  uint32 batch_size = 2;
 }
 
-message GetEventMessageBatchStreamResponse {
-  repeated EventMessage messages = 1;
+message GetEventMessageStreamResponse {
+  EventMessage messages = 1;
 }
 
 message AcknowledgeMessageBatchRequest {
@@ -177,8 +175,8 @@ message AnouncementEvent {
     string new_data_proxy_id = 1;
     string remove_data_proxy_id = 2;
     string update_data_proxy_id = 3;
-    bool new_pubkey = 4;
-    bool remove_pubkey = 5;
+    int32 new_pubkey = 4;
+    int32 remove_pubkey = 5;
     ScheduledDowntime downtime = 6;
     NewVersion version = 7;
   }

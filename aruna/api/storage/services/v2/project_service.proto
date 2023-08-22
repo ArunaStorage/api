@@ -161,6 +161,8 @@ message CreateProjectRequest {
   repeated storage.models.v2.ExternalRelation external_relations = 4;
   // DataClass
   storage.models.v2.DataClass data_class = 5;
+  // Preferred endpoint
+  string preferred_endpoint = 6;
 }
 
 message CreateProjectResponse {
