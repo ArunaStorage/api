@@ -235,6 +235,12 @@ message Endpoint {
   repeated EndpointHostConfig host_configs = 6;
 }
 
+message DataEndpoint {
+  string id = 1;
+  // Hint if the objects' project 
+  // is fully synced to the endpoint
+  bool full_synced = 2;
+}
 
 message Copy {
   string resource = 1;
@@ -275,7 +281,7 @@ message Project {
   string created_by = 9;
   Status status = 10;
   bool dynamic = 11;
-  repeated string endpoints = 12;
+  repeated DataEndpoint endpoints = 12;
 }
 
 
@@ -293,7 +299,7 @@ message Collection {
   string created_by = 9;
   Status status = 10;
   bool dynamic = 11;
-  repeated string endpoints = 12;
+  repeated DataEndpoint endpoints = 12;
 }
 
 message Dataset {
@@ -310,7 +316,7 @@ message Dataset {
   string created_by = 9;
   Status status = 10;
   bool dynamic = 11;
-  repeated string endpoints = 12;
+  repeated DataEndpoint endpoints = 12;
 }
 
 message Object {
@@ -327,7 +333,7 @@ message Object {
   string created_by = 9;
   Status status = 10;
   bool dynamic = 11;
-  repeated string endpoints = 12;
+  repeated DataEndpoint endpoints = 12;
   // Object specific attributes
   repeated Hash hashes = 13;  
 }
