@@ -154,6 +154,11 @@ message Token {
   Permission permission = 5;
 }
 
+message Pubkey {
+  int32 id = 1;
+  string key = 2;
+  string location = 3;
+}
 
 message CustomAttributes {
   string attribute_name = 1;
