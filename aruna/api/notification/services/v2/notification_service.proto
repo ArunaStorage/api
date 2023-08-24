@@ -96,7 +96,7 @@ message GetEventMessageStreamRequest {
 }
 
 message GetEventMessageStreamResponse {
-  EventMessage messages = 1;
+  EventMessage message = 1;
 }
 
 message AcknowledgeMessageBatchRequest {

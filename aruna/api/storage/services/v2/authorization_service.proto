@@ -59,8 +59,8 @@ service AuthorizationService {
   //
   // This creates a user-specific attribute that handles permission for a
   // specific resource 
-  rpc UpdateAuthorizations(UpdateAuthorizationsRequest)
-      returns (UpdateAuthorizationsResponse) {
+  rpc UpdateAuthorization(UpdateAuthorizationRequest)
+      returns (UpdateAuthorizationResponse) {
     option (google.api.http) = {
       patch : "/v2/auth"
       body : "*"
@@ -109,12 +109,12 @@ message DeleteAuthorizationRequest {
 
 message DeleteAuthorizationResponse {}
 
-message UpdateAuthorizationsRequest {
+message UpdateAuthorizationRequest {
   string resource_id = 1;
   string user_id = 2;
   storage.models.v2.PermissionLevel permission_level = 3;
 }
 
-message UpdateAuthorizationsResponse {
+message UpdateAuthorizationResponse {
   UserPermission user_permission = 1;
 }
