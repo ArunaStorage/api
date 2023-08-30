@@ -17,16 +17,15 @@ enum DataClass {
 
 // Which kind of endpoint 
 enum EndpointVariant {
-  ENDPOINT_VARIANT_UNSPECIFIED = 0;
-  ENDPOINT_VARIANT_PERSISTENT = 1;
+  ENDPOINT_VARIANT_UNSPECIFIED = 0; ENDPOINT_VARIANT_PERSISTENT = 1;
   ENDPOINT_VARIANT_VOLATILE = 2;
 }
 
 // Which features does the endpoint have
-enum EndpointHostVariant {
-  ENDPOINT_HOST_VARIANT_UNSPECIFIED = 0;
-  ENDPOINT_HOST_VARIANT_PROXY = 1;
-  ENDPOINT_HOST_VARIANT_BUNDLER = 2;
+enum EndpointHostType {
+  ENDPOINT_HOST_TYPE_UNSPECIFIED = 0;
+  ENDPOINT_HOST_TYPE_GRPC= 1;
+  ENDPOINT_HOST_TYPE_S3= 2;
 }
 
 // Permission Levels
@@ -340,5 +339,10 @@ message Object {
   bool dynamic = 11;
   repeated DataEndpoint endpoints = 12;
   // Object specific attributes
+<<<<<<< Updated upstream
   repeated Hash hashes = 13;  
 }
+=======
+  repeated Hash hashes = 12;  
+}
+>>>>>>> Stashed changes

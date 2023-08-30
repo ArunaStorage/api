@@ -103,6 +103,10 @@ message HookCallbackRequest {
     bool success = 1;
     repeated aruna.api.storage.models.v2.KeyValue add_key_values = 2;
     repeated aruna.api.storage.models.v2.KeyValue remove_key_values = 3;
+    string secret = 4;
+    string hook_id = 5;
+    string object_id = 6;
+    string pubkey_serial = 7;
 }
 
 message HookCallbackResponse{}
