@@ -54,6 +54,12 @@ message ExternalHook {
     string url = 1;
     Credentials credentials = 2;
     string json_template = 3;
+    Method method = 4;
+}
+
+enum Method {
+    METHOD_PUT = 0;
+    METHOD_POST = 1;
 }
 
 message AddLabel {
