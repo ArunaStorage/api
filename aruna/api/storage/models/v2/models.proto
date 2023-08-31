@@ -17,12 +17,13 @@ enum DataClass {
 
 // Which kind of endpoint 
 enum EndpointVariant {
-  ENDPOINT_VARIANT_UNSPECIFIED = 0; ENDPOINT_VARIANT_PERSISTENT = 1;
+  ENDPOINT_VARIANT_UNSPECIFIED = 0; 
+  ENDPOINT_VARIANT_PERSISTENT = 1;
   ENDPOINT_VARIANT_VOLATILE = 2;
 }
 
 // Which features does the endpoint have
-enum EndpointHostType {
+enum EndpointHostVariant {
   ENDPOINT_HOST_TYPE_UNSPECIFIED = 0;
   ENDPOINT_HOST_TYPE_GRPC= 1;
   ENDPOINT_HOST_TYPE_S3= 2;
@@ -324,7 +325,7 @@ message Dataset {
 }
 
 message Object {
-  string id = 1;                    
+  string id = 1;
   string name = 2;
   string description = 3;
   // Collection specific labels / hooks
@@ -339,10 +340,5 @@ message Object {
   bool dynamic = 11;
   repeated DataEndpoint endpoints = 12;
   // Object specific attributes
-<<<<<<< Updated upstream
   repeated Hash hashes = 13;  
 }
-=======
-  repeated Hash hashes = 12;  
-}
->>>>>>> Stashed changes
