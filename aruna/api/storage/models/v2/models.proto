@@ -24,9 +24,9 @@ enum EndpointVariant {
 
 // Which features does the endpoint have
 enum EndpointHostVariant {
-  ENDPOINT_HOST_TYPE_UNSPECIFIED = 0;
-  ENDPOINT_HOST_TYPE_GRPC= 1;
-  ENDPOINT_HOST_TYPE_S3= 2;
+  ENDPOINT_HOST_VARIANT_UNSPECIFIED = 0;
+  ENDPOINT_HOST_VARIANT_GRPC= 1;
+  ENDPOINT_HOST_VARIANT_S3= 2;
 }
 
 // Permission Levels
