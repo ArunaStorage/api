@@ -58,8 +58,9 @@ message ExternalHook {
 }
 
 enum Method {
-    METHOD_PUT = 0;
-    METHOD_POST = 1;
+    METHOD_UNSPECIFIED = 0;
+    METHOD_PUT = 1;
+    METHOD_POST = 2;
 }
 
 message AddLabel {
