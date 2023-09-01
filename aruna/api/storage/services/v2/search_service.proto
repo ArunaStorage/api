@@ -58,5 +58,5 @@ message GetResourceRequest {
 
 message GetResourceResponse {
   storage.models.v2.GenericResource resource = 1;
-  storage.models.v2.PermissionLevel permisson = 2;
+  storage.models.v2.PermissionLevel permission = 2;
 }
