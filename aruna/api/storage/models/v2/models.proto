@@ -17,7 +17,7 @@ enum DataClass {
 
 // Which kind of endpoint 
 enum EndpointVariant {
-  ENDPOINT_VARIANT_UNSPECIFIED = 0;
+  ENDPOINT_VARIANT_UNSPECIFIED = 0; 
   ENDPOINT_VARIANT_PERSISTENT = 1;
   ENDPOINT_VARIANT_VOLATILE = 2;
 }
@@ -25,8 +25,8 @@ enum EndpointVariant {
 // Which features does the endpoint have
 enum EndpointHostVariant {
   ENDPOINT_HOST_VARIANT_UNSPECIFIED = 0;
-  ENDPOINT_HOST_VARIANT_PROXY = 1;
-  ENDPOINT_HOST_VARIANT_BUNDLER = 2;
+  ENDPOINT_HOST_VARIANT_GRPC= 1;
+  ENDPOINT_HOST_VARIANT_S3= 2;
 }
 
 // Permission Levels
@@ -325,7 +325,7 @@ message Dataset {
 }
 
 message Object {
-  string id = 1;                    
+  string id = 1;
   string name = 2;
   string description = 3;
   // Collection specific labels / hooks
