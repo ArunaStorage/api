@@ -22,14 +22,26 @@ service SearchService {
       };
     }
 
-    // GetPublicResource
+    // GetResource
     //
     // Status: BETA
     //
-    // Retrieves a public resource by its ID.
+    // Retrieves resource by its ID.
     rpc GetResource(GetResourceRequest) returns (GetResourceResponse){
       option (google.api.http) = {
         get : "/v2/resource/{resource_id}"
+      };
+    }
+
+
+    // GetResources
+    //
+    // Status: BETA
+    //
+    // Retrieves resources by a list of IDs.
+    rpc GetResources(GetResourcesRequest) returns (GetResourcesResponse){
+      option (google.api.http) = {
+        get : "/v2/resources"
       };
     }
 
@@ -56,7 +68,21 @@ message GetResourceRequest {
   string resource_id = 1;
 }
 
-message GetResourceResponse {
+message ResourceWithPermission {
   storage.models.v2.GenericResource resource = 1;
   storage.models.v2.PermissionLevel permission = 2;
 }
+
+message GetResourceResponse {
+  ResourceWithPermission resource = 1;
+}
+
+
+message GetResourcesRequest {
+  repeated string resource_ids = 1;
+}
+
+message GetResourcesResponse {
+  repeated ResourceWithPermission resources = 1;
+}
+
