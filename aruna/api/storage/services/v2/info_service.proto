@@ -7,6 +7,7 @@ option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.servic
 option java_outer_classname = "StorageStatusService";
 import "aruna/api/storage/models/v2/models.proto";
 import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
 
 
 // StorageStatusService
@@ -43,6 +44,21 @@ service StorageStatusService {
   rpc GetPubkeys(GetPubkeysRequest) returns (GetPubkeysResponse) {
     option (google.api.http) = {
       get : "/v2/info/pubkeys"
+    };
+  }
+
+
+  rpc GetAnouncements(GetAnouncementsRequest) returns (GetAnouncementsResponse) {
+    option (google.api.http) = {
+      get : "/v2/info/anouncements"
+    };
+  }
+
+
+  rpc SetAnouncements(SetAnouncementsRequest) returns (SetAnouncementsResponse) {
+    option (google.api.http) = {
+      post : "/v2/info/anouncements/set"
+      body : "*"
     };
   }
 }
@@ -102,4 +118,27 @@ message GetPubkeysRequest {}
 
 message GetPubkeysResponse {
   repeated storage.models.v2.Pubkey pubkeys = 1;
+}
+
+
+message Anouncement {
+  string id = 1;
+  string content = 2;
+  google.protobuf.Timestamp created_at = 3;
+}
+
+message GetAnouncementsRequest {}
+
+
+message GetAnouncementsResponse {
+  repeated Anouncement anouncements = 1;
+}
+
+message SetAnouncementsRequest {
+  repeated Anouncement anouncements_upsert = 1;
+  repeated string anouncements_delete = 2;
+}
+
+message SetAnouncementsResponse {
+  repeated Anouncement anouncements = 1;
 }
