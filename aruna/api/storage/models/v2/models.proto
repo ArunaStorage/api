@@ -45,6 +45,7 @@ enum KeyValueVariant {
   KEY_VALUE_VARIANT_LABEL = 1;
   KEY_VALUE_VARIANT_STATIC_LABEL = 2; // A Label that only admins can remove
   KEY_VALUE_VARIANT_HOOK = 3;
+  KEY_VALUE_VARIANT_HOOK_STATUS = 4;
 }
 
 // External Relations
