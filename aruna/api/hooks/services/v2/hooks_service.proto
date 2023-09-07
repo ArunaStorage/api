@@ -116,7 +116,7 @@ message HookCallbackRequest {
     string secret = 4;
     string hook_id = 5;
     string object_id = 6;
-    string pubkey_serial = 7;
+    int32 pubkey_serial = 7;
 }
 
 message HookCallbackResponse{}
