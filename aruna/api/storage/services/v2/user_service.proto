@@ -211,6 +211,14 @@ service UserService {
     };
   }
 
+
+  rpc GetPersonalNotifications(GetPersonalNotificationsRequest)
+      returns (GetPersonalNotificationsResponse) {
+    option (google.api.http) = {
+      get : "/v2/user/{user_id}/notifications"
+    };
+  }
+
 }
 
 message RegisterUserRequest {
@@ -369,4 +377,25 @@ message GetDataproxyTokenUserRequest {
 
 message GetDataproxyTokenUserResponse {
   string token = 1;
+}
+
+message GetPersonalNotificationsRequest {
+  string user_id = 1;
+}
+
+
+message References {
+  string ref_type = 1; // UserRequestAccess
+  string ref_name = 2; // "User A"
+  string ref_value = 3; // 0123AAA123AAA (id)
+}
+
+message UserNotification {
+  string variant = 1; // Request access
+  string message = 2; // User A has requested access for resource B
+  repeated References refs = 3; // References to resource in the "message"
+}
+
+message GetPersonalNotificationsResponse {
+  repeated UserNotification notifications = 1;
 }
