@@ -22,12 +22,12 @@ service HooksService {
             body : "*"
           };
     }
-    rpc ListProjectHooks(ListProjectHooksRequest) returns (ListHooksResponse) {
+    rpc ListProjectHooks(ListProjectHooksRequest) returns (ListProjectHooksResponse) {
         option (google.api.http) = {
             get : "/v2/hooks/project/{project_id}"
         };
     }
-    rpc ListOwnedHooks(ListOwnedHooksRequest) returns (ListHooksResponse) {
+    rpc ListOwnedHooks(ListOwnedHooksRequest) returns (ListOwnedHooksResponse) {
         option (google.api.http) = {
             get : "/v2/hooks/owner/{user_id}"
         };
@@ -154,6 +154,10 @@ message HookInfo {
     uint64 timeout = 6;
 }
 
-message ListHooksResponse{
+message ListProjectHooksResponse{
+    repeated HookInfo infos = 1;
+}
+
+message ListOwnedHooksResponse{
     repeated HookInfo infos = 1;
 }
