@@ -24,6 +24,11 @@ service WorkspaceService {
     };
   }
 
+  // TODO: ListWorkspaceTemplates/FilterAllTemplates/ListOwnedTemplates ?
+  // TODO: DeleteWorkspaceTemplate
+  // TODO: DescribeWorkspaceTemplate?
+
+
   // CreateWorkspace
   //
   // Status: ALPHA
@@ -88,7 +93,13 @@ message CreateWorkspaceTemplateRequest {
   // The name of the workspace template
   string name = 3;
   // Key values / hooks that must be added to each participant of the workspace
-  repeated storage.models.v2.KeyValue key_values = 4;
+  // repeated storage.models.v2.KeyValue key_values = 4;
+  // --> replace with hooks:
+  repeated string hook_ids = 4;
+  // Description of the workspace
+  string description = 5;
+  // Endpoint id that is used for this template
+  string endpoint_id = 6;
 }
 
 message CreateWorkspaceTemplateResponse {
@@ -97,6 +108,8 @@ message CreateWorkspaceTemplateResponse {
 
 message CreateWorkspaceRequest {
   string workspace_template = 1;
+  // Description of this workspace instance
+  string description = 2;
 }
 
 message CreateWorkspaceResponse{

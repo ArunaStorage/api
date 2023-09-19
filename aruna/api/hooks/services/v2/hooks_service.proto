@@ -15,15 +15,21 @@ import "aruna/api/storage/models/v2/models.proto";
 //
 // A service that enables automatic Hook scheduling
 service HooksService {
+    // Created Hooks are always associated with the owner that creates the hook
     rpc CreateHook(CreateHookRequest) returns (CreateHookResponse) {
         option (google.api.http) = {
             post : "/v2/hook"
             body : "*"
           };
     }
-    rpc ListHooks(ListHooksRequest) returns (ListHooksResponse) {
+    rpc ListProjectHooks(ListProjectHooksRequest) returns (ListHooksResponse) {
         option (google.api.http) = {
             get : "/v2/hooks/project/{project_id}"
+        };
+    }
+    rpc ListOwnedHooks(ListOwnedHooksRequest) returns (ListHooksResponse) {
+        option (google.api.http) = {
+            get : "/v2/hooks/owner/{user_id}"
         };
     }
     rpc DeleteHook(DeleteHookRequest) returns (DeleteHookResponse) {
@@ -94,10 +100,12 @@ message Credentials {
 }
 
 message CreateHookRequest {
-    Trigger trigger = 1;
-    Hook hook = 2;
-    uint64 timeout = 3;
-    string project_id = 4;
+    string name = 1;
+    Trigger trigger = 2;
+    Hook hook = 3;
+    uint64 timeout = 4;
+    string project_id = 5;
+    string description = 6;
 }
 message CreateHookResponse {
     string hook_id = 1;
@@ -110,26 +118,40 @@ message DeleteHookRequest {
 message DeleteHookResponse {}
 
 message HookCallbackRequest {
-    bool success = 1;
-    repeated storage.models.v2.KeyValue add_key_values = 2;
-    repeated storage.models.v2.KeyValue remove_key_values = 3;
-    string secret = 4;
-    string hook_id = 5;
-    string object_id = 6;
-    int32 pubkey_serial = 7;
+    oneof status {
+	Finished finished = 1;
+	Error error = 2;
+    };
+    string secret = 3;
+    string hook_id = 4;
+    string object_id = 5;
+    int32 pubkey_serial = 6;
+}
+message Finished {
+    repeated storage.models.v2.KeyValue add_key_values = 1;
+    repeated storage.models.v2.KeyValue remove_key_values = 2;
+}
+message Error {
+    string error = 1;
 }
 
 message HookCallbackResponse{}
 
-message ListHooksRequest{
+message ListProjectHooksRequest{
     string project_id = 1;
+}
+
+message ListOwnedHooksRequest{
+    string user_id = 1;
 }
 
 message HookInfo {
     string hook_id = 1;
-    Hook hook = 2;
-    Trigger trigger = 3;
-    uint64 timeout = 4;
+    string name = 2;
+    string description = 3;
+    Hook hook = 4;
+    Trigger trigger = 5;
+    uint64 timeout = 6;
 }
 
 message ListHooksResponse{
