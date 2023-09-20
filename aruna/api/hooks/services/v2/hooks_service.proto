@@ -6,8 +6,8 @@ option java_multiple_files = true;
 option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
 option java_outer_classname = "HooksService";
 import "google/api/annotations.proto";
-
 import "aruna/api/storage/models/v2/models.proto";
+
 
 // HooksService
 //
