@@ -234,6 +234,8 @@ message UpdateObjectRequest {
     string dataset_id = 10;
   }
   repeated storage.models.v2.Hash hashes = 12;
+  // Force new object reversion
+  bool forced_revision = 13;
 }
 
 message UpdateObjectResponse {
