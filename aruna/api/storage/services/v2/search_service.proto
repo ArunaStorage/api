@@ -45,6 +45,16 @@ service SearchService {
       };
     }
 
+    // RequestResourceAccess
+    //
+    // Status: ALPHA
+    //
+    // Requests access to resources
+    rpc RequestResourceAccess(RequestResourceAccessRequest) returns (RequestResourceAccessResponse){
+      option (google.api.http) = {
+        get : "/v2/resource/{resource_id}/access"
+      };
+    }
 }
 
 message SearchResourcesRequest {
@@ -86,3 +96,9 @@ message GetResourcesResponse {
   repeated ResourceWithPermission resources = 1;
 }
 
+message RequestResourceAccessRequest {
+  string resource_id = 1;
+}
+
+
+message RequestResourceAccessResponse {}
