@@ -211,11 +211,27 @@ service UserService {
     };
   }
 
-
+  // GetPersonalNotifications
+  //
+  // Status: ALPHA
+  //
+  // Fetches personal notifications
   rpc GetPersonalNotifications(GetPersonalNotificationsRequest)
       returns (GetPersonalNotificationsResponse) {
     option (google.api.http) = {
       get : "/v2/user/{user_id}/notifications"
+    };
+  }
+
+  // AcknowledgePersonalNotifications
+  //
+  // Status: ALPHA
+  //
+  // Acknowledges personal notifications
+  rpc AcknowledgePersonalNotifications(AcknowledgePersonalNotificationsRequest)
+      returns (AcknowledgePersonalNotificationsResponse) {
+    option (google.api.http) = {
+      get : "/v2/user/{user_id}/acknowledge"
     };
   }
 
@@ -383,19 +399,39 @@ message GetPersonalNotificationsRequest {
   string user_id = 1;
 }
 
+message GetPersonalNotificationsResponse {
+  repeated PersonalNotification notifications = 1;
+}
+
+message AcknowledgePersonalNotificationsRequest {
+  repeated string notification_id = 1;
+}
+
+message AcknowledgePersonalNotificationsResponse {}
+
+enum ReferenceType {
+  REFERENCE_TYPE_UNSPECIFIED = 0;
+  REFERENCE_TYPE_USER = 1;
+  REFERENCE_TYPE_RESOURCE = 2;
+}
 
 message References {
-  string ref_type = 1; // UserRequestAccess
+  ReferenceType ref_type = 1; 
   string ref_name = 2; // "User A"
   string ref_value = 3; // 0123AAA123AAA (id)
 }
 
-message UserNotification {
-  string variant = 1; // Request access
-  string message = 2; // User A has requested access for resource B
-  repeated References refs = 3; // References to resource in the "message"
+enum PersonalNotificationVariant {
+  PERSONAL_NOTIFICATION_VARIANT_UNSPECIFIED = 0;
+  PERSONAL_NOTIFICATION_VARIANT_ACCESS_REQUESTED = 1;
+  PERSONAL_NOTIFICATION_VARIANT_PERMISSION_GRANTED = 2;
+  PERSONAL_NOTIFICATION_VARIANT_PERMISSION_REVOKED = 3;
+  PERSONAL_NOTIFICATION_VARIANT_ANNOUNCEMENT = 4;
 }
 
-message GetPersonalNotificationsResponse {
-  repeated UserNotification notifications = 1;
+message PersonalNotification {
+  string id = 1;
+  PersonalNotificationVariant variant = 2;
+  string message = 3; // User A has requested access for resource B
+  repeated References refs = 4; // References to resource in the "message"
 }
