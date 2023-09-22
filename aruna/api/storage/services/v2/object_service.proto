@@ -219,7 +219,7 @@ message UpdateObjectRequest {
   string object_id = 1;
   // object name
   optional string name = 2;
-  // 
+  // object description
   optional string description = 3;
   // key_values to add
   repeated storage.models.v2.KeyValue add_key_values = 4;
@@ -234,7 +234,7 @@ message UpdateObjectRequest {
     string dataset_id = 10;
   }
   repeated storage.models.v2.Hash hashes = 12;
-  // Force new object reversion
+  // Force new object revision
   bool forced_revision = 13;
 }
 
