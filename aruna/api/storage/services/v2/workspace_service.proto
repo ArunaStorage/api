@@ -147,8 +147,8 @@ message GetWorkspaceTemplateByIdResponse {
 }
 
 message ListWorkspaceTemplatesRequest {
-  // Filter by key value or get all
-  optional repeated storage.models.v2.KeyValue key_values = 1;
+  // Filter by key value or get all if empty
+  repeated storage.models.v2.KeyValue key_values = 1;
 }
 
 message ListWorkspaceTemplatesResponse {
