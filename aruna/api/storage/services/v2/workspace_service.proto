@@ -29,21 +29,21 @@ service WorkspaceService {
   //
   // Gets workspace templates by id
   // TODO: Are all templates public?
-  rpc GetWorkspaceTemplateById(GetWorkspaceTemplateByIdRequest)
-      returns (GetWorkspaceTemplateByIdResponse) {
+  rpc DescribeWorkspaceTemplate(DescribeWorkspaceTemplateRequest)
+      returns (DescribeWorkspaceTemplateResponse) {
     option (google.api.http) = {
       get: "/v2/workspace/template/{template_id}"
       body : "*"
     };
   }
-  // ListWorkspaceTemplates
+  // ListOwnedWorkspaceTemplates
   // 
   //  Status: ALPHA
   //
   // Lists workspace templates
   // TODO: Are all templates public?
-  rpc ListWorkspaceTemplates(ListWorkspaceTemplatesRequest)
-      returns (ListWorkspaceTemplatesResponse) {
+  rpc ListOwnedWorkspaceTemplates(ListOwnedWorkspaceTemplatesRequest)
+      returns (ListOwnedWorkspaceTemplatesResponse) {
     option (google.api.http) = {
       get: "/v2/workspace/template"
       body : "*"
@@ -121,12 +121,10 @@ service WorkspaceService {
 message CreateWorkspaceTemplateRequest {
   // The user id of the template owner (will be automatically added as "admin" to each associated workspace)
   string owner_id = 1;
-  // Short prefix for each workspace_project (will be prepended by a random id) example: test-i12ashj9g2 
+  // Short prefix for each workspace_project (will be prepended by a random id) example: test-i12ashj9g2
   string prefix = 2;
   // The name of the workspace template
   string name = 3;
-  // Key values / hooks that must be added to each participant of the workspace
-  repeated storage.models.v2.KeyValue key_values = 4;
   // Hooks that are added to created workspaces
   repeated string hook_ids = 5;
   // Description of the workspace
@@ -139,10 +137,10 @@ message CreateWorkspaceTemplateResponse {
   string template_id = 1;
 }
 
-message GetWorkspaceTemplateByIdRequest {
+message DescribeWorkspaceTemplateRequest {
   string template_id = 1;
 }
-message GetWorkspaceTemplateByIdResponse {
+message DescribeWorkspaceTemplateResponse {
   WorkspaceInfo workspaces = 1;
 }
 message DeleteWorkspaceTemplateRequest {
@@ -150,12 +148,10 @@ message DeleteWorkspaceTemplateRequest {
 }
 message DeleteWorkspaceTemplateResponse {}
 
-message ListWorkspaceTemplatesRequest {
-  // Filter by key value or get all if empty
-  repeated storage.models.v2.KeyValue key_values = 1;
+message ListOwnedWorkspaceTemplatesRequest {
 }
 
-message ListWorkspaceTemplatesResponse {
+message ListOwnedWorkspaceTemplatesResponse {
   repeated WorkspaceInfo workspaces = 1;
 }
 
@@ -165,9 +161,8 @@ message WorkspaceInfo {
    string description = 3;
    string owner = 4;
    string prefix = 5;
-   string hook_ids = 6; // TODO: Or complete hooks?
+   string hook_ids = 6;
    string endpoint_ids = 7;
-   repeated storage.models.v2.KeyValue key_values = 8;
 }
 
 message CreateWorkspaceRequest {
