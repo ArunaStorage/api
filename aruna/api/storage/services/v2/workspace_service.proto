@@ -22,7 +22,7 @@ service WorkspaceService {
       body : "*"
     };
   }
-  // ListWorkspaceTemplatesById 
+  // GetWorkspaceTemplatesById 
   // 
   //  Status: ALPHA
   //

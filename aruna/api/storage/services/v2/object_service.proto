@@ -235,7 +235,7 @@ message UpdateObjectRequest {
   }
   repeated storage.models.v2.Hash hashes = 12;
   // Force new object revision
-  bool forced_revision = 13;
+  bool force_revision = 13;
 }
 
 message UpdateObjectResponse {
