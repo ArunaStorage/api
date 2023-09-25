@@ -27,6 +27,20 @@ service DataproxyService {
     rpc InitReplication(InitReplicationRequest) returns (InitReplicationResponse) {}
 }
 
+
+service DataproxyBackendService {
+    rpc PutObject(stream PutObjectRequest) returns (PutObjectResponse) {}
+    rpc GetObject(GetObjectRequest) returns (stream GetObjectResponse) {}
+    rpc HeadObject(HeadObjectRequest) returns (HeadObjectResponse) {}
+    rpc InitMultiPartUpload(InitMultiPartUploadRequest) returns (InitMultiPartUploadResponse) {}
+    rpc UploadPart(stream UploadPartRequest) returns (UploadPartResponse) {}
+    rpc CompleteMultiPartUpload(CompleteMultiPartUploadRequest) returns (CompleteMultiPartUploadResponse) {}
+    rpc CreateBucket(CreateBucketRequest) returns (CreateBucketResponse) {}
+    rpc DeleteBucket(DeleteBucketRequest) returns (DeleteBucketResponse) {}
+    rpc DeleteObject(DeleteObjectRequest) returns (DeleteObjectResponse) {}
+    rpc InitLocation(InitLocationRequest) returns (InitLocationResponse) {}
+}
+
 service DataproxyUserService {
     // GetCredentials
     //
@@ -73,6 +87,10 @@ service DataproxyUserService {
         };
     }
 }
+
+
+
+
 
 message DataProxyInfo {
     string dataproxy_id = 1;
@@ -161,3 +179,94 @@ message ReplicationStatusResponse {
     ReplicationStatus status = 1;
     string message = 2;
 }
+
+message ObjectLocation {
+    string bucket = 1;
+    string key = 2;
+    string upload_id = 3;
+    string content_length = 4;
+}
+
+message PutObjectRequest {
+    ObjectLocation location = 1;
+    bytes data = 2;
+}
+
+message PutObjectResponse {}
+
+message GetObjectRequest {
+    ObjectLocation location = 1;
+}
+
+message GetObjectResponse {
+    bytes data = 1;
+}
+
+message HeadObjectRequest {
+    ObjectLocation location = 1;
+}
+
+message HeadObjectResponse {
+    string content_length = 1;
+    bool exists = 2;
+}
+
+message InitMultiPartUploadRequest {
+    ObjectLocation location = 1;
+}
+
+message InitMultiPartUploadResponse {
+    string upload_id = 1;
+}
+
+message UploadPartRequest {
+    ObjectLocation location = 1;
+    int32 part_number = 3;
+    bytes data = 4;
+}
+
+message UploadPartResponse {
+    string etag = 1;
+}
+
+message CompletedPart {
+    int32 part_number = 1;
+    string etag = 2;
+}
+
+message CompleteMultiPartUploadRequest {
+    ObjectLocation location = 1;
+    repeated CompletedPart completed_parts = 2;
+}
+
+message CompleteMultiPartUploadResponse {}
+
+message CreateBucketRequest {
+    string bucket = 1;
+}
+
+message CreateBucketResponse {}
+
+message DeleteBucketRequest {
+    string bucket = 1;
+}
+
+message DeleteBucketResponse {}
+
+message DeleteObjectRequest {
+    ObjectLocation location = 1;
+}
+
+message DeleteObjectResponse {}
+
+message InitLocationRequest {
+    string object_name = 1;
+    int64 size = 2;
+    bool is_temporary = 3;
+}
+
+message InitLocationResponse {
+    ObjectLocation location = 1;
+}
+
+

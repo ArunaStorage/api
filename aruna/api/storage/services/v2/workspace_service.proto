@@ -5,7 +5,6 @@ option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/services/v
 option java_multiple_files = true;
 option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
 option java_outer_classname = "WorkspaceService";
-import "aruna/api/storage/models/v2/models.proto";
 import "google/api/annotations.proto";
 
 // Service to manage "special" anonymous collections / workspaces 
@@ -20,6 +19,42 @@ service WorkspaceService {
       returns (CreateWorkspaceTemplateResponse) {
     option (google.api.http) = {
       post : "/v2/workspace/template"
+      body : "*"
+    };
+  }
+  // GetWorkspaceTemplatesById 
+  // 
+  //  Status: ALPHA
+  //
+  // Gets workspace template by id
+  rpc GetWorkspaceTemplate(GetWorkspaceTemplateRequest)
+      returns (GetWorkspaceTemplateResponse) {
+    option (google.api.http) = {
+      get: "/v2/workspace/template/{template_id}"
+      body : "*"
+    };
+  }
+  // ListOwnedWorkspaceTemplates
+  // 
+  //  Status: ALPHA
+  //
+  // Lists owned workspace templates
+  rpc ListOwnedWorkspaceTemplates(ListOwnedWorkspaceTemplatesRequest)
+      returns (ListOwnedWorkspaceTemplatesResponse) {
+    option (google.api.http) = {
+      get: "/v2/workspace/template"
+      body : "*"
+    };
+  }
+  // DeleteWorkspaceTemplates
+  // 
+  //  Status: ALPHA
+  //
+  // Deletes specified workspace templates
+  rpc DeleteWorkspaceTemplate(DeleteWorkspaceTemplateRequest)
+      returns (DeleteWorkspaceTemplateResponse) {
+    option (google.api.http) = {
+      delete: "/v2/workspace/template/{template_id}"
       body : "*"
     };
   }
@@ -63,19 +98,6 @@ service WorkspaceService {
       body : "*"
     };
   }
-
-  // MoveWorkspaceData
-  //
-  // Status: ALPHA
-  //
-  // Claims an anonymous workspace
-  rpc MoveWorkspaceData(MoveWorkspaceDataRequest)
-      returns (MoveWorkspaceDataResponse) {
-    option (google.api.http) = {
-      post : "/v2/workspace/{workspace_id}/move/{project_id}"
-      body : "*"
-    };
-  }
 }
 
 // Models:
@@ -83,20 +105,55 @@ service WorkspaceService {
 message CreateWorkspaceTemplateRequest {
   // The user id of the template owner (will be automatically added as "admin" to each associated workspace)
   string owner_id = 1;
-  // Short prefix for each workspace_project (will be prepended by a random id) example: test-i12ashj9g2 
+  // Short prefix for each workspace_project (will be prepended by a random id) example: test-i12ashj9g2
   string prefix = 2;
   // The name of the workspace template
   string name = 3;
-  // Key values / hooks that must be added to each participant of the workspace
-  repeated storage.models.v2.KeyValue key_values = 4;
+  // Hooks that are added to created workspaces
+  repeated string hook_ids = 5;
+  // Description of the workspace
+  string description = 6;
+  // Endpoint ids that are used for this template
+  repeated string endpoint_id = 7;
 }
 
 message CreateWorkspaceTemplateResponse {
-  string template_name = 1;
+  string template_id = 1;
+}
+
+message GetWorkspaceTemplateRequest {
+  string template_id = 1;
+}
+message GetWorkspaceTemplateResponse {
+  WorkspaceInfo workspaces = 1;
+}
+message DeleteWorkspaceTemplateRequest {
+    string template_id = 1;
+}
+message DeleteWorkspaceTemplateResponse {}
+
+message ListOwnedWorkspaceTemplatesRequest {
+}
+
+message ListOwnedWorkspaceTemplatesResponse {
+  repeated WorkspaceInfo workspaces = 1;
+}
+
+message WorkspaceInfo {
+   string workspace_id =  1;
+   string name = 2;
+   string description = 3;
+   string owner = 4;
+   string prefix = 5;
+   string hook_ids = 6;
+   string endpoint_ids = 7;
 }
 
 message CreateWorkspaceRequest {
+  // Workspace template id
   string workspace_template = 1;
+  // Description of this workspace instance
+  string description = 2;
 }
 
 message CreateWorkspaceResponse{
@@ -121,11 +178,3 @@ message ClaimWorkspaceRequest {
 }
 
 message ClaimWorkspaceResponse {}
-
-message MoveWorkspaceDataRequest {
-  // This will update all objects as "non_workspace" and move the root to another project
-  string workspace_id = 1;
-  string project_id = 2;
-}
-
-message MoveWorkspaceDataResponse {}
