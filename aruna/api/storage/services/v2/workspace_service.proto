@@ -27,8 +27,8 @@ service WorkspaceService {
   //  Status: ALPHA
   //
   // Gets workspace template by id
-  rpc DescribeWorkspaceTemplate(DescribeWorkspaceTemplateRequest)
-      returns (DescribeWorkspaceTemplateResponse) {
+  rpc GetWorkspaceTemplate(GetWorkspaceTemplateRequest)
+      returns (GetWorkspaceTemplateResponse) {
     option (google.api.http) = {
       get: "/v2/workspace/template/{template_id}"
       body : "*"
@@ -121,10 +121,10 @@ message CreateWorkspaceTemplateResponse {
   string template_id = 1;
 }
 
-message DescribeWorkspaceTemplateRequest {
+message GetWorkspaceTemplateRequest {
   string template_id = 1;
 }
-message DescribeWorkspaceTemplateResponse {
+message GetWorkspaceTemplateResponse {
   WorkspaceInfo workspaces = 1;
 }
 message DeleteWorkspaceTemplateRequest {
