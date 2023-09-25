@@ -22,6 +22,12 @@ service HooksService {
             body : "*"
           };
     }
+    rpc AddProjectToHook(AddProjectToHookRequest) returns (AddProjectToHookResponse) {
+	option (google.api.http) = {
+	    post : "/v2/hook/{hook_id}/{project_id}"
+	    body : "*"
+	};
+    }
     rpc ListProjectHooks(ListProjectHooksRequest) returns (ListProjectHooksResponse) {
         option (google.api.http) = {
             get : "/v2/hooks/project/{project_id}"
@@ -111,7 +117,7 @@ message CreateHookRequest {
     Trigger trigger = 2;
     Hook hook = 3;
     uint64 timeout = 4;
-    string project_id = 5;
+    repeated string project_ids = 5;
     string description = 6;
 }
 message CreateHookResponse {
@@ -154,11 +160,12 @@ message ListOwnedHooksRequest{
 
 message HookInfo {
     string hook_id = 1;
-    string name = 2;
-    string description = 3;
-    Hook hook = 4;
-    Trigger trigger = 5;
-    uint64 timeout = 6;
+    repeated string project_ids = 2;
+    string name = 3;
+    string description = 4;
+    Hook hook = 5;
+    Trigger trigger = 6;
+    uint64 timeout = 7;
 }
 
 message ListProjectHooksResponse{
@@ -168,3 +175,10 @@ message ListProjectHooksResponse{
 message ListOwnedHooksResponse{
     repeated HookInfo infos = 1;
 }
+
+message AddProjectsToHookRequest {
+    string hook_id = 1;
+    repeated string project_ids = 2;
+}
+
+message AddProjectsToHookResponse {};
