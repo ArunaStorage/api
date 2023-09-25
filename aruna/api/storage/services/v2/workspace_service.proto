@@ -26,8 +26,7 @@ service WorkspaceService {
   // 
   //  Status: ALPHA
   //
-  // Gets workspace templates by id
-  // TODO: Are all templates public?
+  // Gets workspace template by id
   rpc DescribeWorkspaceTemplate(DescribeWorkspaceTemplateRequest)
       returns (DescribeWorkspaceTemplateResponse) {
     option (google.api.http) = {
@@ -39,8 +38,7 @@ service WorkspaceService {
   // 
   //  Status: ALPHA
   //
-  // Lists workspace templates
-  // TODO: Are all templates public?
+  // Lists owned workspace templates
   rpc ListOwnedWorkspaceTemplates(ListOwnedWorkspaceTemplatesRequest)
       returns (ListOwnedWorkspaceTemplatesResponse) {
     option (google.api.http) = {
