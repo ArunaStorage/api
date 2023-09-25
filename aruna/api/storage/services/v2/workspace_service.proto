@@ -98,19 +98,6 @@ service WorkspaceService {
       body : "*"
     };
   }
-
-  // MoveWorkspaceData
-  //
-  // Status: ALPHA
-  //
-  // Claims an anonymous workspace
-  rpc MoveWorkspaceData(MoveWorkspaceDataRequest)
-      returns (MoveWorkspaceDataResponse) {
-    option (google.api.http) = {
-      post : "/v2/workspace/{workspace_id}/move/{project_id}"
-      body : "*"
-    };
-  }
 }
 
 // Models:
@@ -191,11 +178,3 @@ message ClaimWorkspaceRequest {
 }
 
 message ClaimWorkspaceResponse {}
-
-message MoveWorkspaceDataRequest {
-  // This will update all objects as "non_workspace" and move the root to another project
-  string workspace_id = 1;
-  string project_id = 2;
-}
-
-message MoveWorkspaceDataResponse {}
