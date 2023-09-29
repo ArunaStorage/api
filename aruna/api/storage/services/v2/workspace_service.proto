@@ -125,7 +125,7 @@ message GetWorkspaceTemplateRequest {
   string template_id = 1;
 }
 message GetWorkspaceTemplateResponse {
-  WorkspaceInfo workspaces = 1;
+  WorkspaceInfo workspace = 1;
 }
 message DeleteWorkspaceTemplateRequest {
     string template_id = 1;

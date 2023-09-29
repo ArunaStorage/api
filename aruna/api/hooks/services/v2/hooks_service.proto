@@ -71,9 +71,8 @@ message ExternalHook {
     Credentials credentials = 2;
     // If empty a basic JSON template will be used
     optional string custom_template = 3; 
-    // Optional Project/Collection/Dataset where hooks can upload results.
-    optional string result_object = 4;
     Method method = 5;
+    // TODO: Optional request headers
 }
 
 enum Method {
@@ -155,7 +154,8 @@ message ListProjectHooksRequest{
 }
 
 message ListOwnedHooksRequest{
-    string user_id = 1;
+    // ADMIN only
+    optional string user_id = 1;
 }
 
 message HookInfo {
