@@ -395,9 +395,7 @@ message GetDataproxyTokenUserResponse {
   string token = 1;
 }
 
-message GetPersonalNotificationsRequest {
-  string user_id = 1;
-}
+message GetPersonalNotificationsRequest {}
 
 message GetPersonalNotificationsResponse {
   repeated PersonalNotification notifications = 1;
