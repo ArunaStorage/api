@@ -417,7 +417,7 @@ enum ReferenceType {
 
 message References {
   ReferenceType ref_type = 1; 
-  string ref_name = 2; // "User A"
+  string ref_name = 2; // "User A" | file.txt
   string ref_value = 3; // 0123AAA123AAA (id)
 }
 
@@ -426,7 +426,8 @@ enum PersonalNotificationVariant {
   PERSONAL_NOTIFICATION_VARIANT_ACCESS_REQUESTED = 1;
   PERSONAL_NOTIFICATION_VARIANT_PERMISSION_GRANTED = 2;
   PERSONAL_NOTIFICATION_VARIANT_PERMISSION_REVOKED = 3;
-  PERSONAL_NOTIFICATION_VARIANT_ANNOUNCEMENT = 4;
+  PERSONAL_NOTIFICATION_VARIANT_PERMISSION_UPDATED = 4;
+  PERSONAL_NOTIFICATION_VARIANT_ANNOUNCEMENT = 5;
 }
 
 message PersonalNotification {
