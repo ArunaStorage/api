@@ -404,7 +404,7 @@ message GetPersonalNotificationsResponse {
 }
 
 message AcknowledgePersonalNotificationsRequest {
-  repeated string notification_id = 1;
+  repeated string notification_ids = 1;
 }
 
 message AcknowledgePersonalNotificationsResponse {}
