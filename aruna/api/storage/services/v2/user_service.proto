@@ -413,7 +413,7 @@ enum ReferenceType {
   REFERENCE_TYPE_RESOURCE = 2;
 }
 
-message References {
+message Reference {
   ReferenceType ref_type = 1; 
   string ref_name = 2; // "User A" | file.txt
   string ref_value = 3; // 0123AAA123AAA (id)
@@ -432,5 +432,5 @@ message PersonalNotification {
   string id = 1;
   PersonalNotificationVariant variant = 2;
   string message = 3; // User A has requested access for resource B
-  repeated References refs = 4; // References to resource in the "message"
+  repeated Reference refs = 4; // References to resource in the "message"
 }
