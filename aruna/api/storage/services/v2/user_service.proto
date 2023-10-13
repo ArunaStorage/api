@@ -219,7 +219,7 @@ service UserService {
   rpc GetPersonalNotifications(GetPersonalNotificationsRequest)
       returns (GetPersonalNotificationsResponse) {
     option (google.api.http) = {
-      get : "/v2/user/{user_id}/notifications"
+      get : "/v2/user/notifications"
     };
   }
 
