@@ -24,7 +24,7 @@ service HooksService {
     }
     rpc AddProjectsToHook(AddProjectsToHookRequest) returns (AddProjectsToHookResponse) {
 	option (google.api.http) = {
-	    post : "/v2/hook/{hook_id}/{project_id}"
+	    post : "/v2/hook/{hook_id}"
 	    body : "*"
 	};
     }
