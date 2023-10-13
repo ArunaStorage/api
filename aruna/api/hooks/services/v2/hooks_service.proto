@@ -155,7 +155,7 @@ message ListProjectHooksRequest{
 
 message ListOwnedHooksRequest{
     // ADMIN only
-    optional string user_id = 1;
+    string user_id = 1;
 }
 
 message HookInfo {
