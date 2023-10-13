@@ -31,7 +31,6 @@ service WorkspaceService {
       returns (GetWorkspaceTemplateResponse) {
     option (google.api.http) = {
       get: "/v2/workspace/template/{template_id}"
-      body : "*"
     };
   }
   // ListOwnedWorkspaceTemplates
@@ -43,7 +42,6 @@ service WorkspaceService {
       returns (ListOwnedWorkspaceTemplatesResponse) {
     option (google.api.http) = {
       get: "/v2/workspace/template"
-      body : "*"
     };
   }
   // DeleteWorkspaceTemplates
