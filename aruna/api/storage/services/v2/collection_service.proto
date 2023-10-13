@@ -45,7 +45,7 @@ service CollectionService {
   // Queries multiple collections by ID
   rpc GetCollections(GetCollectionsRequest) returns (GetCollectionsResponse) {
     option (google.api.http) = {
-      get : "/v2/collections/"
+      get : "/v2/collections"
     };
   }
 
