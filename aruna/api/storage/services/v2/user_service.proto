@@ -144,7 +144,7 @@ service UserService {
   rpc UpdateUserDisplayName(UpdateUserDisplayNameRequest)
       returns (UpdateUserDisplayNameResponse) {
     option (google.api.http) = {
-      patch : "/v2/user/{user_id}/display_name"
+      patch : "/v2/user/display_name"
       body : "*"
     };
   }
@@ -231,7 +231,7 @@ service UserService {
   rpc AcknowledgePersonalNotifications(AcknowledgePersonalNotificationsRequest)
       returns (AcknowledgePersonalNotificationsResponse) {
     option (google.api.http) = {
-      get : "/v2/user/{user_id}/acknowledge"
+      get : "/v2/user/acknowledge"
     };
   }
 
