@@ -1,6 +1,6 @@
 syntax = "proto3";
 import "google/protobuf/timestamp.proto";
-option go_package = "github.com/ArunaStorage/go-api/aruna/api/storage/models/v2";
+option go_package = "github.com/ArunaStorage/go-api/v2/aruna/api/storage/models/v2";
 
 package aruna.api.storage.models.v2;
 

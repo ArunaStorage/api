@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package aruna.api.notification.services.v2;
-option go_package = "github.com/ArunaStorage/go-api/aruna/api/notification/services/v2";
+option go_package = "github.com/ArunaStorage/go-api/v2/aruna/api/notification/services/v2";
 option java_multiple_files = true;
 option java_package = "com.github.ArunaStorage.java_api.aruna.api.notification.services.v2";
 option java_outer_classname = "UpdateNotificationServices";
