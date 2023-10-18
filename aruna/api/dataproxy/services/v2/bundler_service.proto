@@ -33,7 +33,8 @@ message CreateBundleRequest {
 }
 
 message CreateBundleResponse {
-    string bundle_url = 1;
+    string bundle_id = 1;
+    string bundle_url = 2;
 }
 
 message DeleteBundleRequest{

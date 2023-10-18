@@ -45,7 +45,7 @@ service DatasetService {
   // Queries multiple datasets by ID
   rpc GetDatasets(GetDatasetsRequest) returns (GetDatasetsResponse) {
     option (google.api.http) = {
-      get : "/v2/datasets/"
+      get : "/v2/datasets"
     };
   }
 

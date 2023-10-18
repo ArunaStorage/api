@@ -24,7 +24,7 @@ service HooksService {
     }
     rpc AddProjectsToHook(AddProjectsToHookRequest) returns (AddProjectsToHookResponse) {
 	option (google.api.http) = {
-	    post : "/v2/hook/{hook_id}/{project_id}"
+	    post : "/v2/hook/{hook_id}"
 	    body : "*"
 	};
     }
@@ -71,9 +71,8 @@ message ExternalHook {
     Credentials credentials = 2;
     // If empty a basic JSON template will be used
     optional string custom_template = 3; 
-    // Optional Project/Collection/Dataset where hooks can upload results.
-    optional string result_object = 4;
     Method method = 5;
+    // TODO: Optional request headers
 }
 
 enum Method {
@@ -155,6 +154,7 @@ message ListProjectHooksRequest{
 }
 
 message ListOwnedHooksRequest{
+    // ADMIN only
     string user_id = 1;
 }
 
