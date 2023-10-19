@@ -7,11 +7,13 @@ option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.servic
 option java_outer_classname = "DatasetService";
 import "aruna/api/storage/models/v2/models.proto";
 import "google/api/annotations.proto";
+import "google/api/visibility.proto";
 
 // DatasetService
 //
 // Contains all methods that get/create or update Dataset and associated resources
 service DatasetService {
+  option (google.api.api_visibility).restriction = "SERVER";
 
   // CreateNewDataset
   //
@@ -120,6 +122,18 @@ service DatasetService {
       body : "*"
     };
   }
+
+  // UpdateLicenses
+  //
+  // Status: BETA
+  //
+  // Updates the dataset metadata license and/or default data license.
+  rpc UpdateDatasetLicenses(UpdateDatasetLicensesRequest) returns (UpdateDatasetLicensesResponse) {
+    option (google.api.http) = {
+      patch : "/v2/dataset/{dataset_id}/licenses"
+      body : "*"
+    };
+  }
 }
 
 message CreateDatasetRequest {
@@ -129,8 +143,8 @@ message CreateDatasetRequest {
   string description = 2;
   // dataset specific labels / hooks
   repeated storage.models.v2.KeyValue key_values = 3;
-  // External relations (URLs / IDs from external sources)
-  repeated storage.models.v2.ExternalRelation external_relations = 4;
+  // External / Internal relations (URLs / IDs from external sources)
+  repeated storage.models.v2.Relation relations = 4;
   // DataClass
   storage.models.v2.DataClass data_class = 5;
   // Parent_id MUST be dataset
@@ -138,6 +152,8 @@ message CreateDatasetRequest {
     string project_id = 6;
     string collection_id = 7;
   }
+  string metadata_license_tag = 8;
+  string default_data_license_tag = 9;
 }
 
 message CreateDatasetResponse {
@@ -213,5 +229,15 @@ message SnapshotDatasetRequest {
 
 message SnapshotDatasetResponse {
   // This dataset will be returned via an Persistent Identifier! Updates will be impossible
+  storage.models.v2.Dataset dataset = 1;
+}
+
+message UpdateDatasetLicensesRequest {
+  string dataset_id = 1;
+  string metadata_license_tag = 2;
+  string default_data_license_tag = 3;
+}
+
+message UpdateDatasetLicensesResponse {
   storage.models.v2.Dataset dataset = 1;
 }
