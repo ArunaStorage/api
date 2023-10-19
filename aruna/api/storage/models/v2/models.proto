@@ -261,6 +261,18 @@ message Context {
   }
 }
 
+message License {
+  string tag = 1; // CC-BY-SA-4.0
+  string name = 2; // Creative Commons Attribution-ShareAlike 4.0 International
+  string text = 3; 
+  // url is optional
+  string url = 4; // https://creativecommons.org/licenses/by-sa/4.0/
+}
+
+message Licenses {
+  string metadata_license_tag = 1;
+  string data_license_tag = 2;
+}
 
 // ------ Resources ----------
 
@@ -288,6 +300,7 @@ message Project {
   Status status = 10;
   bool dynamic = 11;
   repeated DataEndpoint endpoints = 12;
+  Licenses licenses = 13;
 }
 
 
@@ -306,6 +319,7 @@ message Collection {
   Status status = 10;
   bool dynamic = 11;
   repeated DataEndpoint endpoints = 12;
+  Licenses licenses = 13;
 }
 
 message Dataset {
@@ -323,6 +337,7 @@ message Dataset {
   Status status = 10;
   bool dynamic = 11;
   repeated DataEndpoint endpoints = 12;
+  Licenses licenses = 13;
 }
 
 message Object {
@@ -342,4 +357,5 @@ message Object {
   repeated DataEndpoint endpoints = 12;
   // Object specific attributes
   repeated Hash hashes = 13;  
+  Licenses licenses = 14;
 }
