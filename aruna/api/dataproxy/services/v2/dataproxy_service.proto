@@ -7,10 +7,11 @@ option java_package = "com.github.ArunaStorage.java_api.aruna.api.dataproxy.serv
 option java_outer_classname = "DataProxyService";
 
 import "google/api/annotations.proto";
-
+import "google/api/visibility.proto";
 
 
 service DataproxyService {
+    option (google.api.api_visibility).restriction = "PROXY";
     
     // RequestReplication
     //
@@ -29,6 +30,7 @@ service DataproxyService {
 
 
 service DataproxyBackendService {
+    option (google.api.api_visibility).restriction = "PROXY";
     rpc PutObject(stream PutObjectRequest) returns (PutObjectResponse) {}
     rpc GetObject(GetObjectRequest) returns (stream GetObjectResponse) {}
     rpc HeadObject(HeadObjectRequest) returns (HeadObjectResponse) {}
@@ -42,6 +44,7 @@ service DataproxyBackendService {
 }
 
 service DataproxyUserService {
+    option (google.api.api_visibility).restriction = "PROXY";
     // GetCredentials
     //
     // Status: BETA

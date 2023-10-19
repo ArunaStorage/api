@@ -7,10 +7,12 @@ option java_package = "com.github.ArunaStorage.java_api.aruna.api.dataproxy.serv
 option java_outer_classname = "BundlerService";
 
 import "google/protobuf/timestamp.proto";
+import "google/api/visibility.proto";
 import "google/api/annotations.proto";
 
 
 service BundlerService {
+    option (google.api.api_visibility).restriction = "PROXY";
     rpc CreateBundle(CreateBundleRequest) returns (CreateBundleResponse) {
         option (google.api.http) = {
             post : "/v2/bundle"
