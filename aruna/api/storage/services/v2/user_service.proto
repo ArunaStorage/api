@@ -9,14 +9,14 @@ option java_outer_classname = "UserService";
 import "aruna/api/storage/models/v2/models.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
-
+import "google/api/visibility.proto";
 
 // UserService
 //
 // Contains all methods that get/create or update Users and associated resource
 // including all autorization methods
 service UserService {
-
+  option (google.api.api_visibility).restriction = "SERVER";
 
   // RegisterUser
   //
@@ -285,7 +285,7 @@ message GetAPITokensRequest {}
 
 message GetAPITokensResponse {
   // List of API tokens with redacted actual token
-  repeated storage.models.v2.Token token = 1;
+  repeated storage.models.v2.Token tokens = 1;
 }
 
 message DeleteAPITokenRequest {
