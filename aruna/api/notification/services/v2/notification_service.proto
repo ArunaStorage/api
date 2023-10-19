@@ -7,7 +7,9 @@ option java_package = "com.github.ArunaStorage.java_api.aruna.api.notification.s
 option java_outer_classname = "UpdateNotificationServices";
 
 import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
 import "aruna/api/storage/models/v2/models.proto";
+import "google/api/visibility.proto";
 
 
 
@@ -20,7 +22,12 @@ service EventNotificationService {
   //
   // Creates a new event stream consumer.
   rpc CreateStreamConsumer(CreateStreamConsumerRequest)
-      returns (CreateStreamConsumerResponse) {}
+      returns (CreateStreamConsumerResponse) {
+        option (google.api.http) = {
+          post : "/v2/notifications"
+          body : "*"
+        };
+      }
 
   // GetEventMessageBatch
   //
@@ -28,7 +35,11 @@ service EventNotificationService {
   // Each message contains a separate acknowledgement message thatis protected by a salt and an hmac for verification.
   // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message.
   rpc GetEventMessageBatch(GetEventMessageBatchRequest) 
-      returns (GetEventMessageBatchResponse) {}
+      returns (GetEventMessageBatchResponse) {
+        option (google.api.http) = {
+          get : "/v2/notifications/{stream_consumer}/batch"
+        };
+      }
 
   // GetEventMessageBatch
   //
@@ -36,20 +47,33 @@ service EventNotificationService {
   // Each message contains a separate acknowledgement message that is protected by a salt and an hmac for verification.
   // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message.
   rpc GetEventMessageStream(GetEventMessageStreamRequest) 
-      returns (stream GetEventMessageStreamResponse) {}
+      returns (stream GetEventMessageStreamResponse) {
+        option (google.api.http) = {
+          get : "/v2/notifications/{stream_consumer}/stream"
+        };
+      }
 
   // AcknowledgeMessageBatch
   //
   // List of messages to acknowledge
   // Each reply is protected by a salt and and hmac that verifies the message
   rpc AcknowledgeMessageBatch(AcknowledgeMessageBatchRequest) 
-      returns (AcknowledgeMessageBatchResponse) {}
+      returns (AcknowledgeMessageBatchResponse) {
+        option (google.api.http) = {
+          patch : "/v2/notifications/{stream_consumer}/ack"
+          body: "*"
+        };
+      }
 
   // DeleteEventStreamingGroup
   //
   // Deletes an existing event stream consumer by ID.
   rpc DeleteStreamConsumer(DeleteStreamConsumerRequest)
-      returns (DeleteStreamConsumerResponse) {}
+      returns (DeleteStreamConsumerResponse) {
+        option (google.api.http) = {
+          delete : "/v2/notifications/{stream_consumer}"
+        };
+      }
 }
 
 
