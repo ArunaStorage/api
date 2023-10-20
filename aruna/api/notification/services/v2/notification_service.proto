@@ -25,7 +25,7 @@ service EventNotificationService {
   rpc CreateStreamConsumer(CreateStreamConsumerRequest)
       returns (CreateStreamConsumerResponse) {
         option (google.api.http) = {
-          post : "/v2/notifications"
+          post : "/v2/notifications/consumer"
           body : "*"
         };
       }
