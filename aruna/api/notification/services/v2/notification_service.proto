@@ -61,7 +61,7 @@ service EventNotificationService {
   rpc AcknowledgeMessageBatch(AcknowledgeMessageBatchRequest) 
       returns (AcknowledgeMessageBatchResponse) {
         option (google.api.http) = {
-          patch : "/v2/notifications/{stream_consumer}/ack"
+          patch : "/v2/notifications/ack"
           body: "*"
         };
       }
