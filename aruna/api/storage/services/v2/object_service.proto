@@ -8,11 +8,14 @@ option java_outer_classname = "ObjectService";
 
 import "aruna/api/storage/models/v2/models.proto";
 import "google/api/annotations.proto";
+import "google/api/visibility.proto";
 
 // ObjectService
 //
 // Contains all methods that get/create or update Objects and associated resources
 service ObjectService {
+  option (google.api.api_visibility).restriction = "SERVER";
+
 
   // CreateObject
   //
@@ -147,8 +150,8 @@ message CreateObjectRequest {
   string description = 2;
   // collection specific labels / hooks
   repeated storage.models.v2.KeyValue key_values = 3;
-  // External relations (URLs / IDs from external sources)
-  repeated storage.models.v2.ExternalRelation external_relations = 4;
+  // Internal / External relations (URLs / IDs from external sources)
+  repeated storage.models.v2.Relation relations = 4;
   // DataClass
   storage.models.v2.DataClass data_class = 5;
   // Parent can be one of all other resources
@@ -158,6 +161,8 @@ message CreateObjectRequest {
     string dataset_id = 8;
   }
   repeated storage.models.v2.Hash hashes = 9;
+  string metadata_license_tag = 10;
+  string data_license_tag = 11;
 }
 
 message CreateObjectResponse {
@@ -236,6 +241,8 @@ message UpdateObjectRequest {
   repeated storage.models.v2.Hash hashes = 12;
   // Force new object revision
   bool force_revision = 13;
+  string metadata_license_tag = 14;
+  string data_license_tag = 15;
 }
 
 message UpdateObjectResponse {

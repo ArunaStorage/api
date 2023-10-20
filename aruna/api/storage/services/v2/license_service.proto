@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v2;
+option go_package = "github.com/ArunaStorage/go-api/v2/aruna/api/storage/services/v2";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
+option java_outer_classname = "LicenseService";
+import "aruna/api/storage/models/v2/models.proto";
+import "google/api/annotations.proto";
+import "google/api/visibility.proto";
+
+// LicenseService
+//
+// Contains all methods to add, get or list licenses
+service LicenseService {
+    option (google.api.api_visibility).restriction = "SERVER";
+    // CreateLicense
+    //
+    // Status: BETA
+    //
+    // This creates a new license
+    rpc CreateLicense(CreateLicenseRequest) returns (CreateLicenseResponse) {
+        option (google.api.http) = {
+        post : "/v2/license"
+        body : "*"
+        };
+    }
+
+        // GetLicense
+    //
+    // Status: BETA
+    //
+    // This returns the license for a given tag
+    rpc GetLicense(GetLicenseRequest) returns (GetLicenseResponse) {
+        option (google.api.http) = {
+        get : "/v2/license/{tag}"
+        };
+    }
+
+    // ListLicenses
+    //
+    // Status: BETA
+    //
+    // This returns a list of all licenses
+    rpc ListLicenses(ListLicensesRequest) returns (ListLicensesResponse) {
+        option (google.api.http) = {
+        get : "/v2/licenses"
+        };
+    }
+}
+
+// CreateLicenseRequest
+//
+// Request object for CreateLicense
+message CreateLicenseRequest {
+    string tag = 1; // CC-BY-SA-4.0
+    string name = 2; // Creative Commons Attribution-ShareAlike 4.0 International
+    string text = 3; 
+    // url is optional
+    string url = 4; // https://creativecommons.org/licenses/by-sa/4.0/
+}
+
+// CreateLicenseResponse
+//
+// Response object for CreateLicense
+message CreateLicenseResponse {
+    string tag = 1; // CC-BY-SA-4.0
+}
+
+// GetLicenseRequest
+//
+// Request object for GetLicense
+message GetLicenseRequest {
+    string tag = 1; // 1234567890abcdef
+}
+
+// GetLicenseResponse
+//
+// Response object for GetLicense
+message GetLicenseResponse {
+    storage.models.v2.License license = 1;
+}
+
+// ListLicensesRequest
+//
+// Request object for ListLicense
+message ListLicensesRequest {}
+
+// ListLicenseResponse
+//
+// Response object for ListLicense
+message ListLicensesResponse {    
+    repeated storage.models.v2.License licenses = 1;
+}

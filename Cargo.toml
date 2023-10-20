@@ -1,19 +1,17 @@
 [package]
 authors = ["Sebastian Beyvers <sebastian.beyvers@computational.bio.uni-giessen.de>"]
 description = "Tests building the Rust grpc stubs for ArunaAPI"
-edition = "2018"
+edition = "2021"
 name = "aruna_api_buildtests"
 version = "2.0.0"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [[bin]]
 name = "aruna_api_buildtests"
 path = "./tests/build.rs"
 
 [dependencies]
-bytes = "1.4.0"
-tonic = "0.9.0"
-prost = "0.11.0"
-tonic-build = "0.9.0"
-uuid = "1.4.0"
+bytes = "1.5.0"
+tonic = "0.10.2"
+prost = "0.12.1"
+tonic-build = "0.10.2"
+uuid = "1.5.0"

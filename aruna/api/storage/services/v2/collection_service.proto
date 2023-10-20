@@ -7,11 +7,13 @@ option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.servic
 option java_outer_classname = "CollectionService";
 import "aruna/api/storage/models/v2/models.proto";
 import "google/api/annotations.proto";
+import "google/api/visibility.proto";
 
 // CollectionService
 //
 // Contains all methods that get/create or update Collection and associated resources
 service CollectionService {
+  option (google.api.api_visibility).restriction = "SERVER";
 
   // CreateNewCollection
   //
@@ -120,6 +122,18 @@ service CollectionService {
       body : "*"
     };
   }
+
+  // UpdateLicenses
+  //
+  // Status: BETA
+  //
+  // Updates the collections metadata license and/or default data license.
+  rpc UpdateCollectionLicenses(UpdateCollectionLicensesRequest) returns (UpdateCollectionLicensesResponse) {
+    option (google.api.http) = {
+      patch : "/v2/collection/{collection_id}/licenses"
+      body : "*"
+    };
+  }
 }
 
 message CreateCollectionRequest {
@@ -129,14 +143,16 @@ message CreateCollectionRequest {
   string description = 2;
   // collection specific labels / hooks
   repeated storage.models.v2.KeyValue key_values = 3;
-  // External relations (URLs / IDs from external sources)
-  repeated storage.models.v2.ExternalRelation external_relations = 4;
+  // Internal /External relations (URLs / IDs from external sources)
+  repeated storage.models.v2.Relation relations = 4;
   // DataClass
   storage.models.v2.DataClass data_class = 5;
-  // Parent_id MUST be collection
+  // Parent_id MUST be project
   oneof parent {
     string project_id = 6;
   }
+  string metadata_license_tag = 7;
+  string default_data_license_tag = 8;
 }
 
 message CreateCollectionResponse {
@@ -212,5 +228,15 @@ message SnapshotCollectionRequest {
 
 message SnapshotCollectionResponse {
   // This collection will be returned via an Persistent Identifier! Updates will be impossible
+  storage.models.v2.Collection collection = 1;
+}
+
+message UpdateCollectionLicensesRequest {
+  string collection_id = 1;
+  string metadata_license_tag = 2;
+  string default_data_license_tag = 3;
+}
+
+message UpdateCollectionLicensesResponse {
   storage.models.v2.Collection collection = 1;
 }

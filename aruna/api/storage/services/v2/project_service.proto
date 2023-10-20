@@ -9,6 +9,7 @@ option java_outer_classname = "ProjectService";
 import "aruna/api/storage/models/v2/models.proto";
 import "google/api/annotations.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/visibility.proto";
 
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 	info: {
@@ -43,6 +44,7 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 //
 // Contains all methods that get/create or update Projects and associated resources
 service ProjectService {
+  option (google.api.api_visibility).restriction = "SERVER";
 
   // CreateProject
   //
@@ -137,6 +139,18 @@ service ProjectService {
     };
   }
 
+  // UpdateLicense
+  //
+  // Status: BETA
+  //
+  // Updates the project license. All (meta) data will be overwritten.
+  rpc UpdateProjectLicenses(UpdateProjectLicensesRequest) returns (UpdateProjectLicensesResponse) {
+    option (google.api.http) = {
+      patch : "/v2/project/{project_id}/licenses"
+      body : "*"
+    };
+  }
+
   // ArchiveProjectRequest
   //
   // Status: BETA
@@ -157,12 +171,15 @@ message CreateProjectRequest {
   string description = 2;
   // Project specific labels / hooks
   repeated storage.models.v2.KeyValue key_values = 3;
-  // External relations (URLs / IDs from external sources)
-  repeated storage.models.v2.ExternalRelation external_relations = 4;
+  // Internal / External relations (URLs / IDs from external sources)
+  repeated storage.models.v2.Relation relations = 4;
   // DataClass
   storage.models.v2.DataClass data_class = 5;
   // Preferred endpoint
   string preferred_endpoint = 6;
+  // 
+  string metadata_license_tag = 7;
+  string default_data_license_tag = 8;
 }
 
 message CreateProjectResponse {
@@ -242,5 +259,15 @@ message ArchiveProjectRequest {
 
 message ArchiveProjectResponse {
   // This project will be returned via an Persistent Identifier! Updates will be impossible
+  storage.models.v2.Project project = 1;
+}
+
+message UpdateProjectLicensesRequest {
+  string project_id = 1;
+  string metadata_license_tag = 2;
+  string default_data_license_tag = 3;
+}
+
+message UpdateProjectLicensesResponse {
   storage.models.v2.Project project = 1;
 }

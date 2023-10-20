@@ -7,6 +7,7 @@ option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.servic
 option java_outer_classname = "HooksService"; 
 import "google/api/annotations.proto";
 import "aruna/api/storage/models/v2/models.proto";
+import "google/api/visibility.proto";
 
 
 // HooksService
@@ -15,6 +16,8 @@ import "aruna/api/storage/models/v2/models.proto";
 //
 // A service that enables automatic Hook scheduling
 service HooksService {
+    option (google.api.api_visibility).restriction = "SERVER";
+
     // Created Hooks are always associated with the owner that creates the hook
     rpc CreateHook(CreateHookRequest) returns (CreateHookResponse) {
         option (google.api.http) = {
