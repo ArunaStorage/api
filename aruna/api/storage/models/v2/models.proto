@@ -356,5 +356,5 @@ message Object {
   // Object specific attributes
   repeated Hash hashes = 13;  
   string metadata_license_tag = 14;
-  string default_data_license_tag = 15;
+  string data_license_tag = 15;
 }

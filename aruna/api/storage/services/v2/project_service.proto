@@ -171,7 +171,7 @@ message CreateProjectRequest {
   string description = 2;
   // Project specific labels / hooks
   repeated storage.models.v2.KeyValue key_values = 3;
-  // External / Internal relations (URLs / IDs from external sources)
+  // Internal / External relations (URLs / IDs from external sources)
   repeated storage.models.v2.Relation relations = 4;
   // DataClass
   storage.models.v2.DataClass data_class = 5;

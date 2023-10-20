@@ -9,9 +9,9 @@ import "aruna/api/storage/models/v2/models.proto";
 import "google/api/annotations.proto";
 import "google/api/visibility.proto";
 
-// AuthorizationService
+// LicenseService
 //
-// Contains all methods to edit and change user authorization
+// Contains all methods to add, get or list licenses
 service LicenseService {
     option (google.api.api_visibility).restriction = "SERVER";
     // CreateLicense
@@ -37,14 +37,14 @@ service LicenseService {
         };
     }
 
-    // ListLicense
+    // ListLicenses
     //
     // Status: BETA
     //
     // This returns a list of all licenses
-    rpc ListLicense(ListLicenseRequest) returns (ListLicenseResponse) {
+    rpc ListLicenses(ListLicensesRequest) returns (ListLicensesResponse) {
         option (google.api.http) = {
-        get : "/v2/license"
+        get : "/v2/licenses"
         };
     }
 }
@@ -81,14 +81,14 @@ message GetLicenseResponse {
     storage.models.v2.License license = 1;
 }
 
-// ListLicenseRequest
+// ListLicensesRequest
 //
 // Request object for ListLicense
-message ListLicenseRequest {}
+message ListLicensesRequest {}
 
 // ListLicenseResponse
 //
 // Response object for ListLicense
-message ListLicenseResponse {    
+message ListLicensesResponse {    
     repeated storage.models.v2.License licenses = 1;
 }
