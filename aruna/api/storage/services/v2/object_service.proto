@@ -192,7 +192,7 @@ message GetDownloadURLResponse {
   string url = 1;
 }
 
-message CompletedParts {
+message CompletedPart {
   // Multipart identifier
   string etag = 1;
   // Part number
@@ -211,7 +211,7 @@ message FinishObjectStagingRequest {
   // If the upload was multipart, this is the list of parts that were uploaded.
   // Should be empty if the upload was not multipart.
   // (optional)
-  repeated CompletedParts completed_parts = 4;
+  repeated CompletedPart completed_parts = 4;
 }
 
 message FinishObjectStagingResponse {
