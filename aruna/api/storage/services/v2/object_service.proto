@@ -241,8 +241,8 @@ message UpdateObjectRequest {
   repeated storage.models.v2.Hash hashes = 12;
   // Force new object revision
   bool force_revision = 13;
-  string metadata_license_tag = 14;
-  string data_license_tag = 15;
+  optional string metadata_license_tag = 14;
+  optional string data_license_tag = 15;
 }
 
 message UpdateObjectResponse {
