@@ -56,10 +56,11 @@ service HooksService {
 enum TriggerType {
     TRIGGER_TYPE_UNSPECIFIED = 0;
     TRIGGER_TYPE_HOOK_ADDED = 1;
-    TRIGGER_TYPE_OBJECT_CREATED = 2;
+    TRIGGER_TYPE_RESOURCE_CREATED = 2;
     TRIGGER_TYPE_LABEL_ADDED = 3;
     TRIGGER_TYPE_STATIC_LABEL_ADDED = 4;
     TRIGGER_TYPE_HOOK_STATUS_CHANGED = 5;
+    TRIGGER_TYPE_OBJECT_FINISHED = 6;
 }
 
 
@@ -73,7 +74,7 @@ message ExternalHook {
     string url = 1;
     Credentials credentials = 2;
     // If empty a basic JSON template will be used
-    optional string custom_template = 3; 
+    optional string custom_template = 3;
     Method method = 5;
     // TODO: Optional request headers
 }
