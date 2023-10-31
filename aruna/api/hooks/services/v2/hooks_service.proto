@@ -48,7 +48,7 @@ service HooksService {
     }
     rpc HookCallback(HookCallbackRequest) returns (HookCallbackResponse) {
         option (google.api.http) = {
-            delete : "/v2/hook/callback"
+            patch : "/v2/hook/callback"
         };
     }
 }
@@ -76,7 +76,6 @@ message ExternalHook {
     // If empty a basic JSON template will be used
     optional string custom_template = 3;
     Method method = 5;
-    // TODO: Optional request headers
 }
 
 enum Method {
