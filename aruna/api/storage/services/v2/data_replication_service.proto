@@ -77,3 +77,56 @@ service DataReplicationService {
       };
     }
 }
+
+enum ReplicationStatus {
+  REPLICATION_STATUS_UNSPECIFIED = 0;
+  REPLICATION_STATUS_WAITING = 1;
+  REPLICATION_STATUS_RUNNING = 2;
+  REPLICATION_STATUS_FINISHED = 3;
+  REPLICATION_STATUS_ERROR = 4;
+}
+
+message ReplicateProjectDataRequest {
+  string project_id = 1;
+  string endpoint_id = 2;
+}
+
+message ReplicateProjectDataResponse {
+  ReplicationStatus status = 1;
+}
+
+message PartialReplicateDataRequest {
+  oneof response {
+    string collection_id = 1;
+    string dataset_id = 2;
+    string object_id = 3;
+  }
+  string endpoint_id = 4;
+}
+
+message PartialReplicateDataResponse {
+  ReplicationStatus status = 1;
+}
+
+message UpdateReplicationStatusRequest {
+  string resource_id = 1;
+  string endpoint_id = 2;
+  ReplicationStatus status = 3;
+}
+
+message UpdateReplicationStatusResponse {}
+
+message GetReplicationStatusRequest {
+  string resource_id = 1;
+}
+
+message GetReplicationStatusResponse {
+  ReplicationStatus status = 1;
+}
+
+message DeleteReplicationRequest {
+  string resource_id = 1;
+  string endpoint_id = 2;
+}
+
+message DeleteReplicationResponse {}
