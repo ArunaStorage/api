@@ -66,8 +66,7 @@ enum TriggerType {
 
 message Trigger {
     TriggerType trigger_type = 1;
-    string key = 2;
-    string value = 3;
+    repeated Filter filters = 2;
 }
 
 message ExternalHook {
@@ -96,9 +95,9 @@ message AddHook {
 
 message InternalHook {
     oneof internal_action {
-	AddLabel add_label = 1;
-	AddHook add_hook = 2;
-	storage.models.v2.Relation add_relation = 3;
+	      AddLabel add_label = 1;
+	      AddHook add_hook = 2;
+	      storage.models.v2.Relation add_relation = 3;
     }
 }
 
@@ -112,6 +111,16 @@ message Hook {
 // Will be expanded with additional credential types
 message Credentials {
     string token = 1;
+}
+
+message Filter {
+    oneof filter_variant {
+        // Regex that matches name field
+        string name = 1;
+        // Regex that matches key AND value
+        storage.models.v2.KeyValue key_value = 2;
+        // TODO: ObjectType & ObjectStatus
+    }
 }
 
 message CreateHookRequest {
@@ -134,8 +143,8 @@ message DeleteHookResponse {}
 
 message HookCallbackRequest {
     oneof status {
-	Finished finished = 1;
-	Error error = 2;
+	      Finished finished = 1;
+	      Error error = 2;
     };
     string secret = 3;
     string hook_id = 4;
