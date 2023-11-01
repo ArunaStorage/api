@@ -61,7 +61,7 @@ service UserService {
   // Creates an API token to authenticate
   rpc CreateAPIToken(CreateAPITokenRequest) returns (CreateAPITokenResponse) {
     option (google.api.http) = {
-      post : "/v2/user/token"
+      post : "/v2/user/tokens"
       body : "*"
     };
   }
@@ -73,7 +73,7 @@ service UserService {
   // Returns one API token by id
   rpc GetAPIToken(GetAPITokenRequest) returns (GetAPITokenResponse) {
     option (google.api.http) = {
-      get : "/v2/user/token/{token_id}"
+      get : "/v2/user/tokens/{token_id}"
     };
   }
 
@@ -95,7 +95,7 @@ service UserService {
   // Deletes the specified API Token
   rpc DeleteAPIToken(DeleteAPITokenRequest) returns (DeleteAPITokenResponse) {
     option (google.api.http) = {
-      delete : "/v2/user/token/{token_id}"
+      delete : "/v2/user/tokens/{token_id}"
     };
   }
 
@@ -107,7 +107,7 @@ service UserService {
   rpc DeleteAPITokens(DeleteAPITokensRequest)
       returns (DeleteAPITokensResponse) {
     option (google.api.http) = {
-      delete : "/v2/user/tokens"
+      delete : "/v2/user/tokens/{token_id}"
     };
   }
 
@@ -132,7 +132,7 @@ service UserService {
   // Redacts personal information like name or email
   rpc GetUserRedacted(GetUserRedactedRequest) returns (GetUserRedactedResponse) {
     option (google.api.http) = {
-      get : "/v2/user/redacted"
+      get : "/v2/user/{user_id}/redacted"
     };
   }
 
@@ -157,7 +157,7 @@ service UserService {
   rpc UpdateUserEmail(UpdateUserEmailRequest)
       returns (UpdateUserEmailResponse) {
     option (google.api.http) = {
-      patch : "/v2/user/{user_id}/email"
+      patch : "/v2/user/email"
       body : "*"
     };
   }
@@ -170,7 +170,7 @@ service UserService {
   rpc GetNotActivatedUsers(GetNotActivatedUsersRequest)
       returns (GetNotActivatedUsersResponse) {
     option (google.api.http) = {
-      get : "/v2/user/not_activated"
+      get : "/v2/user/list/not_activated"
     };
   }
 
@@ -182,7 +182,7 @@ service UserService {
   rpc GetAllUsers(GetAllUsersRequest)
       returns (GetAllUsersResponse) {
     option (google.api.http) = {
-      get : "/v2/user/all"
+      get : "/v2/user/list"
     };
   }
 
@@ -231,7 +231,7 @@ service UserService {
   rpc AcknowledgePersonalNotifications(AcknowledgePersonalNotificationsRequest)
       returns (AcknowledgePersonalNotificationsResponse) {
     option (google.api.http) = {
-      get : "/v2/user/acknowledge"
+      get : "/v2/user/notifications/acknowledge"
     };
   }
 

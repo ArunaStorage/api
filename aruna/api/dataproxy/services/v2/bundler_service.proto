@@ -15,13 +15,13 @@ service BundlerService {
     option (google.api.api_visibility).restriction = "PROXY";
     rpc CreateBundle(CreateBundleRequest) returns (CreateBundleResponse) {
         option (google.api.http) = {
-            post : "/v2/bundle"
+            post : "/v2/bundles"
             body : "*"
         };
     }
     rpc DeleteBundle(DeleteBundleRequest) returns (DeleteBundleResponse) {
         option (google.api.http) = {
-            delete : "/v2/bundle"
+            delete : "/v2/bundles/{bundle_id}"
             body : "*"
         };
     }

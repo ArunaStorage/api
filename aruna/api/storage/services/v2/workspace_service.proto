@@ -20,7 +20,7 @@ service WorkspaceService {
   rpc CreateWorkspaceTemplate(CreateWorkspaceTemplateRequest)
       returns (CreateWorkspaceTemplateResponse) {
     option (google.api.http) = {
-      post : "/v2/workspace/template"
+      post : "/v2/workspaces/templates"
       body : "*"
     };
   }
@@ -32,7 +32,7 @@ service WorkspaceService {
   rpc GetWorkspaceTemplate(GetWorkspaceTemplateRequest)
       returns (GetWorkspaceTemplateResponse) {
     option (google.api.http) = {
-      get: "/v2/workspace/template/{template_id}"
+      get: "/v2/workspaces/templates/{template_id}"
     };
   }
   // ListOwnedWorkspaceTemplates
@@ -43,7 +43,7 @@ service WorkspaceService {
   rpc ListOwnedWorkspaceTemplates(ListOwnedWorkspaceTemplatesRequest)
       returns (ListOwnedWorkspaceTemplatesResponse) {
     option (google.api.http) = {
-      get: "/v2/workspace/template"
+      get: "/v2/workspaces/templates"
     };
   }
   // DeleteWorkspaceTemplates
@@ -54,7 +54,7 @@ service WorkspaceService {
   rpc DeleteWorkspaceTemplate(DeleteWorkspaceTemplateRequest)
       returns (DeleteWorkspaceTemplateResponse) {
     option (google.api.http) = {
-      delete: "/v2/workspace/template/{template_id}"
+      delete: "/v2/workspaces/templates/{template_id}"
       body : "*"
     };
   }
@@ -67,7 +67,7 @@ service WorkspaceService {
   rpc CreateWorkspace(CreateWorkspaceRequest)
       returns (CreateWorkspaceResponse) {
     option (google.api.http) = {
-      post : "/v2/workspace"
+      post : "/v2/workspaces"
       body : "*"
     };
   }
@@ -81,7 +81,7 @@ service WorkspaceService {
   rpc DeleteWorkspace(DeleteWorkspaceRequest)
       returns (DeleteWorkspaceResponse) {
     option (google.api.http) = {
-      delete : "/v2/workspace/{workspace_id}"
+      delete : "/v2/workspaces/{workspace_id}"
       body : "*"
     };
   }
@@ -94,7 +94,7 @@ service WorkspaceService {
   rpc ClaimWorkspace(ClaimWorkspaceRequest)
       returns (ClaimWorkspaceResponse) {
     option (google.api.http) = {
-      post : "/v2/workspace/{workspace_id}/claim"
+      post : "/v2/workspaces/{workspace_id}/claim"
       body : "*"
     };
   }

@@ -21,7 +21,7 @@ service DataReplicationService {
     rpc ReplicateProjectData(ReplicateProjectDataRequest)
         returns (ReplicateProjectDataResponse) {
       option (google.api.http) = {
-        post : "/v2/endpoint/{endpoint_id}/replication/project/{project_id}"
+        post : "/v2/endpoints/{endpoint_id}/replication/{project_id}"
         body: "*"
       };
     }
@@ -34,7 +34,7 @@ service DataReplicationService {
     rpc PartialReplicateData(PartialReplicateDataRequest)
         returns (PartialReplicateDataResponse) {
       option (google.api.http) = {
-        post : "/v2/endpoint/{endpoint_id}/replication/partial/{resource_id}"
+        post : "/v2/endpoints/{endpoint_id}/replication/{resource_id}/partial"
         body: "*"
     };
     }
@@ -47,7 +47,7 @@ service DataReplicationService {
     rpc UpdateReplicationStatus(UpdateReplicationStatusRequest)
         returns (UpdateReplicationStatusResponse) {
       option (google.api.http) = {
-        patch : "/v2/endpoint/{endpoint_id}/replication/status/{resource_id}"
+        patch : "/v2/endpoints/{endpoint_id}/replication/{resource_id}/status"
         body: "*"
       };
     }
@@ -60,7 +60,7 @@ service DataReplicationService {
     rpc GetReplicationStatus(GetReplicationStatusRequest)
         returns (GetReplicationStatusResponse) {
       option (google.api.http) = {
-        get : "/v2/endpoint/{endpoint_id}/replication/status/{resource_id}"
+        get : "/v2/endpoints/{endpoint_id}/replication/{resource_id}/status"
       };
     }
 
@@ -72,7 +72,7 @@ service DataReplicationService {
     rpc DeleteReplication(DeleteReplicationRequest)
         returns (DeleteReplicationResponse) {
       option (google.api.http) = {
-        delete : "/v2/endpoint/{endpoint_id}/replication/{resource_id}"
+        delete : "/v2/endpoints/{endpoint_id}/replication/{resource_id}"
       };
     }
 }

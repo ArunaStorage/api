@@ -29,7 +29,7 @@ service SearchService {
     // Retrieves resource by its ID.
     rpc GetResource(GetResourceRequest) returns (GetResourceResponse){
       option (google.api.http) = {
-        get : "/v2/resource/{resource_id}"
+        get : "/v2/resources/{resource_id}"
       };
     }
 
@@ -52,7 +52,7 @@ service SearchService {
     // Requests access to resources
     rpc RequestResourceAccess(RequestResourceAccessRequest) returns (RequestResourceAccessResponse){
       option (google.api.http) = {
-        get : "/v2/resource/{resource_id}/access"
+        get : "/v2/resources/{resource_id}/access"
       };
     }
 }

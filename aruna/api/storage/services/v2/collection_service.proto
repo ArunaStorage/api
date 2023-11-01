@@ -23,7 +23,7 @@ service CollectionService {
   rpc CreateCollection(CreateCollectionRequest)
       returns (CreateCollectionResponse) {
     option (google.api.http) = {
-      post : "/v2/collection"
+      post : "/v2/collections"
       body : "*"
     };
   }
@@ -36,7 +36,7 @@ service CollectionService {
   rpc GetCollection(GetCollectionRequest)
       returns (GetCollectionResponse) {
     option (google.api.http) = {
-      get : "/v2/collection/{collection_id}"
+      get : "/v2/collections/{collection_id}"
     };
   }
 
@@ -59,7 +59,7 @@ service CollectionService {
   rpc DeleteCollection(DeleteCollectionRequest)
       returns (DeleteCollectionResponse) {
     option (google.api.http) = {
-      delete : "/v2/collection/{collection_id}"
+      delete : "/v2/collections/{collection_id}"
     };
   }
 
@@ -70,7 +70,7 @@ service CollectionService {
   // Updates the collection name. Caveat! Will rename the "s3 bucket" for data proxies! 
   rpc UpdateCollectionName(UpdateCollectionNameRequest) returns (UpdateCollectionNameResponse) {
     option (google.api.http) = {
-      patch : "/v2/collection/{collection_id}/name"
+      patch : "/v2/collections/{collection_id}/name"
       body : "*"
     };
   }
@@ -82,7 +82,7 @@ service CollectionService {
   // Updates the collection description.
   rpc UpdateCollectionDescription(UpdateCollectionDescriptionRequest) returns (UpdateCollectionDescriptionResponse) {
     option (google.api.http) = {
-      patch : "/v2/collection/{collection_id}/description"
+      patch : "/v2/collections/{collection_id}/description"
       body : "*"
     };
   }
@@ -94,7 +94,7 @@ service CollectionService {
   // Updates the collection key values.
   rpc UpdateCollectionKeyValues(UpdateCollectionKeyValuesRequest) returns (UpdateCollectionKeyValuesResponse) {
     option (google.api.http) = {
-      patch : "/v2/collection/{collection_id}/key_values"
+      patch : "/v2/collections/{collection_id}/key_values"
       body : "*"
     };
   }
@@ -106,7 +106,7 @@ service CollectionService {
   // Updates the collection name. All (meta) data will be overwritten.
   rpc UpdateCollectionDataClass(UpdateCollectionDataClassRequest) returns (UpdateCollectionDataClassResponse) {
     option (google.api.http) = {
-      patch : "/v2/collection/{collection_id}/data_class"
+      patch : "/v2/collections/{collection_id}/data_class"
       body : "*"
     };
   }
@@ -118,7 +118,7 @@ service CollectionService {
   // Archives the full collection, rendering all downstream relations immutable
   rpc SnapshotCollection(SnapshotCollectionRequest) returns (SnapshotCollectionResponse) {
     option (google.api.http) = {
-      post : "/v2/collection/{collection_id}/snapshot"
+      post : "/v2/collections/{collection_id}/snapshot"
       body : "*"
     };
   }
@@ -130,7 +130,7 @@ service CollectionService {
   // Updates the collections metadata license and/or default data license.
   rpc UpdateCollectionLicenses(UpdateCollectionLicensesRequest) returns (UpdateCollectionLicensesResponse) {
     option (google.api.http) = {
-      patch : "/v2/collection/{collection_id}/licenses"
+      patch : "/v2/collections/{collection_id}/licenses"
       body : "*"
     };
   }

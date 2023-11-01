@@ -21,19 +21,19 @@ service HooksService {
     // Created Hooks are always associated with the owner that creates the hook
     rpc CreateHook(CreateHookRequest) returns (CreateHookResponse) {
         option (google.api.http) = {
-            post : "/v2/hook"
+            post : "/v2/hooks"
             body : "*"
           };
     }
     rpc AddProjectsToHook(AddProjectsToHookRequest) returns (AddProjectsToHookResponse) {
 	option (google.api.http) = {
-	    post : "/v2/hook/{hook_id}"
+	    post : "/v2/hooks/{hook_id}"
 	    body : "*"
 	};
     }
     rpc ListProjectHooks(ListProjectHooksRequest) returns (ListProjectHooksResponse) {
         option (google.api.http) = {
-            get : "/v2/hooks/project/{project_id}"
+            get : "/v2/hooks/projects/{project_id}"
         };
     }
     rpc ListOwnedHooks(ListOwnedHooksRequest) returns (ListOwnedHooksResponse) {
@@ -43,12 +43,12 @@ service HooksService {
     }
     rpc DeleteHook(DeleteHookRequest) returns (DeleteHookResponse) {
         option (google.api.http) = {
-            delete : "/v2/hook/{hook_id}"
+            delete : "/v2/hooks/{hook_id}"
         };
     }
     rpc HookCallback(HookCallbackRequest) returns (HookCallbackResponse) {
         option (google.api.http) = {
-            patch : "/v2/hook/callback"
+            patch : "/v2/hooks/callback"
         };
     }
 }

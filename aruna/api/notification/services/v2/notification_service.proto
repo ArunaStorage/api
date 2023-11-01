@@ -25,7 +25,7 @@ service EventNotificationService {
   rpc CreateStreamConsumer(CreateStreamConsumerRequest)
       returns (CreateStreamConsumerResponse) {
         option (google.api.http) = {
-          post : "/v2/notifications/consumer"
+          post : "/v2/notifications/consumers"
           body : "*"
         };
       }
@@ -61,7 +61,7 @@ service EventNotificationService {
   rpc AcknowledgeMessageBatch(AcknowledgeMessageBatchRequest) 
       returns (AcknowledgeMessageBatchResponse) {
         option (google.api.http) = {
-          patch : "/v2/notifications/ack"
+          patch : "/v2/notifications/acknowledge"
           body: "*"
         };
       }

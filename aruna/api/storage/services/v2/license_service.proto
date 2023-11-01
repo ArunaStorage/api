@@ -21,7 +21,7 @@ service LicenseService {
     // This creates a new license
     rpc CreateLicense(CreateLicenseRequest) returns (CreateLicenseResponse) {
         option (google.api.http) = {
-        post : "/v2/license"
+        post : "/v2/licenses"
         body : "*"
         };
     }
@@ -33,7 +33,7 @@ service LicenseService {
     // This returns the license for a given tag
     rpc GetLicense(GetLicenseRequest) returns (GetLicenseResponse) {
         option (google.api.http) = {
-        get : "/v2/license/{tag}"
+        get : "/v2/licenses/{tag}"
         };
     }
 

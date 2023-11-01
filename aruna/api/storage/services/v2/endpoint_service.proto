@@ -24,7 +24,7 @@ service EndpointService {
   // Needs admin permissions
   rpc CreateEndpoint(CreateEndpointRequest) returns (CreateEndpointResponse) {
     option (google.api.http) = {
-      post : "/v2/endpoint"
+      post : "/v2/endpoints"
       body : "*"
     };
   }
@@ -37,7 +37,7 @@ service EndpointService {
   // Requests a full sync of all endpoint related data
   rpc FullSyncEndpoint(FullSyncEndpointRequest) returns (stream FullSyncEndpointResponse) {
     option (google.api.http) = {
-      get : "/v2/endpoint/sync"
+      get : "/v2/endpoints/sync"
     };
   }
 
@@ -48,7 +48,7 @@ service EndpointService {
   // Gets an specific endpoint by ID or Name
   rpc GetEndpoint(GetEndpointRequest) returns (GetEndpointResponse) {
     option (google.api.http) = {
-      get : "/v2/endpoint"
+      get : "/v2/endpoints/{endpoint_id}"
     };
   }
 
@@ -71,7 +71,7 @@ service EndpointService {
   // This needs admin permissions
   rpc DeleteEndpoint(DeleteEndpointRequest) returns (DeleteEndpointResponse) {
     option (google.api.http) = {
-      delete : "/v2/endpoint/{endpoint_id}"
+      delete : "/v2/endpoints/{endpoint_id}"
     };
   }
 
@@ -84,7 +84,7 @@ service EndpointService {
   rpc GetDefaultEndpoint(GetDefaultEndpointRequest)
       returns (GetDefaultEndpointResponse) {
     option (google.api.http) = {
-      get : "/v2/endpoint/default"
+      get : "/v2/endpoints/default"
     };
   }
 }

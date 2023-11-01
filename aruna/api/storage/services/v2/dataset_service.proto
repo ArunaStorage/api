@@ -23,7 +23,7 @@ service DatasetService {
   rpc CreateDataset(CreateDatasetRequest)
       returns (CreateDatasetResponse) {
     option (google.api.http) = {
-      post : "/v2/dataset"
+      post : "/v2/datasets"
       body : "*"
     };
   }
@@ -36,7 +36,7 @@ service DatasetService {
   rpc GetDataset(GetDatasetRequest)
       returns (GetDatasetResponse) {
     option (google.api.http) = {
-      get : "/v2/dataset/{dataset_id}"
+      get : "/v2/datasets/{dataset_id}"
     };
   }
 
@@ -59,7 +59,7 @@ service DatasetService {
   rpc DeleteDataset(DeleteDatasetRequest)
       returns (DeleteDatasetResponse) {
     option (google.api.http) = {
-      delete : "/v2/dataset/{dataset_id}"
+      delete : "/v2/datasets/{dataset_id}"
     };
   }
 
@@ -70,7 +70,7 @@ service DatasetService {
   // Updates the dataset name. Caveat! Will rename the "s3 bucket" for data proxies! 
   rpc UpdateDatasetName(UpdateDatasetNameRequest) returns (UpdateDatasetNameResponse) {
     option (google.api.http) = {
-      patch : "/v2/dataset/{dataset_id}/name"
+      patch : "/v2/datasets/{dataset_id}/name"
       body : "*"
     };
   }
@@ -82,7 +82,7 @@ service DatasetService {
   // Updates the dataset description.
   rpc UpdateDatasetDescription(UpdateDatasetDescriptionRequest) returns (UpdateDatasetDescriptionResponse) {
     option (google.api.http) = {
-      patch : "/v2/dataset/{dataset_id}/description"
+      patch : "/v2/datasets/{dataset_id}/description"
       body : "*"
     };
   }
@@ -94,7 +94,7 @@ service DatasetService {
   // Updates the dataset key values.
   rpc UpdateDatasetKeyValues(UpdateDatasetKeyValuesRequest) returns (UpdateDatasetKeyValuesResponse) {
     option (google.api.http) = {
-      patch : "/v2/dataset/{dataset_id}/key_values"
+      patch : "/v2/datasets/{dataset_id}/key_values"
       body : "*"
     };
   }
@@ -106,7 +106,7 @@ service DatasetService {
   // Updates the dataset name. All (meta) data will be overwritten.
   rpc UpdateDatasetDataClass(UpdateDatasetDataClassRequest) returns (UpdateDatasetDataClassResponse) {
     option (google.api.http) = {
-      patch : "/v2/dataset/{dataset_id}/data_class"
+      patch : "/v2/datasets/{dataset_id}/data_class"
       body : "*"
     };
   }
@@ -118,7 +118,7 @@ service DatasetService {
   // Archives the full dataset, rendering all downstream relations immutable
   rpc SnapshotDataset(SnapshotDatasetRequest) returns (SnapshotDatasetResponse) {
     option (google.api.http) = {
-      post : "/v2/dataset/{dataset_id}/snapshot"
+      post : "/v2/datasets/{dataset_id}/snapshot"
       body : "*"
     };
   }
@@ -130,7 +130,7 @@ service DatasetService {
   // Updates the dataset metadata license and/or default data license.
   rpc UpdateDatasetLicenses(UpdateDatasetLicensesRequest) returns (UpdateDatasetLicensesResponse) {
     option (google.api.http) = {
-      patch : "/v2/dataset/{dataset_id}/licenses"
+      patch : "/v2/datasets/{dataset_id}/licenses"
       body : "*"
     };
   }
