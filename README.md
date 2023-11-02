@@ -20,7 +20,7 @@ The API contains three main sections:
 
 ### Storage
 
-The storage section is divided in two sub-sections:
+The storage section is divided in two subsections:
 
 - [Models](aruna/api/storage/models/v1): This section contains the models that are used by the storage system. 
 
@@ -33,7 +33,7 @@ The Notification section provides a set of RPCs that are used to interact with t
 
 ### Internal
 
-This contains definitions for internal APIs that are used by different (micro) services internally. These endpoints are not exposed to external users. Currently the main use is the interaction with the storage proxy that bundles multiple storage methods (S3, local file system etc.) in one service that provides stable pre-authenticated up- and download URLs for users.
+This contains definitions for internal APIs that are used by different (micro) services internally. These endpoints are not exposed to external users. Currently, the main use is the interaction with the storage proxy that bundles multiple storage methods (S3, local file system etc.) in one service that provides stable pre-authenticated up- and download URLs for users.
 
 
 

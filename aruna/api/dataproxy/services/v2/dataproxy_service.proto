@@ -86,7 +86,7 @@ service DataproxyUserService {
     // Status of the previous replication request
     rpc ReplicationStatus(ReplicationStatusRequest) returns (ReplicationStatusResponse) {
         option (google.api.http) = {
-            get : "/v2/replica/status"
+            get : "/v2/replica/{replication_id}/status"
         };
     }
 }

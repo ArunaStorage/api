@@ -26,7 +26,7 @@ service ObjectService {
   rpc CreateObject(CreateObjectRequest)
       returns (CreateObjectResponse) {
     option (google.api.http) = {
-      post : "/v2/object"
+      post : "/v2/objects"
       body : "*"
     };
   }
@@ -41,7 +41,7 @@ service ObjectService {
   // part of the file / multipart upload.
   rpc GetUploadURL(GetUploadURLRequest) returns (GetUploadURLResponse) {
     option (google.api.http) = {
-      get : "/v2/object/{object_id}/upload"
+      get : "/v2/objects/{object_id}/upload"
     };
   }
 
@@ -53,7 +53,7 @@ service ObjectService {
   // will return a url that can be used to download a file from S3.
   rpc GetDownloadURL(GetDownloadURLRequest) returns (GetDownloadURLResponse) {
     option (google.api.http) = {
-      get : "/v2/object/{object_id}/download"
+      get : "/v2/objects/{object_id}/download"
     };
   }
 
@@ -65,7 +65,7 @@ service ObjectService {
   rpc FinishObjectStaging(FinishObjectStagingRequest)
       returns (FinishObjectStagingResponse) {
     option (google.api.http) = {
-      patch : "/v2/object/{object_id}/finish"
+      patch : "/v2/objects/{object_id}/finish"
       body : "*"
     };
   }
@@ -81,7 +81,7 @@ service ObjectService {
   // before they can be used.
   rpc UpdateObject(UpdateObjectRequest) returns (UpdateObjectResponse) {
     option (google.api.http) = {
-      post : "/v2/object/{object_id}"
+      post : "/v2/objects/{object_id}"
       body : "*"
     };
   }
@@ -107,7 +107,7 @@ service ObjectService {
   // Deletes the object with the complete revision history.
   rpc DeleteObject(DeleteObjectRequest) returns (DeleteObjectResponse) {
     option (google.api.http) = {
-      delete : "/v2/object/{object_id}"
+      delete : "/v2/objects/{object_id}"
       body : "*"
     };
   }
@@ -122,7 +122,7 @@ service ObjectService {
   // optional with_url boolean a download link can automatically be requested
   rpc GetObject(GetObjectRequest) returns (GetObjectResponse) {
     option (google.api.http) = {
-      get : "/v2/object/{object_id}"
+      get : "/v2/objects/{object_id}"
     };
   }
 
@@ -192,7 +192,7 @@ message GetDownloadURLResponse {
   string url = 1;
 }
 
-message CompletedParts {
+message CompletedPart {
   // Multipart identifier
   string etag = 1;
   // Part number
@@ -211,7 +211,7 @@ message FinishObjectStagingRequest {
   // If the upload was multipart, this is the list of parts that were uploaded.
   // Should be empty if the upload was not multipart.
   // (optional)
-  repeated CompletedParts completed_parts = 4;
+  repeated CompletedPart completed_parts = 4;
 }
 
 message FinishObjectStagingResponse {
@@ -241,8 +241,8 @@ message UpdateObjectRequest {
   repeated storage.models.v2.Hash hashes = 12;
   // Force new object revision
   bool force_revision = 13;
-  string metadata_license_tag = 14;
-  string data_license_tag = 15;
+  optional string metadata_license_tag = 14;
+  optional string data_license_tag = 15;
 }
 
 message UpdateObjectResponse {

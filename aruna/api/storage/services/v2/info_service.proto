@@ -48,16 +48,16 @@ service StorageStatusService {
   }
 
 
-  rpc GetAnouncements(GetAnouncementsRequest) returns (GetAnouncementsResponse) {
+  rpc GetAnnouncements(GetAnnouncementsRequest) returns (GetAnnouncementsResponse) {
     option (google.api.http) = {
-      get : "/v2/info/anouncements"
+      get : "/v2/info/announcements"
     };
   }
 
 
-  rpc SetAnouncements(SetAnouncementsRequest) returns (SetAnouncementsResponse) {
+  rpc SetAnnouncements(SetAnnouncementsRequest) returns (SetAnnouncementsResponse) {
     option (google.api.http) = {
-      post : "/v2/info/anouncements/set"
+      post : "/v2/info/announcements/set"
       body : "*"
     };
   }
@@ -121,24 +121,24 @@ message GetPubkeysResponse {
 }
 
 
-message Anouncement {
+message Announcement {
   string id = 1;
   string content = 2;
   google.protobuf.Timestamp created_at = 3;
 }
 
-message GetAnouncementsRequest {}
+message GetAnnouncementsRequest {}
 
 
-message GetAnouncementsResponse {
-  repeated Anouncement anouncements = 1;
+message GetAnnouncementsResponse {
+  repeated Announcement announcements = 1;
 }
 
-message SetAnouncementsRequest {
-  repeated Anouncement anouncements_upsert = 1;
-  repeated string anouncements_delete = 2;
+message SetAnnouncementsRequest {
+  repeated Announcement announcements_upsert = 1;
+  repeated string announcements_delete = 2;
 }
 
-message SetAnouncementsResponse {
-  repeated Anouncement anouncements = 1;
+message SetAnnouncementsResponse {
+  repeated Announcement announcements = 1;
 }

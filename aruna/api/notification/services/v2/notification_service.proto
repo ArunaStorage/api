@@ -25,7 +25,7 @@ service EventNotificationService {
   rpc CreateStreamConsumer(CreateStreamConsumerRequest)
       returns (CreateStreamConsumerResponse) {
         option (google.api.http) = {
-          post : "/v2/notifications/consumer"
+          post : "/v2/notifications/consumers"
           body : "*"
         };
       }
@@ -61,7 +61,7 @@ service EventNotificationService {
   rpc AcknowledgeMessageBatch(AcknowledgeMessageBatchRequest) 
       returns (AcknowledgeMessageBatchResponse) {
         option (google.api.http) = {
-          patch : "/v2/notifications/ack"
+          patch : "/v2/notifications/acknowledge"
           body: "*"
         };
       }
@@ -94,7 +94,7 @@ message CreateStreamConsumerRequest {
   oneof target {
     ResourceTarget resource = 1;
     string user = 2;
-    bool anouncements = 3;
+    bool announcements = 3;
     bool all = 4;
   }
   bool include_subresources = 5;
@@ -156,7 +156,7 @@ message EventMessage {
   oneof message_variant {
     ResourceEvent resource_event = 1;
     UserEvent user_event = 2;
-    AnouncementEvent announcement_event = 3;
+    AnnouncementEvent announcement_event = 3;
   }
 }
 
@@ -196,7 +196,7 @@ message NewPubkey {
   string pubkey = 1;
 }
 
-message AnouncementEvent {
+message AnnouncementEvent {
   oneof event_variant {
     string new_data_proxy_id = 1;
     string remove_data_proxy_id = 2;

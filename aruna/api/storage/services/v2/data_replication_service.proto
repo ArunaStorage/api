@@ -1,0 +1,131 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v2;
+option go_package = "github.com/ArunaStorage/go-api/v2/aruna/api/storage/services/v2";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
+option java_outer_classname = "DataReplicationService";
+
+import "google/api/annotations.proto";
+
+// DataReplicationService
+//
+// Endpoint specific methods for syncing data
+service DataReplicationService {
+
+    // ReplicateProjectData
+    //
+    // Status: ALPHA
+    //
+    // Replicates the (full) project data from one endpoint to another
+    rpc ReplicateProjectData(ReplicateProjectDataRequest)
+        returns (ReplicateProjectDataResponse) {
+      option (google.api.http) = {
+        post : "/v2/endpoints/{endpoint_id}/replication/{project_id}"
+        body: "*"
+      };
+    }
+
+    // PartialReplicateData
+    //
+    // Status: ALPHA
+    //
+    // Partial replicate data between endpoints
+    rpc PartialReplicateData(PartialReplicateDataRequest)
+        returns (PartialReplicateDataResponse) {
+      option (google.api.http) = {
+        post : "/v2/endpoints/{endpoint_id}/replication/{resource_id}/partial"
+        body: "*"
+    };
+    }
+
+    // UpdateReplicationStatus
+    //
+    // Status: ALPHA
+    //
+    // Update the replication status of a project
+    rpc UpdateReplicationStatus(UpdateReplicationStatusRequest)
+        returns (UpdateReplicationStatusResponse) {
+      option (google.api.http) = {
+        patch : "/v2/endpoints/{endpoint_id}/replication/{resource_id}/status"
+        body: "*"
+      };
+    }
+
+    // GetReplicationStatus
+    //
+    // Status: ALPHA
+    //
+    // Get the replication status of a project
+    rpc GetReplicationStatus(GetReplicationStatusRequest)
+        returns (GetReplicationStatusResponse) {
+      option (google.api.http) = {
+        get : "/v2/endpoints/{endpoint_id}/replication/{resource_id}/status"
+      };
+    }
+
+    // DeleteReplication
+    //
+    // Status: ALPHA
+    //
+    // Delete the replication status of a project
+    rpc DeleteReplication(DeleteReplicationRequest)
+        returns (DeleteReplicationResponse) {
+      option (google.api.http) = {
+        delete : "/v2/endpoints/{endpoint_id}/replication/{resource_id}"
+      };
+    }
+}
+
+enum ReplicationStatus {
+  REPLICATION_STATUS_UNSPECIFIED = 0;
+  REPLICATION_STATUS_WAITING = 1;
+  REPLICATION_STATUS_RUNNING = 2;
+  REPLICATION_STATUS_FINISHED = 3;
+  REPLICATION_STATUS_ERROR = 4;
+}
+
+message ReplicateProjectDataRequest {
+  string project_id = 1;
+  string endpoint_id = 2;
+}
+
+message ReplicateProjectDataResponse {
+  ReplicationStatus status = 1;
+}
+
+message PartialReplicateDataRequest {
+  oneof response {
+    string collection_id = 1;
+    string dataset_id = 2;
+    string object_id = 3;
+  }
+  string endpoint_id = 4;
+}
+
+message PartialReplicateDataResponse {
+  ReplicationStatus status = 1;
+}
+
+message UpdateReplicationStatusRequest {
+  string resource_id = 1;
+  string endpoint_id = 2;
+  ReplicationStatus status = 3;
+}
+
+message UpdateReplicationStatusResponse {}
+
+message GetReplicationStatusRequest {
+  string resource_id = 1;
+}
+
+message GetReplicationStatusResponse {
+  ReplicationStatus status = 1;
+}
+
+message DeleteReplicationRequest {
+  string resource_id = 1;
+  string endpoint_id = 2;
+}
+
+message DeleteReplicationResponse {}

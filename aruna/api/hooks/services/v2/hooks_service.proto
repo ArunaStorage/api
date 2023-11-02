@@ -21,19 +21,19 @@ service HooksService {
     // Created Hooks are always associated with the owner that creates the hook
     rpc CreateHook(CreateHookRequest) returns (CreateHookResponse) {
         option (google.api.http) = {
-            post : "/v2/hook"
+            post : "/v2/hooks"
             body : "*"
           };
     }
     rpc AddProjectsToHook(AddProjectsToHookRequest) returns (AddProjectsToHookResponse) {
 	option (google.api.http) = {
-	    post : "/v2/hook/{hook_id}"
+	    post : "/v2/hooks/{hook_id}"
 	    body : "*"
 	};
     }
     rpc ListProjectHooks(ListProjectHooksRequest) returns (ListProjectHooksResponse) {
         option (google.api.http) = {
-            get : "/v2/hooks/project/{project_id}"
+            get : "/v2/hooks/projects/{project_id}"
         };
     }
     rpc ListOwnedHooks(ListOwnedHooksRequest) returns (ListOwnedHooksResponse) {
@@ -43,12 +43,12 @@ service HooksService {
     }
     rpc DeleteHook(DeleteHookRequest) returns (DeleteHookResponse) {
         option (google.api.http) = {
-            delete : "/v2/hook/{hook_id}"
+            delete : "/v2/hooks/{hook_id}"
         };
     }
     rpc HookCallback(HookCallbackRequest) returns (HookCallbackResponse) {
         option (google.api.http) = {
-            delete : "/v2/hook/callback"
+            patch : "/v2/hooks/callback"
         };
     }
 }
@@ -56,26 +56,25 @@ service HooksService {
 enum TriggerType {
     TRIGGER_TYPE_UNSPECIFIED = 0;
     TRIGGER_TYPE_HOOK_ADDED = 1;
-    TRIGGER_TYPE_OBJECT_CREATED = 2;
+    TRIGGER_TYPE_RESOURCE_CREATED = 2;
     TRIGGER_TYPE_LABEL_ADDED = 3;
     TRIGGER_TYPE_STATIC_LABEL_ADDED = 4;
     TRIGGER_TYPE_HOOK_STATUS_CHANGED = 5;
+    TRIGGER_TYPE_OBJECT_FINISHED = 6;
 }
 
 
 message Trigger {
     TriggerType trigger_type = 1;
-    string key = 2;
-    string value = 3;
+    repeated Filter filters = 2;
 }
 
 message ExternalHook {
     string url = 1;
     Credentials credentials = 2;
     // If empty a basic JSON template will be used
-    optional string custom_template = 3; 
+    optional string custom_template = 3;
     Method method = 5;
-    // TODO: Optional request headers
 }
 
 enum Method {
@@ -96,9 +95,9 @@ message AddHook {
 
 message InternalHook {
     oneof internal_action {
-	AddLabel add_label = 1;
-	AddHook add_hook = 2;
-	storage.models.v2.Relation add_relation = 3;
+	      AddLabel add_label = 1;
+	      AddHook add_hook = 2;
+	      storage.models.v2.Relation add_relation = 3;
     }
 }
 
@@ -112,6 +111,16 @@ message Hook {
 // Will be expanded with additional credential types
 message Credentials {
     string token = 1;
+}
+
+message Filter {
+    oneof filter_variant {
+        // Regex that matches name field
+        string name = 1;
+        // Regex that matches key AND value
+        storage.models.v2.KeyValue key_value = 2;
+        // TODO: ObjectType & ObjectStatus
+    }
 }
 
 message CreateHookRequest {
@@ -134,8 +143,8 @@ message DeleteHookResponse {}
 
 message HookCallbackRequest {
     oneof status {
-	Finished finished = 1;
-	Error error = 2;
+	      Finished finished = 1;
+	      Error error = 2;
     };
     string secret = 3;
     string hook_id = 4;
