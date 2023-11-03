@@ -1,5 +1,5 @@
-name: test_build_push
-on: push
+name: dry_run_rust_build
+on: [push, pull_request]
 jobs:
   lint: 
     runs-on: ubuntu-latest
