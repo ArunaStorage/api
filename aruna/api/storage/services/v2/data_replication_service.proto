@@ -95,12 +95,8 @@ message ReplicateProjectDataResponse {
 }
 
 message PartialReplicateDataRequest {
-  oneof response {
-    string collection_id = 1;
-    string dataset_id = 2;
-    string object_id = 3;
-  }
-  string endpoint_id = 4;
+  string resource_id = 1;
+  string endpoint_id = 2;
 }
 
 message PartialReplicateDataResponse {
@@ -117,6 +113,7 @@ message UpdateReplicationStatusResponse {}
 
 message GetReplicationStatusRequest {
   string resource_id = 1;
+  string endpoint_id = 2;
 }
 
 message GetReplicationStatusResponse {

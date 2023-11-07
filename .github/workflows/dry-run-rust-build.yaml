@@ -12,6 +12,8 @@ jobs:
         uses: bufbuild/buf-setup-action@v1
       - name: Lint protofiles with buf
         uses: bufbuild/buf-lint-action@v1
+      - name: Generate buf files
+        run: buf generate
   build: # This does not build the whole proto files for production, it tests if rust / tonic
     runs-on: ubuntu-latest
     steps:

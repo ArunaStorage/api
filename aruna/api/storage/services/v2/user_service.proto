@@ -107,7 +107,7 @@ service UserService {
   rpc DeleteAPITokens(DeleteAPITokensRequest)
       returns (DeleteAPITokensResponse) {
     option (google.api.http) = {
-      delete : "/v2/user/tokens/{token_id}"
+      delete : "/v2/user/tokens"
     };
   }
 
