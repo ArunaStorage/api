@@ -120,6 +120,13 @@ enum ResourceVariant {
   RESOURCE_VARIANT_OBJECT = 4;
 }
 
+enum ReplicationStatus {
+  REPLICATION_STATUS_UNSPECIFIED = 0;
+  REPLICATION_STATUS_WAITING = 1;
+  REPLICATION_STATUS_RUNNING = 2;
+  REPLICATION_STATUS_FINISHED = 3;
+  REPLICATION_STATUS_ERROR = 4;
+}
 // ------------- USERS & PERMISSIONS -----------------------
 message User {
   // Internal Aruna UserID
@@ -245,7 +252,22 @@ message DataEndpoint {
   string id = 1;
   // Hint if the objects' project 
   // is fully synced to the endpoint
-  bool full_synced = 2;
+  oneof variant {
+      FullSync full_sync = 2;
+      PartialSync partial_sync = 3;
+  }
+  optional ReplicationStatus status = 4;
+}
+
+message FullSync {
+   string project_id = 1; 
+}
+message PartialSync {
+   oneof origin {
+    string collection_id = 1;
+    string dataset_id = 2;
+    string object_id = 3;
+  } 
 }
 
 message Copy {

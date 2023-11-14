@@ -18,14 +18,14 @@ service DataproxyService {
     // Status: BETA
     //
     // Creates a replication request
-    rpc RequestReplication(RequestReplicationRequest) returns (RequestReplicationResponse) {}
+    rpc PullReplication(PullReplicationRequest) returns (PullReplicationResponse) {}
     
     // InitReplication
     //
     // Status: BETA
     //
     // Provides the necessary url to init replication
-    rpc InitReplication(InitReplicationRequest) returns (InitReplicationResponse) {}
+    rpc PushReplication(PushReplicationRequest) returns (PushReplicationResponse) {}
 }
 
 
@@ -100,9 +100,10 @@ message DataProxyInfo {
     int64 available_space = 2;
 }
 
-message RequestReplicationRequest {
+message PullReplicationRequest {
     DataProxyInfo info = 1;
     bool user_initialized = 2;
+    repeated string object_ids = 3;
 }
 
 message DataInfo {
@@ -116,18 +117,18 @@ message DataInfos {
     repeated DataInfo data_info = 1;
 }
 
-message RequestReplicationResponse {
-    oneof response {
-        DataInfos data_infos = 1;
-        bool ack = 2; 
-    }
+message PullReplicationResponse {
+    //oneof response {
+    dataInfos data_infos = 1;
+    //    bool ack = 2; 
+    //}
 }
 
-message InitReplicationRequest {
+message PushReplicationRequest {
     DataInfos data_infos = 1;
 }
 
-message InitReplicationResponse {
+message PushReplicationResponse {
     bool ack = 1;
 }
 
@@ -148,7 +149,7 @@ message PushReplicaRequest {
         string resource_id = 1;
         S3Path s3_path = 2;
     }
-    string target_location = 3;
+    string target_endpoint_id = 3;
 }
 
 message PushReplicaResponse {
@@ -163,11 +164,11 @@ message PullReplicaRequest {
 }
 
 message PullReplicaResponse {
-    string replication_id = 1;
+    string replication_id = 1; // why ?
 }
 
 message ReplicationStatusRequest {
-    string replication_id = 1;
+    string replication_id = 1; // why ?
 }
 
 enum ReplicationStatus {

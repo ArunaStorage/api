@@ -7,6 +7,7 @@ option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.servic
 option java_outer_classname = "DataReplicationService";
 
 import "google/api/annotations.proto";
+import "aruna/api/storage/models/v2/models.proto";
 
 // DataReplicationService
 //
@@ -77,13 +78,7 @@ service DataReplicationService {
     }
 }
 
-enum ReplicationStatus {
-  REPLICATION_STATUS_UNSPECIFIED = 0;
-  REPLICATION_STATUS_WAITING = 1;
-  REPLICATION_STATUS_RUNNING = 2;
-  REPLICATION_STATUS_FINISHED = 3;
-  REPLICATION_STATUS_ERROR = 4;
-}
+
 
 message ReplicateProjectDataRequest {
   string project_id = 1;
@@ -91,7 +86,7 @@ message ReplicateProjectDataRequest {
 }
 
 message ReplicateProjectDataResponse {
-  ReplicationStatus status = 1;
+  storage.models.v2.ReplicationStatus status = 1;
 }
 
 message PartialReplicateDataRequest {
@@ -104,13 +99,13 @@ message PartialReplicateDataRequest {
 }
 
 message PartialReplicateDataResponse {
-  ReplicationStatus status = 1;
+  storage.models.v2.ReplicationStatus status = 1;
 }
 
 message UpdateReplicationStatusRequest {
-  string resource_id = 1;
+  string object_id = 1;
   string endpoint_id = 2;
-  ReplicationStatus status = 3;
+  storage.models.v2.ReplicationStatus status = 3;
 }
 
 message UpdateReplicationStatusResponse {}
@@ -120,7 +115,7 @@ message GetReplicationStatusRequest {
 }
 
 message GetReplicationStatusResponse {
-  ReplicationStatus status = 1;
+  storage.models.v2.ReplicationStatus status = 1;
 }
 
 message DeleteReplicationRequest {
