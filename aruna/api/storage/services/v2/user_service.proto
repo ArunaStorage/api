@@ -235,7 +235,7 @@ service UserService {
     };
   }
 
-  rpc AddOidcProvier(AddOidcProviderRequest) returns (AddOidcProviderResponse) {
+  rpc AddOidcProvider(AddOidcProviderRequest) returns (AddOidcProviderResponse) {
     option (google.api.http) = {
       patch : "/v2/user/add_oidc"
       body : "*"
