@@ -235,6 +235,20 @@ service UserService {
     };
   }
 
+  rpc AddOidcProvier(AddOidcProviderRequest) returns (AddOidcProviderResponse) {
+    option (google.api.http) = {
+      patch : "/v2/user/add_oidc"
+      body : "*"
+    };
+  }
+
+  rpc RemoveOidcProvider(RemoveOidcProviderRequest) returns (RemoveOidcProviderResponse) {
+    option (google.api.http) = {
+      patch : "/v2/user/remove_oidc"
+      body : "*"
+    };
+  }
+
 }
 
 message RegisterUserRequest {
@@ -433,4 +447,20 @@ message PersonalNotification {
   PersonalNotificationVariant variant = 2;
   string message = 3; // User A has requested access for resource B
   repeated Reference refs = 4; // References to resource in the "message"
+}
+
+message AddOidcProviderRequest {
+  string new_access_token = 1;
+}
+
+message AddOidcProviderResponse {
+  storage.models.v2.User user = 1;
+}
+
+message RemoveOidcProviderRequest {
+  string provider_url = 1;
+}
+
+message RemoveOidcProviderResponse {
+  storage.models.v2.User user = 1;
 }
