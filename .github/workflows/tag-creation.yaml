@@ -2,27 +2,27 @@ name: create_publish_release
 on: 
   release:
     types: [created]
+  workflow_dispatch: {}
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - name: Install Protoc
         uses: arduino/setup-protoc@v1
-      - name: Checkout without submodules
-        uses: actions/checkout@v3
+      - name: Checkout with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          ref: 'main'
+          fetch-depth: 0
       - name: Setup buf
         uses: bufbuild/buf-setup-action@v1
       - name: Lint protofiles with buf
         uses: bufbuild/buf-lint-action@v1
-      - name: Checkout with submodules
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
       - name: Git Submodule Update
         run: |
-          git pull --all --recurse-submodules
-          git submodule update --init --recursive
-          git submodule update --remote --recursive
+          git pull origin main --recurse-submodules
+          git submodule update --init --remote --recursive
       - name: Grab version tags
         run: | 
           echo VERSION=$(echo ${{ github.ref }} | sed -e 's/refs\/tags\///;') >> $GITHUB_ENV
