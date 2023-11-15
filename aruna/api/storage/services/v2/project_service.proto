@@ -14,7 +14,7 @@ import "google/api/visibility.proto";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 	info: {
 		title: "Aruna Object Storage (AOS) REST API";
-		version: "2.0.0-beta.6"
+		version: "2.0.0-beta.8"
 	};
 	// Overwriting host entry breaks tests, so this is not done here.
 	schemes: HTTPS;
@@ -53,7 +53,7 @@ service ProjectService {
   // Creates a new project. All subsequent resources are part of a project.
   rpc CreateProject(CreateProjectRequest) returns (CreateProjectResponse) {
     option (google.api.http) = {
-      post : "/v2/project"
+      post : "/v2/projects"
       body : "*"
     };
   }
@@ -65,7 +65,7 @@ service ProjectService {
   // Requests a project (by id)
   rpc GetProject(GetProjectRequest) returns (GetProjectResponse) {
     option (google.api.http) = {
-      get : "/v2/project/{project_id}"
+      get : "/v2/projects/{project_id}"
     };
   }
 
@@ -87,7 +87,7 @@ service ProjectService {
   // Deletes the project and all its associated data. Must be empty!
   rpc DeleteProject(DeleteProjectRequest) returns (DeleteProjectResponse) {
     option (google.api.http) = {
-      delete : "/v2/project/{project_id}"
+      delete : "/v2/projects/{project_id}"
     };
   }
 
@@ -98,7 +98,7 @@ service ProjectService {
   // Updates the project name. Caveat! Will rename the "s3 bucket" for data proxies! 
   rpc UpdateProjectName(UpdateProjectNameRequest) returns (UpdateProjectNameResponse) {
     option (google.api.http) = {
-      patch : "/v2/project/{project_id}/name"
+      patch : "/v2/projects/{project_id}/name"
       body : "*"
     };
   }
@@ -110,7 +110,7 @@ service ProjectService {
   // Updates the project name.
   rpc UpdateProjectDescription(UpdateProjectDescriptionRequest) returns (UpdateProjectDescriptionResponse) {
     option (google.api.http) = {
-      patch : "/v2/project/{project_id}/description"
+      patch : "/v2/projects/{project_id}/description"
       body : "*"
     };
   }
@@ -122,7 +122,7 @@ service ProjectService {
   // Updates the project key values.
   rpc UpdateProjectKeyValues(UpdateProjectKeyValuesRequest) returns (UpdateProjectKeyValuesResponse) {
     option (google.api.http) = {
-      patch : "/v2/project/{project_id}/key_values"
+      patch : "/v2/projects/{project_id}/key_values"
       body : "*"
     };
   }
@@ -134,7 +134,7 @@ service ProjectService {
   // Updates the project name. All (meta) data will be overwritten.
   rpc UpdateProjectDataClass(UpdateProjectDataClassRequest) returns (UpdateProjectDataClassResponse) {
     option (google.api.http) = {
-      patch : "/v2/project/{project_id}/data_class"
+      patch : "/v2/projects/{project_id}/data_class"
       body : "*"
     };
   }
@@ -146,7 +146,7 @@ service ProjectService {
   // Updates the project license. All (meta) data will be overwritten.
   rpc UpdateProjectLicenses(UpdateProjectLicensesRequest) returns (UpdateProjectLicensesResponse) {
     option (google.api.http) = {
-      patch : "/v2/project/{project_id}/licenses"
+      patch : "/v2/projects/{project_id}/licenses"
       body : "*"
     };
   }
@@ -158,7 +158,7 @@ service ProjectService {
   // Archives the full project, rendering all downstream relations immutable
   rpc ArchiveProject(ArchiveProjectRequest) returns (ArchiveProjectResponse) {
     option (google.api.http) = {
-      post : "/v2/project/{project_id}/archive"
+      post : "/v2/projects/{project_id}/archive"
       body : "*"
     };
   }

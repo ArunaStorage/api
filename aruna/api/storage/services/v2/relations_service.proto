@@ -20,7 +20,7 @@ service RelationsService {
   rpc ModifyRelations(ModifyRelationsRequest)
     returns (ModifyRelationsResponse) {
       option (google.api.http) = {
-        post : "/v2/relation"
+        post : "/v2/relations"
         body : "*"
     };
   }
@@ -33,7 +33,7 @@ service RelationsService {
   rpc GetHierarchy(GetHierarchyRequest)
     returns (GetHierarchyResponse) {
       option (google.api.http) = {
-        get : "/v2/relation/hierarchy"
+        get : "/v2/relations/{resource_id}/hierarchy"
     };
   }
 }

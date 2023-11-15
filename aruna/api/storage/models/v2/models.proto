@@ -129,10 +129,9 @@ enum ReplicationStatus {
 }
 // ------------- USERS & PERMISSIONS -----------------------
 message User {
+  reserved 2;
   // Internal Aruna UserID
   string id = 1;
-  // Oidc subject ID
-  string external_id = 2;
   // (optional) User display_name
   string display_name = 3;
   // Is the user activated
@@ -173,6 +172,11 @@ message CustomAttributes {
   string attribute_value = 2;
 }
 
+message OidcMapping {
+  string external_id = 1;
+  string oidc_url = 2;
+}
+
 message UserAttributes {
   bool global_admin = 1;
   bool service_account = 2;
@@ -180,6 +184,7 @@ message UserAttributes {
   repeated string trusted_endpoints = 4;
   repeated CustomAttributes custom_attributes = 5; 
   repeated Permission personal_permissions = 6;
+  repeated OidcMapping external_ids = 7;
 }
 
 // --------------- RELATION / KEYVALUES -------------------

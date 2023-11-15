@@ -1,0 +1,25 @@
+version: v1
+managed:
+  enabled: true
+  optimize_for: SPEED
+plugins:
+  - plugin: buf.build/protocolbuffers/go:v1.31.0
+    out: dry_run
+    opt: paths=source_relative
+  - plugin: buf.build/grpc/go:v1.3.0
+    out: dry_run
+    opt: 
+      - paths=source_relative
+      - require_unimplemented_servers=false
+  - plugin: buf.build/grpc-ecosystem/gateway:v2.18.0
+    out: dry_run
+    opt: 
+      - paths=source_relative
+      - allow_repeated_fields_in_body=true
+      - allow_delete_body=true
+  - plugin: buf.build/grpc-ecosystem/openapiv2:v2.18.0
+    out: dry_run
+    opt:
+      - allow_merge=true
+      - allow_delete_body=true
+      - visibility_restriction_selectors=SERVER

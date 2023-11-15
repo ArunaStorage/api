@@ -21,7 +21,7 @@ service AuthorizationService {
   rpc CreateAuthorization(CreateAuthorizationRequest)
       returns (CreateAuthorizationResponse) {
     option (google.api.http) = {
-      post : "/v2/auth"
+      post : "/v2/authorizations"
       body : "*"
     };
   }
@@ -34,7 +34,7 @@ service AuthorizationService {
   rpc GetAuthorizations(GetAuthorizationsRequest)
       returns (GetAuthorizationsResponse) {
     option (google.api.http) = {
-      get : "/v2/auths"
+      get : "/v2/authorizations/{resource_id}"
     };
   }
 
@@ -43,12 +43,12 @@ service AuthorizationService {
   //
   // Status: BETA
   //
-  // This creates a user-specific attribute that handles permission for a
+  // This deletes a user-specific attribute that handles permission for a
   // specific resource 
   rpc DeleteAuthorization(DeleteAuthorizationRequest)
       returns (DeleteAuthorizationResponse) {
     option (google.api.http) = {
-      delete : "/v2/auth"
+      delete : "/v2/authorizations/{resource_id}"
       body : "*"
     };
   }
@@ -62,7 +62,7 @@ service AuthorizationService {
   rpc UpdateAuthorization(UpdateAuthorizationRequest)
       returns (UpdateAuthorizationResponse) {
     option (google.api.http) = {
-      patch : "/v2/auth"
+      patch : "/v2/authorizations/{resource_id}"
       body : "*"
     };
   }
