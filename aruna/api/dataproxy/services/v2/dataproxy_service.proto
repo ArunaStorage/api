@@ -119,7 +119,7 @@ message DataInfos {
 
 message PullReplicationResponse {
     //oneof response {
-    dataInfos data_infos = 1;
+    DataInfos data_infos = 1;
     //    bool ack = 2; 
     //}
 }
