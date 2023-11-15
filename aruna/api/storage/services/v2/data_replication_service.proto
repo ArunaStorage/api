@@ -90,9 +90,14 @@ message ReplicateProjectDataResponse {
 }
 
 message PartialReplicateDataRequest {
-  string resource_id = 1;
-  string endpoint_id = 2;
+    oneof data_variant {
+	string collection_id = 1;
+	string dataset_id = 2;
+	string object_id = 3;
+    }
+  string endpoint_id = 4;
 }
+
 
 message PartialReplicateDataResponse {
   storage.models.v2.ReplicationStatus status = 1;
