@@ -8,7 +8,11 @@ option java_outer_classname = "WorkspaceService";
 import "google/api/annotations.proto";
 import "google/api/visibility.proto";
 
-// Service to manage "special" anonymous collections / workspaces 
+// WorkspaceService
+//
+// Status: BETA
+//
+// Service to manage anonymous "scratch" projects / workspaces 
 service WorkspaceService {
   option (google.api.api_visibility).restriction = "SERVER";
 
@@ -24,6 +28,7 @@ service WorkspaceService {
       body : "*"
     };
   }
+
   // GetWorkspaceTemplatesById 
   // 
   //  Status: ALPHA
@@ -35,6 +40,7 @@ service WorkspaceService {
       get: "/v2/workspaces/templates/{template_id}"
     };
   }
+
   // ListOwnedWorkspaceTemplates
   // 
   //  Status: ALPHA
@@ -46,6 +52,7 @@ service WorkspaceService {
       get: "/v2/workspaces/templates"
     };
   }
+
   // DeleteWorkspaceTemplates
   // 
   //  Status: ALPHA
@@ -63,7 +70,7 @@ service WorkspaceService {
   //
   // Status: ALPHA
   //
-  // A new request to create a personal anonymous workspace
+  // Create a personal anonymous workspace
   rpc CreateWorkspace(CreateWorkspaceRequest)
       returns (CreateWorkspaceResponse) {
     option (google.api.http) = {
@@ -71,7 +78,6 @@ service WorkspaceService {
       body : "*"
     };
   }
-
 
   // DeleteWorkspace
   //

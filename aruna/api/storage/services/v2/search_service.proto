@@ -8,6 +8,12 @@ option java_outer_classname = "SearchService";
 import "aruna/api/storage/models/v2/models.proto";
 import "google/api/annotations.proto";
 
+
+// SearchService
+//
+// Status: BETA
+//
+// SearchService is used to query resources in the index and get a public view of them.
 service SearchService {
 
     // SearchResources
@@ -32,7 +38,6 @@ service SearchService {
         get : "/v2/resources/{resource_id}"
       };
     }
-
 
     // GetResources
     //

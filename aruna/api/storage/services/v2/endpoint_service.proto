@@ -9,19 +9,19 @@ option java_outer_classname = "EndpointService";
 import "aruna/api/storage/models/v2/models.proto";
 import "google/api/annotations.proto";
 
-
 // EndpointService
 //
-// Contains all methods that get/create or update Endpoint and associated resources
+// Status: BETA
+//
+// Contains all methods that get/create or update Endpoint (Dataproxies) and associated resources
 service EndpointService {
-
 
   // CreateEndpoint
   //
   // Status: BETA
   //
   // Registers a new Endpoint (Aruna DataProxy) to the server
-  // Needs admin permissions
+  // requires admin permissions
   rpc CreateEndpoint(CreateEndpointRequest) returns (CreateEndpointResponse) {
     option (google.api.http) = {
       post : "/v2/endpoints"
@@ -38,6 +38,18 @@ service EndpointService {
   rpc FullSyncEndpoint(FullSyncEndpointRequest) returns (stream FullSyncEndpointResponse) {
     option (google.api.http) = {
       get : "/v2/endpoints/sync"
+    };
+  }
+
+  // SetEndpointStatus
+  //
+  // Status: BETA
+  //
+  // This request sets the status of a specific Endpoint
+  rpc SetEndpointStatus(SetEndpointStatusRequest)
+      returns (SetEndpointStatusResponse) {
+    option (google.api.http) = {
+      patch : "/v2/endpoints/{endpoint_id}/status"
     };
   }
 
@@ -152,5 +164,14 @@ message GetDefaultEndpointRequest {}
 
 message GetDefaultEndpointResponse {
   // Default endpoint of the server instance
+  storage.models.v2.Endpoint endpoint = 1;
+}
+
+message SetEndpointStatusRequest {
+  string endpoint_id = 1;
+  storage.models.v2.ComponentStatus status = 2;
+}
+
+message SetEndpointStatusResponse {
   storage.models.v2.Endpoint endpoint = 1;
 }
