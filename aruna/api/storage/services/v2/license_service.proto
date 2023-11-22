@@ -11,7 +11,9 @@ import "google/api/visibility.proto";
 
 // LicenseService
 //
-// Contains all methods to add, get or list licenses
+// Status: BETA
+//
+// Contains all methods to add, get or list (custom) licenses
 service LicenseService {
     option (google.api.api_visibility).restriction = "SERVER";
     // CreateLicense
@@ -26,7 +28,7 @@ service LicenseService {
         };
     }
 
-        // GetLicense
+    // GetLicense
     //
     // Status: BETA
     //

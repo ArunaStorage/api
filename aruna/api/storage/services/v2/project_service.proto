@@ -42,6 +42,8 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 
 // ProjectService
 //
+// Status: BETA
+//
 // Contains all methods that get/create or update Projects and associated resources
 service ProjectService {
   option (google.api.api_visibility).restriction = "SERVER";

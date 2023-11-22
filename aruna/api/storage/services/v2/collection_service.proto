@@ -11,6 +11,8 @@ import "google/api/visibility.proto";
 
 // CollectionService
 //
+// Status: BETA
+//
 // Contains all methods that get/create or update Collection and associated resources
 service CollectionService {
   option (google.api.api_visibility).restriction = "SERVER";

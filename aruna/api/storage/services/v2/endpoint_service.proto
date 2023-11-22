@@ -9,19 +9,19 @@ option java_outer_classname = "EndpointService";
 import "aruna/api/storage/models/v2/models.proto";
 import "google/api/annotations.proto";
 
-
 // EndpointService
 //
-// Contains all methods that get/create or update Endpoint and associated resources
+// Status: BETA
+//
+// Contains all methods that get/create or update Endpoint (Dataproxies) and associated resources
 service EndpointService {
-
 
   // CreateEndpoint
   //
   // Status: BETA
   //
   // Registers a new Endpoint (Aruna DataProxy) to the server
-  // Needs admin permissions
+  // requires admin permissions
   rpc CreateEndpoint(CreateEndpointRequest) returns (CreateEndpointResponse) {
     option (google.api.http) = {
       post : "/v2/endpoints"

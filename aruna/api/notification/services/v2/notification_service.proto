@@ -15,11 +15,15 @@ import "google/api/visibility.proto";
 
 // EventNotificationService
 //
-// A service to receive events in the AOS storage
+// Status: BETA
+//
+// A service to receive events for CRUD operations on resources (users, resources etc.)
 service EventNotificationService {
   option (google.api.api_visibility).restriction = "SERVER";
 
   // CreateStreamConsumer
+  //
+  // Status: BETA
   //
   // Creates a new event stream consumer.
   rpc CreateStreamConsumer(CreateStreamConsumerRequest)
@@ -31,6 +35,8 @@ service EventNotificationService {
       }
 
   // GetEventMessageBatch
+  //
+  // Status: BETA
   //
   // Reads a set of messages from a given stream group 
   // Each message contains a separate acknowledgement message thatis protected by a salt and an hmac for verification.
@@ -44,6 +50,8 @@ service EventNotificationService {
 
   // GetEventMessageBatch
   //
+  // Status: BETA
+  //
   // Opens a stream which pushes each received notification individual and just-in-time.
   // Each message contains a separate acknowledgement message that is protected by a salt and an hmac for verification.
   // The message can be send directly through the AcknowledgeMessageBatch call to acknowledge the message.
@@ -56,6 +64,8 @@ service EventNotificationService {
 
   // AcknowledgeMessageBatch
   //
+  // Status: BETA
+  //
   // List of messages to acknowledge
   // Each reply is protected by a salt and and hmac that verifies the message
   rpc AcknowledgeMessageBatch(AcknowledgeMessageBatchRequest) 
@@ -67,6 +77,8 @@ service EventNotificationService {
       }
 
   // DeleteEventStreamingGroup
+  //
+  // Status: BETA
   //
   // Deletes an existing event stream consumer by ID.
   rpc DeleteStreamConsumer(DeleteStreamConsumerRequest)
