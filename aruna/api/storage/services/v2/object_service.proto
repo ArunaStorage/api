@@ -12,17 +12,19 @@ import "google/api/visibility.proto";
 
 // ObjectService
 //
-// Contains all methods that get/create or update Objects and associated resources
+// Status: BETA
+//
+// Contains all methods that get/create or update objects and associated resources
 service ObjectService {
   option (google.api.api_visibility).restriction = "SERVER";
-
 
   // CreateObject
   //
   // Status: BETA
   //
-  // This creates a new object
-  // Initializing an object will put it in a staging area.
+  // This creates a new object and puts it in a staging area.
+  // Staging objects have an "INITIALIZING" status
+  // and need to be finished either manually or by uploading data.
   rpc CreateObject(CreateObjectRequest)
       returns (CreateObjectResponse) {
     option (google.api.http) = {
@@ -142,7 +144,6 @@ service ObjectService {
 // These are the models for the above described requests and responses.
 // gRPC best practises advice each Request and Response message in a RPC to be
 // called {rpc_name}Request and {rpc_name}Response.
-
 message CreateObjectRequest {
   // collection name
   string name = 1;

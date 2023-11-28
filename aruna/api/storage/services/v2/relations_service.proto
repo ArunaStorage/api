@@ -10,13 +10,16 @@ import "google/api/annotations.proto";
 
 // RelationsService
 //
+// Status: BETA
+//
 // Contains all methods to edit and change resource relations
 service RelationsService {
   // ModifyRelation
   //
   // Status: BETA
   //
-  // Modifys all relations to / from a resource
+  // Add/Remove/Modifies all relation types to / from a resource
+  // Works for internal and external relations
   rpc ModifyRelations(ModifyRelationsRequest)
     returns (ModifyRelationsResponse) {
       option (google.api.http) = {
@@ -30,6 +33,7 @@ service RelationsService {
   // Status: BETA
   //
   // Gets all downstream hierarchy relations from a resource
+  // results in a tree structure
   rpc GetHierarchy(GetHierarchyRequest)
     returns (GetHierarchyResponse) {
       option (google.api.http) = {

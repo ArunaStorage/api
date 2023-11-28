@@ -14,7 +14,7 @@ import "google/api/visibility.proto";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 	info: {
 		title: "Aruna Object Storage (AOS) REST API";
-		version: "2.0.0-beta.8"
+		version: "2.0.0-beta.9"
 	};
 	// Overwriting host entry breaks tests, so this is not done here.
 	schemes: HTTPS;
@@ -41,6 +41,8 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 
 
 // ProjectService
+//
+// Status: BETA
 //
 // Contains all methods that get/create or update Projects and associated resources
 service ProjectService {

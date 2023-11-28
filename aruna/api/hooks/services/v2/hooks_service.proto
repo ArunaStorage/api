@@ -18,34 +18,70 @@ import "google/api/visibility.proto";
 service HooksService {
     option (google.api.api_visibility).restriction = "SERVER";
 
-    // Created Hooks are always associated with the owner that creates the hook
+    // CreateHook
+    //
+    // Status: ALPHA
+    //
+    // Creates a replication request
+    // Hooks are always associated with the owner that created the hook
     rpc CreateHook(CreateHookRequest) returns (CreateHookResponse) {
         option (google.api.http) = {
             post : "/v2/hooks"
             body : "*"
           };
     }
+
+    // AddProjectsToHook
+    //
+    // Status: ALPHA
+    //
+    // Assigns a hook to a project
     rpc AddProjectsToHook(AddProjectsToHookRequest) returns (AddProjectsToHookResponse) {
 	option (google.api.http) = {
 	    post : "/v2/hooks/{hook_id}"
 	    body : "*"
 	};
     }
+
+    // ListProjectHooks
+    //
+    // Status: ALPHA
+    //
+    // List all hooks assigned to a project
     rpc ListProjectHooks(ListProjectHooksRequest) returns (ListProjectHooksResponse) {
         option (google.api.http) = {
             get : "/v2/hooks/projects/{project_id}"
         };
     }
+
+    // ListOwnedHooks
+    //
+    // Status: ALPHA
+    //
+    // List all hooks created by a user
     rpc ListOwnedHooks(ListOwnedHooksRequest) returns (ListOwnedHooksResponse) {
         option (google.api.http) = {
             get : "/v2/hooks/owner/{user_id}"
         };
     }
+
+    // DeleteHook
+    //
+    // Status: ALPHA
+    //
+    // Delete a hook by id
     rpc DeleteHook(DeleteHookRequest) returns (DeleteHookResponse) {
         option (google.api.http) = {
             delete : "/v2/hooks/{hook_id}"
         };
     }
+
+    // Callback API
+    //
+    // Status: ALPHA
+    //
+    // Externally triggered hooks should respond to this endpoint to
+    // signal completion or failure and to provide additional flags for the object
     rpc HookCallback(HookCallbackRequest) returns (HookCallbackResponse) {
         option (google.api.http) = {
             patch : "/v2/hooks/callback"

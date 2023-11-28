@@ -13,8 +13,9 @@ import "google/api/visibility.proto";
 
 // UserService
 //
-// Contains all methods that get/create or update Users and associated resource
-// including all autorization methods
+// Status: BETA
+//
+// Contains all CRUD methods for users and associated resource
 service UserService {
   option (google.api.api_visibility).restriction = "SERVER";
 
@@ -198,7 +199,6 @@ service UserService {
     };
   }
 
-
   // GetDataproxyToken
   //
   // Status: ALPHA
@@ -235,6 +235,11 @@ service UserService {
     };
   }
 
+  // AddOidcProvider
+  //
+  // Status: BETA
+  //
+  // Add alternative oidc login method for user
   rpc AddOidcProvider(AddOidcProviderRequest) returns (AddOidcProviderResponse) {
     option (google.api.http) = {
       patch : "/v2/user/add_oidc"
@@ -242,6 +247,12 @@ service UserService {
     };
   }
 
+  // RemoveOidcProvider
+  //
+  // Status: BETA
+  //
+  // Remove alternative oidc login method from user
+  // (Only works if user has more than one oidc provider)
   rpc RemoveOidcProvider(RemoveOidcProviderRequest) returns (RemoveOidcProviderResponse) {
     option (google.api.http) = {
       patch : "/v2/user/remove_oidc"

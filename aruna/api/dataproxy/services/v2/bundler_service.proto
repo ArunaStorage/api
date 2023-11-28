@@ -10,15 +10,29 @@ import "google/protobuf/timestamp.proto";
 import "google/api/visibility.proto";
 import "google/api/annotations.proto";
 
-
+// BundlerService
+//
+// Status: ALPHA
+//
+// Dataproxy specific service for creating and deleting bundles.
 service BundlerService {
     option (google.api.api_visibility).restriction = "PROXY";
+    // CreateBundle
+    //
+    // Status: ALPHA
+    //
+    // Creates a bundle with multiple resources, dataproxy only.
     rpc CreateBundle(CreateBundleRequest) returns (CreateBundleResponse) {
         option (google.api.http) = {
             post : "/v2/bundles"
             body : "*"
         };
     }
+    // DeleteBundle
+    //
+    // Status: ALPHA
+    //
+    // Delete an existing bundle, dataproxy only.
     rpc DeleteBundle(DeleteBundleRequest) returns (DeleteBundleResponse) {
         option (google.api.http) = {
             delete : "/v2/bundles/{bundle_id}"
@@ -26,7 +40,6 @@ service BundlerService {
         };
     }
 }
-
 
 message CreateBundleRequest {
     repeated string resource_ids = 1;

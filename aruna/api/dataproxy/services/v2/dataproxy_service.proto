@@ -9,20 +9,24 @@ option java_outer_classname = "DataProxyService";
 import "google/api/annotations.proto";
 import "google/api/visibility.proto";
 
-
+// DataproxyService
+//
+// Status: ALPHA
+//
+// Service for data replication between data-proxies
 service DataproxyService {
     option (google.api.api_visibility).restriction = "PROXY";
     
     // RequestReplication
     //
-    // Status: BETA
+    // Status: ALPHA
     //
     // Creates a replication request
     rpc PullReplication(PullReplicationRequest) returns (PullReplicationResponse) {}
     
     // InitReplication
     //
-    // Status: BETA
+    // Status: ALPHA
     //
     // Provides the necessary url to init replication
     rpc PushReplication(PushReplicationRequest) returns (PushReplicationResponse) {}

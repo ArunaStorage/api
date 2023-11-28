@@ -12,9 +12,11 @@ import "google/protobuf/timestamp.proto";
 
 // StorageStatusService
 //
+// Status: BETA
+//
 // This is a generic service that contains utility functions 
 // these functions are used to query additional meta-information
-// about the status of the overall storage architecture
+// about the status of storage components
 service StorageStatusService {
 
   // GetStorageVersion
@@ -40,21 +42,33 @@ service StorageStatusService {
     };
   }
 
-
+  // GetPubkeys
+  //
+  // Status: BETA
+  //
+  // Get all public keys of all storage components
   rpc GetPubkeys(GetPubkeysRequest) returns (GetPubkeysResponse) {
     option (google.api.http) = {
       get : "/v2/info/pubkeys"
     };
   }
 
-
+  // GetAnnouncements
+  //
+  // Status: BETA
+  //
+  // Query global announcements
   rpc GetAnnouncements(GetAnnouncementsRequest) returns (GetAnnouncementsResponse) {
     option (google.api.http) = {
       get : "/v2/info/announcements"
     };
   }
 
-
+  // SetAnnouncements
+  //
+  // Status: BETA
+  //
+  // Update / add global announcements
   rpc SetAnnouncements(SetAnnouncementsRequest) returns (SetAnnouncementsResponse) {
     option (google.api.http) = {
       post : "/v2/info/announcements/set"
@@ -63,9 +77,7 @@ service StorageStatusService {
   }
 }
 
-
 message GetStorageVersionRequest {}
-
 
 message SemanticVersion {
   // Complete version string
@@ -76,7 +88,6 @@ message SemanticVersion {
   int32 patch = 4;
   string labels = 5;
 }
-
 
 message LocationVersion {
   // Status of a specific Location e.g Gießen / dataproxy / 0.5.0-beta.1
@@ -120,7 +131,6 @@ message GetPubkeysResponse {
   repeated storage.models.v2.Pubkey pubkeys = 1;
 }
 
-
 message Announcement {
   string id = 1;
   string content = 2;
@@ -128,7 +138,6 @@ message Announcement {
 }
 
 message GetAnnouncementsRequest {}
-
 
 message GetAnnouncementsResponse {
   repeated Announcement announcements = 1;

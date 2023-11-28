@@ -10,6 +10,8 @@ import "google/api/annotations.proto";
 
 // AuthorizationService
 //
+// Status: BETA
+//
 // Contains all methods to edit and change user authorization
 service AuthorizationService {
   // CreateAuthorization
