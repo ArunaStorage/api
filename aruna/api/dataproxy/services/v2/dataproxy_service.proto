@@ -14,15 +14,15 @@ import "google/api/visibility.proto";
 // Status: ALPHA
 //
 // Service for data replication between data-proxies
-service DataproxyService {
+service DataproxyReplicationService {
     option (google.api.api_visibility).restriction = "PROXY";
     
     // RequestReplication
     //
     // Status: ALPHA
     //
-    // Creates a replication request
-    rpc PullReplication(PullReplicationRequest) returns (PullReplicationResponse) {}
+    // Creates a replication stream
+    rpc PullReplication(stream PullReplicationRequest) returns (stream PullReplicationResponse) {}
     
     // InitReplication
     //
@@ -96,19 +96,73 @@ service DataproxyUserService {
 }
 
 
+// ----- PullReplication -----
+// PROXY A (data) <--> PROXY B (wants data)
+// PROXY B pulls data from PROXY A
 
-
-
-message DataProxyInfo {
+// Messages (requests) from PROXY B
+message InitMessage {
     string dataproxy_id = 1;
-    int64 available_space = 2;
+    repeated string object_ids = 2;
+}
+
+message InfoAckMessage {
+    string object_id = 1;
+}
+
+message ChunkAckMessage {
+    string object_id = 1;
+    int64 chunk_idx = 2;
+}
+
+message RetryChunkMessage {
+    string object_id = 1;
+    int64 chunk_idx = 2;
+}
+
+message Empty {}
+
+message ErrorMessage {
+    oneof error {
+        RetryChunkMessage retry_chunk = 1;
+        Empty abort = 2;
+        string retry_object_id = 3;
+    }
 }
 
 message PullReplicationRequest {
-    DataProxyInfo info = 1;
-    bool user_initialized = 2;
-    repeated string object_ids = 3;
+    oneof message {
+        InitMessage init_message = 1;
+        InfoAckMessage info_ack_message = 2;
+        ChunkAckMessage chunk_ack_message = 3;
+        ErrorMessage error_message = 4;
+        Empty finish_message = 5;
+    }
 }
+
+// Messages (responses) from PROXY A
+message ObjectInfo {
+    string object_id = 1;
+    int64 chunks = 2;
+    optional string extra = 3; // JSON encoded proxy specific extra fields
+}
+
+message Chunk {
+    string object_id = 1;
+    int64 chunk_idx = 2;
+    bytes data = 3;
+    string checksum = 4;
+}
+
+message PullReplicationResponse {
+    oneof message {
+        ObjectInfo object_info = 1;
+        Chunk chunk = 2; // If no ack is received, the chunk will be resent
+        Empty finish_message = 3;
+    }
+}
+
+// ---------------
 
 message DataInfo {
     string object_id = 1;
@@ -119,13 +173,6 @@ message DataInfo {
 
 message DataInfos {
     repeated DataInfo data_info = 1;
-}
-
-message PullReplicationResponse {
-    //oneof response {
-    DataInfos data_infos = 1;
-    //    bool ack = 2; 
-    //}
 }
 
 message PushReplicationRequest {
