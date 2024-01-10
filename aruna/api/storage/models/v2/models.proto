@@ -270,9 +270,10 @@ message FullSync {
 }
 message PartialSync {
    oneof origin {
-    string collection_id = 1;
-    string dataset_id = 2;
-    string object_id = 3;
+    string project_id = 1;
+    string collection_id = 2;
+    string dataset_id = 3;
+    string object_id = 4;
   } 
 }
 
