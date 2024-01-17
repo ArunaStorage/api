@@ -34,7 +34,7 @@ service DataReplicationService {
     rpc PartialReplicateData(PartialReplicateDataRequest)
         returns (PartialReplicateDataResponse) {
       option (google.api.http) = {
-        post : "/v2/endpoints/{endpoint_id}/replication/{resource_id}/partial"
+        post : "/v2/endpoints/{endpoint_id}/replication/partial"
         body: "*"
     };
     }
@@ -47,7 +47,7 @@ service DataReplicationService {
     rpc UpdateReplicationStatus(UpdateReplicationStatusRequest)
         returns (UpdateReplicationStatusResponse) {
       option (google.api.http) = {
-        patch : "/v2/endpoints/{endpoint_id}/replication/{resource_id}/status"
+        patch : "/v2/endpoints/{endpoint_id}/replication/{object_id}/status"
         body: "*"
       };
     }
