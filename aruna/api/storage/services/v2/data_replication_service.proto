@@ -120,8 +120,13 @@ message GetReplicationStatusResponse {
 }
 
 message ReplicationInfo {
-    string object_id = 1;
-    optional storage.models.v2.ReplicationStatus status = 2;
+    oneof resource {
+	string project_id = 1;
+	string collection_id = 2;
+	string dataset_id = 3;
+	string object_id = 4;
+    }
+    repeated storage.models.v2.DataEndpoint endpoint_info = 5;
 }
 
 message DeleteReplicationRequest {
