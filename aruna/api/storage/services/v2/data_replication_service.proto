@@ -116,7 +116,12 @@ message GetReplicationStatusRequest {
 }
 
 message GetReplicationStatusResponse {
-  storage.models.v2.ReplicationStatus status = 1;
+  repeated ReplicationInfo infos = 1;
+}
+
+message ReplicationInfo {
+    string resource_id = 1;
+    optional storage.models.v2.ReplicationStatus status = 2;
 }
 
 message DeleteReplicationRequest {
