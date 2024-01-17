@@ -120,7 +120,7 @@ message GetReplicationStatusResponse {
 }
 
 message ReplicationInfo {
-    string resource_id = 1;
+    string object_id = 1;
     optional storage.models.v2.ReplicationStatus status = 2;
 }
 
