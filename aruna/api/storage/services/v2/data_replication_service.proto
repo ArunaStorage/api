@@ -126,7 +126,7 @@ message ReplicationInfo {
 	string dataset_id = 3;
 	string object_id = 4;
     }
-    repeated storage.models.v2.DataEndpoint endpoint_info = 5;
+    storage.models.v2.DataEndpoint endpoint_info = 5;
 }
 
 message DeleteReplicationRequest {
