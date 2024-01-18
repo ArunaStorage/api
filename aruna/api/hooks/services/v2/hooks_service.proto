@@ -85,6 +85,7 @@ service HooksService {
     rpc HookCallback(HookCallbackRequest) returns (HookCallbackResponse) {
         option (google.api.http) = {
             patch : "/v2/hooks/callback"
+	    body: "*"
         };
     }
 }
