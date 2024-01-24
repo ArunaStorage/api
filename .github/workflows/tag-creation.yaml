@@ -1,7 +1,7 @@
 name: create_publish_release
 on: 
   release:
-    types: [created]
+    types: [released]
   workflow_dispatch: {}
 jobs:
   publish:
