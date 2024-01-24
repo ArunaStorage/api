@@ -258,24 +258,15 @@ message DataEndpoint {
   string id = 1;
   // Hint if the objects' project 
   // is fully synced to the endpoint
+  // If partial_sync = true -> Objects inherit partial sync
   oneof variant {
       FullSync full_sync = 2;
-      PartialSync partial_sync = 3;
+      bool partial_sync = 3;
   }
   optional ReplicationStatus status = 4;
 }
 
-message FullSync {
-   string project_id = 1; 
-}
-message PartialSync {
-   oneof origin {
-    string project_id = 1;
-    string collection_id = 2;
-    string dataset_id = 3;
-    string object_id = 4;
-  } 
-}
+message FullSync {}
 
 message Copy {
   string resource = 1;
