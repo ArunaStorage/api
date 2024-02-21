@@ -57,6 +57,18 @@ service DataproxyUserService {
     // specific S3AccessKey and S3SecretKey
     rpc GetCredentials(GetCredentialsRequest) returns (GetCredentialsResponse) {
         option (google.api.http) = {
+            get : "/v2/credentials"
+        };
+    }
+
+    // CreateOrUpdateCredentials
+    //
+    // Status: BETA
+    //
+    // Authorized method that needs a aruna-token to exchange for dataproxy
+    // specific S3AccessKey and S3SecretKey
+    rpc CreateOrUpdateCredentials(CreateOrUpdateCredentialsRequest) returns (CreateOrUpdateCredentialsResponse) {
+        option (google.api.http) = {
             post : "/v2/credentials"
             body : "*"
         };
@@ -188,6 +200,14 @@ message PushReplicationResponse {
 message GetCredentialsRequest {}
 
 message GetCredentialsResponse {
+    string access_key = 1;
+    string secret_key = 2;
+}
+
+message CreateOrUpdateCredentialsRequest {
+}
+
+message CreateOrUpdateCredentialsResponse {
     string access_key = 1;
     string secret_key = 2;
 }
