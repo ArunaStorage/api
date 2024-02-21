@@ -1,0 +1,174 @@
+syntax = "proto3";
+
+package aruna.api.storage.services.v2;
+option go_package = "github.com/ArunaStorage/go-api/v2/aruna/api/storage/services/v2";
+option java_multiple_files = true;
+option java_package = "com.github.ArunaStorage.java_api.aruna.api.storage.services.v2";
+option java_outer_classname = "RulesService";
+import "aruna/api/storage/models/v2/models.proto";
+import "google/api/annotations.proto";
+
+
+
+// RulesService
+//
+// Status: BETA
+//
+// Contains all methods to edit and change rules
+service RulesService {
+  
+  // CreateRule
+  //
+  // Status: ALPHA
+  //
+  // Create a new rule
+  rpc CreateRule(CreateRuleRequest)
+    returns (CreateRuleResponse) {
+      option (google.api.http) = {
+        post : "/v2/rules"
+        body : "*"
+      };
+  }
+
+  // GetRule
+  //
+  // Status: ALPHA
+  //
+  // Gets an existing rule
+  rpc GetRule(GetRuleRequest)
+    returns (GetRuleResponse) {
+      option (google.api.http) = {
+        get : "/v2/rules/{id}"
+      };
+  }
+
+  // ListRule
+  //
+  // Status: ALPHA
+  //
+  // Lists rules -> Owned and public rules
+  rpc ListRule(ListRuleRequest)
+    returns (ListRuleResponse) {
+      option (google.api.http) = {
+        get : "/v2/rules/list"
+      };
+  }
+
+  // UpdateRule
+  //
+  // Status: ALPHA
+  //
+  // Updates an existing rule
+  rpc UpdateRule(UpdateRuleRequest)
+    returns (UpdateRuleResponse) {
+      option (google.api.http) = {
+        patch : "/v2/rules/{id}"
+        body : "*"
+      };
+  }
+
+  // DeleteRule
+  //
+  // Status: ALPHA
+  //
+  // Deletes an existing rule
+  rpc DeleteRule(DeleteRuleRequest)
+    returns (DeleteRuleResponse) {
+      option (google.api.http) = {
+        delete : "/v2/rules/{id}"
+      };
+  }
+
+  // CreateRuleBinding
+  //
+  // Status: ALPHA
+  //
+  // Associates a rule with an object, optionally cascading the rule to all children
+  rpc CreateRuleBinding(CreateRuleBindingRequest)
+    returns (CreateRuleBindingResponse) {
+      option (google.api.http) = {
+        post : "/v2/rules/{id}/bindings"
+        body : "*"
+      };
+  }
+
+  // DeleteRuleBinding
+  //
+  // Status: ALPHA
+  //
+  // Disassociates a rule from an object
+  rpc DeleteRuleBinding(DeleteRuleBindingRequest)
+    returns (DeleteRuleBindingResponse) {
+      option (google.api.http) = {
+        delete : "/v2/rules/{id}/bindings/{object_id}"
+      };
+  }
+}
+
+
+message CreateRuleRequest {
+    string rule = 1;
+    string description = 2;
+    bool public = 3;
+}
+
+message CreateRuleResponse {
+    string id = 1;
+}
+
+message GetRuleRequest {
+    string id = 1;
+}
+
+message Rule {
+    string id = 1;
+    string rule = 1;
+    string description = 2;
+    bool public = 3;
+    string owner = 4;
+}
+
+message GetRuleResponse {
+    Rule rule = 1;
+}
+
+message ListRuleRequest {}
+
+message ListRuleResponse {
+    repeated Rule rules = 1;
+}
+
+message UpdateRuleRequest {
+    string id = 1;
+    string rule = 2;
+    string description = 3;
+    bool public = 4;
+}
+
+message UpdateRuleResponse {
+    Rule rule = 1;
+}
+
+message DeleteRuleRequest {
+    string id = 1;
+}
+
+message DeleteRuleResponse {}
+
+message CreateRuleBindingRequest {
+    string object_id = 1;
+    bool cascading = 2;
+}
+
+message CreateRuleBindingResponse {
+    string policy_id = 1;
+    string object_id = 2;
+    bool cascading = 3;
+}
+
+message DeleteRuleBindingRequest {
+    string policy_id = 1;
+    string object_id = 2;
+}
+
+message DeleteRuleBindingResponse {}
