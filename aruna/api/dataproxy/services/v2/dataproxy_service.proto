@@ -8,6 +8,7 @@ option java_outer_classname = "DataProxyService";
 
 import "google/api/annotations.proto";
 import "google/api/visibility.proto";
+import "aruna/api/storage/models/v2/models.proto";
 
 // DataproxyService
 //
@@ -26,7 +27,7 @@ service DataproxyReplicationService {
     
     // InitReplication
     //
-    // Status: ALPHA
+    // Status: UNIMPLEMENTED
     //
     // Provides the necessary url to init replication
     rpc PushReplication(PushReplicationRequest) returns (PushReplicationResponse) {}
@@ -75,7 +76,7 @@ service DataproxyUserService {
     }
     // PushReplica
     //
-    // Status: BETA
+    // Status: UNIMPLEMENTED
     //
     // Manually transfers a replica to another data-proxy
     rpc PushReplica(PushReplicaRequest) returns (PushReplicaResponse) {
@@ -86,7 +87,7 @@ service DataproxyUserService {
     }
     // PullReplica
     //
-    // Status: BETA
+    // Status: UNIMPLEMENTED
     //
     // Manually request data to be transferred to this data-proxy
     rpc PullReplica(PullReplicaRequest) returns (PullReplicaResponse) {
@@ -95,9 +96,10 @@ service DataproxyUserService {
             body : "*"
         };
     }
-    // PullReplica
+
+    // ReplicationStatus
     //
-    // Status: BETA
+    // Status: UNIMPLEMENTED
     //
     // Status of the previous replication request
     rpc ReplicationStatus(ReplicationStatusRequest) returns (ReplicationStatusResponse) {
@@ -105,6 +107,16 @@ service DataproxyUserService {
             get : "/v2/replica/{replication_id}/status"
         };
     }
+}
+
+service DataproxyUserIngestion {
+    option (google.api.api_visibility).restriction = "PROXY";
+    // IngestExistingObject
+    //
+    // Status: ALPHA
+    //
+    // Ingest an existing object into backend
+    rpc IngestExistingObject(IngestExistingObjectRequest) returns (IngestExistingObjectResponse) {}
 }
 
 
@@ -344,6 +356,45 @@ message InitLocationRequest {
 
 message InitLocationResponse {
     ObjectLocation location = 1;
+}
+
+message IngestResource {
+  // object name
+  string name = 1;
+  // title
+  string title = 2;
+  // description
+  string description = 3;
+  // Authors
+  repeated storage.models.v2.Author authors = 4;
+  // object specific labels / hooks
+  repeated storage.models.v2.KeyValue key_values = 5;
+  // Internal / External relations (URLs / IDs from external sources)
+  repeated storage.models.v2.Relation relations = 6;
+  // DataClass
+  storage.models.v2.DataClass data_class = 7;
+  // Ignored if Collection | Dataset
+  repeated storage.models.v2.Hash hashes = 8;
+  string metadata_license_tag = 9;
+  string data_license_tag = 10;
+}
+
+message IngestExistingObjectRequest {
+    string project_id = 1;
+    oneof collection {
+        string collection_id = 2;
+        IngestResource collection_resource = 3;
+    }
+    oneof dataset {
+        string dataset_id = 4;
+        IngestResource dataset_resource = 5;
+    }
+    IngestResource object = 6;
+    string path = 7; // "s3://bucket/key" or "file:///foo/bar/baz.txt" must be a valid file
+}
+
+message IngestExistingObjectResponse {
+    string object_id = 1;
 }
 
 
