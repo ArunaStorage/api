@@ -109,7 +109,7 @@ service DataproxyUserService {
     }
 }
 
-service DataproxyUserIngestion {
+service DataproxyIngestionService {
     option (google.api.api_visibility).restriction = "PROXY";
     // IngestExistingObject
     //

@@ -342,7 +342,7 @@ message Project {
 message Collection {
   string id = 1; // ASDASDASDOPASKIDPO
   string name = 2; // my_mags
-  string title = 15; // Long name
+  string title = 15;
   string description = 3; // ENA asda234928349028 MAG 1293819203819028i V1
   // Collection specific labels / hooks
   repeated KeyValue key_values = 4;
