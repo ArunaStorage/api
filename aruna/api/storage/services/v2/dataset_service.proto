@@ -134,11 +134,37 @@ service DatasetService {
       body : "*"
     };
   }
+
+  // UpdateTitle
+  //
+  // Status: ALPHA
+  //
+  // Updates the datasets metadata title.
+  rpc UpdateDatasetTitle(UpdateDatasetTitleRequest) returns (UpdateDatasetTitleResponse) {
+    option (google.api.http) = {
+      patch : "/v2/datasets/{dataset_id}/title"
+      body : "*"
+    };
+  }
+
+
+  // UpdateAuthors
+  //
+  // Status: ALPHA
+  //
+  // Updates the datasets metadata title.
+  rpc UpdateDatasetAuthors(UpdateDatasetAuthorsRequest) returns (UpdateDatasetAuthorsResponse) {
+    option (google.api.http) = {
+      patch : "/v2/dataset/{dataset_id}/authors"
+      body : "*"
+    };
+  }
 }
 
 message CreateDatasetRequest {
   // dataset name
   string name = 1;
+  string title = 10;
   // Description
   string description = 2;
   // dataset specific labels / hooks
@@ -154,6 +180,7 @@ message CreateDatasetRequest {
   }
   optional string metadata_license_tag = 8;
   optional string default_data_license_tag = 9;
+  repeated storage.models.v2.Author authors = 11;
 }
 
 message CreateDatasetResponse {
@@ -239,5 +266,24 @@ message UpdateDatasetLicensesRequest {
 }
 
 message UpdateDatasetLicensesResponse {
+  storage.models.v2.Dataset dataset = 1;
+}
+
+message UpdateDatasetTitleRequest {
+  string dataset_id = 1;
+  string title = 2;
+}
+
+message UpdateDatasetTitleResponse {
+  storage.models.v2.Dataset dataset = 1;
+}
+
+message UpdateDatasetAuthorsRequest {
+  string dataset_id = 1;
+  repeated storage.models.v2.Author add_authors = 2;
+  repeated storage.models.v2.Author remove_authors = 3;
+}
+
+message UpdateDatasetAuthorsResponse {
   storage.models.v2.Dataset dataset = 1;
 }
