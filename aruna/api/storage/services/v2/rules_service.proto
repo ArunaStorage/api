@@ -87,7 +87,7 @@ service RulesService {
   rpc CreateRuleBinding(CreateRuleBindingRequest)
     returns (CreateRuleBindingResponse) {
       option (google.api.http) = {
-        post : "/v2/rules/{id}/bindings"
+        post : "/v2/rules/{rule_id}/bindings"
         body : "*"
       };
   }
@@ -100,7 +100,7 @@ service RulesService {
   rpc DeleteRuleBinding(DeleteRuleBindingRequest)
     returns (DeleteRuleBindingResponse) {
       option (google.api.http) = {
-        delete : "/v2/rules/{id}/bindings/{object_id}"
+        delete : "/v2/rules/{rule_id}/bindings/{object_id}"
       };
   }
 }
@@ -122,10 +122,10 @@ message GetRuleRequest {
 
 message Rule {
     string id = 1;
-    string rule = 1;
-    string description = 2;
-    bool public = 3;
-    string owner = 4;
+    string rule = 2;
+    string description = 3;
+    bool public = 4;
+    string owner = 5;
 }
 
 message GetRuleResponse {
@@ -156,18 +156,19 @@ message DeleteRuleRequest {
 message DeleteRuleResponse {}
 
 message CreateRuleBindingRequest {
-    string object_id = 1;
-    bool cascading = 2;
+    string rule_id = 1;
+    string object_id = 2;
+    bool cascading = 3;
 }
 
 message CreateRuleBindingResponse {
-    string policy_id = 1;
+    string rule_id = 1;
     string object_id = 2;
     bool cascading = 3;
 }
 
 message DeleteRuleBindingRequest {
-    string policy_id = 1;
+    string rule_id = 1;
     string object_id = 2;
 }
 
