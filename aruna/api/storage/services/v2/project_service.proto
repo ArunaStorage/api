@@ -164,6 +164,29 @@ service ProjectService {
       body : "*"
     };
   }
+  // UpdateTitle
+  //
+  // Status: ALPHA
+  //
+  // This method updates the title of a project
+  rpc UpdateProjectTitle(UpdateProjectTitleRequest) returns (UpdateProjectTitleResponse) {
+    option (google.api.http) = {
+      post : "/v2/project/{project_id}/title"
+      body : "*"
+    };
+  }
+
+  // UpdateAuthors
+  //
+  // Status: ALPHA
+  //
+  // This method updates the authors of an object
+  rpc UpdateProjectAuthors(UpdateProjectAuthorsRequest) returns (UpdateProjectAuthorsResponse) {
+    option (google.api.http) = {
+      post : "/v2/project/{project_id}/authors"
+      body : "*"
+    };
+  }
 }
 
 message CreateProjectRequest {
@@ -271,5 +294,30 @@ message UpdateProjectLicensesRequest {
 }
 
 message UpdateProjectLicensesResponse {
+  storage.models.v2.Project project = 1;
+}
+message UpdateProjectTitleRequest {
+  // Project id
+  string project_id = 1;
+  // New title
+  string title = 2;
+}
+
+message UpdateProjectTitleResponse {
+  // The updated object
+  storage.models.v2.Project project = 1;
+}
+
+message UpdateProjectAuthorsRequest {
+  // Project id
+  string project_id = 1;
+  // Add authors
+  repeated storage.models.v2.Author add_authors = 2;
+  // Remove authors
+  repeated storage.models.v2.Author remove_authors = 3;
+}
+
+message UpdateProjectAuthorsResponse {
+  // The updated project
   storage.models.v2.Project project = 1;
 }
