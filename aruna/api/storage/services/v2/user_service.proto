@@ -260,6 +260,65 @@ service UserService {
     };
   }
 
+
+  // AddPubkeyUser
+  //
+  // Status: ALPHA
+  //
+  // Adds an ED25519 public key for the user
+  rpc AddPubkeyUser(AddPubkeyUserRequest) returns (AddPubkeyUserResponse) {
+    option (google.api.http) = {
+      post : "/v2/user/pubkey"
+      body : "*"
+    };
+  }
+
+  // AddTrustedEndpointsUser
+  //
+  // Status: ALPHA
+  //
+  // Adds an endpoint to the trusted endpoints list of the user
+  rpc AddTrustedEndpointsUser(AddTrustedEndpointsUserRequest) returns (AddTrustedEndpointsUserResponse) {
+    option (google.api.http) = {
+      post : "/v2/user/trusted_endpoints"
+      body : "*"
+    };
+  }
+
+  // RemoveTrustedEndpointsUser
+  //
+  // Status: ALPHA
+  //
+  // Removes an endpoint from the trusted endpoints list of the user
+  rpc RemoveTrustedEndpointsUser(RemoveTrustedEndpointsUserRequest) returns (RemoveTrustedEndpointsUserResponse) {
+    option (google.api.http) = {
+      delete : "/v2/user/trusted_endpoints"
+    };
+  }
+
+  // AddDataProxyAttributeUser
+  //
+  // Status: ALPHA
+  //
+  // Adds an data proxy specific attribute to the user
+  rpc AddDataProxyAttributeUser(AddDataProxyAttributeUserRequest) returns (AddDataProxyAttributeUserResponse) {
+    option (google.api.http) = {
+      post : "/v2/user/{user_id}/attributes/data_proxy"
+      body : "*"
+    };
+  }
+
+  // RemoveDataProxyAttributeUser
+  //
+  // Status: ALPHA
+  //
+  // Removes an data proxy specific attribute from the user
+  rpc RemoveDataProxyAttributeUser(RemoveDataProxyAttributeUserRequest) returns (RemoveDataProxyAttributeUserResponse) {
+    option (google.api.http) = {
+      delete : "/v2/user/{user_id}/attributes/data_proxy"
+    };
+  }
+
 }
 
 message RegisterUserRequest {
@@ -475,3 +534,42 @@ message RemoveOidcProviderRequest {
 message RemoveOidcProviderResponse {
   storage.models.v2.User user = 1;
 }
+
+message AddPubkeyUserRequest {
+  string public_key = 1;
+}
+
+message AddPubkeyUserResponse {
+  storage.models.v2.User user = 1;
+}
+
+message AddTrustedEndpointsUserRequest {
+  string endpoint_id = 1;
+}
+
+message AddTrustedEndpointsUserResponse {
+  storage.models.v2.User user = 1;
+}
+
+message RemoveTrustedEndpointsUserRequest {
+  string endpoint_id = 1;
+}
+
+message RemoveTrustedEndpointsUserResponse {
+  storage.models.v2.User user = 1;
+}
+
+message AddDataProxyAttributeUserRequest {
+  string user_id = 1;
+  storage.models.v2.DataProxyAttribute attribute = 2;
+}
+
+message AddDataProxyAttributeUserResponse {}
+
+message RemoveDataProxyAttributeUserRequest {
+  string user_id = 1;
+  string dataproxy_id = 2;
+  string attribute_name = 3;
+}
+
+message RemoveDataProxyAttributeUserResponse {}
