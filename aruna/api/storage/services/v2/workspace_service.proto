@@ -121,6 +121,8 @@ message CreateWorkspaceTemplateRequest {
   string description = 6;
   // Endpoint ids that are used for this template
   repeated string endpoint_ids = 7;
+  // Rule ids that are enforced on workspace-level
+  repeated string rules = 8;
 }
 
 message CreateWorkspaceTemplateResponse {
