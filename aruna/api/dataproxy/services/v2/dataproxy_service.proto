@@ -74,6 +74,21 @@ service DataproxyUserService {
             body : "*"
         };
     }
+
+
+    // RevokeCredentials
+    //
+    // Status: BETA
+    //
+    // Authorized method that needs a aruna-token
+    // Revokes the current credentials
+    rpc RevokeCredentials(RevokeCredentialsRequest) returns (RevokeCredentialsResponse) {
+        option (google.api.http) = {
+            delete : "/v2/credentials"
+        };
+    }
+
+
     // PushReplica
     //
     // Status: UNIMPLEMENTED
@@ -223,6 +238,10 @@ message CreateOrUpdateCredentialsResponse {
     string access_key = 1;
     string secret_key = 2;
 }
+
+message RevokeCredentialsRequest {}
+
+message RevokeCredentialsResponse {}
 
 message S3Path {
     string bucket = 1;
