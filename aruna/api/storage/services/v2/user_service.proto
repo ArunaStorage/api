@@ -187,15 +187,41 @@ service UserService {
     };
   }
 
-  // GetS3Credentials
+
+  // CreateS3CredentialsUserToken
   //
   // Status: ALPHA
   //
-  // Gets s3 credentials for a specific user and data_proxy
-  rpc GetS3CredentialsUser(GetS3CredentialsUserRequest)
-      returns (GetS3CredentialsUserResponse) {
+  // Creates or updates S3 credentials for a specific user and data_proxy
+  rpc CreateS3CredentialsUserToken(CreateS3CredentialsUserTokenRequest)
+      returns (CreateS3CredentialsUserTokenResponse) {
     option (google.api.http) = {
-      get : "/v2/user/{user_id}/s3_credentials"
+      patch : "/v2/user/s3_credentials/{endpoint_id}"
+    };
+  }
+
+  // GetS3CredentialsUserToken
+  //
+  // Status: ALPHA
+  //
+  // Gets S3 credentials for a specific token and data_proxy
+  rpc GetS3CredentialsUserToken(GetS3CredentialsUserTokenRequest)
+      returns (GetS3CredentialsUserTokenResponse) {
+    option (google.api.http) = {
+      get : "/v2/user/s3_credentials/{endpoint_id}"
+    };
+  }
+
+  // DeleteS3CredentialsUserToken
+  //
+  // Status: ALPHA
+  //
+  // Revokes existing S3 credentials for a specific user and data_proxy
+  rpc DeleteS3CredentialsUserToken(DeleteS3CredentialsUserTokenRequest)
+      returns (DeleteS3CredentialsUserResponse) {
+    option (google.api.http) = {
+      patch : "/v2/user/s3_credentials/{endpoint_id}/revoke"
+      body : "*"
     };
   }
 
@@ -207,7 +233,7 @@ service UserService {
   rpc GetDataproxyTokenUser(GetDataproxyTokenUserRequest)
       returns (GetDataproxyTokenUserResponse) {
     option (google.api.http) = {
-      get : "/v2/user/{user_id}/proxy_token"
+      get : "/v2/user/proxy_token"
     };
   }
 
@@ -231,7 +257,8 @@ service UserService {
   rpc AcknowledgePersonalNotifications(AcknowledgePersonalNotificationsRequest)
       returns (AcknowledgePersonalNotificationsResponse) {
     option (google.api.http) = {
-      get : "/v2/user/notifications/acknowledge"
+      post : "/v2/user/notifications/acknowledge"
+      body : "*"
     };
   }
 
@@ -268,7 +295,7 @@ service UserService {
   // Adds an ED25519 public key for the user
   rpc AddPubkeyUser(AddPubkeyUserRequest) returns (AddPubkeyUserResponse) {
     option (google.api.http) = {
-      post : "/v2/user/pubkey"
+      patch : "/v2/user/pubkey"
       body : "*"
     };
   }
@@ -280,7 +307,7 @@ service UserService {
   // Adds an endpoint to the trusted endpoints list of the user
   rpc AddTrustedEndpointsUser(AddTrustedEndpointsUserRequest) returns (AddTrustedEndpointsUserResponse) {
     option (google.api.http) = {
-      post : "/v2/user/trusted_endpoints"
+      patch : "/v2/user/trusted_endpoints"
       body : "*"
     };
   }
@@ -303,7 +330,7 @@ service UserService {
   // Adds an data proxy specific attribute to the user
   rpc AddDataProxyAttributeUser(AddDataProxyAttributeUserRequest) returns (AddDataProxyAttributeUserResponse) {
     option (google.api.http) = {
-      post : "/v2/user/{user_id}/attributes/data_proxy"
+      patch : "/v2/user/{user_id}/attributes/data_proxy"
       body : "*"
     };
   }
@@ -458,16 +485,31 @@ message UpdateUserEmailResponse {
   storage.models.v2.User user = 1;
 }
 
-message GetS3CredentialsUserRequest {
-  string user_id = 1;
-  string endpoint_id = 2;
+message CreateS3CredentialsUserTokenRequest {
+  string endpoint_id = 1;
 }
 
-message GetS3CredentialsUserResponse {
+message CreateS3CredentialsUserTokenResponse {
   string s3_access_key = 1;
   string s3_secret_key = 2;
   string s3_endpoint_url = 3;
 }
+
+message GetS3CredentialsUserTokenRequest {
+  string endpoint_id = 1;
+}
+
+message GetS3CredentialsUserTokenResponse {
+  string s3_access_key = 1;
+  string s3_secret_key = 2;
+  string s3_endpoint_url = 3;
+}
+
+message DeleteS3CredentialsUserTokenRequest {
+  string endpoint_id = 1;
+}
+
+message DeleteS3CredentialsUserResponse {}
 
 message GetDataproxyTokenUserRequest {
   string user_id = 1;
@@ -549,6 +591,8 @@ message AddTrustedEndpointsUserRequest {
 
 message AddTrustedEndpointsUserResponse {
   storage.models.v2.User user = 1;
+  // Here would be the place to add conditions
+  // why the request was denied
 }
 
 message RemoveTrustedEndpointsUserRequest {
