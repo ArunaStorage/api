@@ -162,6 +162,20 @@ service ObjectService {
       body : "*"
     };
   }
+
+  // SetObjectHashes
+  //
+  // Status: ALPHA
+  //
+  // This method sets the object hashes if not already set
+  // if a hash is already set, it will be compared to the new hash and
+  // set the status to ERROR if they do not match
+  rpc SetObjectHashes(SetObjectHashesRequest) returns (SetObjectHashesResponse) {
+    option (google.api.http) = {
+      post : "/v2/objects/{object_id}/hashes"
+      body : "*"
+    };
+  }
 }
 
 // Models
@@ -370,5 +384,17 @@ message UpdateObjectAuthorsRequest {
 
 message UpdateObjectAuthorsResponse {
   // The updated object
+  storage.models.v2.Object object = 1;
+}
+
+message SetObjectHashesRequest {
+  // Object id
+  string object_id = 1;
+  // Hashes
+  repeated storage.models.v2.Hash hashes = 2;
+}
+
+message SetObjectHashesResponse {
+  // The updated object (possibly with error status)
   storage.models.v2.Object object = 1;
 }
