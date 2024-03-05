@@ -182,9 +182,9 @@ message PullReplicationRequest {
 // Messages (responses) from PROXY A
 message ObjectInfo {
     string object_id = 1;
-    int64 chunks = 2;
+    int64 chunks = 2; // == (Compressed_size / (65536 + 28)) + 1
     int64 raw_size  = 3;
-    repeated uint32 block_list = 4;
+    int64 compressed_size = 4;
     optional string extra = 5; // JSON encoded proxy specific extra fields
 }
 
