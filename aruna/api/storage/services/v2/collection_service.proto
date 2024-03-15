@@ -136,11 +136,37 @@ service CollectionService {
       body : "*"
     };
   }
+
+  // UpdateTitle
+  //
+  // Status: ALPHA
+  //
+  // Updates the collections metadata title.
+  rpc UpdateCollectionTitle(UpdateCollectionTitleRequest) returns (UpdateCollectionTitleResponse) {
+    option (google.api.http) = {
+      patch : "/v2/collections/{collection_id}/title"
+      body : "*"
+    };
+  }
+
+
+  // UpdateAuthors
+  //
+  // Status: ALPHA
+  //
+  // Updates the collections metadata title.
+  rpc UpdateCollectionAuthors(UpdateCollectionAuthorsRequest) returns (UpdateCollectionAuthorsResponse) {
+    option (google.api.http) = {
+      patch : "/v2/collections/{collection_id}/authors"
+      body : "*"
+    };
+  }
 }
 
 message CreateCollectionRequest {
   // collection name
   string name = 1;
+  string title = 9;
   // description
   string description = 2;
   // collection specific labels / hooks
@@ -155,6 +181,7 @@ message CreateCollectionRequest {
   }
   optional string metadata_license_tag = 7;
   optional string default_data_license_tag = 8;
+  repeated storage.models.v2.Author authors = 10;
 }
 
 message CreateCollectionResponse {
@@ -240,5 +267,24 @@ message UpdateCollectionLicensesRequest {
 }
 
 message UpdateCollectionLicensesResponse {
+  storage.models.v2.Collection collection = 1;
+}
+
+message UpdateCollectionTitleRequest {
+  string collection_id = 1;
+  string title = 2;
+}
+
+message UpdateCollectionTitleResponse {
+  storage.models.v2.Collection collection = 1;
+}
+
+message UpdateCollectionAuthorsRequest {
+  string collection_id = 1;
+  repeated storage.models.v2.Author add_authors = 2;
+  repeated storage.models.v2.Author remove_authors = 3;
+}
+
+message UpdateCollectionAuthorsResponse {
   storage.models.v2.Collection collection = 1;
 }

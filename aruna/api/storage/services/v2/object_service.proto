@@ -138,6 +138,44 @@ service ObjectService {
       get : "/v2/objects"
     };
   }
+
+  // UpdateTitle
+  //
+  // Status: ALPHA
+  //
+  // This method updates the title of an object
+  rpc UpdateObjectTitle(UpdateObjectTitleRequest) returns (UpdateObjectTitleResponse) {
+    option (google.api.http) = {
+      post : "/v2/objects/{object_id}/title"
+      body : "*"
+    };
+  }
+
+  // UpdateAuthors
+  //
+  // Status: ALPHA
+  //
+  // This method updates the authors of an object
+  rpc UpdateObjectAuthors(UpdateObjectAuthorsRequest) returns (UpdateObjectAuthorsResponse) {
+    option (google.api.http) = {
+      post : "/v2/objects/{object_id}/authors"
+      body : "*"
+    };
+  }
+
+  // SetObjectHashes
+  //
+  // Status: ALPHA
+  //
+  // This method sets the object hashes if not already set
+  // if a hash is already set, it will be compared to the new hash and
+  // set the status to ERROR if they do not match
+  rpc SetObjectHashes(SetObjectHashesRequest) returns (SetObjectHashesResponse) {
+    option (google.api.http) = {
+      post : "/v2/objects/{object_id}/hashes"
+      body : "*"
+    };
+  }
 }
 
 // Models
@@ -147,6 +185,8 @@ service ObjectService {
 message CreateObjectRequest {
   // collection name
   string name = 1;
+  // title
+  string title = 12;
   // description
   string description = 2;
   // collection specific labels / hooks
@@ -164,6 +204,7 @@ message CreateObjectRequest {
   repeated storage.models.v2.Hash hashes = 9;
   string metadata_license_tag = 10;
   string data_license_tag = 11;
+  repeated storage.models.v2.Author authors = 13;
 }
 
 message CreateObjectResponse {
@@ -318,4 +359,42 @@ message GetObjectEndpointsRequest {
   string collection_id = 1;
   // Object id
   string object_id = 2;
+}
+
+message UpdateObjectTitleRequest {
+  // Object id
+  string object_id = 1;
+  // New title
+  string title = 2;
+}
+
+message UpdateObjectTitleResponse {
+  // The updated object
+  storage.models.v2.Object object = 1;
+}
+
+message UpdateObjectAuthorsRequest {
+  // Object id
+  string object_id = 1;
+  // Add authors
+  repeated storage.models.v2.Author add_authors = 2;
+  // Remove authors
+  repeated storage.models.v2.Author remove_authors = 3;
+}
+
+message UpdateObjectAuthorsResponse {
+  // The updated object
+  storage.models.v2.Object object = 1;
+}
+
+message SetObjectHashesRequest {
+  // Object id
+  string object_id = 1;
+  // Hashes
+  repeated storage.models.v2.Hash hashes = 2;
+}
+
+message SetObjectHashesResponse {
+  // The updated object (possibly with error status)
+  storage.models.v2.Object object = 1;
 }

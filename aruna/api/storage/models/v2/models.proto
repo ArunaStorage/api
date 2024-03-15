@@ -141,6 +141,9 @@ message User {
   string email = 5;
   // User attributes
   UserAttributes attributes = 6;
+  // First and Last name
+  string first_name = 7;
+  string last_name = 8;
 }
 
 message Permission {
@@ -168,9 +171,16 @@ message Pubkey {
   string location = 3;
 }
 
-message CustomAttributes {
+message CustomAttribute {
   string attribute_name = 1;
   string attribute_value = 2;
+}
+
+message DataProxyAttribute {
+  string attribute_name = 1;
+  string attribute_value = 2;
+  string signature = 3;
+  string proxy_id = 4;
 }
 
 message OidcMapping {
@@ -183,9 +193,11 @@ message UserAttributes {
   bool service_account = 2;
   repeated Token tokens = 3;
   repeated string trusted_endpoints = 4;
-  repeated CustomAttributes custom_attributes = 5; 
+  repeated CustomAttribute custom_attributes = 5; 
   repeated Permission personal_permissions = 6;
   repeated OidcMapping external_ids = 7;
+  string pubkey = 8;
+  repeated DataProxyAttribute data_proxy_attributes = 9;
 }
 
 // --------------- RELATION / KEYVALUES -------------------
@@ -289,6 +301,19 @@ message License {
   string url = 4; // https://creativecommons.org/licenses/by-sa/4.0/
 }
 
+message Author {
+  string first_name = 1;
+  string last_name = 2;
+  optional string email = 3;
+  optional string orcid = 4;
+  optional string id = 5;
+}
+
+message RuleBinding {
+  string rule_id = 1;
+  string origin = 2;
+}
+
 // ------ Resources ----------
 
 message GenericResource {
@@ -303,6 +328,7 @@ message GenericResource {
 message Project {
   string id = 1;
   string name = 2; // Short name according to BucketNamingRules
+  string title = 15; // Long name
   string description = 3; // Long name
   // Project specific labels / hooks
   repeated KeyValue key_values = 4;
@@ -312,17 +338,20 @@ message Project {
   DataClass data_class = 7;
   google.protobuf.Timestamp created_at = 8;
   string created_by = 9;
+  repeated Author authors = 16;
   Status status = 10;
   bool dynamic = 11;
   repeated DataEndpoint endpoints = 12;
   string metadata_license_tag = 13;
   string default_data_license_tag = 14;
+  repeated RuleBinding rule_bindings = 17;
 }
 
 
 message Collection {
   string id = 1; // ASDASDASDOPASKIDPO
   string name = 2; // my_mags
+  string title = 15;
   string description = 3; // ENA asda234928349028 MAG 1293819203819028i V1
   // Collection specific labels / hooks
   repeated KeyValue key_values = 4;
@@ -332,16 +361,19 @@ message Collection {
   DataClass data_class = 7;
   google.protobuf.Timestamp created_at = 8;
   string created_by = 9;
+  repeated Author authors = 16;
   Status status = 10;
   bool dynamic = 11;
   repeated DataEndpoint endpoints = 12;
   string metadata_license_tag = 13;
   string default_data_license_tag = 14;
+  repeated RuleBinding rule_bindings = 17;
 }
 
 message Dataset {
   string id = 1;
   string name = 2;
+  string title = 15; // Long name
   string description = 3;
   // Dataset specific labels / hooks
   repeated KeyValue key_values = 4;
@@ -351,16 +383,19 @@ message Dataset {
   DataClass data_class = 7;
   google.protobuf.Timestamp created_at = 8;
   string created_by = 9;
+  repeated Author authors = 16;
   Status status = 10;
   bool dynamic = 11;
   repeated DataEndpoint endpoints = 12;
   string metadata_license_tag = 13;
   string default_data_license_tag = 14;
+  repeated RuleBinding rule_bindings = 17;
 }
 
 message Object {
   string id = 1;
   string name = 2;
+  string title = 16; // Long name
   string description = 3;
   // Collection specific labels / hooks
   repeated KeyValue key_values = 4;
@@ -370,6 +405,7 @@ message Object {
   DataClass data_class = 7;
   google.protobuf.Timestamp created_at = 8;
   string created_by = 9;
+  repeated Author authors = 17;
   Status status = 10;
   bool dynamic = 11;
   repeated DataEndpoint endpoints = 12;
@@ -377,4 +413,5 @@ message Object {
   repeated Hash hashes = 13;  
   string metadata_license_tag = 14;
   string data_license_tag = 15;
+  repeated RuleBinding rule_bindings = 18;
 }

@@ -45,6 +45,7 @@ message CreateBundleRequest {
     repeated string resource_ids = 1;
     string filename = 2; // .tar.gz / .zip
     google.protobuf.Timestamp expires_at = 3; // Default 1 Month
+    bool once = 4; // Default false (expires after first download)
 }
 
 message CreateBundleResponse {
