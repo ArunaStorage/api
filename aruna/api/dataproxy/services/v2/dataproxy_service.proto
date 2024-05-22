@@ -180,6 +180,14 @@ message PullReplicationRequest {
 }
 
 // Messages (responses) from PROXY A
+
+message Handshake {} // Response that gets send after channel creation
+
+// Gets send if PROXY A has only a tmp location
+message Skip {
+    string object_id = 1;
+}
+
 message ObjectInfo {
     string object_id = 1;
     int64 chunks = 2; // == (Compressed_size / (65536 + 28)) + 1
@@ -197,9 +205,11 @@ message Chunk {
 
 message PullReplicationResponse {
     oneof message {
+        Handshake handshake = 5;
         ObjectInfo object_info = 1;
         Chunk chunk = 2; // If no ack is received, the chunk will be resent
         Empty finish_message = 3;
+        Skip skip = 4;
     }
 }
 
