@@ -64,6 +64,17 @@ service StorageStatusService {
     };
   }
 
+    // GetAnnouncement
+  //
+  // Status: BETA
+  //
+  // Query a specific global announcement
+  rpc GetAnnouncement(GetAnnouncementRequest) returns (GetAnnouncementResponse) {
+    option (google.api.http) = {
+      get : "/v2/info/announcements/{announcement_id}"
+    };
+  }
+
   // SetAnnouncements
   //
   // Status: BETA
@@ -146,6 +157,14 @@ message GetAnnouncementsRequest {}
 
 message GetAnnouncementsResponse {
   repeated Announcement announcements = 1;
+}
+
+message GetAnnouncementRequest {
+  string id = 1;
+}
+
+message GetAnnouncementResponse {
+  Announcement announcement = 1;
 }
 
 message SetAnnouncementsRequest {
