@@ -160,7 +160,7 @@ message GetAnnouncementsResponse {
 }
 
 message GetAnnouncementRequest {
-  string id = 1;
+  string announcement_id = 1;
 }
 
 message GetAnnouncementResponse {
