@@ -5,6 +5,14 @@ option go_package = "github.com/ArunaStorage/go-api/v2/aruna/api/storage/models/
 package aruna.api.storage.models.v2;
 
 // --------------- ENUMS ------------------------
+// Defines the public announcement type
+enum AnnouncementType {
+  ANNOUNCEMENT_TYPE_UNSPECIFIED = 0;
+  ANNOUNCEMENT_TYPE_MISC = 1;
+  ANNOUNCEMENT_TYPE_RELEASE = 2;
+  ANNOUNCEMENT_TYPE_UPDATE = 3;
+  ANNOUNCEMENT_TYPE_MAINTENANCE = 4;
+}
 
 // Dataclass defines the confidentiality of the object
 enum DataClass {
