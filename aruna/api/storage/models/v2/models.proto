@@ -8,10 +8,11 @@ package aruna.api.storage.models.v2;
 // Defines the public announcement type
 enum AnnouncementType {
   ANNOUNCEMENT_TYPE_UNSPECIFIED = 0;
-  ANNOUNCEMENT_TYPE_MISC = 1;
+  ANNOUNCEMENT_TYPE_ORGA = 1;
   ANNOUNCEMENT_TYPE_RELEASE = 2;
   ANNOUNCEMENT_TYPE_UPDATE = 3;
   ANNOUNCEMENT_TYPE_MAINTENANCE = 4;
+  ANNOUNCEMENT_TYPE_BLOG = 5;
 }
 
 // Dataclass defines the confidentiality of the object
