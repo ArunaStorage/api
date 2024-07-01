@@ -53,11 +53,13 @@ service StorageStatusService {
     };
   }
 
-  // GetAnnouncements
+  // Get Announcements
   //
   // Status: BETA
   //
-  // Query global announcements
+  // Query global announcements optionally filtered by specific ids. 
+  //  - Returns all announcements if no ids are provided
+  //  - Returns only the specific announcements if ids are provided
   rpc GetAnnouncements(GetAnnouncementsRequest) returns (GetAnnouncementsResponse) {
     option (google.api.http) = {
       get : "/v2/info/announcements"
@@ -164,7 +166,8 @@ message SetAnnouncementsResponse {
 }
 
 message GetAnnouncementsRequest {
-  storage.models.v2.PageRequest page = 1;
+  repeated string announcement_ids = 1;
+  storage.models.v2.PageRequest page = 2;
 }
 
 message GetAnnouncementsResponse {
