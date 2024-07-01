@@ -146,11 +146,21 @@ message Announcement {
   string announcement_id = 1;
   storage.models.v2.AnnouncementType announcement_type = 2;
   string title = 3;
-  string content = 4;
-  string created_by = 5;
-  google.protobuf.Timestamp created_at = 6;
-  string modified_by = 7;
-  google.protobuf.Timestamp modified_at = 8;
+  string teaser = 4;
+  string content = 5;
+  string created_by = 6;
+  google.protobuf.Timestamp created_at = 7;
+  string modified_by = 8;
+  google.protobuf.Timestamp modified_at = 9;
+}
+
+message SetAnnouncementsRequest {
+  repeated Announcement announcements_upsert = 1;
+  repeated string announcements_delete = 2;
+}
+
+message SetAnnouncementsResponse {
+  repeated Announcement announcements = 1;
 }
 
 message GetAnnouncementsRequest {}
@@ -165,13 +175,4 @@ message GetAnnouncementRequest {
 
 message GetAnnouncementResponse {
   Announcement announcement = 1;
-}
-
-message SetAnnouncementsRequest {
-  repeated Announcement announcements_upsert = 1;
-  repeated string announcements_delete = 2;
-}
-
-message SetAnnouncementsResponse {
-  repeated Announcement announcements = 1;
 }
