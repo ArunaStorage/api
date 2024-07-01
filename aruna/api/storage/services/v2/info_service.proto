@@ -163,7 +163,9 @@ message SetAnnouncementsResponse {
   repeated Announcement announcements = 1;
 }
 
-message GetAnnouncementsRequest {}
+message GetAnnouncementsRequest {
+  storage.models.v2.PageRequest page = 1;
+}
 
 message GetAnnouncementsResponse {
   repeated Announcement announcements = 1;
