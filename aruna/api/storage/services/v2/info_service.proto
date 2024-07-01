@@ -53,14 +53,38 @@ service StorageStatusService {
     };
   }
 
-  // GetAnnouncements
+  // Get Announcements
   //
   // Status: BETA
   //
-  // Query global announcements
+  // Query global announcements optionally filtered by specific ids. 
+  //  - Returns all announcements if no ids are provided
+  //  - Returns only the specific announcements if ids are provided
   rpc GetAnnouncements(GetAnnouncementsRequest) returns (GetAnnouncementsResponse) {
     option (google.api.http) = {
       get : "/v2/info/announcements"
+    };
+  }
+
+  // GetAnnouncementsByType
+  //
+  // Status: BETA
+  //
+  // Query global announcements by type
+  rpc GetAnnouncementsByType(GetAnnouncementsByTypeRequest) returns (GetAnnouncementsByTypeResponse) {
+    option (google.api.http) = {
+      get : "/v2/info/announcements/{announcement_type}"
+    };
+  }
+
+  // Get a specific Announcement
+  //
+  // Status: BETA
+  //
+  // Query a specific global announcement by its id
+  rpc GetAnnouncement(GetAnnouncementRequest) returns (GetAnnouncementResponse) {
+    option (google.api.http) = {
+      get : "/v2/info/announcements/{announcement_id}"
     };
   }
 
@@ -131,16 +155,19 @@ message GetPubkeysResponse {
   repeated storage.models.v2.Pubkey pubkeys = 1;
 }
 
+/* -------------------------------------*/
+/* ----- Public Announcements ----------*/
+/* -------------------------------------*/
 message Announcement {
-  string id = 1;
-  string content = 2;
-  google.protobuf.Timestamp created_at = 3;
-}
-
-message GetAnnouncementsRequest {}
-
-message GetAnnouncementsResponse {
-  repeated Announcement announcements = 1;
+  string announcement_id = 1;
+  storage.models.v2.AnnouncementType announcement_type = 2;
+  string title = 3;
+  string teaser = 4;
+  string content = 5;
+  string created_by = 6;
+  google.protobuf.Timestamp created_at = 7;
+  string modified_by = 8;
+  google.protobuf.Timestamp modified_at = 9;
 }
 
 message SetAnnouncementsRequest {
@@ -150,4 +177,30 @@ message SetAnnouncementsRequest {
 
 message SetAnnouncementsResponse {
   repeated Announcement announcements = 1;
+}
+
+message GetAnnouncementsRequest {
+  repeated string announcement_ids = 1;
+  storage.models.v2.PageRequest page = 2;
+}
+
+message GetAnnouncementsResponse {
+  repeated Announcement announcements = 1;
+}
+
+message GetAnnouncementsByTypeRequest {
+  storage.models.v2.AnnouncementType announcement_type = 1;
+  storage.models.v2.PageRequest page = 2;
+}
+
+message GetAnnouncementsByTypeResponse {
+  repeated Announcement announcements = 1;
+}
+
+message GetAnnouncementRequest {
+  string announcement_id = 1;
+}
+
+message GetAnnouncementResponse {
+  Announcement announcement = 1;
 }
