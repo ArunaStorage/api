@@ -66,11 +66,22 @@ service StorageStatusService {
     };
   }
 
-    // GetAnnouncement
+  // GetAnnouncementsByType
   //
   // Status: BETA
   //
-  // Query a specific global announcement
+  // Query global announcements by type
+  rpc GetAnnouncementsByType(GetAnnouncementsByTypeRequest) returns (GetAnnouncementsByTypeResponse) {
+    option (google.api.http) = {
+      get : "/v2/info/announcements/{announcement_type}"
+    };
+  }
+
+  // Get a specific Announcement
+  //
+  // Status: BETA
+  //
+  // Query a specific global announcement by its id
   rpc GetAnnouncement(GetAnnouncementRequest) returns (GetAnnouncementResponse) {
     option (google.api.http) = {
       get : "/v2/info/announcements/{announcement_id}"
@@ -144,6 +155,9 @@ message GetPubkeysResponse {
   repeated storage.models.v2.Pubkey pubkeys = 1;
 }
 
+/* -------------------------------------*/
+/* ----- Public Announcements ----------*/
+/* -------------------------------------*/
 message Announcement {
   string announcement_id = 1;
   storage.models.v2.AnnouncementType announcement_type = 2;
@@ -171,6 +185,15 @@ message GetAnnouncementsRequest {
 }
 
 message GetAnnouncementsResponse {
+  repeated Announcement announcements = 1;
+}
+
+message GetAnnouncementsByTypeRequest {
+  storage.models.v2.AnnouncementType announcement_type = 1;
+  storage.models.v2.PageRequest page = 2;
+}
+
+message GetAnnouncementsByTypeResponse {
   repeated Announcement announcements = 1;
 }
 
