@@ -159,15 +159,16 @@ message GetPubkeysResponse {
 /* ----- Public Announcements ----------*/
 /* -------------------------------------*/
 message Announcement {
-  string announcement_id = 1;
-  storage.models.v2.AnnouncementType announcement_type = 2;
-  string title = 3;
-  string teaser = 4;
-  string content = 5;
-  string created_by = 6;
-  google.protobuf.Timestamp created_at = 7;
-  string modified_by = 8;
-  google.protobuf.Timestamp modified_at = 9;
+  string announcement_id = 1; // Announcement id
+  storage.models.v2.AnnouncementType announcement_type = 2; // Announcement type
+  string title = 3;      // Announcement title
+  string teaser = 4;     // Short announcement summary
+  string image_url = 5;  // URL for announcement preview image
+  string content = 6;    // Announcement content text
+  string created_by = 7; // Initial announcement author
+  google.protobuf.Timestamp created_at = 8; // Initial creation timestamp
+  string modified_by = 9; // Author responsible for the last modification
+  google.protobuf.Timestamp modified_at = 10; // Last modification timestamp
 }
 
 message SetAnnouncementsRequest {
