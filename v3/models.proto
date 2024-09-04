@@ -1,0 +1,154 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package aruna_grpc;
+
+enum ResourceVariant {
+  RESOURCE_VARIANT_UNSPECIFIED = 0;
+  RESOURCE_VARIANT_PROJECT = 1;
+  RESOURCE_VARIANT_FOLDER = 2;
+  RESOURCE_VARIANT_OBJECT = 3;
+}
+
+message KeyValue {
+  string key = 1;
+  string value = 2;
+  bool locked = 3;
+}
+
+// VisibilityClass defines the visibility of the data and metadata of a resource.
+enum VisibilityClass {
+  VISIBILITY_CLASS_UNSPECIFIED = 0;
+  VISIBILITY_CLASS_PUBLIC = 1;
+  VISIBILITY_CLASS_PUBLIC_METADATA = 3;
+  VISIBILITY_CLASS_PRIVATE = 2;
+}
+
+message Author {
+  string id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string email = 4;
+  string orcid = 5;
+}
+
+enum ResourceStatus {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_INITIALIZING = 1; // This object is initializing -> Staging
+  STATUS_VALIDATING =
+      2;                // Data got uploaded and a validating hook got triggered
+  STATUS_AVAILABLE = 3; // Data is available
+  STATUS_UNAVAILABLE = 4; // Data is temporarily not available
+  STATUS_ERROR = 5;       // Validating failed or fatal error in data proxy
+  STATUS_DELETED = 6;     // Object got deleted
+}
+
+enum ResourceEndpointStatus {
+  RESOURCE_ENDPOINT_STATUS_UNSPECIFIED = 0;
+  RESOURCE_ENDPOINT_STATUS_PENDING = 1;
+  RESOURCE_ENDPOINT_STATUS_RUNNING = 2;
+  RESOURCE_ENDPOINT_STATUS_FINISHED = 3;
+  RESOURCE_ENDPOINT_STATUS_ERROR = 4;
+}
+
+enum ResourceEndpointVariant {
+  RESOURCE_ENDPOINT_VARIANT_UNSPECIFIED = 0;
+  RESOURCE_ENDPOINT_VARIANT_DATAPROXY = 1;
+  RESOURCE_ENDPOINT_VARIANT_COMPUTE = 2;
+}
+
+message EndpointStatus {
+  string endpoint_id = 1;
+  ResourceEndpointStatus status = 2;
+  ResourceEndpointVariant variant = 3;
+}
+
+message Hash {
+  string algorithm = 1;
+  string value = 2;
+}
+
+message Resource {
+  string id = 1;
+  string name = 2;
+  string title = 3; // Long name
+  string description = 4;
+  uint64 revision = 5;
+  ResourceVariant variant = 7;
+  repeated KeyValue labels = 8;
+  repeated KeyValue hook_status = 9;
+  repeated string identifiers = 10;
+  uint64 content_len = 11;
+  uint64 count = 12;
+  VisibilityClass visibility = 13;
+  google.protobuf.Timestamp created_at = 14;
+  google.protobuf.Timestamp last_modified = 15;
+  repeated Author authors = 16;
+  ResourceStatus status = 17;
+  bool locked = 18;
+  repeated EndpointStatus endpoint_status = 19;
+  repeated Hash hashes = 20;
+  string license_tag = 21;
+}
+
+message Relation {
+  string from_id = 1;
+  string to_id = 2;
+  string relation_type = 3;
+}
+
+message Realm {
+  string id = 1;
+  string tag = 2; // foobar1 --> "Region" -> [a-z0-9-]{16} 
+  string name = 3; // 
+  string description = 4; // GFBio 
+  // TODO: Add more fields
+}
+
+message Group {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  // TODO: OIDC mapping ?
+}
+
+enum Permission {
+  PERMISSION_UNSPECIFIED = 0;
+  PERMISSION_NONE = 1;
+  PERMISSION_READ = 2;
+  PERMISSION_APPEND = 3;
+  PERMISSION_WRITE = 4;
+  PERMISSION_ADMIN = 5;
+}
+
+message Token {
+  string id = 1;
+  string name = 2;
+  google.protobuf.Timestamp expires_at = 3;
+  Permission permission = 4;
+  string resource_id = 5;
+}
+
+message User {
+  string id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string email = 4;
+  string identifier = 5;
+  bool global_admin = 6;
+  // TODO: OIDC mapping ?
+}
+
+message ServiceAccount {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message Endpoint {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  // TODO: Add more fields
+}

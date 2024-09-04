@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package aruna_grpc;
+
+import "models.proto";
+
+service GroupService {
+    rpc CreateGroup(CreateGroupRequest) returns (CreateGroupResponse) {}
+    rpc GetGroup(GetGroupRequest) returns (GetGroupResponse) {}
+    rpc AddUser(AddUserRequest) returns (AddUserResponse) {}
+    rpc SharePermissionToGroup(SharePermissionToGroupRequest) returns (SharePermissionToGroupResponse) {}
+
+    // rpc CreateServiceAccount(CreateServiceAccountRequest) returns (CreateServiceAccountResponse) {}
+    // rpc DeleteServiceAccount(DeleteServiceAccountRequest) returns (DeleteServiceAccountResponse) {}
+    // rpc RenewServiceAccountToken(RenewServiceAccountTokenRequest) returns (RenewServiceAccountTokenResponse) {}
+    // rpc DeleteGroup(DeleteGroupRequest) returns (DeleteGroupResponse) {}
+    // rpc GetGroup(GetGroupRequest) returns (GetGroupResponse) {}
+    // rpc RemoveUser(RemoveUserRequest) returns (RemoveUserResponse) {}
+    // rpc UnsharePermissionToGroup(UnsharePermissionToGroupRequest) returns (UnsharePermissionToGroupResponse) {}
+    // 
+    // rpc UpdateName(UpdateNameRequest) returns (UpdateNameResponse) {}
+    // rpc UpdateDescription(UpdateDescriptionRequest) returns (UpdateDescriptionResponse) {}
+    // rpc RequestPermission(RequestPermissionRequest) returns (RequestPermissionResponse) {}
+}
+  
+message CreateGroupRequest {
+    string name = 1;
+    string description = 2;
+}
+
+message CreateGroupResponse {
+    aruna_grpc.Group group = 1;
+}
+
+message GetGroupRequest {
+    string id = 1;
+}
+
+message GetGroupResponse {
+    aruna_grpc.Group group = 1;
+    repeated string members = 2;
+}
+
+message AddUserRequest {
+    string user_id = 1;
+    string group_id = 2;
+    aruna_grpc.Permission permission = 3;
+}
+
+message AddUserResponse{}
+
+// Shares a permission from source to target 
+// Permissions ADMIN in source group can share permissions
+message SharePermissionToGroupRequest {
+    string source_group_id = 1;
+    string target_group_id = 2;
+    aruna_grpc.Permission permission = 3;
+}
+
+message SharePermissionToGroupResponse {}

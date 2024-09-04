@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package aruna_grpc;
+
+import "models.proto";
+
+service ResourceService {
+  rpc CreateProject(CreateProjectRequest) returns (CreateProjectResponse) {}
+  rpc CreateResource(CreateResourceRequest) returns (CreateResourceResponse) {}
+  rpc GetResource(GetResourceRequest) returns (GetResourceResponse) {}
+}
+
+message CreateResourceRequest {
+  string name = 1;
+  string title = 2;
+  string description = 3;
+  aruna_grpc.ResourceVariant variant = 4;
+  repeated aruna_grpc.KeyValue labels = 5;
+  repeated string identifiers = 6;
+  aruna_grpc.VisibilityClass visibility = 7;
+  repeated aruna_grpc.Author authors = 8;
+  string license_tag = 9;
+  string parent_id = 10;
+}
+
+message CreateResourceResponse { aruna_grpc.Resource resource = 1; }
+
+message GetResourceRequest { string id = 1; }
+
+message GetResourceResponse {
+  aruna_grpc.Resource resource = 1;
+  repeated aruna_grpc.Relation relations = 2;
+}
+
+message CreateProjectRequest {
+  string name = 1;
+  string title = 2;
+  string description = 3;
+  aruna_grpc.ResourceVariant variant = 4;
+  repeated aruna_grpc.KeyValue labels = 5;
+  repeated string identifiers = 6;
+  aruna_grpc.VisibilityClass visibility = 7;
+  repeated aruna_grpc.Author authors = 8;
+  string license_tag = 9;
+  string group_id = 10;
+  string realm_id = 11;
+}
+message CreateProjectResponse {
+  aruna_grpc.Resource resource = 1;
+}

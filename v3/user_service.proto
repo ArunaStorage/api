@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package aruna_grpc;
+
+import "models.proto";
+import "google/protobuf/timestamp.proto";
+
+service UserService {
+    rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse) {}
+    rpc CreateToken(CreateTokenRequest) returns (CreateTokenResponse) {}
+    rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+    rpc DeleteToken(DeleteTokenRequest) returns (DeleteTokenResponse) {}
+    rpc GetTokens(GetTokensRequest) returns (GetTokensResponse) {}
+
+    // rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {}
+    // TODO: S3 credential requests ?
+}
+
+message RegisterUserRequest {
+    string email = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string identifier = 4;
+}
+
+message RegisterUserResponse {
+    aruna_grpc.User user = 1;
+}
+
+message CreateTokenRequest {
+    string name = 1;
+    //uint64 expires_at = 2;
+    google.protobuf.Timestamp expires_at = 2;
+    string resource_id = 3;
+    aruna_grpc.Permission permission = 4;
+}
+
+message CreateTokenResponse {
+    aruna_grpc.Token token = 1;
+}
+
+message GetUserRequest {
+    string user_id = 1;
+}
+
+message GetUserResponse {
+    aruna_grpc.User user = 1;
+}
+
+message DeleteTokenRequest {
+    string token_id = 1;
+}
+
+message DeleteTokenResponse {}
+
+message GetTokensRequest {}
+
+message GetTokensResponse {
+    repeated aruna_grpc.Token tokens = 1;
+}
