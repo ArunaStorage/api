@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package aruna_grpc;
+package aruna.api.v3;
 
 import "models.proto";
 
@@ -17,7 +17,7 @@ message CreateRealmRequest {
    string description = 3;
 }
 message CreateRealmResponse {
-  aruna_grpc.Realm realm = 1;
+  aruna.api.v3.Realm realm = 1;
   string admin_group_id = 2;
 }
 
@@ -36,6 +36,6 @@ message RemoveGroupResponse {}
 message GetRealmRequest { string id = 1; }
 
 message GetRealmResponse {
-  aruna_grpc.Realm realm = 1;
+  aruna.api.v3.Realm realm = 1;
   repeated string group_ids = 2;
 }

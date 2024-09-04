@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package aruna_grpc;
+package aruna.api.v3;
 
 import "models.proto";
 
@@ -29,7 +29,7 @@ message CreateGroupRequest {
 }
 
 message CreateGroupResponse {
-    aruna_grpc.Group group = 1;
+    aruna.api.v3.Group group = 1;
 }
 
 message GetGroupRequest {
@@ -44,7 +44,7 @@ message GetGroupResponse {
 message AddUserRequest {
     string user_id = 1;
     string group_id = 2;
-    aruna_grpc.Permission permission = 3;
+    aruna.api.v3.Permission permission = 3;
 }
 
 message AddUserResponse{}
@@ -54,7 +54,7 @@ message AddUserResponse{}
 message SharePermissionToGroupRequest {
     string source_group_id = 1;
     string target_group_id = 2;
-    aruna_grpc.Permission permission = 3;
+    aruna.api.v3.Permission permission = 3;
 }
 
 message SharePermissionToGroupResponse {}

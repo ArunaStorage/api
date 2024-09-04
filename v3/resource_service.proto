@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package aruna_grpc;
+package aruna.api.v3;
 
 import "models.proto";
 
@@ -14,37 +14,37 @@ message CreateResourceRequest {
   string name = 1;
   string title = 2;
   string description = 3;
-  aruna_grpc.ResourceVariant variant = 4;
-  repeated aruna_grpc.KeyValue labels = 5;
+  aruna.api.v3.ResourceVariant variant = 4;
+  repeated aruna.api.v3.KeyValue labels = 5;
   repeated string identifiers = 6;
-  aruna_grpc.VisibilityClass visibility = 7;
-  repeated aruna_grpc.Author authors = 8;
+  aruna.api.v3.VisibilityClass visibility = 7;
+  repeated aruna.api.v3.Author authors = 8;
   string license_tag = 9;
   string parent_id = 10;
 }
 
-message CreateResourceResponse { aruna_grpc.Resource resource = 1; }
+message CreateResourceResponse { aruna.api.v3.Resource resource = 1; }
 
 message GetResourceRequest { string id = 1; }
 
 message GetResourceResponse {
-  aruna_grpc.Resource resource = 1;
-  repeated aruna_grpc.Relation relations = 2;
+  aruna.api.v3.Resource resource = 1;
+  repeated aruna.api.v3.Relation relations = 2;
 }
 
 message CreateProjectRequest {
   string name = 1;
   string title = 2;
   string description = 3;
-  aruna_grpc.ResourceVariant variant = 4;
-  repeated aruna_grpc.KeyValue labels = 5;
+  aruna.api.v3.ResourceVariant variant = 4;
+  repeated aruna.api.v3.KeyValue labels = 5;
   repeated string identifiers = 6;
-  aruna_grpc.VisibilityClass visibility = 7;
-  repeated aruna_grpc.Author authors = 8;
+  aruna.api.v3.VisibilityClass visibility = 7;
+  repeated aruna.api.v3.Author authors = 8;
   string license_tag = 9;
   string group_id = 10;
   string realm_id = 11;
 }
 message CreateProjectResponse {
-  aruna_grpc.Resource resource = 1;
+  aruna.api.v3.Resource resource = 1;
 }

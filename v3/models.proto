@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 
-package aruna_grpc;
+package aruna.api.v3;
 
 enum ResourceVariant {
   RESOURCE_VARIANT_UNSPECIFIED = 0;
