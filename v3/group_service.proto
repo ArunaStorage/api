@@ -37,7 +37,7 @@ message GetGroupRequest {
 }
 
 message GetGroupResponse {
-    aruna_grpc.Group group = 1;
+    aruna.api.v3.Group group = 1;
     repeated string members = 2;
 }
 
