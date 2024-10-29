@@ -218,11 +218,15 @@ message GetUploadURLRequest {
   bool multipart = 2;
   // (optional) if multi was initialized
   int32 part_number = 3;
+  // (optional) if part_number > 1 and multipart = true
+  string upload_id = 4;
 }
 
 message GetUploadURLResponse {
   // URL
   string url = 1;
+  // Upload Id (can be ignored with single part uploads)
+  string upload_id = 2;
 }
 
 message GetDownloadURLRequest {
