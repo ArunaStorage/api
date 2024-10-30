@@ -258,6 +258,11 @@ message FinishObjectStagingRequest {
   // Should be empty if the upload was not multipart.
   // (optional)
   repeated CompletedPart completed_parts = 4;
+
+  // If the upload was multipart, this is the upload id which should be completed.
+  // Should be empty if the upload was not multipart.
+  // (optional)
+  string upload_id = 5;
 }
 
 message FinishObjectStagingResponse {
